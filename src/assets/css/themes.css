@@ -1,0 +1,183 @@
+/* Primary Color: Bright Green */
+.text-primary {
+    color: #18A558 !important;
+}
+
+.bg-primary {
+    background-color: #18A558 !important;
+}
+
+.border-primary {
+    border-color: #18A558 !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #18A558;
+    border-color: #18A558;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #158649;
+    border-color: #158649;
+}
+
+.focus-primary {
+    box-shadow: 0 0 0 0.2rem rgba(24, 165, 88, 0.5);
+}
+
+/* Secondary Color: Dark Green */
+.text-secondary {
+    color: #116530 !important;
+}
+
+.bg-secondary {
+    background-color: #116530 !important;
+}
+
+.border-secondary {
+    border-color: #116530 !important;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #116530;
+    border-color: #116530;
+}
+
+.btn-secondary:hover {
+    color: #fff;
+    background-color: #0f5728;
+    border-color: #0f5728;
+}
+
+.focus-secondary {
+    box-shadow: 0 0 0 0.2rem rgba(17, 101, 48, 0.5);
+}
+
+/* Supporting Color: Light Green */
+.text-supporting {
+    color: #A3EBB1 !important;
+}
+
+.bg-supporting {
+    background-color: #A3EBB1 !important;
+}
+
+.border-supporting {
+    border-color: #A3EBB1 !important;
+}
+
+.btn-supporting {
+    color: #fff;
+    background-color: #A3EBB1;
+    border-color: #A3EBB1;
+}
+
+.btn-supporting:hover {
+    color: #fff;
+    background-color: #91d6a0;
+    border-color: #91d6a0;
+}
+
+.focus-supporting {
+    box-shadow: 0 0 0 0.2rem rgba(163, 235, 177, 0.5);
+}
+
+/* Accent Color: Orange */
+.text-accent {
+    color: #F8C519 !important;
+}
+
+.bg-accent {
+    background-color: #F8C519 !important;
+}
+
+.border-accent {
+    border-color: #F8C519 !important;
+}
+
+.btn-accent {
+    color: #fff;
+    background-color: #F8C519;
+    border-color: #F8C519;
+}
+
+.btn-accent:hover {
+    color: #fff;
+    background-color: #e0b018;
+    border-color: #e0b018;
+}
+
+.focus-accent {
+    box-shadow: 0 0 0 0.2rem rgba(248, 197, 25, 0.5);
+}
+
+/* Primary Color: Bright Green */
+.outline-primary {
+    color: #18A558 !important;
+    background-color: transparent !important;
+    border: 1px solid #18A558 !important;
+}
+
+.outline-primary:hover {
+    color: #fff !important;
+    background-color: #18A558 !important;
+    border-color: #18A558 !important;
+}
+
+.focus-outline-primary {
+    box-shadow: 0 0 0 0.2rem rgba(24, 165, 88, 0.5);
+}
+
+/* Secondary Color: Dark Green */
+.outline-secondary {
+    color: #116530 !important;
+    background-color: transparent !important;
+    border: 1px solid #116530 !important;
+}
+
+.outline-secondary:hover {
+    color: #fff !important;
+    background-color: #116530 !important;
+    border-color: #116530 !important;
+}
+
+.focus-outline-secondary {
+    box-shadow: 0 0 0 0.2rem rgba(17, 101, 48, 0.5);
+}
+
+/* Supporting Color: Light Green */
+.outline-supporting {
+    color: #A3EBB1 !important;
+    background-color: transparent !important;
+    border: 1px solid #A3EBB1 !important;
+}
+
+.outline-supporting:hover {
+    color: #fff !important;
+    background-color: #A3EBB1 !important;
+    border-color: #A3EBB1 !important;
+}
+
+.focus-outline-supporting {
+    box-shadow: 0 0 0 0.2rem rgba(163, 235, 177, 0.5);
+}
+
+/* Accent Color: Orange */
+.outline-accent {
+    color: #F8C519 !important;
+    background-color: transparent !important;
+    border: 1px solid #F8C519 !important;
+}
+
+.outline-accent:hover {
+    color: #fff !important;
+    background-color: #F8C519 !important;
+    border-color: #F8C519 !important;
+}
+
+.focus-outline-accent {
+    box-shadow: 0 0 0 0.2rem rgba(248, 197, 25, 0.5);
+}
