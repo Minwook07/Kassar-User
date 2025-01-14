@@ -1,0 +1,52 @@
+/* In your main.css or another global CSS file */
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Moul&display=swap');
+.container-fluid{
+    font-family: 'Kantumruy Pro', serif;
+}
+.frm-login {
+    max-width: 75%;
+    margin: auto;
+}
+
+.frm-login .left-section {
+    background-color: #32CA83;
+}
+.frm-login .left-section  h1{
+    font-size: 47px!important;
+
+}
+
+.frm-login .right-section .form-control{
+    border: 1px solid #DDDDDD;
+    padding: 10px 15px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #F6F7F9;
+}
+.frm-login .left-section img {
+    width: 100%;
+    max-width: 500px;
+}
+
+.frm-login .right-section img {
+    width: 100%;
+    max-width: 150px;
+}
+.frm-login .right-section .btn-login{
+    background-color: #32CA83;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.frm-login .right-section button{
+    padding: 10px 37px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.frm-login .right-section button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
