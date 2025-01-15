@@ -1,31 +1,229 @@
 body {
     font-family: 'Kantumruy Pro', sans-serif;
-
-/* In your main.css or another global CSS file */
-@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Moul&display=swap');
-.container-fluid{
-    font-family: 'Kantumruy Pro', serif;
 }
+
+:root {
+    --bs-primary: #18A558;
+    --bs-secoundary: #116530;
+    --bs-supporting: #A3EBB1;
+    --bs-accent: #F8C519;
+    --bs-primary-hover: #158649;
+    --bs-secoundary-hover: #0f5728;
+    --bs-supporting-hover: #91d6a0;
+    --bs-accent-hover: #e0b018;
+    --bs-text-white: #ffffff;
+    --bs-text-light: #dddddd;
+    --bs-text-black: #000000;
+}
+
+/* Primary Color: Bright Green */
+.text-primary {
+    color: var(--bs-primary);
+}
+
+.bg-primary {
+    background-color: var(--bs-primary);
+}
+
+.border-primary {
+    border-color: var(--bs-primary);
+}
+
+.btn-primary {
+    color: var(--bs-text-white);
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+    color: var(--bs-text-white);
+    background-color: var(--bs-primary-hover) !important;
+    border-color: var(--bs-primary-hover);
+}
+
+.focus-primary {
+    box-shadow: 0 0 0 0.2rem rgba(24, 165, 88, 0.5);
+}
+
+/* Secondary Color: Dark Green */
+.text-secondary {
+    color: var(--bs-secondary);
+}
+
+.bg-secondary {
+    background-color: var(--bs-secondary);
+}
+
+.border-secondary {
+    border-color: var(--bs-secondary);
+}
+
+.btn-secondary {
+    color: var(--bs-text-white);
+    background-color: var(--bs-secondary);
+    border-color: var(--bs-secondary);
+}
+
+.btn-secondary:hover {
+    color: var(--bs-text-white);
+    background-color: var(--bs-secoundary-hover);
+    border-color: var(--bs-secoundary-hover);
+}
+
+.focus-secondary {
+    box-shadow: 0 0 0 0.2rem rgba(17, 101, 48, 0.5);
+}
+
+/* Supporting Color: Light Green */
+.text-supporting {
+    color: var(--bs-supporting);
+}
+
+.bg-supporting {
+    background-color: var(--bs-supporting);
+}
+
+.border-supporting {
+    border-color: var(--bs-supporting);
+}
+
+.btn-supporting {
+    color: var(--bs-text-white);
+    background-color: var(--bs-supporting);
+    border-color: var(--bs-supporting);
+}
+
+.btn-supporting:hover {
+    color: var(--bs-text-white);
+    background-color: var(--bs-supporting-hover);
+    border-color: var(--bs-supporting-hover);
+}
+
+.focus-supporting {
+    box-shadow: 0 0 0 0.2rem rgba(163, 235, 177, 0.5);
+}
+
+/* Accent Color: Orange */
+.text-accent {
+    color: var(--bs-accent);
+}
+
+.bg-accent {
+    background-color: var(--bs-accent);
+}
+
+.border-accent {
+    border-color: var(--bs-accent);
+}
+
+.btn-accent {
+    color: var(--bs-text-white);
+    background-color: var(--bs-accent);
+    border-color: var(--bs-accent);
+}
+
+.btn-accent:hover {
+    color: var(--bs-text-white);
+    background-color: var(--bs-accent-hover);
+    border-color: var(--bs-accent-hover);
+}
+
+.focus-accent {
+    box-shadow: 0 0 0 0.2rem rgba(248, 197, 25, 0.5);
+}
+
+/* Primary Color: Bright Green */
+.outline-primary {
+    color: var(--bs-primary);
+    background-color: transparent;
+    border: 1px solid var(--bs-primary);
+}
+
+.outline-primary:hover {
+    color: var(--bs-text-white);
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.focus-outline-primary {
+    box-shadow: 0 0 0 0.2rem rgba(24, 165, 88, 0.5);
+}
+
+/* Secondary Color: Dark Green */
+.outline-secondary {
+    color: var(--bs-secondary);
+    background-color: transparent;
+    border: 1px solid var(--bs-secondary);
+}
+
+.outline-secondary:hover {
+    color: var(--bs-text-white);
+    background-color: var(--bs-secondary);
+    border-color: var(--bs-secondary);
+}
+
+.focus-outline-secondary {
+    box-shadow: 0 0 0 0.2rem rgba(17, 101, 48, 0.5);
+}
+
+/* Supporting Color: Light Green */
+.outline-supporting {
+    color: var(--bs-supporting);
+    background-color: transparent;
+    border: 1px solid var(--bs-supporting);
+}
+
+.outline-supporting:hover {
+    color: var(--bs-text-white);
+    background-color: var(--bs-supporting);
+    border-color: var(--bs-supporting);
+}
+
+.focus-outline-supporting {
+    box-shadow: 0 0 0 0.2rem rgba(163, 235, 177, 0.5);
+}
+
+/* Accent Color: Orange */
+.outline-accent {
+    color: var(--bs-accent);
+    background-color: transparent;
+    border: 1px solid var(--bs-accent);
+}
+
+.outline-accent:hover {
+    color: var(--bs-text-white);
+    background-color: var(--bs-accent);
+    border-color: var(--bs-accent);
+}
+
+.focus-outline-accent {
+    box-shadow: 0 0 0 0.2rem rgba(248, 197, 25, 0.5);
+}
+
+/* LoginView Section */
 .frm-login {
     max-width: 75%;
     margin: auto;
 }
 
 .frm-login .left-section {
-    background-color: #32CA83;
+    background-color: var(--bs-primary);
 }
-.frm-login .left-section  h1{
-    font-size: 47px!important;
+
+.frm-login .left-section h1 {
+    font-size: 47px;
 
 }
 
-.frm-login .right-section .form-control{
-    border: 1px solid #DDDDDD;
+.frm-login .right-section .form-control {
+    border: 1px solid var(--bs-text-light);
     padding: 10px 15px;
     font-size: 18px;
     font-weight: 500;
     background-color: #F6F7F9;
 }
+
 .frm-login .left-section img {
     width: 100%;
     max-width: 500px;
@@ -35,19 +233,22 @@ body {
     width: 100%;
     max-width: 150px;
 }
-.frm-login .right-section .btn-login{
-    background-color: #32CA83;
-    color: white;
+
+.frm-login .right-section .btn-login {
+    background-color: var(--bs-primary);
+    color: var(--bs-text-white);
     border: none;
     padding: 10px 20px;
     border-radius: 10px;
     cursor: pointer;
 }
-.frm-login .right-section button{
+
+.frm-login .right-section button {
     padding: 10px 37px;
     border-radius: 10px;
     cursor: pointer;
 }
+
 .frm-login .right-section button img {
     width: 20px;
     height: 20px;

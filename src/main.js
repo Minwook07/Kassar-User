@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import '@fontsource/kantumruy-pro';
 import '@/assets/css/main.css'
-import '@/assets/css/themes.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
