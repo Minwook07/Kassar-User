@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap');
+body{
+    font-family: "Kantumruy Pro", serif;
+    background-color: #F4F4F4;
+}
+:root{
+    --primary-color : #18A558;
+    --secondary-color : #116530;
+    --accent-color : #F8C519;
+    --support-color :#A3EBB1;
+}
+.primary-color{
+    color: var(--primary-color);
+}
+.secondary-color{
+    color: var(--secondary-color);
+}
+.accent-color{
+    color: var(--accent-color);
+}
+.support-color{
+    color: var(--support-color);
+}
+.bg-primary-color{
+    background-color: var(--primary-color);
+}
+
+.bg-secondary-color{
+    background-color: var(--secondary-color);
+}
+
+.bg-accent-color{
+    background-color: var(--accent-color);
+}
+
+.bg-support-color{
+    background-color: var(--support-color);
+}
+.line-detail{
+    width: 40px;
+    height: 6px;
+}
+.dot-detail{
+    width: 7px;
+    height: 6px;
+}
