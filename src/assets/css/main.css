@@ -15,6 +15,11 @@ body {
     --bs-text-white: #ffffff;
     --bs-text-light: #dddddd;
     --bs-text-black: #000000;
+    --text-paragraph : #7F818E;
+}
+/* text paragraph */
+.text-paragraph {
+    color: var(--text-paragraph);
 }
 /* Primary Color: Bright Green */
 .text-primary {
@@ -278,4 +283,72 @@ body {
 .search-input::placeholder{
     /* font-weight: bold; */
     color: var(--bs-primary);
+}
+/* view shop*/
+.container-fluid{
+    width: 90%!important;
+}
+.seller-pf{
+    width: 100%;
+    background: rgb(251,245,255);
+    background: linear-gradient(90deg, rgba(251,245,255,1) 0%, rgba(239,246,255,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 80px;
+}
+.pf-seller-main{
+    width: 150px;
+    height: 150px;
+    border: 6px solid white;
+}
+.pf-seller-avatar{
+    width: 95%;
+    height: 100%;
+    object-fit: cover;
+}
+.btn-share{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+}
+.verify-status{
+    width: 78px;
+    top: 90%;
+    left: 50%;
+    font-size: 12px;
+}
+.follower-num{
+    width:100%;
+    padding:20px 350px;
+    background: rgb(251,245,255);
+    background: linear-gradient(90deg, rgba(251,245,255,1) 0%, rgba(239,246,255,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.color-style-1{
+    background: linear-gradient(90deg, rgba(50,202,131,1) 0%, rgba(163,235,177,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.color-style-2{
+    background: linear-gradient(180deg, rgba(50,202,131,1) 0%, rgba(248,197,25,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.filter-hover{
+   display: none;
+   width: 100%;
+}
+.filter-search:hover .filter-hover{
+    display: block;
+}
+.bg-gradient{
+    background: rgb(251,245,255);
+    background: linear-gradient(90deg, rgba(251,245,255,1) 0%, rgba(239,246,255,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.dropdown-hover{
+   padding: 5px 10px;
+    transition: 0.2s;
+}
+.dropdown-hover:hover{
+    background-color: var(--bs-light-green);
+    color: var(--bs-text-white);
 }
