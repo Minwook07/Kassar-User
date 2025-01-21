@@ -1,5 +1,5 @@
 <template>
-  <div class="frm-login">
+  <div class="frm-auth">
     <div class="row shadow-lg rounded-3 overflow-hidden">
       <!-- Left Section -->
       <div class="col-md-6 left-section text-white d-flex flex-column align-items-center justify-content-center">
@@ -45,7 +45,7 @@
               <input type="checkbox" id="remember" class="form-check-input" />
               <label for="remember" class="form-check-label">ចងចាំខ្ញុំ</label>
             </div>
-            <a href="#" class="text-secondary text-decoration-none">ភ្លេចពាក្យសម្ងាត់?</a>
+            <router-link to="/forgotpass" class="text-secondary text-decoration-none" aria-label="Forgot Password">ភ្លេចពាក្យសម្ងាត់?</router-link>
           </div>
 
           <!-- Submit Button -->
@@ -67,10 +67,7 @@
 
         <!-- Signup Link -->
         <div class="text-center mt-3">
-          <p>
-            <span class="text-secondary">មិនទាន់មានគណនីមែនទេ?</span>
-            <a href="#" class="text-success">បង្កើតគណនី</a>
-          </p>
+          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup" class="text-success">បង្កើតគណនី</router-link></p>
         </div>
       </div>
     </div>
@@ -115,9 +112,9 @@ function onSaveLogin() {
   if ($v.value.$invalid) return;
 
   if (form.email === dummyCredentials.email && form.password === dummyCredentials.password) {
-    alert("ចូលគណនីបានជោគជ័យ!");
+    console.log("Login successful!");
   } else {
-    alert("អ៊ីមែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ។");
+    console.log("Invalid email or password.");
   }
 
   form.email = "";

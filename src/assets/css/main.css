@@ -200,13 +200,14 @@ body {
 .focus-outline-accent {
     box-shadow: 0 0 0 0.2rem rgba(248, 197, 25, 0.5);
 }
-.frm-login {
-  max-width: 1000px;
+
+.frm-auth {
+  max-width: 900px;
   margin: 50px auto;
   padding: 20px;
 }
 
-.frm-login .left-section {
+.frm-auth .left-section {
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
   background-color: var(--bs-primary);
@@ -214,13 +215,13 @@ body {
   text-align: center;
 }
 
-.frm-login .left-section h1 {
+.frm-auth .left-section h1 {
   font-size: 48px;
+  font-weight: bold;
   margin-bottom: 20px;
-  line-height: 1.5;
 }
 
-.frm-login .left-section img {
+.frm-auth .left-section img {
   width: 100%;
   max-width: 546px;
   height: auto;
@@ -228,31 +229,31 @@ body {
   object-fit: cover;
 }
 
-.frm-login .right-section {
+.frm-auth .right-section {
   background-color: #ffffff;
   padding: 40px 30px;
 }
 
-.frm-login .right-section img {
+.frm-auth .right-section img {
   width: 267px;
   height: 63px;
   margin-bottom: 20px;
   object-fit: cover;
 }
 
-.frm-login .right-section h1 {
+.frm-auth .right-section h1 {
   font-size: 48px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.frm-login .right-section p {
+.frm-auth .right-section p {
   margin-bottom: 30px;
   font-size: 16px;
   color: #6c757d;
 }
 
-.frm-login .right-section .form-control {
+.frm-auth .right-section .form-control {
   border: 1px solid #ced4da;
   padding: 12px 15px;
   font-size: 16px;
@@ -261,7 +262,7 @@ body {
 }
 
 
-.frm-login .password-toggle {
+.frm-auth .password-toggle {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -269,11 +270,11 @@ body {
   transform: translateY(-50%);
 }
 
-.frm-login .right-section .form-check {
+.frm-auth .right-section .form-check {
   margin-bottom: 15px;
 }
 
-.frm-login .right-section .btn-login {
+.frm-auth .right-section .btn-login {
   background-color: var(--bs-primary);
   color: var(--bs-text-white);
   border: none;
@@ -284,31 +285,31 @@ body {
   font-size: 16px;
 }
 
-.frm-login .right-section a {
+.frm-auth .right-section a {
   color: #6c757d;
   text-decoration: none;
   font-size: 14px;
 }
 
-.frm-login .right-section a:hover {
+.frm-auth .right-section a:hover {
   text-decoration: underline;
 }
 
-.frm-login .right-section p {
+.frm-auth .right-section p {
   font-size: 16px;
   margin-top: 20px;
 }
 
-.frm-login  input.is-invalid {
+.frm-auth  input.is-invalid {
   background-image: none !important;
 }
 
-.frm-login  .form-control.is-invalid {
+.frm-auth  .form-control.is-invalid {
 margin: -4px;
   border-color: #dc3545 !important;
 }
 
-.frm-login .invalid-feedback {
+.frm-auth .invalid-feedback {
   color: #dc3545 !important;
 }
 
