@@ -289,7 +289,6 @@ body {
     width: 90%!important;
 }
 .seller-pf{
-    width: 100%;
     background: rgb(251,245,255);
     background: linear-gradient(90deg, rgba(251,245,255,1) 0%, rgba(239,246,255,1) 100%);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -316,7 +315,6 @@ body {
     font-size: 12px;
 }
 .follower-num{
-    width:100%;
     padding:20px 350px;
     background: rgb(251,245,255);
     background: linear-gradient(90deg, rgba(251,245,255,1) 0%, rgba(239,246,255,1) 100%);
@@ -334,7 +332,7 @@ body {
 }
 .filter-hover{
    display: none;
-   width: 100%;
+   width: 135px;
 }
 .filter-search:hover .filter-hover{
     display: block;
@@ -351,4 +349,13 @@ body {
 .dropdown-hover:hover{
     background-color: var(--bs-light-green);
     color: var(--bs-text-white);
+}
+.mynav-pills .nav-link.active, .nav-pills .show>.nav-link 
+{
+    border: 0;
+    background-color: var(--bs-light-green);
+}
+.mynav-pills .nav-link{
+    color: black;
+    border: 1px solid #AEB3B8;
 }
