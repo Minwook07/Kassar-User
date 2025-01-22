@@ -17,10 +17,12 @@ body {
     --bs-text-black: #000000;
     --text-paragraph : #7F818E;
 }
+
 /* text paragraph */
 .text-paragraph {
     color: var(--text-paragraph);
 }
+
 /* Primary Color: Bright Green */
 .text-primary {
     color: var(--bs-primary)!important;
@@ -206,52 +208,159 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(248, 197, 25, 0.5);
 }
 
-/* LoginView Section */
-.frm-login {
-    max-width: 75%;
-    margin: auto;
+.frm-auth {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
 }
 
-.frm-login .left-section {
-    background-color: var(--bs-primary);
+.frm-auth .left-section {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  background-color: var(--bs-primary);
+  padding: 40px 20px;
+  text-align: center;
 }
 
-.frm-login .left-section h1 {
-    font-size: 47px;
-
+.frm-auth .left-section h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.frm-login .right-section .form-control {
-    border: 1px solid var(--bs-text-light);
-    padding: 10px 15px;
-    font-size: 18px;
-    font-weight: 500;
-    background-color: #F6F7F9;
+.frm-auth .left-section img {
+  width: 100%;
+  max-width: 546px;
+  height: auto;
+  margin-top: 20px;
+  object-fit: cover;
 }
 
-.frm-login .left-section img {
-    width: 100%;
-    max-width: 500px;
+.frm-auth .right-section {
+  background-color: #ffffff;
+  padding: 40px 30px;
 }
 
-.frm-login .right-section img {
-    width: 100%;
-    max-width: 150px;
+.frm-auth .right-section img {
+  width: 267px;
+  height: 63px;
+  margin-bottom: 20px;
+  object-fit: cover;
 }
 
-.frm-login .right-section .btn-login {
-    background-color: var(--bs-primary);
-    color: var(--bs-text-white);
-    border: none;
+.frm-auth .right-section h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.frm-auth .right-section p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.frm-auth .right-section .form-control {
+  border: 1px solid #ced4da;
+  padding: 12px 15px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+
+.frm-auth .password-toggle {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.frm-auth .right-section .form-check {
+  margin-bottom: 15px;
+}
+
+.frm-auth .right-section .btn-login {
+  background-color: var(--bs-primary);
+  color: var(--bs-text-white);
+  border: none;
+  padding: 12px 0;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.frm-auth .right-section a {
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.frm-auth .right-section a:hover {
+  text-decoration: underline;
+}
+
+.frm-auth .right-section p {
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.frm-auth  input.is-invalid {
+  background-image: none !important;
+}
+
+.frm-auth  .form-control.is-invalid {
+margin: -4px;
+  border-color: #dc3545 !important;
+}
+
+.frm-auth .invalid-feedback {
+  color: #dc3545 !important;
+}
+
+.social-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px; 
+    margin-top: 20px;
+  }
+  
+  .social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 10px; 
     padding: 10px 20px;
-    border-radius: 10px;
+    width: 200px; 
+    height: 50px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    background-color: #fff;
+    color: #333;
     cursor: pointer;
-}
-
-.frm-login .right-section button {
-    padding: 10px 37px;
-    border-radius: 10px;
-    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .social-button:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .social-button img {
+    margin-top: 18px;
+    width: 24px!important; 
+    height: 24px!important; 
+    object-fit: cover;
+  }
+  .text-rul {
+    display: inline-block;
+    width: 90px;
+    height: 2px;
+    background-color:var(--bs-primary); 
+    margin-right: 10px; 
+    vertical-align: middle;
 }
 
 .frm-login .right-section button img {
@@ -359,3 +468,4 @@ body {
     color: black;
     border: 1px solid #AEB3B8;
 }
+
