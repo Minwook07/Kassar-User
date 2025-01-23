@@ -77,15 +77,41 @@
 <script setup>
 import { reactive, ref } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { helpers, email, minLength } from "@vuelidate/validators";
+import { helpers, email } from "@vuelidate/validators";
 
 // Validators
 const required = helpers.withMessage("សូមបញ្ចូលព័ត៌មានក្នុងប្រអប់ជាមុនសិន", helpers.req);
 
-// Dummy Credentials
-const dummyCredentials = { email: "user@example.com", password: "password123" };
-const form = reactive({ email: "", password: "" });
-const showPassword = ref(false);
+const isAtLeast8Chars = helpers.withMessage(
+  "ពាក្យសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ 8 តួ",
+  (value) => value?.length >= 8
+);
+
+const hasLowercase = helpers.withMessage(
+  "ពាក្យសម្ងាត់ត្រូវមានអក្សរតូច",
+  (value) => /[a-z]/.test(value)
+);
+
+const hasUppercase = helpers.withMessage(
+  "ពាក្យសម្ងាត់ត្រូវមានអក្សរធំ",
+  (value) => /[A-Z]/.test(value)
+);
+
+const hasNumber = helpers.withMessage(
+  "ពាក្យសម្ងាត់ត្រូវមានលេខ",
+  (value) => /\d/.test(value)
+);
+
+const hasSpecialChar = helpers.withMessage(
+  "ពាក្យសម្ងាត់ត្រូវមានតួអក្សរពិសេស",
+  (value) => /[!@#$%^&*]/.test(value)
+);
+
+// Reactive Form Data
+const form = reactive({
+  email: "",
+  password: "",
+});
 
 // Validation Rules
 const rules = {
@@ -95,27 +121,31 @@ const rules = {
       email: helpers.withMessage("សូមបញ្ចូលទម្រង់អ៊ីមែលឲ្យបានត្រឹមត្រូវ", email),
     },
     password: {
-      required: helpers.withMessage("សូមបញ្ចូលលេខសម្ងាត់", helpers.req),
-      minLength: helpers.withMessage("លេខសម្ងាត់ត្រូវមានយ៉ាងតិច 6 លេខ ឬតួអក្សរ", minLength(6)),
+      required: helpers.withMessage("សូមបញ្ចូលពាក្យសម្ងាត់", helpers.req),
+      isAtLeast8Chars,
+      hasLowercase,
+      hasUppercase,
+      hasNumber,
+      hasSpecialChar,
     },
   },
 };
 
 const $v = useVuelidate(rules, { form });
 
+// Password Visibility
+const showPassword = ref(false);
 function togglePasswordVisibility() {
   showPassword.value = !showPassword.value;
 }
 
+// Form Submission
 function onSaveLogin() {
   $v.value.$touch();
   if ($v.value.$invalid) return;
 
-  if (form.email === dummyCredentials.email && form.password === dummyCredentials.password) {
-    console.log("Login successful!");
-  } else {
-    console.log("Invalid email or password.");
-  }
+  console.log("Email:", form.email);
+  console.log("Password:", form.password);
 
   form.email = "";
   form.password = "";
