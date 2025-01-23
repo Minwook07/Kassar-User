@@ -54,28 +54,31 @@
     </section>
     <section>
       <div class="container-fluid m-auto">
-        <div class="follower-num row d-flex justify-content-between rounded-4">
-          <!-- <div class="d-flex justify-content-between"> -->
-          <div class="col-4">
-            <h3 class="text-center fw-bold">7</h3>
-            <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
+        <div class="follower-num row justify-content-center py-3 rounded-4">
+          <div class="col-4 d-flex justify-content-end">
+            <div>
+              <h3 class="text-center fw-bold">7</h3>
+              <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
+            </div>
           </div>
           <div class="col-4">
-            <h3 class="text-center fw-bolder color-style-1">31</h3>
+            <h3 class="text-center fw-bolder bg-warning color-style-1">31</h3>
             <h5 class="fw-bold text-center">បានលក់</h5>
           </div>
-          <div class="col-4">
-            <h3 class="text-center fw-bold color-style-2">999</h3>
-            <h5 class="fw-bold text-center">អីវ៉ាន់ក្នុងឃ្លាំង</h5>
+          <div class="col-4 d-flex justify-content-start">
+            <div>
+              <h3 class="text-center fw-bold color-style-2">999</h3>
+              <h5 class="fw-bold text-center">អីវ៉ាន់ក្នុងឃ្លាំង</h5>
+            </div>
           </div>
         </div>
       </div>
-      <!-- </div> -->
     </section>
+    <!--  -->
     <section class="py-5">
       <div class="container-fluid">
-        <div class="d-flex row px-0 justify-content-between">
-          <div class="col-3 col-md-10 px-0">
+        <div class="row px-0 justify-content-between">
+          <div class="col-12 px-0">
             <ul
               class="nav nav-pills mynav-pills mb-5 gap-3"
               id="pills-tab"
@@ -106,7 +109,7 @@
                   aria-controls="pills-profile"
                   aria-selected="false"
                 >
-                  ស្ពៃ
+                  បន្លែ
                 </button>
               </li>
               <li class="nav-item" role="presentation">
@@ -120,65 +123,41 @@
                   aria-controls="pills-contact"
                   aria-selected="false"
                 >
-                  ដំឡូង
+                  ផ្លែឈើ
                 </button>
               </li>
               <li class="nav-item" role="presentation">
                 <button
                   class="nav-link"
-                  id="pills-contact-tab"
+                  id="pills-more-tab"
                   data-bs-toggle="pill"
-                  data-bs-target="#pills-contact"
+                  data-bs-target="#pills-more"
                   type="button"
                   role="tab"
-                  aria-controls="pills-contact"
+                  aria-controls="pills-more"
                   aria-selected="false"
                 >
-                  ទឹកប្រហុក
+                  ផ្សេងៗ
                 </button>
               </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-contact-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-contact"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-contact"
-                  aria-selected="false"
-                >
-                  ននោង
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-contact-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-contact"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-contact"
-                  aria-selected="false"
-                >
-                  ទឹកកាពិ
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-contact-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-contact"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-contact"
-                  aria-selected="false"
-                >
-                  ទឹកកាលីងឈូក
-                </button>
-              </li>
+              <div class="px-0 ms-auto">
+                <div class="filter-search position-relative">
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary filter-search px-3">
+                      <i class="bi bi-funnel me-1"></i>
+                      <span class="d-none d-md-inline">តាមដាន</span>
+                      <i class="bi bi-chevron-down ms-1"></i>
+                    </button>
+                  </div>
+                  <div
+                    class="filter-hover z-3 position-absolute bg-gradient rounded end-0"
+                  >
+                    <div class="my-2 dropdown-hover">បន្លែ</div>
+                    <div class="mb-2 dropdown-hover">ផ្លែឈើ</div>
+                    <div class="mb-2 dropdown-hover">ផ្លែឈើ 3</div>
+                  </div>
+                </div>
+              </div>
             </ul>
             <div class="tab-content px-0" id="pills-tabContent">
               <div
@@ -189,11 +168,21 @@
                 tabindex="0"
               >
                 <div class="row">
-                  <div class="col-3">
-                    <div class="bg-white card rounded position-relative">
-                     <div class="card-img">
-                      <img src="../../assets/images/5.avif" class="mycard-img-top rounded-top  object-fit-cover" alt="" />
-                     </div>
+                  <div
+                    class="col-12 col-md-4 col-lg-3 mb-3"
+                    v-for="product in allProduct.products"
+                    :key="product.id"
+                  >
+                    <div
+                      class="bg-white card card-product border-0 rounded position-relative"
+                    >
+                      <div class="card-img p-3">
+                        <img
+                          :src="product.img"
+                          class="mycard-img-top rounded-top object-fit-cover"
+                          alt=""
+                        />
+                      </div>
                       <div class="p-3 card-body">
                         <div class="d-flex justify-content-between">
                           <p class="text-primary mb-1">បន្លែ</p>
@@ -203,7 +192,7 @@
                             >4.9
                           </p>
                         </div>
-                        <h4 class="fw-bold">ក្រូចខ្វិចបាត់ដំបងពូនី</h4>
+                        <h4 class="fw-bold">{{ product.name }}</h4>
                         <p>500g</p>
                         <div
                           class="d-flex justify-content-between align-items-center"
@@ -224,69 +213,23 @@
                         </div>
                       </div>
                       <div
-                        class="position-absolute bg-primary card-product-discount top-0 mt-3"
+                        class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
                       >
                         <p class="mb-0 px-3 text-white">20%</p>
                       </div>
 
                       <div
-                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 mt-3 me-3 px-2 py-1 rounded-circle"
+                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                        @click="OnSavefav(product.id)"
                       >
-                        <p class="mb-0 mt-1 text-danger bg-white fw-bold">
-                          <i class="bi bi-heart"></i>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="bg-white card rounded position-relative">
-                     <div class="card-img">
-                      <img
-                        src="../../assets/images/fish.jpg"
-                        alt=""
-                        class="mycard-img-top rounded-top  object-fit-cover"
-                      />
-                     </div>
-                      <div class="p-3 card-body">
-                        <div class="d-flex justify-content-between">
-                          <p class="text-primary mb-1">បន្លែ</p>
-                          <p class="mb-1">
-                            <span class="text-warning me-2"
-                              ><i class="bi bi-star-fill"></i></span
-                            >4.9
-                          </p>
-                        </div>
-                        <h4 class="fw-bold">ក្រូចខ្វិចបាត់ដំបងពូនី</h4>
-                        <p>500g</p>
-                        <div
-                          class="d-flex justify-content-between align-items-center"
-                        >
-                          <p class="text-primary mb-0 fw-bold">
-                            10000៛
-                            <span
-                              class="text-decoration-line-through text-paragraph"
-                              >10000៛</span
-                            >
-                          </p>
-                          <router-link
-                            to=""
-                            class="btn btn-primary rounded-pill"
-                            ><i class="bi bi-bag-fill me-1"></i
-                            >កន្រ្តក</router-link
-                          >
-                        </div>
-                      </div>
-                      <div
-                        class="position-absolute bg-primary card-product-discount top-0 mt-3"
-                      >
-                        <p class="mb-0 px-3 text-white">20%</p>
-                      </div>
-
-                      <div
-                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 mt-3 me-3 px-2 py-1 rounded-circle"
-                      >
-                        <p class="mb-0 mt-1 text-danger bg-white fw-bold">
-                          <i class="bi bi-heart"></i>
+                        <p class="mb-0 mt-1 text-danger fw-bold">
+                          <i
+                            :class="
+                              allProduct.isFav
+                                ? 'bi bi-heart-fill'
+                                : 'bi bi-heart'
+                            "
+                          ></i>
                         </p>
                       </div>
                     </div>
@@ -300,7 +243,74 @@
                 aria-labelledby="pills-profile-tab"
                 tabindex="0"
               >
-                ....
+                <div class="row">
+                  <div
+                    class="col-12 col-md-4 col-lg-3 mb-3"
+                    v-for="product in allProduct.products"
+                    :key="product.id"
+                  >
+                    <div
+                      class="bg-white card card-product border-0 rounded position-relative"
+                    >
+                      <div class="card-img p-3">
+                        <img
+                          :src="product.img"
+                          class="mycard-img-top rounded-top object-fit-cover"
+                          alt=""
+                        />
+                      </div>
+                      <div class="p-3 card-body">
+                        <div class="d-flex justify-content-between">
+                          <p class="text-primary mb-1">បន្លែ</p>
+                          <p class="mb-1">
+                            <span class="text-warning me-2"
+                              ><i class="bi bi-star-fill"></i></span
+                            >4.9
+                          </p>
+                        </div>
+                        <h4 class="fw-bold">{{ product.name }}</h4>
+                        <p>500g</p>
+                        <div
+                          class="d-flex justify-content-between align-items-center"
+                        >
+                          <p class="text-primary mb-0 fw-bold">
+                            10000៛
+                            <span
+                              class="text-decoration-line-through text-paragraph"
+                              >10000៛</span
+                            >
+                          </p>
+                          <router-link
+                            to=""
+                            class="btn btn-primary rounded-pill"
+                            ><i class="bi bi-bag-fill me-1"></i
+                            >កន្រ្តក</router-link
+                          >
+                        </div>
+                      </div>
+                      <div
+                        class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+                      >
+                        <p class="mb-0 px-3 text-white">20%</p>
+                      </div>
+
+                      <div
+                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                        @click="OnSavefav(product.id)"
+                      >
+                        <p class="mb-0 mt-1 text-danger fw-bold">
+                          <i
+                            :class="
+                              allProduct.isFav
+                                ? 'bi bi-heart-fill'
+                                : 'bi bi-heart'
+                            "
+                          ></i>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div
                 class="tab-pane fade"
@@ -309,33 +319,151 @@
                 aria-labelledby="pills-contact-tab"
                 tabindex="0"
               >
-                ...
+                <div class="row">
+                  <div
+                    class="col-12 col-md-4 col-lg-3 mb-3"
+                    v-for="product in allProduct.products"
+                    :key="product.id"
+                  >
+                    <div
+                      class="bg-white card card-product border-0 rounded position-relative"
+                    >
+                      <div class="card-img p-3">
+                        <img
+                          :src="product.img"
+                          class="mycard-img-top rounded-top object-fit-cover"
+                          alt=""
+                        />
+                      </div>
+                      <div class="p-3 card-body">
+                        <div class="d-flex justify-content-between">
+                          <p class="text-primary mb-1">បន្លែ</p>
+                          <p class="mb-1">
+                            <span class="text-warning me-2"
+                              ><i class="bi bi-star-fill"></i></span
+                            >4.9
+                          </p>
+                        </div>
+                        <h4 class="fw-bold">{{ product.name }}</h4>
+                        <p>500g</p>
+                        <div
+                          class="d-flex justify-content-between align-items-center"
+                        >
+                          <p class="text-primary mb-0 fw-bold">
+                            10000៛
+                            <span
+                              class="text-decoration-line-through text-paragraph"
+                              >10000៛</span
+                            >
+                          </p>
+                          <router-link
+                            to=""
+                            class="btn btn-primary rounded-pill"
+                            ><i class="bi bi-bag-fill me-1"></i
+                            >កន្រ្តក</router-link
+                          >
+                        </div>
+                      </div>
+                      <div
+                        class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+                      >
+                        <p class="mb-0 px-3 text-white">20%</p>
+                      </div>
+
+                      <div
+                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                        @click="OnSavefav(product.id)"
+                      >
+                        <p class="mb-0 mt-1 text-danger fw-bold">
+                          <i
+                            :class="
+                              allProduct.isFav
+                                ? 'bi bi-heart-fill'
+                                : 'bi bi-heart'
+                            "
+                          ></i>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div
                 class="tab-pane fade"
-                id="pills-disabled"
+                id="pills-more"
                 role="tabpanel"
-                aria-labelledby="pills-disabled-tab"
+                aria-labelledby="pills-more-tab"
                 tabindex="0"
               >
-                ...
-              </div>
-            </div>
-          </div>
-          <div class="col-3 col-md-2 px-0">
-            <div class="filter-search position-relative">
-              <div class="d-flex justify-content-end">
-                <button class="btn btn-primary filter-search px-3">
-                  <i class="bi bi-funnel me-1"></i> តាមដាន
-                  <i class="bi bi-chevron-down ms-1"></i>
-                </button>
-              </div>
-              <div
-                class="filter-hover position-absolute bg-gradient rounded end-0"
-              >
-                <div class="my-2 dropdown-hover">បន្លែ</div>
-                <div class="mb-2 dropdown-hover">ផ្លែឈើ</div>
-                <div class="mb-2 dropdown-hover">ផ្លែឈើ 3</div>
+                <div class="row">
+                  <div
+                    class="col-12 col-md-4 col-lg-3 mb-3"
+                    v-for="product in allProduct.products"
+                    :key="product.id"
+                  >
+                    <div
+                      class="bg-white card card-product border-0 rounded position-relative"
+                    >
+                      <div class="card-img p-3">
+                        <img
+                          :src="product.img"
+                          class="mycard-img-top rounded-top object-fit-cover"
+                          alt=""
+                        />
+                      </div>
+                      <div class="p-3 card-body">
+                        <div class="d-flex justify-content-between">
+                          <p class="text-primary mb-1">បន្លែ</p>
+                          <p class="mb-1">
+                            <span class="text-warning me-2"
+                              ><i class="bi bi-star-fill"></i></span
+                            >4.9
+                          </p>
+                        </div>
+                        <h4 class="fw-bold">{{ product.name }}</h4>
+                        <p>500g</p>
+                        <div
+                          class="d-flex justify-content-between align-items-center"
+                        >
+                          <p class="text-primary mb-0 fw-bold">
+                            10000៛
+                            <span
+                              class="text-decoration-line-through text-paragraph"
+                              >10000៛</span
+                            >
+                          </p>
+                          <router-link
+                            to=""
+                            class="btn btn-primary rounded-pill"
+                            ><i class="bi bi-bag-fill me-1"></i
+                            >កន្រ្តក</router-link
+                          >
+                        </div>
+                      </div>
+                      <div
+                        class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+                      >
+                        <p class="mb-0 px-3 text-white">20%</p>
+                      </div>
+
+                      <div
+                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                        v-show="!product.isFav"
+                        @click="OnSavefav(product.id)"
+                      >
+                        <p class="mb-0 mt-1 text-danger fw-bold">
+                          <i
+                            :class="
+                              allProduct.isFav
+                                ? 'bi bi-heart-fill'
+                                : 'bi bi-heart'
+                            "
+                          ></i>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -344,4 +472,14 @@
     </section>
   </section>
 </template>
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { useAllProducts } from "@/stores/views/allProduct_store";
+const allProduct = useAllProducts();
+const OnSavefav = (id) => {
+  // let index = allProduct.products.findIndex((item) => item.id == id);
+  // console.log(index);
+  // allProduct.products[index].isFav = !allProduct.products[index].isFav;
+   allProduct.isFav = !allProduct.isFav
+};
+</script>

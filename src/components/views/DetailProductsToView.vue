@@ -2,8 +2,8 @@
   <section style="background-color: #f4f4f4">
     <div class="container py-5">
       <div class="row">
-        <div class="col-4">
-          <div class="mb-3 rounded" style="height: 350px">
+        <div class="col-4 px-0">
+          <div class="mb-3 rounded" style="height: 390px">
             <img
               class="w-100 h-100 object-fit-cover rounded"
               ref="imageDetails"
@@ -11,11 +11,11 @@
               alt=""
             />
           </div>
-          <div class="row d-flex justify-content-between align-content-center">
+          <div class="row px-0">
             <div
-              class="col-3 rounded"
+              class="col-3  rounded"
               :class="{
-                'border border-success bg-white': activeImage === img.id,
+                'border border-success bg-warning': activeImage === img.id,
               }"
               v-for="img in detailProducts.imgs"
               :key="img.id"
@@ -46,7 +46,7 @@
             <p class="mb-0 .text-dark-emphasis">(99 វាយតម្លៃ)</p>
           </div>
           <div>
-            <h2 class="text-light fw-bold mb-4">
+            <h2 class="text-primary fw-bold mb-4">
               $40.00
               <span
                 class="fw-bold ms-2 fs-5 text-decoration-line-through text-success-emphasis"
@@ -63,17 +63,17 @@
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
                 @click="decrement()"
               >
-                <i class="bi bi-dash-lg text-light fs-4"></i>
+                <i class="bi bi-dash-lg text-primary fs-4"></i>
               </div>
               <p class="mb-0 fw-bold fs-5">{{ count }}</p>
               <div
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
                 @click="count++"
               >
-                <i class="bi bi-plus-lg text-light fs-4"></i>
+                <i class="bi bi-plus-lg text-primary fs-4"></i>
               </div>
             </div>
-            <button class="btn btn-light rounded-pill fs-5 px-5 py-2"><i class="bi bi-cart3 me-2"></i>ទូទាត់</button>
+            <button class="btn btn-primary rounded-pill fs-5 px-5 py-2"><i class="bi bi-cart3 me-2"></i>ទូទាត់</button>
           </div>
           <button class="btn btn-supporting rounded-pill px-3 py-1 mb-4">ក្នុងស្តុក</button>
           <div class="d-flex text-dark">
