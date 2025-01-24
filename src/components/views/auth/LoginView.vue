@@ -58,7 +58,7 @@
         </div>
         <div class="social-buttons-container">
           <button type="button" class="social-button google-button">
-            <img src="@/assets/images/Google-icon.png" alt="Google Icon"> Google
+            <img src="@/assets/images/Google-Icon.png" alt="Google Icon"> Google
           </button>
           <button type="button" class="social-button facebook-button">
             <img src="@/assets/images/facebook.png" alt="Facebook Icon"> Facebook
