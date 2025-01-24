@@ -4,7 +4,7 @@
             <div class="col-4">
                 <div class="profile">
                     <div class="profile-img">
-                        <img src="/src/assets/images/imgprofile.png" alt="Profile Image">
+                        <img src="@/assets/images/imgprofile.png" alt="Profile Image">
                     </div>
                     <div class="profile-info">
                         <h1 class="fw-bold">សុខ កញ្ញា</h1>
