@@ -57,12 +57,12 @@
         <div class="follower-num row justify-content-center py-3 rounded-4">
           <div class="col-4 d-flex justify-content-end">
             <div>
-              <h3 class="text-center fw-bold">7</h3>
+              <h3 class="text-center fw-bold color-style-2">7</h3>
               <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
             </div>
           </div>
           <div class="col-4">
-            <h3 class="text-center fw-bolder bg-warning color-style-1">31</h3>
+            <h3 class="text-center fw-bolder bg-warning color-style-2">31</h3>
             <h5 class="fw-bold text-center">បានលក់</h5>
           </div>
           <div class="col-4 d-flex justify-content-start">
@@ -397,7 +397,7 @@
               >
                 <div class="row">
                   <div
-                    class="col-12 col-md-4 col-lg-3 mb-3"
+                    class="col-12 col-md-6 col-lg-3 mb-3"
                     v-for="product in allProduct.products"
                     :key="product.id"
                   >

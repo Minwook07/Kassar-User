@@ -384,12 +384,39 @@ margin: -4px;
     width: 35px;
     height: 35px;
 }
+.visa-card{
+    width: 60px;
+}
+.visa-card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.mynav-tabs {
+    border: none !important;
+}
+.mynav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    color: var(--bs-primary);
+    background-color: transparent;
+    border: none;
+}
+.mynav-tabs .nav-link{
+    color: #000000;
+    font-weight: bold;
+}
+.pf-feedback-detail{
+    width: 100px;
+}
+.pf-feedback-detail img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 /* search input */
 .search-main{
     width: 400px;
 }
 .search-input::placeholder{
-    /* font-weight: bold; */
     color: var(--bs-primary);
 }
 /* start: view shop*/
