@@ -6,13 +6,13 @@
         <h1 class="text-center fw-bold">
           Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប
         </h1>
-        <img src="/src/assets/images/Auth.png" alt="auth" class="img-fluid" />
+        <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid" />
       </div>
 
       <!-- Right Section -->
       <div class="col-md-6 right-section bg-white p-4">
         <div class="text-center">
-          <img src="/src/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid" />
+          <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid" />
           <h1 class="fw-bold">​ផ្លាស់ប្តូរពាក្យសម្ងាត់</h1>
           <p class="text-secondary">បង្កើតពាក្យសម្ងាត់ថ្មីសម្រាប់គណនីរបស់អ្នក</p>
         </div>

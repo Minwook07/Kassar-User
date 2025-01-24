@@ -6,13 +6,13 @@
         <h1 class="text-center fw-bold">
           Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប
         </h1>
-        <img src="/src/assets/images/Auth.png" alt="auth" class="img-fluid" />
+        <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid" />
       </div>
       
       <!-- Right Section -->
       <div class="col-md-6 right-section bg-white p-4">
         <div class="text-center">
-          <img src="/src/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid" />
+          <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid" />
           <h1 class="fw-bold">ចូលប្រើប្រាស់គណនី</h1>
           <p class="text-secondary">សូមធ្វើការបំពេញព័ត៌មានខាងក្រោមដើម្បីចូលគណនី</p>
         </div>
@@ -58,10 +58,10 @@
         </div>
         <div class="social-buttons-container">
           <button type="button" class="social-button google-button">
-            <img src="/src/assets/images/Google-icon.png" alt="Google Icon"> Google
+            <img src="@/assets/images/Google-Icon.png" alt="Google Icon"> Google
           </button>
           <button type="button" class="social-button facebook-button">
-            <img src="/src/assets/images/facebook.png" alt="Facebook Icon"> Facebook
+            <img src="@/assets/images/facebook.png" alt="Facebook Icon"> Facebook
           </button>
         </div>
 
