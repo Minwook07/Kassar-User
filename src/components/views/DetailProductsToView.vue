@@ -1,4 +1,4 @@
-git <template>
+<template>
   <section style="background-color: #f4f4f4">
     <div class="container py-5">
       <div class="row">
