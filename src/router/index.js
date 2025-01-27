@@ -7,9 +7,9 @@ import SignupView from '@/components/views/auth/SignupView.vue'
 import ForgotPassView from '@/components/views/auth/ForgotPassView.vue'
 import VerifyOtpView from '@/components/views/auth/VerifyOtpView.vue'
 import NewPassView from '@/components/views/auth/NewPassView.vue'
-import ViewProfileView from '@/components/views/pf-setting/ViewProfileView.vue'
 import DetailProductsView from '@/views/DetailProductsView.vue';
 import ViewShopToView from '@/components/views/ViewShopToView.vue';
+import SettingView from '@/views/SettingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,7 +59,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'ViewProfile',
-      component: ViewProfileView,
+      component: SettingView,
     },
     {
       path: '/detailproduct',
