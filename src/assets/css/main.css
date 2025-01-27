@@ -54,7 +54,7 @@ body {
 
 /* Secondary Color: Dark Green */
 .text-secondary {
-    color: var(--bs-secondary);
+    color: var(--bs-secoundary)!important;
 }
 
 .bg-secondary {
@@ -525,3 +525,13 @@ margin: -4px;
 }
 
 /* end : viewshop*/
+/* start allProduct view */
+.bg-allProduct{
+    /* background-color: pink; */
+    background-image: url(../../assets/images/bg_allProducts.png); 
+    background-size: cover; 
+    width:100%; 
+    height: 400px;
+    /* filter: blur(2px); */
+    /* opacity: 0.6; */
+}
