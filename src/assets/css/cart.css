@@ -1,0 +1,383 @@
+:root {
+    --bs-primary: #18A558;
+    --bs-secoundary: #116530;
+    --bs-supporting: #A3EBB1;
+    --bs-accent: #F8C519;
+    --bs-primary-hover: #158649;
+    --bs-secoundary-hover: #0f5728;
+    --bs-supporting-hover: #91d6a0;
+    --bs-accent-hover: #e0b018;
+    --bs-text-white: #ffffff;
+    --bs-text-light: #dddddd;
+    --bs-text-black: #000000;
+}
+.step-number-active{
+    color: var(--bs-secoundary);
+    background-color: var(--bs-supporting) !important;
+}
+
+/* CartHeader */
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color: rgb(172, 172, 172);
+    text-align: center;
+    line-height: 50px;
+    margin-right: 15px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.progress-indicator {
+    margin: auto;
+    font-size: 14px;
+    margin-bottom: 80px !important;
+}
+.part-dash{
+    display: block;
+}
+@media(max-width: 1199px){
+    .part-dash{
+        display: none !important;
+        background-color: red;
+    }
+}
+@media (max-width: 1025px){
+    .progress-indicator{
+        width: 700px !important;
+    }
+    .part-dash{
+        display: none !important;
+        background-color: red;
+    }
+}
+@media (max-width: 768px){
+    .progress-indicator{
+        width: 400px !important;
+    }
+    .part-text{
+        display: none !important;
+        
+    }
+}
+@media (max-width: 541px){
+    .progress-indicator{
+        width: 300px !important;
+    }
+    .part-text{
+        display: none !important;
+        
+    }
+    .part-dash{
+        display: none;
+    }
+}
+
+/* Card List */
+.img-cart img {
+    border: 1px solid gray;
+}
+
+.cart-container {
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid rgb(172, 172, 172);
+}
+
+.cart-item {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 0;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.item-img {
+    max-width: 100px;
+}
+
+.item-actions {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-quantity {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+}
+
+.btn-quantity:hover {
+    background-color: #e0e0e0;
+}
+
+.delete-btn {
+    color: red;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn-select-main i {
+    font-size: 14px !important;
+    color: var(--bs-primary) !important;
+    font-weight: bold !important;
+}
+
+.bi::before,
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+    font-weight: bold !important;
+}
+
+/* CardAddress */
+.custom-card {
+    border-radius: 15px;
+    border: 1px solid rgb(172, 172, 172);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+    padding: 20px;
+    position: relative;
+}
+
+.location-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--bs-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 24px
+}
+
+.floating-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 1 1 rgba(163, 235, 177, 0.5);
+}
+
+.floating-button:hover {
+    background-color: #218838;
+}
+
+.floating-button i {
+    font-size: 24px;
+    font-weight: bold !important;
+}
+
+/* CardModalAddress */
+.btn-address .btn {
+    width: 150px !important;
+    height: 50px !important;
+    border-radius: 5px !important;
+}
+
+.icon-address-mdl{
+    width: 55px;
+    height: 55px;   
+    line-height: 55px;
+}
+.icon-address-mdl i{
+    font-size: 30px;
+}
+.icon-address{
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+}
+.icon-address i{
+    font-size: 20px;
+}
+
+/* Modal Way: CreditModal */
+
+.way-pay-cart .form-control {
+    height: 45px !important;
+}
+
+.btn-wayPay .btn {
+    width: 100% !important;
+    height: 60px !important;
+    border-radius: 5px !important;
+}
+
+.cart-img {
+    margin-top: -18px;
+    width: 250px;
+}
+
+.cart-img img {
+    width: 55px;
+    height: 35px;
+    border-radius: 5px;
+}
+
+/* WayOfPay */
+.card-pay {
+    border-radius: 8px;
+    border: 1px solid rgb(172, 172, 172);
+}
+
+.card-pay .card img {
+    border-radius: 5px;
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    color: white;
+}
+
+.card-pay .card i {
+    font-size: 18px;
+}
+
+.card-pay .card:hover {
+    cursor: pointer;
+}
+
+.arrow-way {
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+    border: 2px solid black;
+    font-weight: bold !important;
+    background-color: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-pay .card .cart-img {
+    width: 170px;
+    margin-top: 8px;
+}
+
+.card-pay .card .cart-img img {
+    width: 37px;
+    height: 25px;
+    border: none;
+    border-radius: 3px !important;
+}
+.card-pay .card .cart-img .img-uni{
+    width: 40px;
+}
+.img-uni-text{
+    width: 58px !important;
+    border-radius: 5px;
+}
+
+/* AddCard.vue */
+.card-process {
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgb(172, 172, 172);
+    position: sticky;
+    top: 20px;
+}
+
+.btn-custom {
+    width: 30%;
+    height: 55px;
+    outline: none;
+    border: none;
+    background-color: #218838;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.btn-custom:hover {
+    background-color: #218838;
+}
+
+.btn-process {
+    border-radius: 8px;
+    height: 55px;
+    color: white;
+    font-weight: bold;
+}
+
+.hr {
+    border: none;
+    border-top: 2px dashed #666666;
+    margin: 15px 0 15px 0;
+}
+
+.code-discount {
+    width: 100%;
+    height: 55px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgb(172, 172, 172);
+    margin-right: -90px;
+}
+
+/* success */
+.success{
+    margin: auto;
+    margin-top: 180px !important;
+}
+.success-container {
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 8px;
+}
+
+.success-icon {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 50px;
+    color: #28a745;
+    border: 2px solid #28a745;
+    border-radius: 100%;
+}
+
+.success-message {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.success-detail {
+    font-size: 16px;
+    color: #6c757d;
+    margin: 10px 0 20px;
+}
+
+.success-container .btn-primary {
+    width: 300px !important;
+    background-color: #28a745;
+    border-color: #28a745;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.success-container .btn-primary:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
