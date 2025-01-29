@@ -8,7 +8,7 @@
     </div>
     <div class="container-fluid my-5">
       <div class="row">
-        <!-- <div class="col-2">
+        <div class="col-12 col-md-2">
           <h4 class="mb-0 fw-bold">ជម្រើសផលិតផល</h4>
           <hr />
           <div class="mb-3">
@@ -68,70 +68,97 @@
             <hr />
           </div>
           <div class="mb-3">
-            <h5>តម្លៃ</h5>
-            <div class="range-container">
-              <div class="double-slider-container"></div>
-            </div>
-            <div class="mb-3">
-              <h5 class="fw-bold mb-3">ម៉ាក</h5>
-              <div class="mb-2 myform-check form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input shadow-none"
-                  id="exampleCheck1"
-                />
-                <label class="form-check-label" for="exampleCheck1"
-                  >កសិដ្ឋានសិរីរាង្គ</label
-                >
-              </div>
-              <div class="mb-2 myform-check form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input shadow-none"
-                  id="exampleCheck1"
-                />
-                <label class="form-check-label" for="exampleCheck1"
-                  >Fresh Direct</label
-                >
-              </div>
-              <div class="mb-2 myform-check form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input shadow-none"
-                  id="exampleCheck1"
-                />
-                <label class="form-check-label" for="exampleCheck1"
-                  >Locak Harvest</label
-                >
-              </div>
-              <hr />
-            </div>
-            <div class="mb-3">
-              <h5 class="fw-bold mb-3">ស្តុក</h5>
-              <div class="mb-2 myform-check form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input shadow-none"
-                  id="exampleCheck1"
-                />
-                <label class="form-check-label" for="exampleCheck1"
-                  >មានក្នុងស្តុក</label
-                >
-              </div>
-              <div class="mb-2 myform-check form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input shadow-none"
-                  id="exampleCheck1"
-                />
-                <label class="form-check-label" for="exampleCheck1"
-                  >គ្មានក្នុងស្តុក</label
-                >
-              </div>
-              <hr />
-            </div>
+            <h5 class="fw-bold">តម្លៃ</h5>
+            <div class="price-range-container p-4 bg-light rounded">
+    <!-- Price Label in Khmer -->
+    <h3 class="khmer-text mb-3">តម្លៃ</h3>
+    
+    <!-- Price Range Display -->
+    <div class="price-display mb-3">
+      ${{ formatPrice(range[0]) }} - ${{ formatPrice(range[1]) }}
+    </div>
+    
+    <!-- Custom Range Slider -->
+    <div class="position-relative">
+      <div class="slider-track"></div>
+      <input 
+        type="range" 
+        class="range-input"
+        v-model.number="range[0]"
+        :min="minPrice"
+        :max="maxPrice"
+        @input="validateRange(0)"
+      >
+      <input 
+        type="range" 
+        class="range-input"
+        v-model.number="range[1]"
+        :min="minPrice"
+        :max="maxPrice"
+        @input="validateRange(1)"
+      >
+    </div>
+  </div>
           </div>
-        </div> -->
+          <div class="mb-3">
+            <h5 class="fw-bold mb-3">ម៉ាក</h5>
+            <div class="mb-2 myform-check form-check">
+              <input
+                type="checkbox"
+                class="form-check-input shadow-none"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1"
+                >កសិដ្ឋានសិរីរាង្គ</label
+              >
+            </div>
+            <div class="mb-2 myform-check form-check">
+              <input
+                type="checkbox"
+                class="form-check-input shadow-none"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1"
+                >Fresh Direct</label
+              >
+            </div>
+            <div class="mb-2 myform-check form-check">
+              <input
+                type="checkbox"
+                class="form-check-input shadow-none"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1"
+                >Locak Harvest</label
+              >
+            </div>
+            <hr />
+          </div>
+          <div class="mb-3">
+            <h5 class="fw-bold mb-3">ស្តុក</h5>
+            <div class="mb-2 myform-check form-check">
+              <input
+                type="checkbox"
+                class="form-check-input shadow-none"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1"
+                >មានក្នុងស្តុក</label
+              >
+            </div>
+            <div class="mb-2 myform-check form-check">
+              <input
+                type="checkbox"
+                class="form-check-input shadow-none"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1"
+                >គ្មានក្នុងស្តុក</label
+              >
+            </div>
+            <hr />
+          </div>
+        </div>
         <div
           class="col-12 col-md-4 col-lg-3 mb-3"
           v-for="product in paginatedProducts"
@@ -189,12 +216,12 @@
           </div>
         </div>
         <paginate
-  :page-count="pageCount"
-  :click-handler="handlePageClick"
-  :prev-text="'Prev'"
-  :next-text="'Next'"
-  :container-class="'pagination'"
-/>
+          :page-count="pageCount"
+          :click-handler="handlePageClick"
+          :prev-text="'Prev'"
+          :next-text="'Next'"
+          :container-class="'pagination'"
+        />
       </div>
     </div>
   </section>
@@ -203,20 +230,35 @@
 import { ref, computed } from "vue";
 import { useAllProducts } from "@/stores/views/allProduct_store";
 import Paginate from "vuejs-paginate-next";
-    const allProduct = useAllProducts();
+const allProduct = useAllProducts();
 
-    const itemsPerPage = 2;
-    const currentPage = ref(1);
-    const pageCount = computed(() =>
-      Math.ceil(allProduct.products.length / itemsPerPage)
-    );
-    const paginatedProducts = computed(() => {
-      const start = (currentPage.value - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      return allProduct.products.slice(start, end);
-    });
-    const handlePageClick = (pageNumber) => {
-      currentPage.value = pageNumber;
-    };
-    
+const itemsPerPage = 2;
+const currentPage = ref(1);
+const pageCount = computed(() =>
+  Math.ceil(allProduct.products.length / itemsPerPage)
+);
+const paginatedProducts = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return allProduct.products.slice(start, end);
+});
+const handlePageClick = (pageNumber) => {
+  currentPage.value = pageNumber;
+};
+
+const minPrice = 0
+const maxPrice = 100000
+const range = ref([20000, 40000])
+
+const validateRange = (index) => {
+  if (index === 0 && range.value[0] > range.value[1]) {
+    range.value[0] = range.value[1]
+  } else if (index === 1 && range.value[1] < range.value[0]) {
+    range.value[1] = range.value[0]
+  }
+}
+
+const formatPrice = (value) => {
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
 </script>
