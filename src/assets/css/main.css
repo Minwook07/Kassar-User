@@ -512,7 +512,7 @@ margin: -4px;
 .profile-menu {
     background-color: #fff;
     border-radius: 10px;
-box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;  }
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; }
   
   .profile-menu .nav-link { 
     color: #555;
@@ -537,8 +537,8 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1p
   .info-display {
     padding: 25px;
     border-radius: 15px;
-    background-color: #fff;
-box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;  }
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
   
   .info-display .form-label {
     font-size: 1rem;
@@ -549,7 +549,7 @@ box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1p
     border: 1px solid #ddd;
     background-color: #f6f7f9;
     border-radius: 8px;
-    padding: 15px;
+    height: 45px;
     transition: border-color 0.3s ease;
   }
   
