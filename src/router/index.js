@@ -2,6 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import AuthView from '@/views/AuthView.vue'
+import LoginView from '@/components/views/auth/LoginView.vue'
+import SignupView from '@/components/views/auth/SignupView.vue'
+import ForgotPassView from '@/components/views/auth/ForgotPassView.vue'
+import VerifyOtpView from '@/components/views/auth/VerifyOtpView.vue'
+import NewPassView from '@/components/views/auth/NewPassView.vue'
+import ViewProfileView from '@/components/views/pf-setting/ViewProfileView.vue'
+import DetailProductsView from '@/views/DetailProductsView.vue';
+import ViewShopToView from '@/components/views/ViewShopToView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +28,48 @@ const router = createRouter({
       path: '/auth',
       name: 'auth',
       component: AuthView,
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: LoginView,
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: SignupView,
+    },
+    {
+      path: '/forgotpass',
+      name: 'ForgotPass',
+      component: ForgotPassView,
+    },
+    {
+      path: '/verifyotp',
+      name: 'VerifyOtp',
+      component: VerifyOtpView,
+    },
+
+    {
+      path: '/newpass',
+      name: 'NewPass',
+      component: NewPassView,
+    },
+
+    {
+      path: '/profile',
+      name: 'ViewProfile',
+      component: ViewProfileView,
+    },
+    {
+      path: '/detailproduct',
+      name: 'detailproduct',
+      component: DetailProductsView,
+    },
+    {
+      path: '/viewshop',
+      name: 'viewshop',
+      component: ViewShopToView,
     }
   ],
 })
