@@ -11,6 +11,9 @@ import ViewProfileView from '@/components/views/pf-setting/ViewProfileView.vue'
 import DetailProductsView from '@/views/DetailProductsView.vue';
 import ViewShopToView from '@/components/views/ViewShopToView.vue';
 import AllProductView from '@/views/AllProductView.vue'
+import AddCardView from '@/views/AddCartView.vue'
+import WayOfPayView from '@/views/WayOfPayView.vue'
+import PaySuccessView from '@/views/PaySuccessView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -76,7 +79,23 @@ const router = createRouter({
       path: '/allproducts',
       name: 'allproducts',
       component: AllProductView,
-    }
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: AddCardView,
+    },
+    {
+      path: '/waypay',
+      name: 'waypay',
+      component: WayOfPayView,
+    },
+    {
+      path: '/success',
+      name: 'success',
+      component: PaySuccessView,
+    },
+
   ],
 })
 
