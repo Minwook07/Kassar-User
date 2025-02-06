@@ -936,7 +936,7 @@ body {
 
 .card-img {
     width: 100%;
-    height: 280px;
+    height: 200px;
 }
 
 .mycard-img-top {
@@ -1101,32 +1101,30 @@ body {
     color: #fff;
     border-color: var(--bs-primary);
 }
-
 /* multi slider */
 .price-display {
     font-size: 1.25rem;
     color: #666;
-}
-
-.slider-track {
+  }
+  
+  .slider-track {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     height: 4px;
     width: 100%;
-    background: red;
-}
-
-.slider-track::before {
+    background: #e0e0e0;
+  }
+  .slider-track::before {
     content: '';
     position: absolute;
     height: 100%;
-    background: #2ecc71 !important;
-    left: v-bind('(range[0] / maxPrice) * 100 + "%"');
-    right: v-bind('100 - (range[1] / maxPrice) * 100 + "%"');
-}
-
-.range-input {
+    background: #2ecc71;
+    left: var(--left-position);
+    right: var(--right-position);
+  }
+  
+  .range-input {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -1134,44 +1132,44 @@ body {
     -webkit-appearance: none;
     pointer-events: none;
     background: none;
-}
-
-.range-input::-webkit-slider-thumb {
+  }
+  
+  .range-input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background: white;
-    border: 2px solid #2ecc71 !important;
+    border: 2px solid #2ecc71;
     cursor: pointer;
     pointer-events: auto;
     margin-top: -8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.range-input::-moz-range-thumb {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .range-input::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background: white;
-    border: 2px solid #2ecc71 !important;
+    border: 2px solid #2ecc71;
     cursor: pointer;
     pointer-events: auto;
-}
-
-.range-input:focus {
+  }
+  
+  .range-input:focus {
     outline: none;
-}
-
-.range-input::-webkit-slider-runnable-track {
+  }
+  
+  .range-input::-webkit-slider-runnable-track {
     width: 100%;
     height: 4px;
     background: transparent;
-}
-
-.range-input::-moz-range-track {
+  }
+  
+  .range-input::-moz-range-track {
     width: 100%;
     height: 4px;
     background: transparent;
-}
+  }
