@@ -2,7 +2,7 @@
     <HeroBanner />
     <section class="product-section mt-4">
         <div class="container-fluid">
-            <nav>
+            <nav class="my-3">
                 <div class="nav nav-underline" id="nav-tab" role="tablist">
                     <button class="nav-link fs-5 active" id="nav-home-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
@@ -15,13 +15,101 @@
             </nav>
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
-                    tabindex="0">...</div>
+                    tabindex="0">
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.products"
+                            :key="product.id">
+                            <div class="bg-white card card-product border-0 rounded position-relative">
+                                <div class="card-img p-3">
+                                    <img :src="product.img" class="mycard-img-top rounded-top object-fit-cover"
+                                        alt="" />
+                                </div>
+                                <div class="p-3 card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-primary mb-1">បន្លែ</p>
+                                        <p class="mb-1">
+                                            <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>4.9
+                                        </p>
+                                    </div>
+                                    <h4 class="fw-bold">{{ product.name }}</h4>
+                                    <p>500g</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="text-primary mb-0 fw-bold">
+                                            10000៛
+                                            <span class="text-decoration-line-through text-paragraph">10000៛</span>
+                                        </p>
+                                        <router-link to="" class="btn btn-primary rounded-pill"><i
+                                                class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
+                                    </div>
+                                </div>
+                                <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
+                                    <p class="mb-0 px-3 text-white">20%</p>
+                                </div>
+
+                                <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                                    @click="OnSavefav(product.id)">
+                                    <p class="mb-0 mt-1 text-danger fw-bold">
+                                        <i :class="allProduct.isFav
+                                            ? 'bi bi-heart-fill'
+                                            : 'bi bi-heart'
+                                            "></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
-                    tabindex="0">...</div>
+                    tabindex="0">
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.products"
+                            :key="product.id">
+                            <div class="bg-white card card-product border-0 rounded position-relative">
+                                <div class="card-img p-3">
+                                    <img :src="product.img" class="mycard-img-top rounded-top object-fit-cover"
+                                        alt="" />
+                                </div>
+                                <div class="p-3 card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-primary mb-1">បន្លែ</p>
+                                        <p class="mb-1">
+                                            <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>4.9
+                                        </p>
+                                    </div>
+                                    <h4 class="fw-bold">{{ product.name }}</h4>
+                                    <p>500g</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="text-primary mb-0 fw-bold">
+                                            10000៛
+                                            <span class="text-decoration-line-through text-paragraph">10000៛</span>
+                                        </p>
+                                        <router-link to="" class="btn btn-primary rounded-pill"><i
+                                                class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
+                                    </div>
+                                </div>
+                                <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
+                                    <p class="mb-0 px-3 text-white">20%</p>
+                                </div>
+
+                                <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                                    @click="OnSavefav(product.id)">
+                                    <p class="mb-0 mt-1 text-danger fw-bold">
+                                        <i :class="allProduct.isFav
+                                                ? 'bi bi-heart-fill'
+                                                : 'bi bi-heart'
+                                            "></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
             <div class="w-100 d-flex justify-content-center mt-4">
-                <RouterLink to="" type="button" class="btn-primary text-decoration-none p-1 rounded">
+                <RouterLink to="/allproducts" type="button" class="btn-primary text-decoration-none p-1 rounded">
                     មើលបន្ថែម</RouterLink>
             </div>
         </div>
@@ -187,12 +275,12 @@
 
     <section class="blog-section mt-5">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-6 d-flex image-wrapper">
                     <div class="w-50 left">
                         <img class="w-50" src="@/assets/images/agriculture-img/agri1.jpg" alt="">
                     </div>
-                    <div class="w-50 right">
+                    <div class="right">
                         <img class="w-100" src="@/assets/images/agriculture-img/agri4.jpg" alt="">
                         <img class="w-50" src="@/assets/images/agriculture-img/agri3.jpg" alt="">
                     </div>
@@ -237,6 +325,7 @@
 
 <script setup>
 import HeroBanner from '../layouts/HeroBanner.vue';
-
+import { useAllProducts } from '@/stores/views/allProduct_store';
+const allProduct = useAllProducts();
 
 </script>
