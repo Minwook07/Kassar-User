@@ -3,12 +3,23 @@
     <div class="bg-allProduct d-flex align-items-center justify-content-center">
       <div class="">
         <h1 class="text-secondary fw-bold">ទំនិញ</h1>
-        <p class="text-center text-secondary">ទំព័រដើម / ទំនិញ</p>
+        <div>
+          <router-link
+            to="/"
+            class="text-center text-secondary text-decoration-none"
+            >ទំព័រដើម</router-link
+          >
+          <router-link
+            to="/allproducts"
+            class="text-center text-secondary text-decoration-none"
+            >/ ទំនិញ</router-link
+          >
+        </div>
       </div>
     </div>
     <div class="container-fluid my-5">
-      <div class="row">
-        <div class="col-12 col-md-2">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-3 col-lg-2">
           <h4 class="mb-0 fw-bold">ជម្រើសផលិតផល</h4>
           <hr />
           <div class="mb-3">
@@ -70,35 +81,39 @@
           <div class="mb-3">
             <h5 class="fw-bold">តម្លៃ</h5>
             <div class="price-range-container p-4 bg-light rounded">
-    <!-- Price Label in Khmer -->
-    <h3 class="khmer-text mb-3">តម្លៃ</h3>
-    
-    <!-- Price Range Display -->
-    <div class="price-display mb-3">
-      ${{ formatPrice(range[0]) }} - ${{ formatPrice(range[1]) }}
-    </div>
-    
-    <!-- Custom Range Slider -->
-    <div class="position-relative">
-      <div class="slider-track"></div>
-      <input 
-        type="range" 
-        class="range-input"
-        v-model.number="range[0]"
-        :min="minPrice"
-        :max="maxPrice"
-        @input="validateRange(0)"
-      >
-      <input 
-        type="range" 
-        class="range-input"
-        v-model.number="range[1]"
-        :min="minPrice"
-        :max="maxPrice"
-        @input="validateRange(1)"
-      >
-    </div>
-  </div>
+              <h3 class="khmer-text mb-3">តម្លៃ</h3>
+
+              <div class="price-display mb-3 fs-6">
+                ៛{{ formatPrice(range[0]) }} - ៛{{ formatPrice(range[1]) }}
+              </div>
+
+
+              <div class="position-relative">
+                <div
+                  class="slider-track"
+                  :style="{
+                    '--left-position': `${(range[0] / maxPrice) * 100}%`,
+                    '--right-position': `${100 - (range[1] / maxPrice) * 100}%`,
+                  }"
+                ></div>
+                <input
+                  type="range"
+                  class="range-input"
+                  v-model.number="range[0]"
+                  :min="minPrice"
+                  :max="maxPrice"
+                  @input="validateRange(0)"
+                />
+                <input
+                  type="range"
+                  class="range-input"
+                  v-model.number="range[1]"
+                  :min="minPrice"
+                  :max="maxPrice"
+                  @input="validateRange(1)"
+                />
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <h5 class="fw-bold mb-3">ម៉ាក</h5>
@@ -159,67 +174,72 @@
             <hr />
           </div>
         </div>
-        <div
-          class="col-12 col-md-4 col-lg-3 mb-3"
-          v-for="product in paginatedProducts"
-          :key="product.id"
-        >
+        <div class="col-12 col-md-9 col-lg-10 row justify-content-center">
           <div
-            class="bg-white card card-product border-0 rounded position-relative"
+            class="col-12 col-md-6 col-lg-3 mb-3"
+            v-for="product in paginatedProducts"
+            :key="product.id"
           >
-            <div class="card-img p-3">
-              <img
-                :src="product.img"
-                class="mycard-img-top rounded-top object-fit-cover"
-                alt=""
-              />
-            </div>
-            <div class="p-3 card-body">
-              <div class="d-flex justify-content-between">
-                <p class="text-primary mb-1">បន្លែ</p>
-                <p class="mb-1">
-                  <span class="text-warning me-2"
-                    ><i class="bi bi-star-fill"></i></span
-                  >4.9
-                </p>
-              </div>
-              <h4 class="fw-bold">{{ product.name }}</h4>
-              <p>500g</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <p class="text-primary mb-0 fw-bold">
-                  10000៛
-                  <span class="text-decoration-line-through text-paragraph"
-                    >10000៛</span
-                  >
-                </p>
-                <router-link to="" class="btn btn-primary rounded-pill"
-                  ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link
-                >
-              </div>
-            </div>
             <div
-              class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+              class="bg-white card card-product border-0 rounded position-relative"
             >
-              <p class="mb-0 px-3 text-white">20%</p>
-            </div>
+              <div class="card-img p-3">
+                <img
+                  :src="product.img"
+                  class="mycard-img-top rounded-top object-fit-cover"
+                  alt=""
+                />
+              </div>
+              <div class="p-3 card-body">
+                <div class="d-flex justify-content-between">
+                  <p class="text-primary mb-1">បន្លែ</p>
+                  <p class="mb-1">
+                    <span class="text-warning me-2"
+                      ><i class="bi bi-star-fill"></i></span
+                    >4.9
+                  </p>
+                </div>
+                <h5 class="fw-bold">{{ product.name }}</h5>
+                <p>500g</p>
+                <div class="d-flex justify-content-between align-items-center">
 
-            <div
-              class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-              @click="OnSavefav(product.id)"
-            >
-              <p class="mb-0 mt-1 text-danger fw-bold">
-                <i
-                  :class="allProduct.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"
-                ></i>
-              </p>
+                  <p class="text-primary mb-0 fw-bold">
+                    10000៛
+                    <span class="text-decoration-line-through text-paragraph"
+                      >10000៛</span
+                    >
+                  </p>
+                  <router-link to="" class="btn btn-primary rounded-pill"
+                    ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link
+                  >
+                </div>
+              </div>
+              <div
+                class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+              >
+                <p class="mb-0 px-3 text-white">20%</p>
+              </div>
+
+              <div
+                class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                @click="OnSavefav(product.id)"
+              >
+                <p class="mb-0 mt-1 text-danger fw-bold">
+                  <i
+                    :class="
+                      allProduct.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'
+                    "
+                  ></i>
+                </p>
+              </div>
             </div>
           </div>
         </div>
         <paginate
           :page-count="pageCount"
           :click-handler="handlePageClick"
-          :prev-text="'Prev'"
-          :next-text="'Next'"
+          :prev-text="'<i class=\'bi bi-chevron-left\'></i>'"
+          :next-text="'<i class=\'bi bi-chevron-right\'></i>'"
           :container-class="'pagination'"
         />
       </div>
@@ -232,7 +252,7 @@ import { useAllProducts } from "@/stores/views/allProduct_store";
 import Paginate from "vuejs-paginate-next";
 const allProduct = useAllProducts();
 
-const itemsPerPage = 2;
+const itemsPerPage = 4;
 const currentPage = ref(1);
 const pageCount = computed(() =>
   Math.ceil(allProduct.products.length / itemsPerPage)
@@ -246,19 +266,19 @@ const handlePageClick = (pageNumber) => {
   currentPage.value = pageNumber;
 };
 
-const minPrice = 0
-const maxPrice = 100000
-const range = ref([20000, 40000])
+const minPrice = 0;
+const maxPrice = 100000;
+const range = ref([20000, 40000]);
 
 const validateRange = (index) => {
   if (index === 0 && range.value[0] > range.value[1]) {
-    range.value[0] = range.value[1]
+    range.value[0] = range.value[1];
   } else if (index === 1 && range.value[1] < range.value[0]) {
-    range.value[1] = range.value[0]
+    range.value[1] = range.value[0];
   }
-}
+};
 
 const formatPrice = (value) => {
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 </script>
