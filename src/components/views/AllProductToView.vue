@@ -87,6 +87,7 @@
                 ៛{{ formatPrice(range[0]) }} - ៛{{ formatPrice(range[1]) }}
               </div>
 
+
               <div class="position-relative">
                 <div
                   class="slider-track"
@@ -201,6 +202,7 @@
                 <h5 class="fw-bold">{{ product.name }}</h5>
                 <p>500g</p>
                 <div class="d-flex justify-content-between align-items-center">
+
                   <p class="text-primary mb-0 fw-bold">
                     10000៛
                     <span class="text-decoration-line-through text-paragraph"

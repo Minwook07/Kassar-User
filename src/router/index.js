@@ -102,7 +102,6 @@ const router = createRouter({
       name: 'wishlist',
       component: WishListView,
     },
-
   ],
 })
 

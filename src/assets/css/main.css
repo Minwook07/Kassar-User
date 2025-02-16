@@ -214,7 +214,7 @@ body {
     padding: 20px;
 }
 
-.frm-auth .lef.t-section {
+.frm-auth .left-section {
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
     background-color: var(--bs-primary);
@@ -936,7 +936,7 @@ body {
 
 .card-img {
     width: 100%;
-    height: 200px;
+    height: 280px;
 }
 
 .mycard-img-top {
@@ -989,8 +989,6 @@ body {
 
 
 /* profile setting */
-
-
 .profile {
     padding: 20px;
     border-radius: 15px;
@@ -1105,9 +1103,9 @@ body {
 .price-display {
     font-size: 1.25rem;
     color: #666;
-  }
-  
-  .slider-track {
+}
+
+.slider-track {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -1125,6 +1123,19 @@ body {
   }
   
   .range-input {
+    background: red;
+}
+
+.slider-track::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    background: #2ecc71 !important;
+    left: v-bind('(range[0] / maxPrice) * 100 + "%"');
+    right: v-bind('100 - (range[1] / maxPrice) * 100 + "%"');
+}
+
+.range-input {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -1134,7 +1145,8 @@ body {
     background: none;
   }
   
-  .range-input::-webkit-slider-thumb {
+
+.range-input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
@@ -1149,6 +1161,14 @@ body {
   }
   
   .range-input::-moz-range-thumb {
+    border: 2px solid #2ecc71 !important;
+    cursor: pointer;
+    pointer-events: auto;
+    margin-top: -8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.range-input::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -1416,4 +1436,23 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border: 2px solid #2ecc71 !important;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.range-input:focus {
+    outline: none;
+}
+
+.range-input::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: transparent;
+}
+
+.range-input::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    background: transparent;
 }
