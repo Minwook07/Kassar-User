@@ -1,4 +1,5 @@
 <template>
+    <NavBar />
     <div class="container py-5">
         <!-- Progress Indicator -->
         <div class="progress-indicator col-lg-11 mb-5 d-flex justify-content-between align-items-center">
@@ -42,6 +43,7 @@
 </template>
 
 <script setup>
+import NavBar from '@/components/layouts/NavBar.vue';
 import CartAddress from '@/components/views/cart/CartAddress.vue';
 import CartModalAddress from '@/components/views/cart/CartModalAddress.vue';
 import CartList from '@/components/views/cart/CartList.vue';

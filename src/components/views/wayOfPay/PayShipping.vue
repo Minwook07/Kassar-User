@@ -22,7 +22,9 @@
             <span>90000 ៛</span>
         </div>
         <hr class="hr">
-        <button class="mt-3 btn btn-secondary btn-process w-100" disabled>ទូទាត់
-            <span>៛90000</span></button>
+        <!-- <button class="mt-3 btn btn-secondary btn-process w-100" disabled>ទូទាត់
+            <span>៛90000</span></button> -->
+        <RouterLink to="/success" class="mt-3 btn btn-secondary btn-process w-100">ទូទាត់
+            <span>៛90000</span></RouterLink>
     </div>
 </template>

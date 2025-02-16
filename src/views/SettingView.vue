@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import NavBar from '@/components/layouts/NavBar.vue';
 import { ref } from 'vue';
 
 const activeTab = ref('profile');
@@ -24,6 +25,7 @@ const handleSubmit = () => {
 </script>
 
 <template>
+  <NavBar />
   <div class="container py-5">
     <div class="row g-4">
       <!-- Sidebar Column -->
@@ -31,7 +33,7 @@ const handleSubmit = () => {
         <!-- Profile Card -->
         <div class="profile-card">
           <div class="profile-img-container">
-            <img src="https://via.placeholder.com/150" alt="Profile Image" class="profile-img" />
+            <img src="../assets/images/1.jpg" alt="Profile Image" class="profile-img" />
           </div>
           <div class="profile-info text-center">
             <h2 class="profile-name">សុខ កញ្ញា</h2>
