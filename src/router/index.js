@@ -14,6 +14,7 @@ import AllProductView from '@/views/AllProductView.vue'
 import AddCardView from '@/views/AddCartView.vue'
 import WayOfPayView from '@/views/WayOfPayView.vue'
 import PaySuccessView from '@/views/PaySuccessView.vue'
+import WishListView from '@/views/WishListView.vue'
 
 
 const router = createRouter({
@@ -96,7 +97,11 @@ const router = createRouter({
       name: 'success',
       component: PaySuccessView,
     },
-
+    {
+      path: '/wishlist',
+      name: 'wishlist',
+      component: WishListView,
+    },
   ],
 })
 

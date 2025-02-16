@@ -197,9 +197,22 @@ const handleSubmit = () => {
 </template>
 
 <style scoped>
-/* Modern Profile Styles */
+
+/* Add custom styles if needed */
 .container {
-  max-width: 1200px;
+  max-width: 1200px; /* Adjust as needed */
+}
+
+.row {
+  margin: 0 auto;
+}
+
+.col-md-3 {
+  padding-right: 15px; /* Add spacing between columns */
+}
+
+.col-md-8 {
+  padding-left: 15px; /* Add spacing between columns */
 }
 
 /* Profile Card */
