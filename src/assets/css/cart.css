@@ -1,5 +1,5 @@
 :root {
-    --bs-primary: #18A558;
+    --bs-primary: #32CA83;
     --bs-secoundary: #116530;
     --bs-supporting: #A3EBB1;
     --bs-accent: #F8C519;
@@ -10,6 +10,7 @@
     --bs-text-white: #ffffff;
     --bs-text-light: #dddddd;
     --bs-text-black: #000000;
+    --text-paragraph: #7F818E;
 }
 .step-number-active{
     color: var(--bs-secoundary);

@@ -1,38 +1,38 @@
 <template>
     <div class="container-fluid">
         <div class="hero-banner row mt-4">
-            <div class="col-2 rounded-4 p-0 overflow-hidden category-side">
+            <div class="col-2 rounded-3 p-0 overflow-hidden category-side">
                 <div class="text-center category-title">
                     <p class="fw-bold fs-5 text-white py-2 m-0">ប្រភេទផលិតផល</p>
                 </div>
                 <ul class="category-list list-unstyled">
                     <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="">ត្រី</RouterLink>
+                        <RouterLink class="nav-link category-link" to="/allproducts">ត្រី</RouterLink>
                     </li>
                     <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="">បន្លែ</RouterLink>
+                        <RouterLink class="nav-link category-link" to="/allproducts">បន្លែ</RouterLink>
                     </li>
                     <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="">ផ្លែឈើ</RouterLink>
+                        <RouterLink class="nav-link category-link" to="/allproducts">ផ្លែឈើ</RouterLink>
                     </li>
                     <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="">អង្ករ</RouterLink>
+                        <RouterLink class="nav-link category-link" to="/allproducts">អង្ករ</RouterLink>
                     </li>
                     <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="">គ្រឿងទេស</RouterLink>
+                        <RouterLink class="nav-link category-link" to="/allproducts">គ្រឿងទេស</RouterLink>
                     </li>
                     <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="">អាហារគ្រៀម</RouterLink>
+                        <RouterLink class="nav-link category-link" to="/allproducts">អាហារគ្រៀម</RouterLink>
                     </li>
                     <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="">អាហារសម្រន</RouterLink>
+                        <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន</RouterLink>
                     </li>
                 </ul>
             </div>
-            <div class="col-10 row">
+            <div class="col-10 row product-hero-section">
                 <div class="col-6 p-0 ps-4 d-flex flex-wrap">
-                    <div class="w-100 h-50 pb-2">
-                        <div class="border border-2 rounded-4 h-100 overflow-hidden">
+                    <div class="w-100 product-hero pb-2">
+                        <div class="rounded-3 h-100 overflow-hidden">
                             <div id="heroCarouselAds" class="carousel carousel-fade slide h-100" data-bs-ride="carousel"
                                 data-bs-touch="true">
                                 <div class="carousel-indicators ">
@@ -64,8 +64,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-100 h-50 pt-2">
-                        <div class="border border-2 h-100 rounded-4 hero-video py-2 px-3">
+                    <div class="w-100 product-hero pt-3">
+                        <div class="h-100 rounded-3 hero-video py-2 px-3">
                             <div class="title d-flex align-items-center">
                                 <p class="m-0 pe-1 text-secondary fw-semibold">វីដេអូ</p> <i
                                     class="bi bi-collection-play fs-5 text-secondary"></i>
@@ -86,7 +86,7 @@
                                 :direction="'vertical'">
                                     <swiper-slide>
                                         <div class="d-flex">
-                                            <RouterLink class="video w-50 rounded-4 overflow-hidden">
+                                            <RouterLink class="video w-50 rounded-3 overflow-hidden">
                                                 <img src="@/assets/images/products/product-1.jpg" alt="">
                                                 <span class="view-count text-white fw-semibold">10.7k views</span>
                                             </RouterLink>
@@ -110,7 +110,7 @@
                                     </swiper-slide>
                                     <swiper-slide>
                                         <div class="d-flex">
-                                            <RouterLink class="video w-50 rounded-4 overflow-hidden ">
+                                            <RouterLink class="video w-50 rounded-3 overflow-hidden ">
                                                 <img src="@/assets/images/products/product-2.jpg" alt="">
                                                 <span class="view-count text-white fw-semibold">10.7k views</span>
                                             </RouterLink>
@@ -138,8 +138,8 @@
                     </div>
                 </div>
                 <div class="col-6  p-0 ps-4 d-flex flex-wrap">
-                    <div class="w-100 h-50 pb-2">
-                        <div class="hero-product border border-2 h-100 rounded-4 py-2 px-3">
+                    <div class="w-100 product-hero pb-2">
+                        <div class="hero-product h-100 rounded-3 py-2 px-3">
                             <div class="top-selling">
                                 <div class="title d-flex align-items-center">
                                     <p class="m-0 fw-semibold text-secondary">ផលិតផលលក់ដាច់ប្រចាំខែ</p>
@@ -182,11 +182,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hero-discount  w-100 h-50 d-flex  pt-2">
-                        <RouterLink class="product w-50 me-4 border border-2 rounded-4 py-2 px-3">
+                    <div class="hero-discount  w-100 product-hero d-flex  pt-3">
+                        <RouterLink class="product w-50 me-4 rounded-3 py-2 px-3">
                             <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
                                 <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
-                                <span class="badge rounded-2 ms-1">TOP SELLING</span>
+                                <span class="badge rounded-2 ms-1">DISCOUNT</span>
                             </div>
                             <img src="@/assets/images/products/product-5.png" alt="">
                             <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
@@ -194,10 +194,10 @@
                                 <span>$9.99</span>
                             </div>
                         </RouterLink>
-                        <RouterLink class="product w-50 border border-2 rounded-4 py-2 px-3">
+                        <RouterLink class="product w-50 rounded-3 py-2 px-3">
                             <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
                                 <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
-                                <span class="badge rounded-2 ms-1">TOP SELLING</span>
+                                <span class="badge rounded-2 ms-1">DISCOUNT</span>
                             </div>
                             <img src="@/assets/images/products/product-6.png" alt="">
                             <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
