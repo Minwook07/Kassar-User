@@ -1,4 +1,5 @@
 <template>
+    <NavBar />
     <div class="container my-5">
         <!-- Progress Indicator -->
         <div class="progress-indicator col-lg-11 mb-5 d-flex justify-content-between align-items-center">
@@ -38,3 +39,7 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import NavBar from '@/components/layouts/NavBar.vue';
+</script>

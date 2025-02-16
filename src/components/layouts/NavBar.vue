@@ -21,7 +21,7 @@
           <RouterLink class="btn-cart fs-4 text-secondary" to="/cart">
             <img src="@/assets/images/icons-img/cart.png" alt="">
           </RouterLink>
-          <RouterLink class="btn-favorite fs-4 text-secondary" to="">
+          <RouterLink class="btn-favorite fs-4 text-secondary" to="/wishlist">
             <img src="@/assets/images/icons-img/love.png" alt="">
           </RouterLink>
           <div class="profile-wrapper position-relative">
@@ -40,7 +40,7 @@
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="" class="d-flex align-items-center text-decoration-none p-0">
+                <RouterLink to="/profile" class="d-flex align-items-center text-decoration-none p-0">
                   <i class="bi bi-gear me-1 text-secondary fs-5 pt-1"></i>
                   <h6 class="text-black">​ការកំណត់</h6>
                 </RouterLink>
@@ -52,7 +52,7 @@
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="" class="d-flex align-items-center text-decoration-none p-0">
+                <RouterLink to="/" class="d-flex align-items-center text-decoration-none p-0">
                   <i class="bi bi-escape me-1 text-secondary fs-5 pt-1"></i>
                   <h6 class="text-black">ចាកចេញ</h6>
                 </RouterLink>
@@ -90,7 +90,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <RouterLink class="nav-link d-flex align-items-center" to="">
+          <RouterLink class="nav-link d-flex align-items-center" to="/allproducts">
             <h6 class="m-0">ផលិតផល</h6>
           </RouterLink>
         </li>

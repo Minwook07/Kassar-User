@@ -1,4 +1,5 @@
 <template>
+  <NavBar />
   <section class="py-5">
     <div class="container-fluid">
       <div class="row">
@@ -260,4 +261,6 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import NavBar from '../layouts/NavBar.vue';
+</script>
