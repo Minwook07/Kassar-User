@@ -1,6 +1,6 @@
 <template>
-    <NavBar />
-    <div class="container py-5">
+    <Navbar />
+    <div class="container contain-hieght py-5">
         <!-- Progress Indicator -->
         <div class="progress-indicator col-lg-11 mb-5 d-flex justify-content-between align-items-center">
             <div class="step d-flex justify-content-between align-items-center">
@@ -25,15 +25,13 @@
         <div class="row">
             <div class="col-lg-8 col-md-12">
                 <CartAddress />
-
-
                 <CartList />
 
             </div>
 
 
             <!-- Summary Section -->
-            <div class="col-lg-4 col-md-12">
+            <div class="col-lg-4 col-md-12 mt-lg-0 mt-4">
                 <CartShipping />
             </div>
         </div>
@@ -43,7 +41,7 @@
 </template>
 
 <script setup>
-import NavBar from '@/components/layouts/NavBar.vue';
+import Navbar from '@/components/layouts/NavBar.vue';
 import CartAddress from '@/components/views/cart/CartAddress.vue';
 import CartModalAddress from '@/components/views/cart/CartModalAddress.vue';
 import CartList from '@/components/views/cart/CartList.vue';
