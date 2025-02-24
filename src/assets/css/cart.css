@@ -12,6 +12,9 @@
     --bs-text-black: #000000;
     --text-paragraph: #7F818E;
 }
+.contain-hieght{
+    margin-top: 10px !important;
+}
 .step-number-active{
     color: var(--bs-secoundary);
     background-color: var(--bs-supporting) !important;
@@ -215,7 +218,7 @@
 
 /* Modal Way: CreditModal */
 
-.way-pay-cart .form-control {
+.form-control, .form-select {
     height: 45px !important;
 }
 
@@ -241,13 +244,25 @@
     border-radius: 8px;
     border: 1px solid rgb(172, 172, 172);
 }
+.col .card:nth-child(1){
+    border: 1.5px solid var(--bs-primary);
+    background-color: rgb(245, 245, 245);
+}
 
-.card-pay .card img {
+.card-pay .card .img-bank {
     border-radius: 5px;
     object-fit: cover;
     width: 50px;
     height: 50px;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.card-pay .card .img-bank img{
+    width: 50px;
 }
 
 .card-pay .card i {
@@ -338,7 +353,7 @@
 /* success */
 .success{
     margin: auto;
-    margin-top: 180px !important;
+    margin-top: 100px !important;
 }
 .success-container {
     text-align: center;
@@ -381,4 +396,30 @@
 .success-container .btn-primary:hover {
     background-color: #218838;
     border-color: #218838;
+}
+
+/* input bank */
+.bank-type {
+    margin-top: 0px !important;
+    width: 260px !important;
+}
+
+.bank-type img {
+    width: 35px;
+    height: 15px;
+    border-radius: 5px;
+}
+.bank-type {
+    width: 170px;
+    margin-top: 8px;
+}
+
+.bank-type img {
+    width: 37px;
+    height: 25px;
+    border: none;
+    border-radius: 3px !important;
+}
+.bank-type .img-uni{
+    width: 40px;
 }
