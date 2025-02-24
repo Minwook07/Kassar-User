@@ -1,6 +1,6 @@
 <template>
   <div class="frm-auth">
-    <div class="row shadow-lg rounded-3 overflow-hidden">
+    <div class="row  rounded-3 overflow-hidden">
       <!-- Left Section -->
       <div class="col-md-6 left-section text-white d-flex flex-column align-items-center justify-content-center">
         <h1 class="text-center fw-bold">

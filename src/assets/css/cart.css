@@ -86,7 +86,7 @@
 .cart-container {
     border-radius: 10px;
     padding: 20px;
-    border: 1px solid rgb(172, 172, 172);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .cart-item {
@@ -149,8 +149,7 @@
 /* CardAddress */
 .custom-card {
     border-radius: 15px;
-    border: 1px solid rgb(172, 172, 172);
-    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 20px;
     position: relative;
 }
@@ -242,7 +241,7 @@
 /* WayOfPay */
 .card-pay {
     border-radius: 8px;
-    border: 1px solid rgb(172, 172, 172);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .col .card:nth-child(1){
     border: 1.5px solid var(--bs-primary);
@@ -308,12 +307,14 @@
 .card-process {
     border-radius: 12px;
     padding: 20px;
-    border: 1px solid rgb(172, 172, 172);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     position: sticky;
     top: 20px;
 }
 
 .btn-custom {
+    position: absolute;
+    right: 0;
     width: 30%;
     height: 55px;
     outline: none;
@@ -342,6 +343,7 @@
 }
 
 .code-discount {
+    position: relative;
     width: 100%;
     height: 55px;
     border-radius: 10px;
@@ -422,4 +424,33 @@
 }
 .bank-type .img-uni{
     width: 40px;
+}
+
+/* contact us */
+.bg-contact {
+    /* background-color: pink; */
+    background-image: url(../../assets/images/bg_allProducts.png);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 300px;
+    /* filter: blur(2px); */
+    /* opacity: 0.6; */
+}
+
+
+/* faq */
+.bg-faq {
+    background-image: url(../../assets/images/faq-contact/faq-1.jpg);
+    background-size: cover;
+    width: 100%;
+    height: 300px;
+    background-position: center;
+}
+.bg-faq-contact {
+    background-image: url(../../assets/images/faq-contact/faq-2.png);
+    background-size: cover;
+    width: 100%;
+    height: 300px;
+    background-position: center;
 }

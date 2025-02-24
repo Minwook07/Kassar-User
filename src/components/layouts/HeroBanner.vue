@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="hero-banner row mt-4">
-            <div class="col-2 rounded-3 p-0 overflow-hidden category-side">
+            <div class="col-2 rounded-3 p-0 overflow-hidden category-side d-none d-xl-block">
                 <div class="text-center category-title">
                     <p class="fw-bold fs-5 text-white py-2 m-0">ប្រភេទផលិតផល</p>
                 </div>
@@ -29,7 +29,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-10 row product-hero-section">
+            <div class="col-xl-10 row product-hero-section p-0">
                 <div class="col-6 p-0 ps-4 d-flex flex-wrap">
                     <div class="w-100 product-hero pb-2">
                         <div class="rounded-3 h-100 overflow-hidden">
@@ -67,8 +67,7 @@
                     <div class="w-100 product-hero pt-3">
                         <div class="h-100 rounded-3 hero-video py-2 px-3">
                             <div class="title d-flex align-items-center">
-                                <p class="m-0 pe-1 text-secondary fw-semibold">វីដេអូ</p> <i
-                                    class="bi bi-collection-play fs-5 text-secondary"></i>
+                                <p class="m-0 pe-1 fw-semibold">វីដេអូ</p> <i class="bi bi-collection-play-fill fs-5 text-primary"></i>
                             </div>
                             <div class="hero-video-wrapper">
                                 <swiper 
@@ -86,7 +85,7 @@
                                 :direction="'vertical'">
                                     <swiper-slide>
                                         <div class="d-flex">
-                                            <RouterLink class="video w-50 rounded-3 overflow-hidden">
+                                            <RouterLink class="video w-50 rounded-3 overflow-hidden" to="">
                                                 <img src="@/assets/images/products/product-1.jpg" alt="">
                                                 <span class="view-count text-white fw-semibold">10.7k views</span>
                                             </RouterLink>
@@ -96,13 +95,13 @@
                                                     <p class="username m-0 fw-bold ps-1">Thy Farm Store</p>
                                                 </div>
                                                 <div class="caption pt-2">
-                                                    <p class="text-secondary fw-semibold ">សាច់គោងៀត
+                                                    <p class="ps-1 fw-semibold ">សាច់គោងៀត
                                                         ផលិតផលខេត្តកំពង់ចាម
                                                         ធានាអនាម័យ
                                                         ១០០%</p>
                                                 </div>
                                                 <div class="price">
-                                                    <p class="text-secondary fw-bolder fs-3">$10.99 / <span
+                                                    <p class="text-secondary fw-bolder fs-4">$10.99 / <span
                                                             class="fs-5">Kg</span></p>
                                                 </div>
                                             </div>
@@ -110,7 +109,7 @@
                                     </swiper-slide>
                                     <swiper-slide>
                                         <div class="d-flex">
-                                            <RouterLink class="video w-50 rounded-3 overflow-hidden ">
+                                            <RouterLink class="video w-50 rounded-3 overflow-hidden " to="">
                                                 <img src="@/assets/images/products/product-2.jpg" alt="">
                                                 <span class="view-count text-white fw-semibold">10.7k views</span>
                                             </RouterLink>
@@ -120,13 +119,13 @@
                                                     <p class="username m-0 fw-bold ps-1">Thy Farm Store</p>
                                                 </div>
                                                 <div class="caption pt-2">
-                                                    <p class="text-secondary fw-semibold ">សាច់គោងៀត
+                                                    <p class="ps-1 fw-semibold ">សាច់គោងៀត
                                                         ផលិតផលខេត្តកំពង់ចាម
                                                         ធានាអនាម័យ
                                                         ១០០%</p>
                                                 </div>
                                                 <div class="price">
-                                                    <p class="text-secondary fw-bolder fs-3">$10.99 / <span
+                                                    <p class="text-secondary fw-bolder fs-4">$10.99 / <span
                                                             class="fs-5">Kg</span></p>
                                                 </div>
                                             </div>
@@ -145,8 +144,8 @@
                                     <p class="m-0 fw-semibold text-secondary">ផលិតផលលក់ដាច់ប្រចាំខែ</p>
                                     <span class="badge rounded-2 text-bg-success ms-1">TOP SELLING</span>
                                 </div>
-                                <div class="products-wrapper d-flex">
-                                    <RouterLink class="product w-25 p-2 ">
+                                <div class="products-wrapper row">
+                                    <RouterLink class="product p-2 col-4 col-xl-3 " to="/detailproduct">
                                         <img src="@/assets/images/products/product-1.jpg" alt="">
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
@@ -154,7 +153,7 @@
                                             <span>$10.99</span>
                                         </div>
                                     </RouterLink>
-                                    <RouterLink class="product w-25 p-2">
+                                    <RouterLink class="product p-2 col-4 col-xl-3" to="/detailproduct">
                                         <img src="@/assets/images/products/product-2.jpg" alt="">
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
@@ -162,7 +161,7 @@
                                             <span>$10.99</span>
                                         </div>
                                     </RouterLink>
-                                    <RouterLink class="product w-25 p-2">
+                                    <RouterLink class="product p-2 col-4 col-xl-3" to="/detailproduct">
                                         <img src="@/assets/images/products/product-3.jpg" alt="">
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
@@ -170,7 +169,7 @@
                                             <span>$10.99</span>
                                         </div>
                                     </RouterLink>
-                                    <RouterLink class="product w-25 p-2">
+                                    <RouterLink class="product p-2 col-3 d-none d-xl-block" to="/detailproduct">
                                         <img src="@/assets/images/products/product-4.jpg" alt="">
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
@@ -183,7 +182,7 @@
                         </div>
                     </div>
                     <div class="hero-discount  w-100 product-hero d-flex  pt-3">
-                        <RouterLink class="product w-50 me-4 rounded-3 py-2 px-3">
+                        <RouterLink class="product w-50 me-4 rounded-3 py-2 px-3" to="/detailproduct">
                             <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
                                 <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
                                 <span class="badge rounded-2 ms-1">DISCOUNT</span>
@@ -194,7 +193,7 @@
                                 <span>$9.99</span>
                             </div>
                         </RouterLink>
-                        <RouterLink class="product w-50 rounded-3 py-2 px-3">
+                        <RouterLink class="product w-50 rounded-3 py-2 px-3" to="detailproduct">
                             <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
                                 <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
                                 <span class="badge rounded-2 ms-1">DISCOUNT</span>

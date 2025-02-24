@@ -27,7 +27,7 @@
 
             <!-- Credit / Debit Card -->
             <div class="col">
-                <div class="card p-3 px-4 d-flex flex-row align-items-center justify-content-between">
+                <a role="button" class="card p-3 px-4 d-flex flex-row align-items-center justify-content-between text-decoration-none" @click="onOpenCredit()">
                     <div class="d-flex flex-row align-items-center">
                         <div class="img-bank">
                             <img src="@/assets/images/Cart/icon/credit-card.svg" alt="Credit/Debit Card"
@@ -58,10 +58,10 @@
                         </div>
                     </div> -->
                     <div>
-                        <a role="button" class="arrow-way text-black" @click="onOpenCredit()"><i
+                        <a class="arrow-way text-black" ><i
                                 class="bi bi-chevron-right"></i></a>
                     </div>
-                </div>
+                </a>
             </div>
 
             <!-- Alipay -->
