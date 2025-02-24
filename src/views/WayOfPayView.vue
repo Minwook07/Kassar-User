@@ -26,12 +26,13 @@
                 <PayOptions />
             </div>
 
-            <div class="col-lg-4 col-md-12">
+            <div class="col-lg-4 col-md-12 mt-lg-0 mt-4">
                 <Shipping />
             </div>
         </div>
     </div>
     <CreditModal />
+    <FooterView />
 </template>
 
 <script setup>
@@ -39,5 +40,5 @@ import Navbar from '@/components/layouts/NavBar.vue';
 import CreditModal from '@/components/views/wayOfPay/PayCreditModal.vue';
 import PayOptions from '@/components/views/wayOfPay/PayOptions.vue';
 import Shipping from '@/components/views/wayOfPay/PayShipping.vue';
-
+import FooterView from '@/components/layouts/FooterView.vue';
 </script>

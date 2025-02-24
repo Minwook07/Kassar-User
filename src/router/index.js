@@ -16,7 +16,9 @@ import WayOfPayView from '@/views/WayOfPayView.vue'
 import PaySuccessView from '@/views/PaySuccessView.vue'
 import WishListView from '@/views/WishListView.vue'
 import RequestSeller from '@/views/RequestSeller.vue'
-import FooterView from '@/views/FooterView.vue'
+import FooterView from '@/components/layouts/FooterView.vue'
+import ContactUsView from '@/views/ContactUsView.vue'
+import FaqsView from '@/views/FaqsView.vue'
 
 
 const router = createRouter({
@@ -110,9 +112,14 @@ const router = createRouter({
       component: RequestSeller,
     },
     {
-      path: '/footer',
-      name: 'footer',
-      component: FooterView,
+      path: '/contact',
+      name: 'contact',
+      component: ContactUsView,
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: FaqsView,
     },
   ],
 })

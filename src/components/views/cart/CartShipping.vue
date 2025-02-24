@@ -4,7 +4,7 @@
         <small class="">កាលបរិច្ឆេទដឹកជញ្ជូន៖ 04-Sep-2025</small>
         <hr class="hr">
         <h6 class="fw-bold mb-2">កូដបញ្ចុះតម្លៃ</h6>
-        <div class="d-flex mt-3 mb-2">
+        <div class="d-flex mt-3 mb-2 position-relative">
             <input type="text" class="px-2 code-discount" placeholder=" បញ្ចូលកូដបញ្ចុះតម្លៃ">
             <button type="submit" class="btn btn-custom">ទទូលយក</button>
         </div>
