@@ -8,7 +8,7 @@
               class="col-12 col-lg-6 pf-seller-main d-flex justify-content-center align-content-center bg-secondary-subtle rounded-4 position-relative"
             >
               <img
-                src="../../assets/images/epak.png"
+                src="@/assets/images/epak.png"
                 alt=""
                 class="pf-seller-avatar rounded-4"
               />

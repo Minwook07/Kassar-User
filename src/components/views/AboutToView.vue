@@ -1,5 +1,4 @@
 <template>
-  <NavBar />
   <section class="py-5">
     <div class="container-fluid">
       <div class="row">
@@ -160,7 +159,7 @@
           <h1 class="fw-bold">សមាជិកក្រុម</h1>
           <div class="d-none d-lg-block" style="width: 100%; height: 200px">
             <img
-              src="../../assets/images/about-us/farm/flower.png"
+              src="@/assets/images/about-us/farm/flower.png"
               alt=""
               class="flower"
             />
@@ -242,7 +241,6 @@
 </template>
 
 <script setup>
-import NavBar from "../layouts/NavBar.vue";
 import { useTeamStore } from "@/stores/views/team_store";
 const teamStore = useTeamStore();
 </script>

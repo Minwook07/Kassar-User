@@ -55,7 +55,7 @@
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/" class="d-flex align-items-center text-decoration-none p-0">
+                <RouterLink to="/login" class="d-flex align-items-center text-decoration-none p-0">
                   <i class="bi bi-escape me-1 text-secondary fs-5 pt-1"></i>
                   <h6 class="text-black">ចាកចេញ</h6>
                 </RouterLink>
@@ -116,7 +116,7 @@
             </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link d-flex align-items-center" to="">
+            <RouterLink class="nav-link d-flex align-items-center" to="/contact">
               <h6 class="m-0">ទំនាក់ទំនង</h6>
             </RouterLink>
           </li>
@@ -191,7 +191,7 @@
           <RouterLink to="/wishlist">ចូលចិត្ត</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/">ទំនាក់ទំនង</RouterLink>
+          <RouterLink to="/contact">ទំនាក់ទំនង</RouterLink>
         </li>
         <li class="nav-item">
           <RouterLink to="/about">អំពីពួកយើង</RouterLink>

@@ -1,5 +1,4 @@
 <template>
-  <NavBar />
   <div class="container py-5">
     <div class="row g-4">
       <!-- Sidebar Column -->
@@ -7,7 +6,7 @@
   <!-- Profile Card -->
   <div class="profile-card">
     <div class="profile-img-container">
-      <img src="../assets/images/user_pf_sample.jpg" alt="Profile Image" class="profile-img w-100" /> <!-- Make image responsive -->
+      <img src="@/assets/images/user_pf_sample.jpg" alt="Profile Image" class="profile-img w-100" /> <!-- Make image responsive -->
     </div>
     <div class="profile-info text-center">
       <h2 class="profile-name">ស្រឿន​ ចន្ធី</h2>
@@ -105,7 +104,7 @@
             <div class="orders-list">
               <div class="order-item">
                 <div class="order-img">
-                  <img src="../assets/images/Cart/img-2.jpg" alt="Order" />
+                  <img src="@/assets/images/Cart/img-2.jpg" alt="Order" />
                 </div>
                 <div class="order-details">
                   <h4>ផ្កាខាត់ណាកំពត កូនពូMONYមីងវន</h4>
@@ -121,7 +120,7 @@
             <div class="orders-list mt-2">
               <div class="order-item">
                 <div class="order-img">
-                  <img src="../assets/images/Cart/img-2.jpg" alt="Order" />
+                  <img src="@/assets/images/Cart/img-2.jpg" alt="Order" />
                 </div>
                 <div class="order-details">
                   <h4>ផ្កាខាត់ណាកំពត កូនពូMONYមីងវន</h4>
@@ -137,7 +136,7 @@
             <div class="orders-list mt-2">
               <div class="order-item">
                 <div class="order-img">
-                  <img src="../assets/images/Cart/img-2.jpg" alt="Order" />
+                  <img src="@/assets/images/Cart/img-2.jpg" alt="Order" />
                 </div>
                 <div class="order-details">
                   <h4>ផ្កាខាត់ណាកំពត កូនពូMONYមីងវន</h4>
@@ -153,7 +152,7 @@
             <div class="orders-list mt-2">
               <div class="order-item">
                 <div class="order-img">
-                  <img src="../assets/images/Cart/img-2.jpg" alt="Order" />
+                  <img src="@/assets/images/Cart/img-2.jpg" alt="Order" />
                 </div>
                 <div class="order-details">
                   <h4>ផ្កាខាត់ណាកំពត កូនពូMONYមីងវន</h4>
@@ -265,7 +264,6 @@
   </div>
 </template>
 <script setup>
-import NavBar from '@/components/layouts/NavBar.vue';
 </script>
 <style scoped>
 

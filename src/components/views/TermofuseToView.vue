@@ -21,7 +21,7 @@
       <div class="modal-content">
         <div class="modal-header py-4">
           <img
-            src="../../assets/images/kassar_text.png"
+            src="@/assets/images/kassar_text.png"
             alt=""
             style="width: 120px"
           />

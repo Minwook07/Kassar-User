@@ -1,5 +1,4 @@
 <template>
-  <NavBar />
   <section style="background-color: #f2f2f2">
     <div class="bg-allProduct d-flex align-items-center justify-content-center">
       <div class="">
@@ -244,7 +243,6 @@
   </section>
 </template>
 <script setup>
-import NavBar from "../layouts/NavBar.vue";
 import { ref, computed } from "vue";
 import { useAllProducts } from "@/stores/views/allProduct_store";
 import Paginate from "vuejs-paginate-next";

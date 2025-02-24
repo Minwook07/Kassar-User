@@ -90,16 +90,16 @@
             <h5 class="fw-bold mb-4">ធានាការទូរទាត់ប្រាក់ប្រកបដោយសុវត្ថិភាព</h5>
             <div class="d-flex gap-2 align-items-center">
               <div class="visa-card">
-                <img src="../../assets/images/visa.png" alt="" />
+                <img src="@/assets/images/visa.png" alt="" />
               </div>
               <div class="visa-card">
-                <img src="../../assets/images/visa.png" alt="" />
+                <img src="@/assets/images/visa.png" alt="" />
               </div>
               <div class="visa-card">
-                <img src="../../assets/images/visa.png" alt="" />
+                <img src="@/assets/images/visa.png" alt="" />
               </div>
               <div class="visa-card">
-                <img src="../../assets/images/visa.png" alt="" />
+                <img src="@/assets/images/visa.png" alt="" />
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@
               <div class="col-4 mb-3">
                 <img
                   class="w-100 h-100 object-fit-cover"
-                  src="../../assets/images/5.avif"
+                  src="@/assets/images/5.avif"
                   alt=""
                 />
               </div>
@@ -157,7 +157,7 @@
               <div class="col-4 mb-3">
                 <img
                   class="w-100 h-100 object-fit-cover"
-                  src="../../assets/images/5.avif"
+                  src="@/assets/images/5.avif"
                   alt=""
                 />
               </div>
@@ -191,7 +191,7 @@
               <div class="col-4 mb-3">
                 <img
                   class="w-100 h-100 object-fit-cover"
-                  src="../../assets/images/5.avif"
+                  src="@/assets/images/5.avif"
                   alt=""
                 />
               </div>
@@ -305,7 +305,7 @@
               >
                 <div class="pf-feedback-detail rounded-circle ms-2">
                   <img
-                    src="../../assets/images/1.jpg"
+                    src="@/assets/images/1.jpg"
                     class="rounded-circle"
                     alt=""
                   />
@@ -350,7 +350,7 @@
         <div class="col-12 col-lg-4 mb-5 rounded">
           <div class="mt-0 mt-lg-5">
             <img
-              src="../../assets/images/posterDetail.gif"
+              src="@/assets/images/posterDetail.gif"
               class="w-100 h-100 object-fit-cover rounded"
               alt=""
             />

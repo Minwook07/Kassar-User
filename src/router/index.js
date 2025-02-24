@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
-import AuthView from '@/views/AuthView.vue'
 import LoginView from '@/components/views/auth/LoginView.vue'
 import SignupView from '@/components/views/auth/SignupView.vue'
 import ForgotPassView from '@/components/views/auth/ForgotPassView.vue'
@@ -16,7 +15,6 @@ import WayOfPayView from '@/views/WayOfPayView.vue'
 import PaySuccessView from '@/views/PaySuccessView.vue'
 import WishListView from '@/views/WishListView.vue'
 import RequestSeller from '@/views/RequestSeller.vue'
-import FooterView from '@/views/FooterView.vue'
 import TermofuseView from '@/views/TermofuseView.vue'	
 import FooterView from '@/components/layouts/FooterView.vue'
 import ContactUsView from '@/views/ContactUsView.vue'
@@ -36,40 +34,35 @@ const router = createRouter({
       component: AboutView,
     },
     {
-      path: '/auth',
-      name: 'auth',
-      component: AuthView,
-    },
-    {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: LoginView,
     },
     {
       path: '/signup',
-      name: 'Signup',
+      name: 'signup',
       component: SignupView,
     },
     {
       path: '/forgotpass',
-      name: 'ForgotPass',
+      name: 'forgotpass',
       component: ForgotPassView,
     },
     {
       path: '/verifyotp',
-      name: 'VerifyOtp',
+      name: 'verifyotp',
       component: VerifyOtpView,
     },
 
     {
       path: '/newpass',
-      name: 'NewPass',
+      name: 'newpass',
       component: NewPassView,
     },
 
     {
       path: '/profile',
-      name: 'ViewProfile',
+      name: 'profile',
       component: SettingView,
     },
     {
@@ -121,6 +114,8 @@ const router = createRouter({
       path: '/footer',
       name: 'footer',
       component: FooterView,
+    },
+    {
       path: '/contact',
       name: 'contact',
       component: ContactUsView,

@@ -31,7 +31,6 @@
 }
 </style>
 <template>
-  <Navbar />
   <div class="hero-form">
     <img src="@/assets/images/Cart/hero-from.png" alt="">
   </div>
@@ -121,7 +120,6 @@
   <PayCreditModal />
 </template>
 <script setup>
-import Navbar from '@/components/layouts/NavBar.vue';
 import PayCreditModal from '@/components/views/wayOfPay/PayCreditModal.vue';
 
 import { useCardStore } from '@/stores/card_store';

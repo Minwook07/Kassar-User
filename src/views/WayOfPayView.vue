@@ -1,5 +1,4 @@
 <template>
-    <Navbar />
     <div class="container contain-hieght py-5">
         <!-- Progress Indicator -->
         <div class="progress-indicator col-lg-11 mb-5 d-flex justify-content-between align-items-center">
@@ -36,7 +35,6 @@
 </template>
 
 <script setup>
-import Navbar from '@/components/layouts/NavBar.vue';
 import CreditModal from '@/components/views/wayOfPay/PayCreditModal.vue';
 import PayOptions from '@/components/views/wayOfPay/PayOptions.vue';
 import Shipping from '@/components/views/wayOfPay/PayShipping.vue';

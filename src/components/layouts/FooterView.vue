@@ -1,74 +1,6 @@
-<style scoped>
-:root {
-    --bs-primary: #18A558;
-    --bs-secoundary: #116530;
-    --bs-supporting: #A3EBB1;
-    --bs-accent: #F8C519;
-    --bs-primary-hover: #158649;
-    --bs-secoundary-hover: #0f5728;
-    --bs-supporting-hover: #91d6a0;
-    --bs-accent-hover: #e0b018;
-    --bs-text-white: #ffffff;
-    --bs-text-light: #dddddd;
-    --bs-text-black: #000000;
-}
-
-.footer {
-    background-color: var(--bs-primary);
-}
-.text-foot{
-    font-size: 18px !important;
-    color: var(--bs-text-white);
-}
-
-.icon-foot a i {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: var(--bs-supporting-hover);
-    border-radius: 100%;
-    margin-right: 10px;
-    font-size: 20px;
-    color: white;
-}
-
-.icon-foot a:hover i {
-    transform: scale(1.1);
-    background-color: var(--bs-secoundary);
-}
-.item-foot p{
-    color: var(--bs-text-white);
-    font-size: 18px !important;
-}
-.border-foot{
-    margin-top: -7px;
-    margin-bottom: 10px;
-    width: 30px;
-    border-bottom: 2px solid var(--bs-supporting);
-}
-.item-foot a {
-    text-decoration: none !important;
-    color: rgb(241, 241, 241);
-    font-size: 18px !important;
-    transition: 0.3s;
-}
-.item-foot .link_foot a:hover{
-    color: var(--bs-secoundary-hover);
-    padding-left: 5px !important;
-}
-.item-foot ul {
-    list-style: none !important;
-    padding-left: 0;
-}
-.link-website{
-    color: var(--bs-accent) !important;
-}
-</style>
 <template>
     <main>
-        <div class="footer pt-5 pb-3">
+        <div class="footer pt-5 pb-3 mt-5">
             <div class="container-fluid">
                 <div class="row ">
                     <div class="col-lg-4 col-12">
@@ -176,3 +108,72 @@
         </div>
     </main>
 </template>
+
+<style scoped>
+:root {
+    --bs-primary: #18A558;
+    --bs-secoundary: #116530;
+    --bs-supporting: #A3EBB1;
+    --bs-accent: #F8C519;
+    --bs-primary-hover: #158649;
+    --bs-secoundary-hover: #0f5728;
+    --bs-supporting-hover: #91d6a0;
+    --bs-accent-hover: #e0b018;
+    --bs-text-white: #ffffff;
+    --bs-text-light: #dddddd;
+    --bs-text-black: #000000;
+}
+
+.footer {
+    background-color: var(--bs-primary);
+}
+.text-foot{
+    font-size: 18px !important;
+    color: var(--bs-text-white);
+}
+
+.icon-foot a i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--bs-supporting-hover);
+    border-radius: 100%;
+    margin-right: 10px;
+    font-size: 20px;
+    color: white;
+}
+
+.icon-foot a:hover i {
+    transform: scale(1.1);
+    background-color: var(--bs-secoundary);
+}
+.item-foot p{
+    color: var(--bs-text-white);
+    font-size: 18px !important;
+}
+.border-foot{
+    margin-top: -7px;
+    margin-bottom: 10px;
+    width: 30px;
+    border-bottom: 2px solid var(--bs-supporting);
+}
+.item-foot a {
+    text-decoration: none !important;
+    color: rgb(241, 241, 241);
+    font-size: 18px !important;
+    transition: 0.3s;
+}
+.item-foot .link_foot a:hover{
+    color: var(--bs-secoundary-hover);
+    padding-left: 5px !important;
+}
+.item-foot ul {
+    list-style: none !important;
+    padding-left: 0;
+}
+.link-website{
+    color: var(--bs-accent) !important;
+}
+</style>
