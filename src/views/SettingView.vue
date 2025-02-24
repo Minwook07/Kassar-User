@@ -1,121 +1,167 @@
-<script setup lang="ts">
-import NavBar from '@/components/layouts/NavBar.vue';
-import { ref } from 'vue';
-
-const activeTab = ref('profile');
-const tabs = {
-  profile: { icon: 'bi bi-gear', label: 'គណនី' },
-  'login-method': { icon: 'bi bi-key', label: 'វិធីសាស្រ្តចូលគណី' },
-  'usage-history': { icon: 'bi bi-arrow-repeat', label: 'ប្រវត្តិប្រើប្រាស់' },
-  delivery: { icon: 'bi bi-geo-alt-fill', label: 'រៀបចំដឹកជញ្ជូន' },
-  'delete-account': { icon: 'bi bi-trash3', label: 'លុបគណី' }
-};
-const email = ref('');
-const password = ref('');
-const formData = ref({
-  name: '',
-  email: '',
-  userType: '',
-  bio: ''
-});
-
-const handleSubmit = () => {
-  console.log('Form submitted:', { email: email.value, password: password.value });
-};
-</script>
-
 <template>
   <NavBar />
   <div class="container py-5">
     <div class="row g-4">
       <!-- Sidebar Column -->
-      <div class="col-md-3">
-        <!-- Profile Card -->
-        <div class="profile-card">
-          <div class="profile-img-container">
-            <img src="../assets/images/1.jpg" alt="Profile Image" class="profile-img" />
-          </div>
-          <div class="profile-info text-center">
-            <h2 class="profile-name">សុខ កញ្ញា</h2>
-            <div class="profile-social">
-              <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
-              <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
-              <a href="#" class="social-link"><i class="bi bi-telegram"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Navigation Menu -->
-        <div class="nav-menu">
-          <button 
-            v-for="(tab, key) in tabs" 
-            :key="key"
-            class="nav-item"
-            :class="{ active: activeTab === key }"
-            @click="activeTab = key"
-          >
-            <i :class="tab.icon"></i>
-            <span>{{ tab.label }}</span>
-          </button>
-        </div>
+      <div class="col-12 col-md-3"> <!-- Full width on small devices, 3 columns on medium and up -->
+  <!-- Profile Card -->
+  <div class="profile-card">
+    <div class="profile-img-container">
+      <img src="../assets/images/user_pf_sample.jpg" alt="Profile Image" class="profile-img w-100" /> <!-- Make image responsive -->
+    </div>
+    <div class="profile-info text-center">
+      <h2 class="profile-name">ស្រឿន​ ចន្ធី</h2>
+      <div class="profile-social">
+        <a href="https://www.facebook.com/profile.php?id=100036610731530&mibextid=LQQJ4d" class="social-link"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
+        <a href="https://www.instagram.com/thyyyyy_o?igsh=ZWVmMzIwd2R4Nmw3&utm_source=qr" class="social-link"><i class="bi bi-instagram"></i></a>
+        <a href="https://t.me/Chanthy_Sreoun7" class="social-link"><i class="bi bi-telegram"></i></a>
       </div>
+    </div>
+  </div>
+
+  <!-- Navigation Menu using Bootstrap Tabs -->
+  <div class="user-navlist">
+    <ul class="nav nav-tabs flex-column">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#profile">
+          <i class="bi bi-person"></i> គណនី
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#usage-history">
+          <i class="bi bi-clock-history"></i> ប្រវត្តិការប្រើប្រាស់
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#login-method">
+          <i class="bi bi-lock"></i> វិធីសាស្រ្តចូលប្រើប្រាស់គណនី
+        </a>
+      </li>
+      <!-- Delivery Tab -->
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#delivery-method">
+          <i class="bi bi-truck"></i> រៀបចំដឹកជញ្ជូន
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#delete-account">
+          <i class="bi bi-trash"></i> លុបគណនី
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
 
       <!-- Main Content -->
       <div class="col-md-9">
-        <div class="content-card">
+        <div class="tab-content">
           <!-- Profile Tab -->
-          <div v-if="activeTab === 'profile'" class="fade-enter">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h1 class="content-title mb-0">គណនី</h1>
-              <button class="btn-save">
-                <i class="bi bi-check2-circle me-2"></i>រក្សាទុក
-              </button>
-            </div>
+          <div id="profile" class="tab-pane fade show active">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary mb-0">គណនី</h2>
+    <button class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+      <i class="bi bi-check2-circle me-2"></i> រក្សាទុក
+    </button>
+  </div>
 
-            <form @submit.prevent="handleSubmit" class="profile-form">
-              <div class="form-group">
-                <label>ឈ្មោះ</label>
-                <input type="text" v-model="formData.name" class="form-control" placeholder="សុខ សុភា" />
-              </div>
+  <form class="profile-form p-4 bg-white rounded-4">
+    <div class="mb-3">
+      <label class="form-label fw-semibold">ឈ្មោះ</label>
+      <input type="text" class="form-control form-control-lg rounded-3" placeholder="ស្រឿន​ ចន្ធី" />
+    </div>
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>អាសយដ្ឋានអ៊ីមែល</label>
-                    <input type="email" v-model="formData.email" class="form-control" placeholder="Bora@rt1@gmail.com" />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>ប្រភេទអ្នកប្រើប្រាស់</label>
-                    <input type="text" v-model="formData.userType" class="form-control" placeholder="ធម្មតា" />
-                  </div>
-                </div>
-              </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">អាសយដ្ឋានអ៊ីមែល</label>
+          <input type="email" class="form-control form-control-lg rounded-3" placeholder="chanthy0105@gmail.com" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">ប្រភេទអ្នកប្រើប្រាស់</label>
+          <input type="text" class="form-control form-control-lg rounded-3" placeholder="ធម្មតា" />
+        </div>
+      </div>
+    </div>
 
-              <div class="form-group">
-                <label>ជីវប្រវត្តិ</label>
-                <textarea v-model="formData.bio" class="form-control" rows="4" placeholder="ស្ត្រីមេផ្ទះ"></textarea>
-              </div>
-            </form>
-          </div>
+    <div class="mb-3">
+      <label class="form-label fw-semibold">ជីវប្រវត្តិ</label>
+      <textarea class="form-control form-control-lg rounded-3" rows="4" placeholder="កសិករ" style="resize: none;"></textarea>
+    </div>
+
+    <button class="btn  btn-edit btn-primary  py-2 rounded-pill shadow-sm">
+      <i class="bi bi-pencil-square me-2"></i> កែតម្រូវ
+    </button>
+  </form>
+</div>
+
 
           <!-- Order History Tab -->
-          <div v-if="activeTab === 'usage-history'" class="fade-enter">
+          <div id="usage-history" class="tab-pane fade">
             <h3 class="content-title">ប្រវត្តិការបញ្ជាទិញ</h3>
             <div class="orders-list">
-              <div v-for="n in 4" :key="n" class="order-item">
+              <div class="order-item">
                 <div class="order-img">
-                  <img src="https://via.placeholder.com/90" alt="Order" />
+                  <img src="../assets/images/Cart/img-2.jpg" alt="Order" />
                 </div>
                 <div class="order-details">
-                  <h4>ត្រកួនកន្ទុយក្រពើ ចុងMONYវិមាន</h4>
+                  <h4>ផ្កាខាត់ណាកំពត កូនពូMONYមីងវន</h4>
                   <p class="quantity">ចំនួន 1គីឡូក្រាម</p>
                   <p class="price">តម្លៃ ១០០០០ រៀល</p>
                 </div>
                 <div class="order-status">
-                  <span class="status-badge">Pending</span>
+                  <span class="status-badge">Success</span>
+                  <span class="order-date">2023-01-15 17:30:33</span>
+                </div>
+              </div>
+            </div>
+            <div class="orders-list mt-2">
+              <div class="order-item">
+                <div class="order-img">
+                  <img src="../assets/images/Cart/img-2.jpg" alt="Order" />
+                </div>
+                <div class="order-details">
+                  <h4>ផ្កាខាត់ណាកំពត កូនពូMONYមីងវន</h4>
+                  <p class="quantity">ចំនួន 1គីឡូក្រាម</p>
+                  <p class="price">តម្លៃ ១០០០០ រៀល</p>
+                </div>
+                <div class="order-status">
+                  <span class="status-badge">Success</span>
+                  <span class="order-date">2023-01-15 17:30:33</span>
+                </div>
+              </div>
+            </div>
+            <div class="orders-list mt-2">
+              <div class="order-item">
+                <div class="order-img">
+                  <img src="../assets/images/Cart/img-2.jpg" alt="Order" />
+                </div>
+                <div class="order-details">
+                  <h4>ផ្កាខាត់ណាកំពត កូនពូMONYមីងវន</h4>
+                  <p class="quantity">ចំនួន 1គីឡូក្រាម</p>
+                  <p class="price">តម្លៃ ១០០០០ រៀល</p>
+                </div>
+                <div class="order-status">
+                  <span class="status-badge">Success</span>
+                  <span class="order-date">2023-01-15 17:30:33</span>
+                </div>
+              </div>
+            </div>
+            <div class="orders-list mt-2">
+              <div class="order-item">
+                <div class="order-img">
+                  <img src="../assets/images/Cart/img-2.jpg" alt="Order" />
+                </div>
+                <div class="order-details">
+                  <h4>ផ្កាខាត់ណាកំពត កូនពូMONYមីងវន</h4>
+                  <p class="quantity">ចំនួន 1គីឡូក្រាម</p>
+                  <p class="price">តម្លៃ ១០០០០ រៀល</p>
+                </div>
+                <div class="order-status">
+                  <span class="status-badge">Success</span>
                   <span class="order-date">2023-01-15 17:30:33</span>
                 </div>
               </div>
@@ -123,16 +169,18 @@ const handleSubmit = () => {
           </div>
 
           <!-- Login Method Tab -->
-          <div v-if="activeTab === 'login-method'" class="fade-enter">
+          <div id="login-method" class="tab-pane fade">
             <div class="auth-card">
               <h4 class="auth-title">វិធីសាស្រ្តចូលប្រើប្រាស់គណនី</h4>
-              <p class="auth-subtitle">លោកអ្នកបានចូលគណនីដោយអនុវត្តន៍តាមជំហានដូចខាងក្រោម</p>
+              <p class="auth-subtitle">
+                លោកអ្នកបានចូលគណនីដោយអនុវត្តន៍តាមជំហានដូចខាងក្រោម
+              </p>
 
-              <form @submit.prevent="handleSubmit" class="auth-form">
+              <form class="auth-form">
                 <div class="form-group">
                   <label>អាស័យដ្ផានអ៊ីម៊ែល</label>
                   <div class="input-group">
-                    <input type="email" v-model="email" class="form-control" placeholder="Bora@rt1@gmail.com">
+                    <input type="email" class="form-control" placeholder="chanthy0105@gmail.com" />
                     <button type="button" class="btn-verify">
                       <i class="bi bi-pencil-square me-2"></i>កែប្រែ
                     </button>
@@ -141,8 +189,8 @@ const handleSubmit = () => {
 
                 <div class="form-group">
                   <label>ពាក្យសម្ងាត់</label>
-                  <div class="input-group d-flex  ">
-                    <input type="password" v-model="password" class="form-control" placeholder="••••••••">
+                  <div class="input-group d-flex">
+                    <input type="password" class="form-control" placeholder="សូមបំពេញពាក្យសម្ងាត់" />
                     <button type="button" class="btn-verify">
                       <i class="bi bi-pencil-square me-2"></i>កែប្រែ
                     </button>
@@ -150,8 +198,14 @@ const handleSubmit = () => {
                 </div>
 
                 <div class="info-box">
-                  <h6>ចាប់ផ្តើមការផ្ទៀងផ្ទាត់ពីរជាន់សម្រាប់គណនី</h6>
-                  <p>ដើម្បីបង្កើនការការពារគណនីរបស់អ្នកការផ្ទៀងផ្ទាត់ពីរជាន់នឹងត្រូវបានអនុវត្តនៅពេលចូលប្រើប្រាស់។</p>
+                  <h6>
+                    ចាប់ផ្តើមការផ្ទៀងផ្ទាត់ការកំណត់ប្រព័ន្ធសុវត្ថិភាពសម្រាប់គណនី
+                  </h6>
+                  <p >
+                    ដើម្បីមានសុវត្ថិភាពខ្ពស់របស់គណនីអ្នកការផ្ទៀងផ្ទាត់ពីរកត្តាបន្ថែមស្រទាប់សុវត្ថិភាពបន្ថែមទៅក្នុងគណនីរបស់អ្នក។
+                    ដើម្បីចូល អ្នកនឹងត្រូវផ្តល់លេខកូដ 6 ខ្ទង់
+                    ព្រមទាំងអនុវត្តតាមគោលការណ៍របស់គេហទំព័រ
+                  </p>
                   <button type="button" class="btn-apply">
                     <i class="bi bi-search me-2"></i>អានបន្ថែម
                   </button>
@@ -159,37 +213,50 @@ const handleSubmit = () => {
               </form>
             </div>
           </div>
-
-          <!-- Delete Account Tab -->
-          <div v-if="activeTab === 'delete-account'" class="fade-enter">
-            <div class="delete-account">
-              <i class="bi bi-exclamation-triangle-fill warning-icon"></i>
-              <h3>លុបគណី</h3>
-              <p>ប្រសិនបើអ្នកលុបគណី នេះជាប្រតិបត្តិការដែលមិនអាចមកវិញបាន។</p>
-              <button class="btn-delete">
-                <i class="bi bi-trash3 me-2"></i>លុបគណី
-              </button>
-            </div>
-          </div>
-
-          <!-- Delivery Tab -->
-          <div v-if="activeTab === 'delivery'" class="fade-enter">
+          <!-- Edit Delivery Tab -->
+          <div id="delivery-method" class="tab-pane fade">
             <h3 class="content-title">អាស័យដ្ឋាន</h3>
-            <p class="text-muted mb-4">រៀបចំអាសយដ្ឋានដឹកជញ្ជូន សូមលោកអ្នកបញ្ចូលព័ត៌មានទីតាំងអាស័យដ្ផាន</p>
+            <p class="text-muted mb-4">
+              រៀបចំអាសយដ្ឋានដឹកជញ្ជូន សូមលោកអ្នកបញ្ចូលព័ត៌មានទីតាំងអាស័យដ្ផាន
+            </p>
             <div class="address-card mb-4">
               <p class="mb-0">
                 ផ្ទះលេខ51 ផ្លូវលេខ205 សង្កាត់ទឹកល្អក2 ខណ្ឌទួលគោក រាជធានីភ្នំពេញ
               </p>
             </div>
             <div class="map-container">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3908.71343543293!2d104.89073297481734!3d11.572389088628979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310951001c8a7b55%3A0xa95ff42ea192073c!2sANT%20Technology%20Training%20School%202!5e0!3m2!1sen!2skh!4v1739332119459!5m2!1sen!2skh" 
-                width="100%" 
-                height="450" 
-                style="border:0;" 
-                loading="lazy" 
-                referrerpolicy="no-referrer-when-downgrade">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3908.71343543293!2d104.89073297481734!3d11.572389088628979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310951001c8a7b55%3A0xa95ff42ea192073c!2sANT%20Technology%20Training%20School%202!5e0!3m2!1sen!2skh!4v1739332119459!5m2!1sen!2skh"
+                width="100%" height="450" style="border: 0" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
               </iframe>
+            </div>
+          </div>
+
+          <!-- Delete Account Tab -->
+          <div id="delete-account" class="tab-pane fade">
+            <div class="delete-container">
+              <div>
+                <h2 class="fw-bold mb-0">លុបគណនី</h2>
+              </div>
+
+              <div class="bg-red">
+                <div class="d-flex align-items-center gap-2 mt-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="warning-icon bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                  </svg>
+                  <span>តើអ្នកប្រាកដថាចង់លុបគណនីរបស់អ្នកមែនទេ?</span>
+                </div>
+                <p class="mb-0 mt-2">
+                  ប្រសិនបើអ្នកលុបគណនីរបស់អ្នក ទិន្នន័យ ពត៌មាន
+                  និងទាំងអស់របស់អ្នកនឹងត្រូវបានលុបជាអចិន្ត្រៃយ៍។
+                </p>
+              </div>
+
+              <div class="d-flex justify-content-end gap-2 mt-3">
+                <button type="button" class="btn btn-delete">លុប</button>
+              </div>
             </div>
           </div>
         </div>
@@ -197,477 +264,9 @@ const handleSubmit = () => {
     </div>
   </div>
 </template>
-
+<script setup>
+import NavBar from '@/components/layouts/NavBar.vue';
+</script>
 <style scoped>
 
-/* Add custom styles if needed */
-.container {
-  max-width: 1200px; /* Adjust as needed */
-}
-
-.row {
-  margin: 0 auto;
-}
-
-.col-md-3 {
-  padding-right: 15px; /* Add spacing between columns */
-}
-
-.col-md-8 {
-  padding-left: 15px; /* Add spacing between columns */
-}
-
-/* Profile Card */
-.profile-card {
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
-  border-radius: 24px;
-  padding: 2.5rem;
-  box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.05),
-    0 4px 6px -2px rgba(0, 0, 0, 0.025);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.profile-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.profile-img-container {
-  width: 140px;
-  height: 140px;
-  margin: 0 auto 2rem;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 4px solid #32ca83;
-  box-shadow: 0 0 0 4px rgba(50, 202, 131, 0.2);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.profile-img-container:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 0 6px rgba(50, 202, 131, 0.3);
-}
-
-.profile-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.profile-img:hover {
-  transform: scale(1.1);
-}
-
-.profile-name {
-  font-size: 1.75rem;
-  margin-bottom: 1.25rem;
-  color: #1a2b3c;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.profile-social {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-}
-
-.social-link {
-  color: #64748b;
-  font-size: 1.35rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0.5rem;
-  border-radius: 12px;
-}
-
-.social-link:hover {
-  color: #32ca83;
-  transform: translateY(-3px);
-  background: rgba(50, 202, 131, 0.1);
-}
-
-/* Navigation Menu */
-.nav-menu {
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
-  border-radius: 24px;
-  padding: 1.25rem;
-  margin-top: 2rem;
-  box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.05),
-    0 4px 6px -2px rgba(0, 0, 0, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 1.25rem;
-  margin-bottom: 0.75rem;
-  border: none;
-  background: transparent;
-  border-radius: 16px;
-  color: #64748b;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-weight: 500;
-  font-size: 1.05rem;
-}
-
-.nav-item:last-child {
-  margin-bottom: 0;
-}
-
-.nav-item:hover,
-.nav-item.active {
-  background: linear-gradient(135deg, #32ca83, #2bb876);
-  color: white;
-  transform: translateX(6px);
-  box-shadow: 0 4px 12px rgba(50, 202, 131, 0.25);
-}
-
-.nav-item i {
-  margin-right: 1.25rem;
-  font-size: 1.3rem;
-}
-
-/* Content Card */
-.content-card {
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
-  border-radius: 24px;
-  padding: 2.5rem;
-  box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.05),
-    0 4px 6px -2px rgba(0, 0, 0, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.content-title {
-  color: #1a2b3c;
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: -0.5px;
-}
-
-/* Form Styling */
-.form-group {
-  margin-bottom: 2rem;
-}
-
-.form-group label {
-
-  margin-bottom: 0.75rem;
-  color: #1a2b3c;
-  font-weight: 600;
-  font-size: 1.05rem;
-}
-
-.form-control {
-  padding: 1rem 1.25rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 16px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 1.05rem;
-  background: #f8fafc;
-}
-
-.form-control:focus {
-  border-color: #32ca83;
-  box-shadow: 0 0 0 4px rgba(50, 202, 131, 0.15);
-  outline: none;
-  background: white;
-}
-
-.form-control::placeholder {
-  color: #94a3b8;
-}
-
-/* Buttons */
-.btn-save,
-.btn-verify,
-.btn-apply {
-  background: linear-gradient(135deg, #32ca83, #2bb876);
-  color: white;
-  border: none;
-  padding: 1rem 2.25rem;
-  border-radius: 16px;
-  font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 1.05rem;
-  box-shadow: 0 4px 12px rgba(50, 202, 131, 0.25);
-}
-
-.btn-save:hover,
-.btn-verify:hover,
-.btn-apply:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(50, 202, 131, 0.35);
-}
-
-.btn-delete {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  color: white;
-  border: none;
-  padding: 1rem 2.25rem;
-  border-radius: 16px;
-  font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 1.05rem;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
-}
-
-.btn-delete:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.35);
-}
-
-/* Order History */
-.orders-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.order-item {
-  display: flex;
-  align-items: center;
-  padding: 1.5rem;
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
-  border-radius: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.05),
-    0 2px 4px -1px rgba(0, 0, 0, 0.025);
-}
-
-.order-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.order-img {
-  width: 90px;
-  height: 90px;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-right: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.order-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.order-img img:hover {
-  transform: scale(1.1);
-}
-
-.order-details {
-  flex: 1;
-}
-
-.order-details h4 {
-  font-size: 1.2rem;
-  margin-bottom: 0.75rem;
-  color: #1a2b3c;
-  font-weight: 700;
-}
-
-.quantity {
-  color: #64748b;
-  margin-bottom: 0.5rem;
-  font-size: 1.05rem;
-}
-
-.price {
-  color: #32ca83;
-  font-weight: 700;
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.order-status {
-  text-align: right;
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 0.5rem 1.25rem;
-  background: linear-gradient(135deg, #32ca83, #2bb876);
-  color: white;
-  border-radius: 24px;
-  font-size: 0.95rem;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(50, 202, 131, 0.25);
-}
-
-.order-date {
-  display: block;
-  color: #64748b;
-  font-size: 0.95rem;
-}
-
-/* Authentication Card */
-.auth-card {
-  padding: 2.5rem;
-}
-
-.auth-title {
-  font-size: 1.75rem;
-  color: #1a2b3c;
-  margin-bottom: 1.25rem;
-  font-weight: 700;
-}
-
-.auth-subtitle {
-  color: #64748b;
-  margin-bottom: 2.5rem;
-  font-size: 1.1rem;
-}
-
-.auth-form .input-group {
-  display: flex;
-  gap: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.info-box {
-  background: linear-gradient(145deg, #E3F9E7, #d1f5d7);
-  padding: 2rem;
-  border-radius: 20px;
-  margin-top: 2.5rem;
-  border: 1px solid rgba(50, 202, 131, 0.2);
-  box-shadow: 0 4px 12px rgba(50, 202, 131, 0.1);
-}
-
-.info-box h6 {
-  color: #1a2b3c;
-  margin-bottom: 1.25rem;
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-.info-box p {
-  color: #64748b;
-  margin-bottom: 1.75rem;
-  line-height: 1.6;
-}
-
-/* Delete Account */
-.delete-account {
-  text-align: center;
-  padding: 4rem 2.5rem;
-}
-
-.warning-icon {
-  font-size: 3.5rem;
-  color: #ef4444;
-  margin-bottom: 2rem;
-  filter: drop-shadow(0 4px 8px rgba(239, 68, 68, 0.25));
-}
-
-.delete-account h3 {
-  color: #ef4444;
-  margin-bottom: 1.25rem;
-  font-weight: 700;
-  font-size: 1.75rem;
-}
-
-.delete-account p {
-  color: #64748b;
-  margin-bottom: 2.5rem;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-/* Address Card */
-.address-card {
-  background: #f8fafc;
-  border-radius: 16px;
-  padding: 1.5rem;
-  border: 2px solid #e2e8f0;
-}
-
-/* Map Container */
-.map-container {
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Animations */
-.fade-enter {
-  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .profile-card,
-  .nav-menu,
-  .content-card {
-    border-radius: 20px;
-    padding: 1.5rem;
-  }
-
-  .profile-img-container {
-    width: 120px;
-    height: 120px;
-  }
-
-  .nav-item {
-    padding: 1rem;
-    font-size: 1rem;
-  }
-
-  .content-title {
-    font-size: 1.5rem;
-  }
-
-  .form-control {
-    padding: 0.875rem 1rem;
-  }
-
-  .btn-save,
-  .btn-verify,
-  .btn-apply,
-  .btn-delete {
-    padding: 0.875rem 1.75rem;
-  }
-
-  .order-item {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .order-img {
-    margin: 0 auto 1rem;
-  }
-
-  .order-status {
-    text-align: center;
-    margin-top: 1rem;
-  }
-}
 </style>
