@@ -16,10 +16,11 @@ import WayOfPayView from '@/views/WayOfPayView.vue'
 import PaySuccessView from '@/views/PaySuccessView.vue'
 import WishListView from '@/views/WishListView.vue'
 import RequestSeller from '@/views/RequestSeller.vue'
+import FooterView from '@/views/FooterView.vue'
+import TermofuseView from '@/views/TermofuseView.vue'	
 import FooterView from '@/components/layouts/FooterView.vue'
 import ContactUsView from '@/views/ContactUsView.vue'
 import FaqsView from '@/views/FaqsView.vue'
-
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -112,6 +113,14 @@ const router = createRouter({
       component: RequestSeller,
     },
     {
+      path: '/termofuse',
+      name: 'termofuse',
+      component: TermofuseView,
+    },
+    {
+      path: '/footer',
+      name: 'footer',
+      component: FooterView,
       path: '/contact',
       name: 'contact',
       component: ContactUsView,

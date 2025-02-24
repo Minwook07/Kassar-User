@@ -107,7 +107,7 @@ interface WishlistItem {
   stock: number
 }
 
-const selectedCategory = ref('All')
+const selectedCategory = ref('ទាំងអស់')
 
 const items = ref<WishlistItem[]>([
   {

@@ -1209,13 +1209,10 @@ body {
 /* end : viewshop*/
 /* start allProduct view */
 .bg-allProduct {
-    /* background-color: pink; */
-    background-image: url(../../assets/images/bg_allProducts.png);
+    background-image: url(@/assets/images/bg_allProducts.png);
     background-size: cover;
     width: 100%;
-    height: 400px;
-    /* filter: blur(2px); */
-    /* opacity: 0.6; */
+    height: 250px;
 }
 
 .myform-check .form-check-input:checked {
@@ -1528,9 +1525,9 @@ body {
     transform: rotate(45deg);
 }
 
-.header-content {
+/* .header-content {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     position: relative;
     z-index: 2;
@@ -1541,7 +1538,7 @@ body {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-}
+} */
 
 .icon-circle {
     width: 56px;
@@ -1632,74 +1629,90 @@ body {
         display: none;
     }
 }
-
-.team-social{
-    top: 10px;
-    left: 10px;
-    opacity: 0;
-    backdrop-filter: blur(10px);
-    background: rgba(237, 237, 237, 0.1);
-    transition: 0.5s;
-}
-.myteam-card:hover .team-social{
-    opacity: 1;
-    top: 20px;
-    left: 10px;
-}
 .team-name{
     width: 90%;
     right: 15px;
     bottom:30px;
     backdrop-filter: blur(10px);
     background: rgba(237, 237, 237, 0.1);
-    /* border-radius: 10px 100px 10px 100px;  */
 }
 .hover-des{
     right: 0;
     bottom: 16px;
     opacity: 1;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.4s ease, visibility 0.3s ease;
 }
 .line-team-name{
     width: 5px;
 }
-.team-des{
-    /* opacity: 0; */
-    display: none;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-/* .myteam-card:hover .team-des{
-    opacity: 1;
-    visibility: visible;
-} */
 .myteam-card:hover .hover-des{
-    opacity: 1;
-    visibility: visible;
-}
-/* end team */
-.left-img{
-    width:320px;
-}
-.left-img img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.right-img , .left-main{
-    width: 300px;
-}
-
-.right-img img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border: 2px solid #2ecc71 !important;
+    opacity: 0;
+    bottom: 15px;
     cursor: pointer;
-    pointer-events: auto;
+}
+.myteam-card:hover .team-name-hover{
+    opacity: 1;
+    bottom: 30px;
+    cursor: pointer;
+}
+.team-name-hover{
+    opacity: 0;
+    bottom: 10px;
+    transition: 0.5s;
+}
+.socail-width{
+    width: 40px;
+    height: 40px;
+    transition: 0.4s;
+}
+.socail-width:hover{
+    background-color: var(--bs-primary-hover)!important;
+    color: white!important;
+}
+.socail-width:hover i{
+    color: white!important;
+}
+@media (max-width: 1280px) {
+    .text-truncate-4 {
+        display: -webkit-box;
+        -webkit-line-clamp:5; 
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    
+}
+@media (max-width: 1025px) {
+    .text-truncate-4 {
+        display: -webkit-box;
+        -webkit-line-clamp:1; 
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    
+}
+@media (max-width: 767px) {
+    .text-truncate-4{
+        display: -webkit-box;
+        -webkit-line-clamp: 2; 
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+      .team-name{
+        width: 100%;
+        right: 0;
+      }
 }
 
+  
+/* end team */
+.farm{
+    width:300px;
+}
+.farm img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .range-input:focus {
     outline: none;
 }
@@ -2191,7 +2204,6 @@ box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8p
   }
   
   
-
 /* Extra large devices - xl (large desktops, 992px to 1200px) */
 @media (max-width: 1200px) {}
 

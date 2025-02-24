@@ -4,6 +4,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import '@fontsource/kantumruy-pro';
 import '@/assets/css/main.css'
 import '@/assets/css/cart.css'
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

@@ -35,7 +35,7 @@
     <div class="container-fluid">
       <h1 class="text-center text-primary fw-bold mb-4">គោលដៅរបស់យើង</h1>
       <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-lg-6 mb-3">
           <h2 class="fw-bold">អ្វីទៅជាកស្សា?</h2>
           <p>
             ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
@@ -60,61 +60,52 @@
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង
           </p>
         </div>
-        <div class="col-6 d-flex gap-5">
-          <div class="left-main">
-            <div class="left-img mb-4">
-              <img
-                src="../../assets/images/about-us/farm/farm2.avif"
-                class="rounded"
-                alt=""
-              />
+        <div
+          class="col-12 col-lg-6 d-flex justify-content-center gap-4 flex-wrap"
+        >
+          <div class="col-12 col-md-6 d-flex flex-column align-items-center">
+            <div class="farm mb-4">
+              <img src="@/assets/images/about-us/farm/farm3.avif" class="rounded" alt="" />
             </div>
-            <div class="left-img">
-              <img
-                src="../../assets/images/about-us/farm/farm3.avif"
-                class="rounded"
-                alt=""
-              />
+            <div class="farm">
+              <img src="@/assets/images/about-us/farm/farm2.avif" class="rounded" alt="" />
             </div>
           </div>
-          <div class="right-img">
-            <img
-              src="../../assets/images/about-us/farm/farm1.avif"
-              class="rounded"
-              alt=""
-            />
+          <div class="col-12 col-md-6 farm" style="height: 425px;">
+            <img src="@/assets/images/about-us/farm/farm3.avif" class="rounded" alt="" />
           </div>
         </div>
       </div>
     </div>
   </section>
   <section class="recruitment-section container-fluid py-5">
-    <!-- Header Section -->
     <div class="header-section mb-5">
       <div class="row align-items-center">
         <div class="col-md-4">
           <div class="rounded-image overflow-hidden">
             <img
-              src="../../assets/images/about-us/farm/farm3.avif"
-              alt="Team Meeting"
+              src="@/assets/images/about-us/farm/farm3.avif"
               class="img-fluid rounded-3"
             />
           </div>
         </div>
         <div class="col-md-8">
           <div class="ps-md-4 position-relative">
-            <div class="position-absolute" style="right: -20px; top: -90px">
+            <div
+              class="position-absolute d-none d-xl-block"
+              style="right: -20px; top: -90px"
+            >
               <img
-                src="../../assets/images/about-us/farm/flower-small.svg"
+                src="@/assets/images/about-us/farm/flower-small.svg"
                 alt=""
               />
             </div>
-            <span class="text-primary text-uppercase fw-bold"
-              >ហេតុអ្វីជ្រើសរើសយកកស្សា?</span
+            <p class="text-primary text-uppercase fw-bold mt-3"
+              >ហេតុអ្វីជ្រើសរើសយកកស្សា?</p
             >
             <h1 class="fw-bold mt-2">
               បង្កើនទីផ្សារដល់ប្រជាកសិករខ្មែរ​
-              ព្រមទាំងសម្រួលដល់ប្រជាជនខ្មែរឲទទួលបានផលិតផលសរីរាង្គ
+              ព្រមទាំងសម្រួលដល់ប្រជាជនខ្មែរឱ្យទទួលបានផលិតផលសរីរាង្គ
             </h1>
           </div>
         </div>
@@ -128,31 +119,33 @@
           <div class="curve-3"></div>
           <div class="decorative-line"></div>
 
-          <div class="header-content">
-            <div class="header-item">
+          <div
+            class="header-content px-2 d-flex justify-content-between position-relative z-2"
+          >
+            <div class="header-item d-flex align-items-center gap-3">
               <div class="icon-circle">
                 <i class="bi bi-flower1"></i>
               </div>
               <div class="header-text">
-                <h2>Fresh Produce<br />Cultivation Journey</h2>
+                <h2>បង្កើនទីផ្សារឱ្យប្រជាកសិករខ្មែរ</h2>
               </div>
             </div>
 
-            <div class="header-item">
+            <div class="header-item d-flex align-items-center gap-3">
               <div class="icon-circle">
                 <i class="bi bi-flower1"></i>
               </div>
               <div class="header-text">
-                <h2>Fresh Produce<br />Cultivation Journey</h2>
+                <h2>ទទួលបានផលិតផលសរីរាង្គ</h2>
               </div>
             </div>
 
-            <div class="header-item">
+            <div class="header-item d-flex align-items-center gap-3">
               <div class="icon-circle">
                 <i class="bi bi-patch-check"></i>
               </div>
               <div class="header-text">
-                <h2>Guaranteed<br />Organic Quality</h2>
+                <h2>គាំទ្រផលិតផលក្នុងស្រុក</h2>
               </div>
             </div>
           </div>
@@ -160,100 +153,87 @@
       </div>
     </div>
   </section>
-  <!-- <section>
-    <div class="container-fluid">
-      <div class="row align-items-center">
-        <div class="col-3 mb-4">
-         <div>
-          <img class="rounded w-100 h-100 object-fit-cover" src="../../assets/images/about-us/farm/farm2.avif" alt="">
-         </div>
-        </div>
-        <div class="col-9 mb-4">
-          <p class="text-primary">អំពីយើង</p>
-          <h2>ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
-            ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង
-          </h2>
-        </div>
-        <div class="col-3">
-          <h5>គោលដៅរបស់យើង</h5>
-          <p>ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
-            ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង</p>
-            <p>ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
-              ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង</p>
-        </div>
-        <div class="col-3 bg-primary rounded p-3">
-          <h5 class="text-white mb-4">ហេតុអ្វីត្រូវជ្រើសរើសពួកយើង?</h5>
-          <p class="text-white"><i class="bi bi-check-lg"></i> ផ្តល់ទំនុកចិត្តខ្ពស់</p>
-          <p class="text-white"><i class="bi bi-check-lg"></i> ផ្តល់ទំនុកចិត្តខ្ពស់</p>
-          <p class="text-white"><i class="bi bi-check-lg"></i> ផ្តល់ទំនុកចិត្តខ្ពស់</p>
-
-        </div>
-        
-      </div>
-    </div>
-  </section> -->
-
   <section class="pb-5">
     <div class="container-fluid">
       <div class="row">
-        <!-- <div class="col-4">
+        <div class="col-6 col-md-4 col-lg-3 mb-3 overflow-hidden">
           <h1 class="fw-bold">សមាជិកក្រុម</h1>
-          <div>
-            <img src="../../assets/images/about-us/farm/flower.png" alt="">
-          </div>
-        </div> -->
-        <div class="col-3">
-          <div class="card myteam-card border-0 position-relative">
+          <div class="d-none d-lg-block" style="width: 100%; height: 200px">
             <img
-              class="card-img-top mb-3 rounded"
-              src="../../assets/images/about-us/teams/chanthy.jpg"
+              src="../../assets/images/about-us/farm/flower.png"
               alt=""
+              class="flower"
             />
-            <div class="position-absolute py-2 px-4 team-name">
+          </div>
+        </div>
+        <div
+          class="col-6 col-md-4 col-lg-3 mb-3"
+          v-for="team in teamStore.teams"
+          :key="team.id"
+        >
+          <div
+            class="card myteam-card overflow-hidden border-0 position-relative"
+          >
+            <div>
+              <img
+                class="card-img-top mb-3 rounded w-100 h-100 object-fit-cover"
+                :src="team.img"
+                alt=""
+              />
+            </div>
+            <div class="position-absolute py-2 px-4 team-name bg-white">
               <div class="d-flex gap-3">
                 <div class="line-team-name bg-primary py-2"></div>
-                <h3 class="mb-0 fw-bold text-white">ស្រឿន ចន្ធី</h3>
+                <h3 class="mb-0 fw-bold text-dark fs-5">{{ team.name }}</h3>
               </div>
-              <div class="team-des text-white">
-                <p>web development</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi inventore itaque aliquid voluptate dolor, hic placeat cupiditate porro pariatur odit sint? Provident ipsum ea, doloremque animi rem reprehenderit corrupti doloribus.</p>
+            </div>
+            <div class="position-absolute py-4 px-4 team-name-hover team-name">
+              <div class="d-flex gap-3">
+                <div class="line-team-name bg-primary py-2"></div>
+                <h3 class="mb-0 fw-bold text-white fs-5">{{ team.name }}</h3>
+              </div>
+              <div class="team-des text-white mt-3">
+                <p>{{ team.position }}</p>
+                <p class="text-truncate-4">{{ team.des }}</p>
+              </div>
+              <div
+                class="team-social d-flex justify-content-center gap-1 gap-md-2"
+              >
+                <router-link to="" class="text-decoration-none">
+                  <div
+                    class="socail-width bg-white rounded p-3 d-flex align-items-center justify-content-center"
+                  >
+                    <i class="fa-solid fa-envelope text-primary fs-5"></i>
+                  </div>
+                </router-link>
+                <router-link to="" class="text-decoration-none">
+                  <div
+                    class="socail-width bg-white rounded p-3 d-flex align-items-center justify-content-center"
+                  >
+                    <i class="fa-brands fa-facebook text-primary fs-5"></i>
+                  </div>
+                </router-link>
+                <router-link to="" class="text-decoration-none">
+                  <div
+                    class="socail-width bg-white rounded p-3 d-flex align-items-center justify-content-center"
+                  >
+                    <i class="fa-brands fa-instagram text-primary fs-5"></i>
+                  </div>
+                </router-link>
+                <router-link to="" class="text-decoration-none">
+                  <div
+                    class="socail-width bg-white rounded p-3 d-flex align-items-center justify-content-center"
+                  >
+                    <i class="fa-brands fa-linkedin-in text-primary fs-5"></i>
+                  </div>
+                </router-link>
               </div>
             </div>
             <div
-              class="position-absolute bg-primary text-white px-3 hover-des py-2"
+              class="position-absolute bg-primary text-white px-lg-3 px-2 py-lg-2 py-1 hover-des"
             >
-              <i class="bi bi-plus-lg fs-4"></i>
+              <i class="bi bi-plus-lg fs-lg-4 fs-5"></i>
             </div>
-            <!-- <div class="team-social d-flex justify-content-between align-items-center py-2 gap-3 px-2 rounded position-absolute">
-              <div class="about-icons">
-                <a href=""
-                  ><img
-                    src="@/assets/images/about-us/icons/facebook.png"
-                    alt=""
-                /></a>
-              </div>
-              <div class="about-icons">
-                <a href="">
-                  <img
-                    src="@/assets/images/about-us/icons/instagram.png"
-                    alt=""
-                  />
-                </a>
-              </div>
-              <div class="about-icons">
-                <a href="">
-                  <img src="@/assets/images/about-us/icons/tiktok.png" alt="" />
-                </a>
-              </div>
-              <div class="about-icons">
-                <a href="">
-                  <img
-                    src="@/assets/images/about-us/icons/telegram.png"
-                    alt=""
-                  />
-                </a>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -262,5 +242,7 @@
 </template>
 
 <script setup>
-import NavBar from '../layouts/NavBar.vue';
+import NavBar from "../layouts/NavBar.vue";
+import { useTeamStore } from "@/stores/views/team_store";
+const teamStore = useTeamStore();
 </script>

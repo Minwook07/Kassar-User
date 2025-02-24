@@ -222,17 +222,13 @@
               </div>
 
               <div
-                class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click="OnSavefav(product.id)"
-              >
-                <p class="mb-0 mt-1 text-danger fw-bold">
-                  <i
-                    :class="
-                      allProduct.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'
-                    "
-                  ></i>
-                </p>
-              </div>
+      class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+      @click="allProducts.toggleFav(product.id)"
+    >
+      <p class="mb-0 mt-1 text-danger fw-bold">
+        <i :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+      </p>
+    </div>
             </div>
           </div>
         </div>
@@ -252,17 +248,17 @@ import NavBar from "../layouts/NavBar.vue";
 import { ref, computed } from "vue";
 import { useAllProducts } from "@/stores/views/allProduct_store";
 import Paginate from "vuejs-paginate-next";
-const allProduct = useAllProducts();
+const allProducts = useAllProducts();
 
 const itemsPerPage = 4;
 const currentPage = ref(1);
 const pageCount = computed(() =>
-  Math.ceil(allProduct.products.length / itemsPerPage)
+  Math.ceil(allProducts.products.length / itemsPerPage)
 );
 const paginatedProducts = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-  return allProduct.products.slice(start, end);
+  return allProducts.products.slice(start, end);
 });
 const handlePageClick = (pageNumber) => {
   currentPage.value = pageNumber;
