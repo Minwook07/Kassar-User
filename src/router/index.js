@@ -17,7 +17,7 @@ import PaySuccessView from '@/views/PaySuccessView.vue'
 import WishListView from '@/views/WishListView.vue'
 import RequestSeller from '@/views/RequestSeller.vue'
 import FooterView from '@/views/FooterView.vue'
-
+import TermofuseView from '@/views/TermofuseView.vue'	
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -108,6 +108,11 @@ const router = createRouter({
       path: '/seller',
       name: 'seller',
       component: RequestSeller,
+    },
+    {
+      path: '/termofuse',
+      name: 'termofuse',
+      component: TermofuseView,
     },
     {
       path: '/footer',

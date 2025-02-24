@@ -3,7 +3,7 @@
     <div class="container py-5">
       <div class="row">
         <div class="col-12 col-md-6 col-lg-4 mb-5">
-          <div class="mb-3 rounded">
+          <div class="mb-3 rounded" style="height: 400px">
             <img
               class="w-100 h-100 object-fit-cover rounded"
               ref="imageDetails"
@@ -106,7 +106,7 @@
         </div>
         <div class="col-12 col-lg-4">
           <div class="d-flex justify-content-end">
-            <router-link to="/" class="btn btn-primary mb-3">
+            <router-link to="/viewshop" class="btn btn-primary mb-3">
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
             </router-link>
@@ -360,7 +360,7 @@
         <!-- <div class="row"> -->
         <div
           class="col-12 col-md-6 col-lg-3 mb-3"
-          v-for="product in allProduct.products"
+          v-for="product in allProducts.products"
           :key="product.id"
         >
           <div
@@ -403,22 +403,13 @@
             </div>
 
             <div
-              class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-               @click="OnSavefav(product.id)"
-               v-show="!product.isFav"
-            >
-              <button class="mb-0 mt-1 text-danger fw-bold">
-                <i
-                 
-                 
-                  :class="
-                    allProduct.isFav
-                      ? 'bi bi-heart-fill '
-                      : 'bi bi-heart'
-                  "
-                ></i>
-              </button>
-            </div>
+      class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+      @click="allProducts.toggleFav(product.id)"
+    >
+      <p class="mb-0 mt-1 text-danger fw-bold">
+        <i :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+      </p>
+    </div>
           </div>
         </div>
       </div>
@@ -429,6 +420,8 @@
 <script setup>
 import { ref } from "vue";
 import { useDetailProducts } from "@/stores/views/detailproducts_store";
+import { useAllProducts } from "@/stores/views/allProduct_store";
+const allProducts = useAllProducts();
 const detailProducts = useDetailProducts();
 const count = ref(0);
 const decrement = () => {
@@ -445,11 +438,5 @@ const onChangeImage = (imgId, newImageSrc) => {
   activeImage.value = imgId;
   imageSrc.value = newImageSrc;
 };
-import { useAllProducts } from "@/stores/views/allProduct_store";
-const allProduct = useAllProducts();
-const OnSavefav = (id) => {
-  let index = allProduct.products.findIndex((item) => item.id == id);
-  console.log(index);
-  allProduct.products[index].isFav = !allProduct.products[index].isFav;
-};
+
 </script>
