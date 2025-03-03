@@ -5,6 +5,8 @@ import '@fontsource/kantumruy-pro';
 import '@/assets/css/main.css'
 import '@/assets/css/cart.css'
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 import { createApp } from 'vue'
@@ -17,5 +19,5 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-
+AOS.init();
 app.mount('#app')

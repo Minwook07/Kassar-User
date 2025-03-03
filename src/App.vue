@@ -10,6 +10,7 @@ import { useRoute } from 'vue-router';
 import NavBar from '@/components/layouts/NavBar.vue';
 import FooterView from '@/components/layouts/FooterView.vue';
 const route = useRoute();
+// new Vue({  render: (h) => h(App),  mounted() {    AOS.init()  },}).$mount('#app')
 </script>
 
 

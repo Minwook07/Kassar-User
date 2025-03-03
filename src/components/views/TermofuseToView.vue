@@ -1,33 +1,23 @@
 <template>
-  <!-- Button trigger modal -->
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#exampleModal"
-  >
-    Launch demo modal
-  </button>
-
   <!-- Modal -->
   <div
-    class="modal fade"
+    class="modal d-block show"
     id="exampleModal"
-    tabindex="-1"
     aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
+    aria-modal="true"
+    role="dialog"
   >
-    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+    <div
+      class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered"
+    >
       <div class="modal-content">
-        <div class="modal-header py-4">
+        <div class="modal-header py-4 px-3">
           <img
             src="@/assets/images/kassar_text.png"
             alt=""
             style="width: 120px"
           />
-          <h1 class="fs-5 text-center m-auto" id="exampleModalLabel">
-            គោលការណ៍ក្នងការប្រើប្រាស់
-          </h1>
+
           <button
             type="button"
             class="btn-close"
@@ -36,7 +26,13 @@
           ></button>
         </div>
         <div class="modal-body">
-          <div class="card-body bg-my-default text-my-default p-4">
+          <div class="card-body bg-my-default text-my-default px-4">
+            <h1
+              class="fs-5 text-center m-auto mb-4 text-decoration-underline text-primary"
+              id="exampleModalLabel"
+            >
+              គោលការណ៍ក្នងការប្រើប្រាស់
+            </h1>
             <p class="text-muted">
               <strong>កាលបរិច្ឆេទមានប្រសិទ្ធភាព:</strong>៣០ សីហា ២០២៤
             </p>
