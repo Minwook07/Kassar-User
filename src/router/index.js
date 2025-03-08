@@ -19,6 +19,7 @@ import TermofuseView from '@/views/TermofuseView.vue'
 import FooterView from '@/components/layouts/FooterView.vue'
 import ContactUsView from '@/views/ContactUsView.vue'
 import FaqsView from '@/views/FaqsView.vue'
+import VideoFeedView from '@/views/VideoFeedView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -125,6 +126,11 @@ const router = createRouter({
       name: 'faq',
       component: FaqsView,
     },
+    {
+      path: '/video',
+      name: 'video',
+      component: VideoFeedView
+    }
   ],
 })
 

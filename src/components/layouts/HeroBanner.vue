@@ -1,53 +1,54 @@
 <template>
     <div class="container-fluid">
-        <div class="hero-banner row mt-4">
-            <div class="col-2 rounded-3 p-0 overflow-hidden category-side d-none d-xl-block">
-                <div class="text-center category-title">
-                    <p class="fw-bold fs-5 text-white py-2 m-0">ប្រភេទផលិតផល</p>
+        <div class="hero-banner row g-3 mt-4 d-flex align-items-stretch">
+            <div class="col-2 d-none d-xl-block">
+                <div class="rounded-3 overflow-hidden bg-white category-side h-100 shadow-sm">
+                    <div class="text-center category-title">
+                        <p class="fw-bold fs-5 text-white py-2 m-0">ប្រភេទផលិតផល</p>
+                    </div>
+                    <ul class="category-list list-unstyled">
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">ត្រី</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">បន្លែ</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">ផ្លែឈើ</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">អង្ករ</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">គ្រឿងទេស</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារគ្រៀម</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន</RouterLink>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="category-list list-unstyled">
-                    <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="/allproducts">ត្រី</RouterLink>
-                    </li>
-                    <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="/allproducts">បន្លែ</RouterLink>
-                    </li>
-                    <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="/allproducts">ផ្លែឈើ</RouterLink>
-                    </li>
-                    <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="/allproducts">អង្ករ</RouterLink>
-                    </li>
-                    <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="/allproducts">គ្រឿងទេស</RouterLink>
-                    </li>
-                    <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="/allproducts">អាហារគ្រៀម</RouterLink>
-                    </li>
-                    <li class="category-item">
-                        <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន</RouterLink>
-                    </li>
-                </ul>
             </div>
-            <div class="col-xl-10 row product-hero-section p-0">
-                <div class="col-6 p-0 ps-4 d-flex flex-wrap">
-                    <div class="w-100 product-hero pb-2">
-                        <div class="rounded-3 h-100 overflow-hidden">
-                            <div id="heroCarouselAds" class="carousel carousel-fade slide h-100" data-bs-ride="carousel"
-                                data-bs-touch="true">
+            <div class="col-xl-10 ">
+                <div class="row g-3 h-100">
+                    <div class="col-6 h-50 ">
+                        <div class="product-hero">
+                            <div id="heroCarouselAds"
+                                class="carousel carousel-fade slide rounded-3 h-100 overflow-hidden shadow-sm"
+                                data-bs-ride="carousel" data-bs-touch="true">
                                 <div class="carousel-indicators ">
                                     <button type="button" data-bs-target="#heroCarouselAds" data-bs-slide-to="0"
                                         class="active" aria-current="true" aria-label="Slide 1"></button>
                                     <button type="button" data-bs-target="#heroCarouselAds" data-bs-slide-to="1"
                                         aria-label="Slide 2"></button>
-                                    <button type="button" data-bs-target="#" data-bs-slide-to="2heroCarouselAds"
-                                        aria-label="Slide 3"></button>
                                 </div>
-                                <div class="carousel-inner ">
-                                    <div class="carousel-item active">
-                                        <img src="@/assets/images/hero_banner/hero1.jpg" alt="...">
+                                <div class="carousel-inner h-100">
+                                    <div class="carousel-item active h-100">
+                                        <img src="@/assets/images/posterDetail.gif" alt="...">
                                     </div>
-                                    <div class="carousel-item ">
+                                    <div class="carousel-item h-100">
                                         <img src="@/assets/images/hero_banner/hero2.jpg" alt="...">
                                     </div>
                                 </div>
@@ -64,25 +65,63 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-100 product-hero pt-3">
-                        <div class="h-100 rounded-3 hero-video py-2 px-3">
+                    <div class="col-6 h-50">
+                        <div class="product-hero hero-product rounded-3 py-2 px-3 shadow-sm">
+                            <div class="top-selling">
+                                <div class="title d-flex align-items-center">
+                                    <p class="m-0 fw-semibold text-secondary">ផលិតផលលក់ដាច់ប្រចាំខែ</p>
+                                    <span class="badge rounded-2 text-bg-success ms-1">TOP SELLING</span>
+                                </div>
+                                <div class="products-wrapper row align-items-center pt-3">
+                                    <RouterLink class="product col-4 col-md-3 " to="/detailproduct">
+                                        <img src="@/assets/images/products/product-1.jpg" alt="">
+                                        <div
+                                            class="detail d-flex flex-column justify-content-center align-items-center pt-2">
+                                            <p class="m-0">សាច់គោងៀត</p>
+                                            <span>$10.99</span>
+                                        </div>
+                                    </RouterLink>
+                                    <RouterLink class="product col-4 col-md-3" to="/detailproduct">
+                                        <img src="@/assets/images/products/product-2.jpg" alt="">
+                                        <div
+                                            class="detail d-flex flex-column justify-content-center align-items-center pt-2">
+                                            <p class="m-0">សាច់គោងៀត</p>
+                                            <span>$10.99</span>
+                                        </div>
+                                    </RouterLink>
+                                    <RouterLink class="product col-4 col-md-3" to="/detailproduct">
+                                        <img src="@/assets/images/products/product-3.jpg" alt="">
+                                        <div
+                                            class="detail d-flex flex-column justify-content-center align-items-center pt-2">
+                                            <p class="m-0">សាច់គោងៀត</p>
+                                            <span>$10.99</span>
+                                        </div>
+                                    </RouterLink>
+                                    <RouterLink class="product col-3 d-none d-md-block" to="/detailproduct">
+                                        <img src="@/assets/images/products/product-4.jpg" alt="">
+                                        <div
+                                            class="detail d-flex flex-column justify-content-center align-items-center pt-2">
+                                            <p class="m-0">សាច់គោងៀត</p>
+                                            <span>$10.99</span>
+                                        </div>
+                                    </RouterLink>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 d-none d-md-block mt-2 h-50 ">
+                        <div class="product-hero rounded-3 hero-video py-2 px-3 shadow-sm">
                             <div class="title d-flex align-items-center">
-                                <p class="m-0 pe-1 fw-semibold">វីដេអូ</p> <i class="bi bi-collection-play-fill fs-5 text-primary"></i>
+                                <p class="m-0 pe-1 fw-semibold">វីដេអូ</p> <i
+                                    class="bi bi-collection-play-fill fs-5 text-primary"></i>
                             </div>
                             <div class="hero-video-wrapper">
-                                <swiper 
-                                :modules="[Pagination, Autoplay]" 
-                                :grab-cursor="true" 
-                                :loop="true" 
-                                :pagination="{
+                                <swiper :modules="[Pagination, Autoplay]" :grab-cursor="true" :loop="true" :pagination="{
                                     clickable: true,
-                                }" 
-                                class="mySwiper" 
-                                :autoplay="{
+                                }" class="mySwiper" :autoplay="{
                                     delay: 4500,
                                     disableOnInteraction: false,
-                                }" 
-                                :direction="'vertical'">
+                                }" :direction="'vertical'">
                                     <swiper-slide>
                                         <div class="d-flex">
                                             <RouterLink class="video w-50 rounded-3 overflow-hidden" to="">
@@ -135,79 +174,36 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6  p-0 ps-4 d-flex flex-wrap">
-                    <div class="w-100 product-hero pb-2">
-                        <div class="hero-product h-100 rounded-3 py-2 px-3">
-                            <div class="top-selling">
-                                <div class="title d-flex align-items-center">
-                                    <p class="m-0 fw-semibold text-secondary">ផលិតផលលក់ដាច់ប្រចាំខែ</p>
-                                    <span class="badge rounded-2 text-bg-success ms-1">TOP SELLING</span>
+                    <div class="col-6 d-none d-md-block mt-2 h-50">
+                        <div class="hero-discount product-hero d-flex">
+                            <RouterLink class="product w-50 me-4 rounded-3 shadow-sm py-2 px-3" to="/detailproduct">
+                                <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
+                                    <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
+                                    <span class="badge rounded-2 ms-1">DISCOUNT</span>
                                 </div>
-                                <div class="products-wrapper row">
-                                    <RouterLink class="product p-2 col-4 col-xl-3 " to="/detailproduct">
-                                        <img src="@/assets/images/products/product-1.jpg" alt="">
-                                        <div
-                                            class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                            <p class="m-0">សាច់គោងៀត</p>
-                                            <span>$10.99</span>
-                                        </div>
-                                    </RouterLink>
-                                    <RouterLink class="product p-2 col-4 col-xl-3" to="/detailproduct">
-                                        <img src="@/assets/images/products/product-2.jpg" alt="">
-                                        <div
-                                            class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                            <p class="m-0">សាច់គោងៀត</p>
-                                            <span>$10.99</span>
-                                        </div>
-                                    </RouterLink>
-                                    <RouterLink class="product p-2 col-4 col-xl-3" to="/detailproduct">
-                                        <img src="@/assets/images/products/product-3.jpg" alt="">
-                                        <div
-                                            class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                            <p class="m-0">សាច់គោងៀត</p>
-                                            <span>$10.99</span>
-                                        </div>
-                                    </RouterLink>
-                                    <RouterLink class="product p-2 col-3 d-none d-xl-block" to="/detailproduct">
-                                        <img src="@/assets/images/products/product-4.jpg" alt="">
-                                        <div
-                                            class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                            <p class="m-0">សាច់គោងៀត</p>
-                                            <span>$10.99</span>
-                                        </div>
-                                    </RouterLink>
+                                <img src="@/assets/images/products/product-5.png" alt="">
+                                <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
+                                    <p class="m-0">អង្ករផ្កាម្លិះ</p>
+                                    <span>$9.99</span>
                                 </div>
-                            </div>
+                            </RouterLink>
+                            <RouterLink class="product w-50 rounded-3 shadow-sm py-2 px-3" to="detailproduct">
+                                <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
+                                    <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
+                                    <span class="badge rounded-2 ms-1">DISCOUNT</span>
+                                </div>
+                                <img src="@/assets/images/products/product-6.png" alt="">
+                                <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
+                                    <p class="m-0">អង្ករផ្កាម្លិះ</p>
+                                    <span>$9.99</span>
+                                </div>
+                            </RouterLink>
                         </div>
-                    </div>
-                    <div class="hero-discount  w-100 product-hero d-flex  pt-3">
-                        <RouterLink class="product w-50 me-4 rounded-3 py-2 px-3" to="/detailproduct">
-                            <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
-                                <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
-                                <span class="badge rounded-2 ms-1">DISCOUNT</span>
-                            </div>
-                            <img src="@/assets/images/products/product-5.png" alt="">
-                            <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                <p class="m-0">អង្ករផ្កាម្លិះ</p>
-                                <span>$9.99</span>
-                            </div>
-                        </RouterLink>
-                        <RouterLink class="product w-50 rounded-3 py-2 px-3" to="detailproduct">
-                            <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
-                                <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
-                                <span class="badge rounded-2 ms-1">DISCOUNT</span>
-                            </div>
-                            <img src="@/assets/images/products/product-6.png" alt="">
-                            <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                <p class="m-0">អង្ករផ្កាម្លិះ</p>
-                                <span>$9.99</span>
-                            </div>
-                        </RouterLink>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
 </template>
