@@ -1,18 +1,18 @@
 <template>
     <div class="frm-auth">
-      <div class="row rounded-3 overflow-hidden">
+      <div class="row rounded-4 shadow-lg overflow-hidden">
         <!-- Left Section -->
-        <div class="col-md-6 left-section text-white d-flex flex-column align-items-center justify-content-center">
-          <h1 class="text-center fw-bold">
-            Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប
-          </h1>
-          <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid" />
-        </div>
+        <div class="col-md-6 left-section text-white  d-none d-md-flex flex-column align-items-center justify-content-center p-5">
+        <h1 class="text-center fw-bold mb-4">
+          Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប
+        </h1>
+        <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid auth-img" />
+      </div>
   
         <!-- Right Section -->
         <div class="col-md-6 right-section bg-white p-4">
           <div class="text-center">
-            <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid" />
+            <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
             <h1 class="fw-bold">ភ្លេចពាក្យសម្ងាត់?</h1>
             <p class="text-secondary">
               បញ្ចូលអ៊ីម៉ែលរបស់អ្នកដើម្បីទទួលបានតំណភ្ជាប់ប្ដូរលេខសម្ងាត់ (អ៊ីម៉ែលដែលភ្ជាប់ជាមួយគណនីរបស់អ្នក)

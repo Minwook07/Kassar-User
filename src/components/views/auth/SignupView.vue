@@ -1,18 +1,18 @@
 <template>
   <div class="frm-auth">
-    <div class="row  rounded-3 overflow-hidden">
+    <div class="row rounded-4 shadow-lg overflow-hidden">
       <!-- Left Section -->
-      <div class="col-md-6 left-section text-white d-flex flex-column align-items-center justify-content-center">
-        <h1 class="text-center fw-bold">
+      <div class="col-md-6 left-section text-white  d-none d-md-flex flex-column align-items-center justify-content-center p-5">
+        <h1 class="text-center fw-bold mb-4">
           Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប
         </h1>
-        <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid" />
+        <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid auth-img" />
       </div>
 
       <!-- Right Section -->
       <div class="col-md-6 right-section bg-white p-4">
         <div class="text-center">
-          <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid" />
+          <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
           <h1 class="fw-bold">បង្កើតគណនី</h1>
           <p class="text-secondary">សូមធ្វើការបំពេញព័ត៌មានខាងក្រោមដើម្បីចូលគណនី</p>
         </div>
@@ -58,18 +58,20 @@
               placeholder="បញ្ចូលលេខសម្ងាត់"
               :class="{ 'is-invalid': $v.form.password.$dirty && $v.form.password.$error }"
             />
-            <i
-              @click="toggleVisibility('password')"
-              :class="visibility.password ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"
-              class="password-toggle"
-            ></i>
+            <i @click="togglePasswordVisibility"
+                            :class="['bi', showPassword ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'password-toggle', { 'shift-left': $v.form.password.$dirty && $v.form.password.$error }]"
+                            class="position-absolute"></i>
             <div class="invalid-feedback" v-if="$v.form.password.$dirty && $v.form.password.$error">
               {{ $v.form.password.$errors[0]?.$message }}
             </div>
           </div>
+          <div class="form-check mb-2">
+              <input type="checkbox" id="remember" class="form-check-input" />
+              <label for="remember" class="form-check-label">យល់ព្រមនូវលក្ខណ្ឌគោលការណ៍</label>
+            </div>
 
           <!-- Submit Button -->
-          <button type="submit" class="btn btn-login w-100">ចូលគណនី</button>
+          <button type="submit" class="btn btn-login w-100 mt-2">ចូលគណនី</button>
         </form>
 
         <!-- Signin Link -->

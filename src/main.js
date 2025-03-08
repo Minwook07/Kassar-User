@@ -1,21 +1,28 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.min.js'
-import 'bootstrap-icons/font/bootstrap-icons.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import '@fontsource/kantumruy-pro';
-import '@/assets/css/main.css'
-import '@/assets/css/cart.css'
+import '@/assets/css/main.css';
+import '@/assets/css/cart.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import App from './App.vue';
+import router from './router';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+const app = createApp(App);
 
-import App from './App.vue'
-import router from './router'
+app.use(createPinia());
+app.use(router);
 
-const app = createApp(App)
+// Initialize AOS after mounting the app
+app.mount('#app');
 
-app.use(createPinia())
-app.use(router)
-
-app.mount('#app')
+AOS.init({
+  duration: 1000, 
+  once: true,    
+  easing: 'ease-in-out', 
+});
