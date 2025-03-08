@@ -22,6 +22,9 @@
   height: 100%;
   object-fit: cover;
 }
+.form_seller textarea{
+  resize: none;
+}
 
 @media(max-width: 1666px) {
   .hero-form {
@@ -102,7 +105,7 @@
             <div class="col-12">
               <div class="">
                 <label for="exampleFormControlTextarea1" class="form-label">បញ្ចេញមតិបន្ថែម</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"
+                <textarea class="form-control none" id="exampleFormControlTextarea1" rows="4"
                   style="min-height: 150px;"></textarea>
               </div>
             </div>
@@ -111,8 +114,6 @@
               <button type="button" class="btn-seller btn btn-primary">ដាក់បញ្ជូន</button>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>

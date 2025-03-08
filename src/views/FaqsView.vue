@@ -39,10 +39,10 @@
     <main>
         <div class="bg-faq d-flex align-items-center justify-content-center">
             <div class="">
-                <h1 class="text-light fw-bold">FAQs Page</h1>
+                <h1 class="text-secondary fw-bold">FAQs Page</h1>
                 <div class="text-center">
-                    <router-link to="/" class="text-light text-decoration-none">ទំព័រដើម</router-link>
-                    <router-link to="/faq" class="text-light text-decoration-none">/
+                    <router-link to="/" class="text-secondary text-decoration-none">ទំព័រដើម</router-link>
+                    <router-link to="/faq" class="text-secondary text-decoration-none">/
                         FAQs</router-link>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <div class="row">
                 <div class="col-5">
                     <div class="faq-title">
-                        <h2 class="title fw-bold">សំណូរទូរទៅរបស់គេហទំព័រ</h2>
+                        <h2 class="title fw-bold">សំណួរទូរទៅរបស់គេហទំព័រ</h2>
                         <p>
                             Prepared is me marianne pleasure likewise debating. Wonder an unable except better stairs do
                             ye
