@@ -1,27 +1,29 @@
 <template>
   <div class="frm-auth">
-    <div class="row rounded-4 shadow-lg overflow-hidden">
+    <div class="row rounded-4 shadow-lg overflow-hidden" data-aos="fade-up" data-aos-duration="1000">
       <!-- Left Section -->
-      <div class="col-md-6 left-section text-white  d-none d-md-flex flex-column align-items-center justify-content-center p-5">
+      <div class="col-md-6 left-section text-white d-none d-md-flex flex-column align-items-center justify-content-center p-5"
+           data-aos="fade-right" data-aos-delay="200">
         <h1 class="text-center fw-bold mb-4">
           Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប
         </h1>
-        <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid auth-img" />
+        <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid auth-img" data-aos="zoom-in" data-aos-delay="400" />
       </div>
 
       <!-- Right Section -->
-      <div class="col-md-6 right-section bg-white p-4">
+      <div class="col-md-6 right-section bg-white p-4" data-aos="fade-left" data-aos-delay="200">
         <div class="text-center">
-          <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
-          <h1 class="fw-bold">ផ្ទៀងផ្ទាត់លេខកូដ</h1>
-          <p class="text-secondary mt-3">
+          <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" 
+               data-aos="zoom-in" data-aos-delay="300" />
+          <h1 class="fw-bold" data-aos="fade-up" data-aos-delay="400">ផ្ទៀងផ្ទាត់លេខកូដ</h1>
+          <p class="text-secondary mt-3" data-aos="fade-up" data-aos-delay="500">
             សូមបញ្ចូលលេខកូដដែលយើងទើបតែផ្ញើទៅកាន់អ៊ីមែលរបស់អ្នក
           </p>
         </div>
 
         <form @submit.prevent="onSubmit">
           <!-- OTP Fields -->
-          <div class="mb-3 d-flex justify-content-evenly">
+          <div class="mb-3 d-flex justify-content-evenly" data-aos="fade-up" data-aos-delay="600">
             <input
               v-for="(digit, index) in otp"
               :key="index"
@@ -35,25 +37,27 @@
               @keypress="restrictToNumbers(index, $event)"
               :title="validationMessages[index]"
               aria-label="OTP Digit"
+              data-aos="zoom-in"
+              :data-aos-delay="700 + (index * 50)"
             />
           </div>
 
           <!-- OTP Error -->
-          <div v-if="isFormSubmitted && isOTPIncomplete" class="text-danger text-center mb-3">
+          <div v-if="isFormSubmitted && isOTPIncomplete" class="text-danger text-center mb-3" data-aos="fade-up" data-aos-delay="900">
             សូមបញ្ចូលលេខកូដទាំងអស់។
           </div>
 
           <!-- Countdown Timer -->
-          <p class="countdown-text text-danger mt-2 text-center" v-if="resendCountdown > 0">
+          <p class="countdown-text text-danger mt-2 text-center" v-if="resendCountdown > 0" data-aos="fade-up" data-aos-delay="950">
             រយៈពេលនៅសល់​​​​៖​​ {{ formatTime(resendCountdown) }} វិនាទី
           </p>
 
           <!-- Submit Button -->
-          <button type="submit" class="btn btn-login w-100">ផ្ទៀងផ្ទាត់</button>
+          <button type="submit" class="btn btn-login w-100" data-aos="fade-up" data-aos-delay="1000">ផ្ទៀងផ្ទាត់</button>
         </form>
 
         <!-- Resend OTP -->
-        <div class="text-center mt-3">
+        <div class="text-center mt-3" data-aos="fade-up" data-aos-delay="1100">
           <p>មិនទទួលបានលេខកូដសម្រាប់ផ្ទៀងផ្ទាត់? 
             <a href="#" class="text-success" :class="{ 'disabled': resendCountdown > 0 || isResending }" @click.prevent="resendOTP">
               ផ្ញើលេខកូដម្តងទៀត
@@ -67,6 +71,8 @@
 
 <script setup>
 import { reactive, ref, computed, onMounted } from "vue";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const otp = reactive(["", "", "", "", "", ""]);
 const isFormSubmitted = ref(false);
@@ -75,6 +81,18 @@ const isResending = ref(false);
 const isDisabled = ref(false);
 const validationMessages = reactive(["", "", "", "", "", ""]);
 let countdownInterval = null;
+
+// Initialize AOS when component is mounted
+onMounted(() => {
+  AOS.init({
+    duration: 800,
+    easing: 'ease',
+    once: true,
+    offset: 50
+  });
+  
+  startResendCountdown();
+});
 
 // Computed property to check if OTP is incomplete
 const isOTPIncomplete = computed(() => otp.some(digit => digit === ""));
@@ -141,13 +159,11 @@ const resendOTP = () => {
     isDisabled.value = false; // Re-enable inputs
     resendCountdown.value = 300; // Reset countdown to 5 minutes
     startResendCountdown();
+    
+    // Re-initialize AOS to animate new elements
+    AOS.refresh();
   }, 1000);
 };
-
-// Start the countdown when the component is mounted
-onMounted(() => {
-  startResendCountdown();
-});
 </script>
 
 <style scoped>
@@ -195,7 +211,8 @@ onMounted(() => {
 .frm-auth input.is-invalid {
   background-image: none !important;
 }
-.otp-input[data-v-dfc555f2] {
+
+.otp-input {
   font-size: 15px !important;
 }
 </style>
