@@ -6,7 +6,7 @@
                     <div class="col-lg-4 col-12">
                         <div class="item-foot">
                             <div class="logo-foot">
-                                <RouterLink href="#">
+                                <RouterLink to="#">
                                     <img src="@/assets/images/kassar_text_white.png" alt="" style=" height: 50px; object-fit: cover;">
                                 </RouterLink>
                             </div>
@@ -87,7 +87,7 @@
                             <div class="border-foot"></div> 
                             <ul class="link_foot d-flex flex-column gap-3 pt-2"> 
                                 <li>
-                                    <RouterLink class="link-a"  href="#"> +855 978 654 345</RouterLink>
+                                    <RouterLink class="link-a"  to="#"> +855 978 654 345</RouterLink>
                                 </li>
                                 <li>
                                     <RouterLink class="link-a" to="">kassar@gmail.com</RouterLink>
@@ -102,7 +102,7 @@
             </div>
             <div class="text-center mt-5">
                 <hr class="pt-2"> 
-                <p class="text-foot">Copyright &copy; 2025 <RouterLink href="#" class="text-danger text-decoration-none link-website">Kassar Website Design</RouterLink>. All right reserved.</p>
+                <p class="text-foot">Copyright &copy; 2025 <RouterLink to="#" class="text-danger text-decoration-none link-website">Kassar Website Design</RouterLink>. All right reserved.</p>
             </div>
         </div>
     </main>

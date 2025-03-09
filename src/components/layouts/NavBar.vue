@@ -14,7 +14,7 @@
             <RouterLink class="btn btn-primary-outline rounded-5 px-4 me-1" to="/signup">បង្កើតគណនី</RouterLink>
           </div>
           <div class="ms-auto">
-            <RouterLink class="btn btn-primary rounded-5 px-4" to="/auth">ចូលគណនី</RouterLink>
+            <RouterLink class="btn btn-primary rounded-5 px-4" to="/login">ចូលគណនី</RouterLink>
           </div>
         </div>
         <button class="btn btn-outline-primary pt-2 d-block d-lg-none" type="button" @click="showOffcanvas">
