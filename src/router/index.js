@@ -131,7 +131,7 @@ const router = createRouter({
       path: '/video',
       name: 'video',
       component: VideoFeedView
-    }
+    },
     {
       path: '/policy',
       name: 'policy',
