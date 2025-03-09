@@ -1,7 +1,7 @@
 <template>
   <section style="background-color: #f2f2f2">
     <div class="bg-allProduct d-flex align-items-center justify-content-center">
-      <div class="">
+      <div  data-aos="fade-up">
         <h1 class="text-secondary fw-bold">ទំនិញ</h1>
         <div>
           <router-link
@@ -20,9 +20,9 @@
     <div class="container-fluid my-5">
       <div class="row justify-content-center">
         <div class="col-12 col-md-3 col-lg-2">
-          <h4 class="mb-0 fw-bold">ជម្រើសផលិតផល</h4>
+          <h4 class="mb-0 fw-bold" data-aos="fade-up-right">ជម្រើសផលិតផល</h4>
           <hr />
-          <div class="mb-3">
+          <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold mb-3">ប្រភេទ</h5>
             <div class="mb-2 myform-check form-check">
               <input
@@ -78,7 +78,7 @@
             </div>
             <hr />
           </div>
-          <div class="mb-3">
+          <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold">តម្លៃ</h5>
             <div class="price-range-container p-4 bg-light rounded">
               <h3 class="khmer-text mb-3">តម្លៃ</h3>
@@ -86,7 +86,6 @@
               <div class="price-display mb-3 fs-6">
                 ៛{{ formatPrice(range[0]) }} - ៛{{ formatPrice(range[1]) }}
               </div>
-
 
               <div class="position-relative">
                 <div
@@ -115,7 +114,7 @@
               </div>
             </div>
           </div>
-          <div class="mb-3">
+          <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold mb-3">ម៉ាក</h5>
             <div class="mb-2 myform-check form-check">
               <input
@@ -149,7 +148,7 @@
             </div>
             <hr />
           </div>
-          <div class="mb-3">
+          <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold mb-3">ស្តុក</h5>
             <div class="mb-2 myform-check form-check">
               <input
@@ -175,7 +174,7 @@
           </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 row justify-content-center">
-          <div
+          <div  data-aos="fade-up"
             class="col-12 col-md-6 col-lg-3 mb-3"
             v-for="product in paginatedProducts"
             :key="product.id"
@@ -202,7 +201,6 @@
                 <h5 class="fw-bold">{{ product.name }}</h5>
                 <p>500g</p>
                 <div class="d-flex justify-content-between align-items-center">
-
                   <p class="text-primary mb-0 fw-bold">
                     10000៛
                     <span class="text-decoration-line-through text-paragraph"
@@ -221,13 +219,15 @@
               </div>
 
               <div
-      class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-      @click="allProducts.toggleFav(product.id)"
-    >
-      <p class="mb-0 mt-1 text-danger fw-bold">
-        <i :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
-      </p>
-    </div>
+                class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                @click="allProducts.toggleFav(product.id)"
+              >
+                <p class="mb-0 mt-1 text-danger fw-bold">
+                  <i
+                    :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"
+                  ></i>
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -46,15 +46,18 @@
                                     <p class="mb-0 px-3 text-white">20%</p>
                                 </div>
 
-                                <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                                    @click="OnSavefav(product.id)">
-                                    <p class="mb-0 mt-1 text-danger fw-bold">
-                                        <i :class="allProduct.isFav
-                                            ? 'bi bi-heart-fill'
-                                            : 'bi bi-heart'
-                                            "></i>
-                                    </p>
-                                </div>
+                                <div
+                        class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                        @click="allProduct.toggleFav(product.id)"
+                      >
+                        <p class="mb-0 mt-1 text-danger fw-bold">
+                          <i
+                            :class="
+                              product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'
+                            "
+                          ></i>
+                        </p>
+                      </div>
                             </div>
                         </div>
                     </div>
