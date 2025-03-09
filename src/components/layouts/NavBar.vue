@@ -215,7 +215,7 @@ const offcanvasInstance = ref(null);
 let collapseInstance = null;
 
 const handleScroll = () => {
-  if (window.scrollY > 150) {
+  if (window.scrollY > 390) {
     headerRef.value.classList.add(toggleClass);
   } else {
     headerRef.value.classList.remove(toggleClass);

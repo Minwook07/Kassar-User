@@ -13,11 +13,11 @@
 
                 </div>
             </nav>
-            <div class="tab-content" id="nav-tabContent">
+            <div class="tab-content shadow-none" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
                     tabindex="0">
                     <div class="row">
-                        <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.products"
+                        <div class="col-6 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.products"
                             :key="product.id">
                             <div class="bg-white card card-product border-0 rounded position-relative">
                                 <div class="card-img p-3">
@@ -96,8 +96,8 @@
                                     @click="OnSavefav(product.id)">
                                     <p class="mb-0 mt-1 text-danger fw-bold">
                                         <i :class="allProduct.isFav
-                                                ? 'bi bi-heart-fill'
-                                                : 'bi bi-heart'
+                                            ? 'bi bi-heart-fill'
+                                            : 'bi bi-heart'
                                             "></i>
                                     </p>
                                 </div>
@@ -109,7 +109,7 @@
 
             </div>
             <div class="w-100 d-flex justify-content-center mt-4">
-                <RouterLink to="/allproducts" type="button" class="btn-primary text-decoration-none p-1 rounded">
+                <RouterLink to="/allproducts" type="button" class="btn-primary text-decoration-none px-3 py-2 rounded">
                     មើលបន្ថែម</RouterLink>
             </div>
         </div>
@@ -267,17 +267,17 @@
                 </div>
             </div>
             <div class="w-100 d-flex justify-content-center mt-4">
-                <RouterLink to="" type="button" class="btn-primary text-decoration-none p-1 rounded">
+                <RouterLink to="" type="button" class="btn-primary text-decoration-none px-3 py-2 rounded">
                     មើលបន្ថែម</RouterLink>
             </div>
         </div>
     </section>
 
-    <section class="blog-section mt-5">
-        <div class="container">
+    <section class="blog-section mt-5 py-5">
+        <div class="container-fluid">
             <div class="row align-items-center">
-                <div class="col-6 d-flex image-wrapper">
-                    <div class="w-50 left">
+                <div class="col-md-6 d-flex image-wrapper justify-content-center justify-content-lg-stretch">
+                    <div class="left d-none d-lg-block">
                         <img class="w-50" src="@/assets/images/agriculture-img/agri1.jpg" alt="">
                     </div>
                     <div class="right">
@@ -285,11 +285,12 @@
                         <img class="w-50" src="@/assets/images/agriculture-img/agri3.jpg" alt="">
                     </div>
                 </div>
-                <div class="col-6 px-5">
+                <div class="col-md-6 p-0 px-lg-5 d-flex flex-column align-items-center align-items-md-start">
                     <h1 class="fw-bold text-primary">ទីផ្សារនៃផលិតផលកសិកម្មធម្មជាតិ</h1>
                     <p class="fw-semibold fs-4">
                         បន្លែត្រីនិងសាច់ព្រមទាំងគ្រឿងទេសគ្រប់មុខសុទ្ធតែជាផលិតផលកសិម្មរបស់ប្រជាកសិករខ្មែរ</p>
-                    <div class="w-100 bg-primary p-3 rounded-4 d-flex blog-badge d-flex justify-content-between">
+                    <div
+                        class="w-100 bg-primary p-3 rounded-4 d-flex flex-md-wrap blog-badge d-flex justify-content-between">
                         <div class="d-flex align-items-center">
                             <img src="@/assets/images/icons-img/like.png" alt="">
                             <p>ងាយស្រួលប្រើប្រាស់</p>
@@ -313,10 +314,8 @@
                             <p class="m-0">ជាគេហទំព័រជួយដល់ទីផ្សារកសិកម្មនៅកម្ពុជា</p>
                         </li>
                     </ul>
-                    <div class="w-100 d-flex justify-content-start mt-4">
-                        <RouterLink to="" type="button" class="btn-primary text-decoration-none px-3 py-2 rounded">
-                            អានបន្ថែម</RouterLink>
-                    </div>
+                    <RouterLink to="" type="button" class="btn-primary text-decoration-none px-3 py-2 rounded">
+                        អានបន្ថែម</RouterLink>
                 </div>
             </div>
         </div>
