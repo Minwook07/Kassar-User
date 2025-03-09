@@ -19,6 +19,8 @@ import TermofuseView from '@/views/TermofuseView.vue'
 import FooterView from '@/components/layouts/FooterView.vue'
 import ContactUsView from '@/views/ContactUsView.vue'
 import FaqsView from '@/views/FaqsView.vue'
+import TermPageView from '@/views/TermPageView.vue'
+import PrivacyView from '@/views/PrivacyView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -124,6 +126,16 @@ const router = createRouter({
       path: '/faq',
       name: 'faq',
       component: FaqsView,
+    },
+    {
+      path: '/termpage',
+      name: 'termpage',
+      component: TermPageView,
+    },
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: PrivacyView,
     },
   ],
 })
