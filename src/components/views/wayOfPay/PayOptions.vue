@@ -15,10 +15,10 @@
                                 <label for="code" class="form-label">លេខកាត</label>
                                 <div class="cart-img d-flex justify-content-between align-items-center">
                                     <div class="cart-img d-flex justify-content-between align-items-center">
-                                        <img src="@/assets/images/Cart/icon/visa.svg" alt="">
-                                        <img src="@/assets/images/Cart/icon/mastercard.svg" alt="">
-                                        <img src="@/assets/images/Cart/icon/unionpay.svg" class="img-uni" alt="">
-                                        <img src="@/assets/images/Cart/icon/jcb.svg" alt="">
+                                        <img src="@/assets/images/cart-img/icon/visa.svg" alt="">
+                                        <img src="@/assets/images/cart-img/icon/mastercard.svg" alt="">
+                                        <img src="@/assets/images/cart-img/icon/unionpay.svg" class="img-uni" alt="">
+                                        <img src="@/assets/images/cart-img/icon/jcb.svg" alt="">
                                     </div>
                                 </div>
                             </div>

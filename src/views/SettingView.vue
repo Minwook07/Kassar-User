@@ -184,7 +184,7 @@
             <div class="orders-list bg-white rounded-2 border p-4 mb-4 border hover-effect tab-animation">
               <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
                 <div class="order-img">
-                  <img src="@/assets/images/cart/veget-1.jpg" alt="Order" class="rounded-3"
+                  <img src="@/assets/images/cart-img/veget-1.jpg" alt="Order" class="rounded-3"
                     style="width: 80px; height: 80px; object-fit: cover;" />
                 </div>
                 <div class="order-details flex-grow-1">
@@ -203,7 +203,7 @@
             <div class="orders-list bg-white rounded-2 border p-4 mb-4 border hover-effect tab-animation">
               <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
                 <div class="order-img">
-                  <img src="@/assets/images/cart/veget-1.jpg" alt="Order" class="rounded-3"
+                  <img src="@/assets/images/cart-img/veget-1.jpg" alt="Order" class="rounded-3"
                     style="width: 80px; height: 80px; object-fit: cover;" />
                 </div>
                 <div class="order-details flex-grow-1">
@@ -222,7 +222,7 @@
             <div class="orders-list bg-white rounded-2 border p-4 mb-4 border hover-effect tab-animation">
               <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
                 <div class="order-img">
-                  <img src="@/assets/images/cart/veget-1.jpg" alt="Order" class="rounded-3"
+                  <img src="@/assets/images/cart-img/veget-1.jpg" alt="Order" class="rounded-3"
                     style="width: 80px; height: 80px; object-fit: cover;" />
                 </div>
                 <div class="order-details flex-grow-1">

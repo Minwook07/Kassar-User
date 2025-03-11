@@ -22,7 +22,7 @@
           <div class="cart-item d-flex align-items-center">
             <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckDefault" />
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
-              <img src="@/assets/images/Cart/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
+              <img src="@/assets/images/cart-img/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">ឆ្អាលណាគក់ស្រុកMONYមិនអន</h5>
@@ -53,7 +53,7 @@
           <div class="cart-item d-flex align-items-center">
             <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckDefault" />
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
-              <img src="@/assets/images/Cart/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
+              <img src="@/assets/images/cart-img/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">ឆ្អាលណាគក់ស្រុកMONYមិនអន</h5>
@@ -84,7 +84,7 @@
           <div class="cart-item d-flex align-items-center">
             <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckDefault" />
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
-              <img src="@/assets/images/Cart/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
+              <img src="@/assets/images/cart-img/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">ឆ្អាលណាគក់ស្រុកMONYមិនអន</h5>
@@ -126,7 +126,7 @@
           <div class="cart-item d-flex align-items-center">
             <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckDefault" />
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
-              <img src="@/assets/images/Cart/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
+              <img src="@/assets/images/cart-img/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">ឆ្អាលណាគក់ស្រុកMONYមិនអន</h5>
@@ -157,7 +157,7 @@
           <div class="cart-item d-flex align-items-center">
             <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckDefault" />
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
-              <img src="@/assets/images/Cart/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
+              <img src="@/assets/images/cart-img/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">ឆ្អាលណាគក់ស្រុកMONYមិនអន</h5>
@@ -188,7 +188,7 @@
           <div class="cart-item d-flex align-items-center">
             <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckDefault" />
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
-              <img src="@/assets/images/Cart/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
+              <img src="@/assets/images/cart-img/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">ឆ្អាលណាគក់ស្រុកMONYមិនអន</h5>
