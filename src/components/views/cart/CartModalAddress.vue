@@ -14,7 +14,7 @@
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <label for="province" class="form-label">ខេត្ត រាជធានី</label>
-                                    <select class="form-select" aria-label="Default select example">
+                                    <select class="form-select shadow-none" aria-label="Default select example">
                                         <option selected>សូមជ្រើសរើសរាជធានី ខេត្ត ដែលអ្នករស់នៅ</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -24,12 +24,11 @@
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label for="province" class="form-label">ក្រុង ស្រុក ខណ្ឌ</label>
-                                    <select class="form-select" aria-label="Default select example">
+                                    <select class="form-select shadow-none" aria-label="Default select example">
                                         <option selected>សូមជ្រើសរើសក្រុង/ស្រុក/ខណ្ឌ ដែលអ្នករស់នៅ</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
-
                                     </select>
                                 </div>
                             </div>
@@ -38,7 +37,7 @@
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <label for="province" class="form-label">ឃុំ សង្កាត់</label>
-                                    <select class="form-select" aria-label="Default select example">
+                                    <select class="form-select shadow-none" aria-label="Default select example">
                                         <option selected>សូមជ្រើសរើសឃុំ សង្កាត់ ដែលអ្នករស់នៅ</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -48,7 +47,7 @@
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label for="province" class="form-label">ភូមិ</label>
-                                    <select class="form-select" aria-label="Default select example">
+                                    <select class="form-select shadow-none" aria-label="Default select example">
                                         <option selected>សូមជ្រើសរើសភូមិ ដែលអ្នករស់នៅ</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -61,15 +60,15 @@
                             <div class="row">
                                 <div class="col-5 mb-3">
                                     <label for="phone" class="form-label">លេខទូរស័ព្ទ</label>
-                                    <input type="text" class="form-control" id="phone" placeholder="">
+                                    <input type="text" class="form-control shadow-none" id="phone" placeholder="">
                                 </div>
                                 <div class="col-5 mb-3">
-                                    <label for="home-num" class="form-label">ផ្ទះលេខ</label>
-                                    <input type="text" class="form-control" id="home-num" placeholder="">
+                                    <label for="home-num" class="form-label ">ផ្ទះលេខ</label>
+                                    <input type="text" class="form-control shadow-none" id="home-num" placeholder="">
                                 </div>
                                 <div class="col-2 mb-3">
                                     <label for="steet-num" class="form-label">ផ្លូវលេខ</label>
-                                    <input type="text" class="form-control" id="steet-num" placeholder="0000">
+                                    <input type="text" class="form-control shadow-none" id="steet-num" placeholder="0000">
                                 </div>
                             </div>
                         </div>

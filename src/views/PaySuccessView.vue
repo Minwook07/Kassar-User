@@ -1,7 +1,7 @@
 <template>
     <div class="container contain-hieght py-5">
         <!-- Progress Indicator -->
-        <div class="progress-indicator col-lg-11 mb-5 d-flex justify-content-between align-items-center">
+        <div class="progress-indicator col-lg-11 mb-5 d-flex justify-content-between align-items-center" data-aos="fade-up" data-aos-duration="500">
             <div class="step d-flex justify-content-between align-items-center">
                 <div class="step-number step-number-active"><i class="bi bi-check-lg"></i></div>
                 <div class="fs-5 part-text fw-bold text-center d-flex justify-content-center align-items-center">ព័ត៌មានទំនិញ
@@ -21,7 +21,7 @@
         </div>
         
 
-        <div class="success">
+        <div class="success pb-5" data-aos="zoom-in">
             <div class="success-container">
                 <div class=" d-flex justify-content-center align-items-center">
                     <div class="success-icon">

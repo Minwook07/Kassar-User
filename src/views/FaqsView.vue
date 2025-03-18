@@ -1,44 +1,8 @@
-<style scoped>
-/* faq */
-.accordion-button {
-    background-color: #07275c !important;
-    color: white;
-    font-weight: bold;
-    border-left: 3px solid #ff007a;
-    border-radius: 5px;
-}
-
-.accordion-button:not(.collapsed) {
-    background-color: #0c3b7a !important;
-    color: white;
-    border-left: 3px solid #ff007a;
-}
-
-.accordion-button:focus {
-    box-shadow: none;
-}
-
-.accordion-item {
-    background-color: #07275c;
-    border: none;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-.accordion-body {
-    color: white;
-    background-color: #0c3b7a;
-    border-radius: 5px;
-}
-
-.accordion-button::after {
-    display: none !important;
-}
-</style>
 <template>
     <main>
         <div class="bg-faq d-flex align-items-center justify-content-center">
-            <div class="">
+            <div class="" data-aos="fade-down"
+            data-aos-duration="500">
                 <h1 class="text-secondary fw-bold">FAQs Page</h1>
                 <div class="text-center">
                     <router-link to="/" class="text-secondary text-decoration-none">ទំព័រដើម</router-link>
@@ -49,7 +13,8 @@
         </div>
         <div class="container py-5">
             <div class="row">
-                <div class="col-5">
+                <div class="col-5" data-aos="fade-right"
+                data-aos-duration="500">
                     <div class="faq-title">
                         <h2 class="title fw-bold">សំណួរទូរទៅរបស់គេហទំព័រ</h2>
                         <p>
@@ -59,7 +24,8 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-7">
+                <div class="col-7" data-aos="fade-left"
+                data-aos-duration="500">
                     <div>
                         <div class="accordion" id="faqAccordion">
                             <!-- Question 1 -->
@@ -108,7 +74,7 @@
                 </div>
             </div>
             <div class="bg-faq-contact d-flex align-items-center justify-content-center">
-            <div class="text-center">
+            <div class="text-center" data-aos="zoom-out" data-aos-duration="250">
                 <h3 class="text-light fw-bold">អ្នករកមិនឃើញអ្វីដែលអ្នកកំពុងស្វែងរក?</h3>
                 <p class="text-light">សូមធ្វើការផ្ញើសារមកកាន់យើងប្រសិនអ្នកមានអ្វីមិនច្បាស់លើគេហទំព័ររបស់យើង</p>
                 <div class="">

@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="mt-4">
-      <div class="cart-container">
+      <div class="cart-container bg-white">
         <!-- Cart Header -->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h4 class="fw-bold">កន្ត្រក <span class="text-secondary">៣ ទំនិញ</span></h4>

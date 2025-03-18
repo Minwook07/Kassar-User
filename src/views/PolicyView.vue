@@ -1,13 +1,8 @@
-<style scoped>
-    .policy ol li{
-        padding-top: 15px;
-    }
-</style>
 <template>
     <div class="container-fluid">
-        <div class="">
-            <div class="policy">
-                <h2 class="title-policy fw-bold text-center">គោលការណ៍បង្វិលវិញ</h2>
+        <div class="py-5 bg-white">
+            <div class="policy px-4">
+                <h4 class="fs-4 title-policy text-decoration-underline fw-bold text-center">គោលការណ៍បង្វិលវិញ</h4>
                 <div class="content">
                     <h5 class="py-3 text-center">សូមស្វាគមន៍មកកាន់គោលការណ៍បង្វិលវិញរបស់ Kassar របស់យើងខ្ញុំ</h5>
                     <ol>
