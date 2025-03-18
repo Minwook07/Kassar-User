@@ -31,12 +31,10 @@
         </div>
     </div>
     <CreditModal />
-    <FooterView />
 </template>
 
 <script setup>
 import CreditModal from '@/components/views/wayOfPay/PayCreditModal.vue';
 import PayOptions from '@/components/views/wayOfPay/PayOptions.vue';
 import Shipping from '@/components/views/wayOfPay/PayShipping.vue';
-import FooterView from '@/components/layouts/FooterView.vue';
 </script>

@@ -20,6 +20,9 @@ import FooterView from '@/components/layouts/FooterView.vue'
 import ContactUsView from '@/views/ContactUsView.vue'
 import FaqsView from '@/views/FaqsView.vue'
 import VideoFeedView from '@/views/VideoFeedView.vue'
+import PolicyView from '@/views/PolicyView.vue'
+import TermPageView from '@/views/TermPageView.vue'
+import PrivacyView from '@/views/PrivacyView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -130,7 +133,20 @@ const router = createRouter({
       path: '/video',
       name: 'video',
       component: VideoFeedView
-    }
+    },
+    {
+      path: '/policy',
+      name: 'policy',
+      component: PolicyView,
+      path: '/termpage',
+      name: 'termpage',
+      component: TermPageView,
+    },
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: PrivacyView,
+    },
   ],
 })
 

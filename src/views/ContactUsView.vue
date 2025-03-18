@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+
+</script>
+
 <style scoped>
 :root {
     /* --bs-primary: #32CA83; */
@@ -23,6 +28,9 @@
 .item-form {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 10px;
+}
+.item-form textarea{
+    resize: none;
 }
 
 .link-contact ul li a {
@@ -99,10 +107,10 @@
                 <div class="col-6">
                     <div class="item-contact">
                         <span class="fw-bold fs-5">ទាក់ទងមកយើងខ្ញុំ</span>
-                        <p>អ្នកអាចទាក់ទងមកការយើងខ្ញុំតាម socail media ខាងក្រោមបាន</p>
+                        <p>អ្នកអាចទាក់ទងមកយើងខ្ញុំតាមរយៈខាងក្រោមនេះបាន</p>
                         <ul class="list-unstyled">
                             <li>
-                                <a href="#">
+                                <router-link to="" class="contact-link">
                                     <div class="contact-card">
                                         <div class="icon-circle">
                                             <i class="bi bi-telephone"></i>
@@ -112,10 +120,10 @@
                                             <p>+1 (800) 333 44 55</p>
                                         </div>
                                     </div>
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#">
+                                <router-link to="" class="contact-link">
                                     <div class="contact-card">
                                         <div class="icon-circle">
                                             <i class="bi bi-envelope"></i>
@@ -125,10 +133,10 @@
                                             <p>kassar@gmail.com</p>
                                         </div>
                                     </div>
-                                </a>
+                                </router-link>
                             </li>
                             <li>
-                                <a href="#">
+                                <router-link to="" class="contact-link">
                                     <div class="contact-card">
                                         <div class="icon-circle">
                                             <i class="bi bi-geo-alt"></i>
@@ -138,7 +146,7 @@
                                             <p>289, Tuol Kouk, Phnom Penh</p>
                                         </div>
                                     </div>
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                         <hr>
@@ -147,24 +155,24 @@
                             <div class="">
                                 <ul class="list-unstyled d-flex justify-content-between w-50">
                                     <li>
-                                        <a href="#" class="fb">
+                                        <router-link to="" class="contact-link fb">
                                             <i class="bi bi-facebook"></i>
-                                        </a>
+                                        </router-link>
                                     </li>
                                     <li>
-                                        <a href="#">
-                                            <i class="bi bi-linkedin"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="bi bi-twitter-x"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
+                                        <router-link to="" class="contact-link">
                                             <i class="bi bi-instagram"></i>
-                                        </a>
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <router-link to="" class="contact-link">
+                                            <i class="bi bi-telegram"></i>
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <router-link to="" class="contact-link">
+                                            <i class="bi bi-twitter-x"></i>
+                                        </router-link>
                                     </li>
                                 </ul>
                             </div>
@@ -208,6 +216,10 @@
                         </form>
                     </div>
                 </div>
+            </div>
+
+            <div class="pt-5">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.831910745176!2d104.88776301934413!3d11.572216188389563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310951001c8a7b55%3A0xa95ff42ea192073c!2sANT%20Technology%20Training%20School%202!5e0!3m2!1sen!2skh!4v1740537317234!5m2!1sen!2skh" width="100%" height="300" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </main>

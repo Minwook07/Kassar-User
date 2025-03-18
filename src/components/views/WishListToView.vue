@@ -5,10 +5,10 @@
         <div class="container">
           <div class="d-flex align-items-center justify-content-between">
             <div>
-              <h1 class="h2 mb-0">បញ្ជីប្រាថ្នា</h1>
-              <p class="text-muted mb-0">{{ items.length }} ​ផលិតផលបានជ្រើសរើស</p>
+              <h1 class="h2 mb-0" data-aos="fade-down">បញ្ជីប្រាថ្នា</h1>
+              <p class="text-muted mb-0" data-aos="fade-down">{{ items.length }} ​ផលិតផលបានជ្រើសរើស</p>
             </div>
-            <button class="btn btn-outline-danger" @click="clearWishlist" v-if="items.length > 0">
+            <button data-aos="fade-left" class="btn btn-outline-danger" @click="clearWishlist" v-if="items.length > 0">
               <Trash2 class="me-2" size="18" />
               លុបទាំងអស់
             </button>
@@ -20,14 +20,14 @@
       <div class="container py-5">
         <div v-if="items.length === 0" class="text-center py-5">
           <Heart class="text-muted mb-3" size="48" />
-          <h3 class="h4 mb-3">បញ្ជីប្រាថ្នារបស់អ្នកគឺទទេរ</h3>
+          <h3 class="h4 mb-3" >បញ្ជីប្រាថ្នារបស់អ្នកគឺទទេរ</h3>
           <p class="text-muted mb-4">ស្វែងរកផលិតផលបន្ថែមដើម្បីបញ្ជូលក្នុងបញ្ជីប្រាថ្នា</p>
             <router-link to="/allproducts" class="me-2 btn btn-primary">មើលផលិតផល</router-link>
         </div>
   
         <div v-else>
           <!-- Category Filters -->
-          <div class="mb-4">
+          <div class="mb-4" data-aos="fade-down-right">
             <div class="d-flex gap-2 flex-wrap">
               <button 
                 v-for="category in categories" 
@@ -43,7 +43,7 @@
   
           <!-- Products Grid -->
           <div class="row">
-            <div v-for="item in filteredItems" :key="item.id" class="col-12 col-md-4 col-lg-3">
+            <div data-aos="fade-up" v-for="item in filteredItems" :key="item.id" class="col-12 col-md-4 col-lg-3">
               <div class="card h-100 border-0 shadow-sm">
                 <div class="position-relative">
                   <img :src="item.image" :alt="item.name" class="card-img-top" style="height: 200px; object-fit: cover;">

@@ -4,10 +4,10 @@
       <div class="container-fluid">
         <div class="seller-pf row d-flex justify-content-between rounded-4">
           <div class="row col-10 col-md-8 gap-5">
-            <div
+            <div data-aos="fade-up-right"
               class="col-12 col-lg-6 pf-seller-main d-flex justify-content-center align-content-center bg-secondary-subtle rounded-4 position-relative"
             >
-              <img
+              <img 
                 src="@/assets/images/epak.png"
                 alt=""
                 class="pf-seller-avatar rounded-4"
@@ -19,12 +19,12 @@
               </p>
             </div>
             <div class="col-12 col-lg-6">
-              <h2 class="fw-bold mb-3">អាមំុកូនអុីប៉ាក់</h2>
-              <p class="text-paragraph fw-medium mb-4">
+              <h2 class="fw-bold mb-3" data-aos="fade-down">អាមំុកូនអុីប៉ាក់</h2>
+              <p class="text-paragraph fw-medium mb-4" data-aos="fade-up">
                 លក់ បន្លែធម្មជាតិ ទឹកប្រហុកម៉ែរួយ និង ឆៃថាវធ្វើពីការ៉ុត
                 ផលិតផលទាំងអស់បង្កើតដោយ
               </p>
-              <div class="d-flex align-items-center gap 3">
+              <div data-aos="zoom-in-up" class="d-flex align-items-center gap 3">
                 <p class="mb-0 text-warning fs-3 me-2">
                   <i class="bi bi-star-fill"></i>
                 </p>
@@ -36,7 +36,7 @@
             class="col-2 col-md-4 text-right d-flex justify-content-end px-0"
           >
             <div>
-              <router-link
+              <router-link data-aos="fade-down"
                 to=""
                 class="btn btn-primary me-0 me-md-3 mb-3 mb-md-0"
                 ><i class="bi bi-heart"></i
@@ -44,7 +44,7 @@
                   >តាមដាន</span
                 ></router-link
               >
-              <router-link to="" class="btn btn-share bg-white"
+              <router-link data-aos="fade-up-left" to="" class="btn btn-share bg-white"
                 ><i class="bi bi-share"></i>
               </router-link>
             </div>
@@ -55,17 +55,17 @@
     <section>
       <div class="container-fluid m-auto">
         <div class="follower-num row justify-content-center py-3 rounded-4">
-          <div class="col-4 d-flex justify-content-end">
+          <div class="col-4 d-flex justify-content-end" data-aos="fade-down-right">
             <div>
               <h3 class="text-center fw-bold color-style-2">7</h3>
               <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-4" data-aos="fade-up">
             <h3 class="text-center fw-bolder bg-warning color-style-2">31</h3>
             <h5 class="fw-bold text-center">បានលក់</h5>
           </div>
-          <div class="col-4 d-flex justify-content-start">
+          <div class="col-4 d-flex justify-content-start" data-aos="fade-up-left">
             <div>
               <h3 class="text-center fw-bold color-style-2">999</h3>
               <h5 class="fw-bold text-center">អីវ៉ាន់ក្នុងឃ្លាំង</h5>
@@ -79,12 +79,12 @@
       <div class="container-fluid">
         <div class="row px-0 justify-content-between">
           <div class="col-12 px-0">
-            <ul
+            <ul 
               class="nav nav-pills mynav-pills mb-5 gap-3"
               id="pills-tab"
               role="tablist"
             >
-              <li class="nav-item" role="presentation">
+              <li data-aos="fade-right" class="nav-item" role="presentation">
                 <button
                   class="nav-link active"
                   id="pills-home-tab"
@@ -98,7 +98,7 @@
                   ទាំងអស់
                 </button>
               </li>
-              <li class="nav-item" role="presentation">
+              <li data-aos="fade-right" class="nav-item" role="presentation">
                 <button
                   class="nav-link"
                   id="pills-profile-tab"
@@ -112,7 +112,7 @@
                   បន្លែ
                 </button>
               </li>
-              <li class="nav-item" role="presentation">
+              <li data-aos="fade-right" class="nav-item" role="presentation">
                 <button
                   class="nav-link"
                   id="pills-contact-tab"
@@ -126,7 +126,7 @@
                   ផ្លែឈើ
                 </button>
               </li>
-              <li class="nav-item" role="presentation">
+              <li data-aos="fade-right" class="nav-item" role="presentation">
                 <button
                   class="nav-link"
                   id="pills-more-tab"
@@ -140,7 +140,7 @@
                   ផ្សេងៗ
                 </button>
               </li>
-              <div class="px-0 ms-auto">
+              <div class="px-0 ms-auto" data-aos="fade-left">
                 <div class="filter-search position-relative">
                   <div class="d-flex justify-content-end">
                     <button class="btn btn-primary filter-search px-3">
@@ -159,7 +159,7 @@
                 </div>
               </div>
             </ul>
-            <div class="tab-content px-0" id="pills-tabContent">
+            <div class="tab-content shadow-none px-0" id="pills-tabContent">
               <div
                 class="tab-pane fade show active"
                 id="pills-home"
@@ -168,7 +168,7 @@
                 tabindex="0"
               >
                 <div class="row">
-                  <div
+                  <div  data-aos="fade-up" 
                     class="col-12 col-md-4 col-lg-3 mb-3"
                     v-for="product in allProduct.products"
                     :key="product.id"
@@ -219,15 +219,13 @@
                       </div>
 
                       <div
-                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                        @click="OnSavefav(product.id)"
+                        class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                        @click="allProduct.toggleFav(product.id)"
                       >
                         <p class="mb-0 mt-1 text-danger fw-bold">
                           <i
                             :class="
-                              allProduct.isFav
-                                ? 'bi bi-heart-fill'
-                                : 'bi bi-heart'
+                              product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'
                             "
                           ></i>
                         </p>
@@ -480,6 +478,6 @@ const OnSavefav = (id) => {
   // let index = allProduct.products.findIndex((item) => item.id == id);
   // console.log(index);
   // allProduct.products[index].isFav = !allProduct.products[index].isFav;
-   allProduct.isFav = !allProduct.isFav
+  allProduct.isFav = !allProduct.isFav;
 };
 </script>

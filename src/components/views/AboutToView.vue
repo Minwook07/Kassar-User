@@ -4,25 +4,25 @@
       <div class="row">
         <div class="col-12">
           <div class="about-line bg-primary rounded-pill mb-3 m-auto"></div>
-          <div class="aboutus-banner rounded-4 mb-3" style="height: 500px">
+          <div  data-aos="fade-up" class="aboutus-banner rounded-4 mb-3" style="height: 500px">
             <img src="@/assets/images/team.jpg" alt="" class="rounded-4" />
           </div>
           <div
             class="about-contact bg-primary px-3 py-2 rounded d-flex align-items-center gap-3"
           >
-            <div class="about-icons">
+            <div class="about-icons" data-aos="fade-down-right">
               <img src="@/assets/images/about-us/icons/facebook.png" alt="" />
             </div>
-            <div class="about-icons">
+            <div data-aos="fade-down-right" class="about-icons">
               <img src="@/assets/images/about-us/icons/instagram.png" alt="" />
             </div>
-            <div class="about-icons">
-              <img src="@/assets/images/about-us/icons/tiktok.png" alt="" />
+            <div data-aos="fade-down-right" class="about-icons">
+              <img src="@/assets/images/about-us/icons/telegram.png" alt="" />
             </div>
-            <div class="about-icons">
+            <div data-aos="fade-down-right" class="about-icons">
               <img src="@/assets/images/about-us/icons/twitter.png" alt="" />
             </div>
-            <div class="ms-auto">
+            <div data-aos="fade-down-left" class="ms-auto">
               <h5 class="mb-0 text-white">បណ្តាញសង្គម : Kassar</h5>
             </div>
           </div>
@@ -32,29 +32,29 @@
   </section>
   <section class="py-5">
     <div class="container-fluid">
-      <h1 class="text-center text-primary fw-bold mb-4">គោលដៅរបស់យើង</h1>
+      <h1 class="text-center text-primary fw-bold mb-4" data-aos="fade-up">គោលដៅរបស់យើង</h1>
       <div class="row">
         <div class="col-12 col-lg-6 mb-3">
-          <h2 class="fw-bold">អ្វីទៅជាកស្សា?</h2>
-          <p>
+          <h2 class="fw-bold" data-aos="fade-down-right">អ្វីទៅជាកស្សា?</h2>
+          <p data-aos="fade-up">
             ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង
             ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង
           </p>
-          <p>
+          <p data-aos="fade-up">
             ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើងពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង
           </p>
-          <h2 class="fw-bold">បេសកម្មរបស់យើង</h2>
-          <p>
+          <h2 class="fw-bold" data-aos="fade-down-right">បេសកម្មរបស់យើង</h2>
+          <p  data-aos="fade-up">
             ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើងពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើងពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង
           </p>
-          <p>
+          <p  data-aos="fade-up">
             ពួកយើងនឹងនៅជាផ្នែកមួយដើម្បីជួយគាំទ្រដល់អាជីវកម្មរបស់កសិករខ្មែរ
             ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង
           </p>
@@ -63,14 +63,14 @@
           class="col-12 col-lg-6 d-flex justify-content-center gap-4 flex-wrap"
         >
           <div class="col-12 col-md-6 d-flex flex-column align-items-center">
-            <div class="farm mb-4">
+            <div class="farm mb-4"  data-aos="fade-down">
               <img src="@/assets/images/about-us/farm/farm3.avif" class="rounded" alt="" />
             </div>
-            <div class="farm">
+            <div class="farm"  data-aos="fade-up">
               <img src="@/assets/images/about-us/farm/farm2.avif" class="rounded" alt="" />
             </div>
           </div>
-          <div class="col-12 col-md-6 farm" style="height: 425px;">
+          <div class="col-12 col-md-6 farm"  data-aos="fade-left" style="height: 425px;">
             <img src="@/assets/images/about-us/farm/farm3.avif" class="rounded" alt="" />
           </div>
         </div>
@@ -81,7 +81,7 @@
     <div class="header-section mb-5">
       <div class="row align-items-center">
         <div class="col-md-4">
-          <div class="rounded-image overflow-hidden">
+          <div class="rounded-image overflow-hidden"  data-aos="fade-down">
             <img
               src="@/assets/images/about-us/farm/farm3.avif"
               class="img-fluid rounded-3"
@@ -90,7 +90,7 @@
         </div>
         <div class="col-md-8">
           <div class="ps-md-4 position-relative">
-            <div
+            <div data-aos="fade-down-left"
               class="position-absolute d-none d-xl-block"
               style="right: -20px; top: -90px"
             >
@@ -99,10 +99,10 @@
                 alt=""
               />
             </div>
-            <p class="text-primary text-uppercase fw-bold mt-3"
+            <p  data-aos="fade-up" class="text-primary text-uppercase fw-bold mt-3"
               >ហេតុអ្វីជ្រើសរើសយកកស្សា?</p
             >
-            <h1 class="fw-bold mt-2">
+            <h1 class="fw-bold mt-2"  data-aos="fade-down">
               បង្កើនទីផ្សារដល់ប្រជាកសិករខ្មែរ​
               ព្រមទាំងសម្រួលដល់ប្រជាជនខ្មែរឱ្យទទួលបានផលិតផលសរីរាង្គ
             </h1>
@@ -121,7 +121,7 @@
           <div
             class="header-content px-2 d-flex justify-content-between position-relative z-2"
           >
-            <div class="header-item d-flex align-items-center gap-3">
+            <div data-aos="fade-down" class="header-item d-flex align-items-center gap-3">
               <div class="icon-circle">
                 <i class="bi bi-flower1"></i>
               </div>
@@ -130,7 +130,7 @@
               </div>
             </div>
 
-            <div class="header-item d-flex align-items-center gap-3">
+            <div data-aos="fade-up" class="header-item d-flex align-items-center gap-3">
               <div class="icon-circle">
                 <i class="bi bi-flower1"></i>
               </div>
@@ -139,7 +139,7 @@
               </div>
             </div>
 
-            <div class="header-item d-flex align-items-center gap-3">
+            <div data-aos="fade-down" class="header-item d-flex align-items-center gap-3">
               <div class="icon-circle">
                 <i class="bi bi-patch-check"></i>
               </div>
@@ -156,8 +156,8 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-6 col-md-4 col-lg-3 mb-3 overflow-hidden">
-          <h1 class="fw-bold">សមាជិកក្រុម</h1>
-          <div class="d-none d-lg-block" style="width: 100%; height: 200px">
+          <h1 class="fw-bold" data-aos="fade-down">សមាជិកក្រុម</h1>
+          <div data-aos="fade-up-right" class="d-none d-lg-block" style="width: 100%; height: 200px">
             <img
               src="@/assets/images/about-us/farm/flower.png"
               alt=""
@@ -165,7 +165,7 @@
             />
           </div>
         </div>
-        <div
+        <div data-aos="fade-up-left"
           class="col-6 col-md-4 col-lg-3 mb-3"
           v-for="team in teamStore.teams"
           :key="team.id"
