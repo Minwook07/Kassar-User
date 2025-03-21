@@ -6,7 +6,7 @@ export const useShopStores = defineStore('views/shops_store',{
     }),
     actions:{
         onlaodShop(){
-            axios.get('http://kassar-api.test/api/shops'===-----)
+            axios.get('http://kassar-api.test/api/shops')
             .then((res)=>{
                 this.shops = res.data.data;
                 console.log('Response:', response.data);
