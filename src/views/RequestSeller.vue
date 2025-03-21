@@ -107,7 +107,7 @@ const onOpenCredit = () => {
 const onSaveSeller = () => {
   let frmData = new FormData()
   frmData.append('shop_name', sellerStore.frm.shop_name),
-    frmData.append('description', sellerStore.frm.description)
+  frmData.append('description', sellerStore.frm.description)
 
   axios.post('http://localhost/kassar_api/public/api/seller_request', frmData)
     .then((res) => {
@@ -115,8 +115,4 @@ const onSaveSeller = () => {
       alert('successfull.');
     })
 }
-
-
-
-
 </script>

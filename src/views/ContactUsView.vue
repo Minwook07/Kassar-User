@@ -95,30 +95,47 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">ឈ្មោះ</label>
-                                        <input type="text" class="form-control shadow-none" id="name" placeholder="">
+                                        <input type="text" class="form-control shadow-none" id="name" placeholder="" 
+                                            :class="{'is-invalid': contactStore.vv.name.$error}" v-model="contactStore.frm.name">
+                                            <div class="invalid-feedback" v-if="contactStore.vv.name.$error">
+                                                {{ contactStore.vv.name.$errors[0].$message }}
+                                                <!-- Please enter your name -->
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">លេខទូរស័ព្ទ</label>
-                                        <input type="text" class="form-control shadow-none" id="name" placeholder="">
+                                        <input type="text" class="form-control shadow-none" id="phone" placeholder="" 
+                                            :class="{'is-invalid': contactStore.vv.phone.$error}" v-model="contactStore.frm.phone">
+                                            <div class="invalid-feedback" v-if="contactStore.vv.phone.$error">
+                                                {{ contactStore.vv.phone.$errors[0].$message }}
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="email" class="form-label">អ៊ីមែល</label>
-                                        <input type="text" class="form-control shadow-none" id="email" placeholder="">
+                                        <input type="text" class="form-control shadow-none" id="email" placeholder=""
+                                            :class="{'is-invalid': contactStore.vv.email.$error}" v-model="contactStore.frm.email">
+                                            <div class="invalid-feedback" v-if="contactStore.vv.email.$error">
+                                                {{ contactStore.vv.email.$errors[0].$message }}
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">បញ្ចេញមតិ</label>
-                                        <textarea class="form-control shadow-none" id="exampleFormControlTextarea1"
+                                        <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" 
+                                            :class="{'is-invalid': contactStore.vv.desc.$error}" v-model="contactStore.frm.desc"
                                             rows="4" style="min-height: 150px;"></textarea>
+                                            <div class="invalid-feedback" v-if="contactStore.vv.desc.$error">
+                                                {{ contactStore.vv.desc.$errors[0].$message }}
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <button type="button" class="btn-contact btn btn-primary">ដាក់បញ្ជូន</button>
+                                    <button type="button" class="btn-contact btn btn-primary shadow-none" @click="onSaveContact()">ដាក់បញ្ជូន</button>
                                 </div>
                             </div>
                         </form>
@@ -126,8 +143,163 @@
                 </div>
             </div>
 
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.831910745176!2d104.88776301934413!3d11.572216188389563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310951001c8a7b55%3A0xa95ff42ea192073c!2sANT%20Technology%20Training%20School%202!5e0!3m2!1sen!2skh!4v1740537317234!5m2!1sen!2skh" class="contact-map mt-5" width="100%" height="350" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.831910745176!2d104.88776301934413!3d11.572216188389563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310951001c8a7b55%3A0xa95ff42ea192073c!2sANT%20Technology%20Training%20School%202!5e0!3m2!1sen!2skh!4v1740537317234!5m2!1sen!2skh"
+                class="contact-map mt-5" width="100%" height="350" style="border:0;" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </main>
+
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
+        <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
+            <div class="toast-content">
+                <div>
+                    <i class="bi bi-check2-circle fs-5 text-success"></i>
+                    <!-- <i class="bi bi-exclamation-circle fs-6 text-info"></i>
+                    <i class="bi bi-x-circle fs-6 text-danger"></i> -->
+                </div>
+
+                <div class="message">
+                    <span class="text text-1">ជោគជ័យ</span>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="progress active"></div>
+        </div>
+    </div>
 </template>
 
+<script setup>
+import { useContactStore } from '@/stores/contact_store';
+import { Toast } from 'bootstrap';
+import { computed, onMounted } from 'vue';
+import axios from 'axios';
+import { helpers, integer, required, email, maxLength, minLength} from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
+
+const contactStore = useContactStore()
+const onlyLettersAndSpaces = (value) => /^[A-Za-z\s]+$/.test(value);
+const rules = computed(() => ({
+    name:{
+        required: helpers.withMessage('សូមបញ្ចូលឈ្មោះរបស់អ្នក', required),
+        onlyLettersAndSpaces: helpers.withMessage('ឈ្មោះមិនអាចមានលេខ ឬអក្សរពិសេសបានទេ', onlyLettersAndSpaces)
+    },
+    phone: {
+        required: helpers.withMessage('សូមបញ្ចូលលេខទូរស័ព្ទរបស់អ្នក', required),
+        integer: helpers.withMessage('លេខទូរស័ព្ទមិនអាចមានអក្សរ ឬអក្សរពិសេសបានទេ', integer)
+    },
+    email:{
+        required: helpers.withMessage('សូមបញ្ចូលអ៊ីមែលរបស់អ្នក', required),
+        email: helpers.withMessage('អ៊ីមែលមិនត្រឹមត្រូវទេ', email)
+    },
+    desc:{
+        required: helpers.withMessage('សូមបញ្ចូលការពិពណ៌នារ', required),
+        minLength: helpers.withMessage('ការពិពណ៌នាត្រូវមានយ៉ាងតិច 10 តួអក្សរ', minLength(10)),
+        maxLength: helpers.withMessage('ការពិពណ៌នាមិនអាចលើស 500 តួអក្សរ', maxLength(500))
+    }
+}))
+contactStore.vv = useVuelidate(rules, contactStore.frm)
+
+onMounted(() => {
+    contactStore.toast_alert = Toast.getOrCreateInstance(document.getElementById('liveToast'));
+})
+
+const onSaveContact = () => {
+
+    contactStore.vv.$validate()
+    if(contactStore.vv.$error){
+        return
+    }
+
+    let frmData = new FormData()
+    frmData.append('name', contactStore.frm.name)
+        frmData.append('phone', contactStore.frm.phone)
+        frmData.append('email', contactStore.frm.email)
+        frmData.append('desc', contactStore.frm.desc)
+
+    axios.post('http://localhost/kassar_api/public/api/contacts', frmData)
+        .then((res) => {
+            contactStore.onLoadContact()
+
+            // reset form
+            contactStore.frm = {
+                name: '',
+                phone: '',
+                email: '',
+                desc: ''
+            };
+            contactStore.vv.$reset();
+
+            if (contactStore.toast_alert) {
+                contactStore.toast_alert.show();
+            }
+        })
+}
+</script>
+
+<style scoped>
+.toast {
+    position: relative;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0px 4px 24px 2px rgba(20, 25, 38, 0.05);
+    overflow: hidden;
+    transition: .4s ease-in-out;
+    width: 250px;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toast-content .message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message .text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.message .text.text-1 {
+    font-weight: 600;
+    color: #333;
+}
+
+.progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background-color: #fff;
+}
+
+.progress:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #2770ff;
+}
+
+.progress.active:before {
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    100% {
+        right: 100%;
+    }
+}
+</style>

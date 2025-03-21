@@ -6,7 +6,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h4 class="fw-bold">កន្ត្រក <span class="text-secondary">៣ ទំនិញ</span></h4>
           <div>
-            <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckChecked">
+            <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox" value="" id="flexCheckChecked">
             <label for="selectAll">ជ្រើសទាំងអស់</label>
           </div>
         </div>
@@ -14,13 +14,13 @@
         <div>
           <!-- Cart Items -->
           <div class="form-check align-items-center d-flex justify-content-start">
-            <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckChecked">
+            <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox" value="" id="flexCheckChecked">
             <label class="form-check-label fs-5 fw-bold" for="flexCheckChecked">
               ហាងលក់សាច់គោ
             </label>
           </div>
           <div class="cart-item d-flex align-items-center">
-            <input class="form-check-input me-3 rounded-circle" type="checkbox" value="" id="flexCheckDefault" />
+            <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox" value="" id="flexCheckDefault" />
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
               <img src="@/assets/images/cart-img/img-1.jpg" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
