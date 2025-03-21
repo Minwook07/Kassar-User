@@ -1,7 +1,7 @@
 <template>
   <section style="background-color: #f2f2f2">
     <div class="bg-allProduct d-flex align-items-center justify-content-center">
-      <div  data-aos="fade-up">
+      <div data-aos="fade-up">
         <h1 class="text-secondary fw-bold">ទំនិញ</h1>
         <div>
           <router-link
@@ -24,57 +24,15 @@
           <hr />
           <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold mb-3">ប្រភេទ</h5>
-            <div class="mb-2 myform-check form-check">
-              <input
-                type="checkbox"
-                class="form-check-input shadow-none"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1">ត្រី</label>
-            </div>
-            <div class="mb-2 myform-check form-check">
-              <input
-                type="checkbox"
-                class="form-check-input shadow-none"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1">បន្លែ</label>
-            </div>
-            <div class="mb-2 myform-check form-check">
-              <input
-                type="checkbox"
-                class="form-check-input shadow-none"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1">ផ្លែឈើ</label>
-            </div>
-            <div class="mb-2 myform-check form-check">
-              <input
-                type="checkbox"
-                class="form-check-input shadow-none"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1">អង្ករ</label>
-            </div>
-            <div class="mb-2 myform-check form-check">
-              <input
-                type="checkbox"
-                class="form-check-input shadow-none"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1"
-                >អាហារគ្រៀម</label
-              >
-            </div>
-            <div class="mb-3 myform-check form-check">
-              <input
-                type="checkbox"
-                class="form-check-input shadow-none"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1"
-                >អាហារសម្រន់</label
-              >
+            <div v-for="category in categories" :key="category.id">
+              <div class="mb-2 myform-check form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input shadow-none"
+                  id="exampleCheck1"
+                />
+                <label class="form-check-label" for="exampleCheck1">{{category.name}}</label>
+              </div>
             </div>
             <hr />
           </div>
@@ -174,9 +132,10 @@
           </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 row justify-content-center">
-          <div  data-aos="fade-up"
+          <div
+            data-aos="fade-up"
             class="col-12 col-md-6 col-lg-3 mb-3"
-            v-for="product in paginatedProducts"
+            v-for="product in products"
             :key="product.id"
           >
             <div
@@ -191,7 +150,7 @@
               </div>
               <div class="p-3 card-body">
                 <div class="d-flex justify-content-between">
-                  <p class="text-primary mb-1">បន្លែ</p>
+                  <p class="text-primary mb-1">{{ product.category.name }}</p>
                   <p class="mb-1">
                     <span class="text-warning me-2"
                       ><i class="bi bi-star-fill"></i></span
@@ -199,10 +158,10 @@
                   </p>
                 </div>
                 <h5 class="fw-bold">{{ product.name }}</h5>
-                <p>500g</p>
+                <p>{{ product.product_unit.name }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <p class="text-primary mb-0 fw-bold">
-                    10000៛
+                    {{ product.price }}
                     <span class="text-decoration-line-through text-paragraph"
                       >10000៛</span
                     >
@@ -246,6 +205,8 @@
 import { ref, computed } from "vue";
 import { useAllProducts } from "@/stores/views/allProduct_store";
 import Paginate from "vuejs-paginate-next";
+import { onMounted } from "vue";
+import axios from "axios";
 const allProducts = useAllProducts();
 
 const itemsPerPage = 4;
@@ -277,4 +238,33 @@ const validateRange = (index) => {
 const formatPrice = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+const products = ref([]);
+const categories = ref([]);
+const GetAllProducts = () => {
+  axios
+    .get("http://kassar_api.test/api/products")
+    .then((res) => {
+      // console.log(res.data.data);
+      products.value = res.data.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+};
+const GetAllCategories = () => {
+  axios
+    .get("http://kassar_api.test/api/categories")
+    .then((res) => {
+      console.log();
+      categories.value = res.data.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching categories:", error);
+    });
+};
+onMounted(() => {
+  GetAllProducts();
+  GetAllCategories();
+});
 </script>

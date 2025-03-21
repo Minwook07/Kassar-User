@@ -6,9 +6,6 @@
         <!-- Profile Card -->
          <ProfileToView/>
          <TabView/>
-
-
-
       </div>
 
       <!-- Main Content -->

@@ -2,13 +2,22 @@
   <section style="background-color: #f4f4f4">
     <section class="py-5">
       <div class="container-fluid">
-        <div class="seller-pf row d-flex justify-content-between rounded-4">
+        <div
+          class="seller-pf row d-flex justify-content-between rounded-4"
+          v-for="shop in shops"
+          :key="shop.id"
+        >
           <div class="row col-10 col-md-8 gap-5">
-            <div data-aos="fade-up-right"
+            <div
+              data-aos="fade-up-right"
               class="col-12 col-lg-6 pf-seller-main d-flex justify-content-center align-content-center bg-secondary-subtle rounded-4 position-relative"
             >
-              <img 
-                src="@/assets/images/epak.png"
+              <img
+                :src="
+                  shop.image
+                    ? `http://kassar-api.test/storage/${shop.image}`
+                    : noPhoto
+                "
                 alt=""
                 class="pf-seller-avatar rounded-4"
               />
@@ -19,12 +28,16 @@
               </p>
             </div>
             <div class="col-12 col-lg-6">
-              <h2 class="fw-bold mb-3" data-aos="fade-down">អាមំុកូនអុីប៉ាក់</h2>
+              <h2 class="fw-bold mb-3" data-aos="fade-down">
+                {{shop.shop_name}}
+              </h2>
               <p class="text-paragraph fw-medium mb-4" data-aos="fade-up">
-                លក់ បន្លែធម្មជាតិ ទឹកប្រហុកម៉ែរួយ និង ឆៃថាវធ្វើពីការ៉ុត
-                ផលិតផលទាំងអស់បង្កើតដោយ
+               {{ shop.shop_status }}
               </p>
-              <div data-aos="zoom-in-up" class="d-flex align-items-center gap 3">
+              <div
+                data-aos="zoom-in-up"
+                class="d-flex align-items-center gap 3"
+              >
                 <p class="mb-0 text-warning fs-3 me-2">
                   <i class="bi bi-star-fill"></i>
                 </p>
@@ -36,7 +49,8 @@
             class="col-2 col-md-4 text-right d-flex justify-content-end px-0"
           >
             <div>
-              <router-link data-aos="fade-down"
+              <router-link
+                data-aos="fade-down"
                 to=""
                 class="btn btn-primary me-0 me-md-3 mb-3 mb-md-0"
                 ><i class="bi bi-heart"></i
@@ -44,7 +58,10 @@
                   >តាមដាន</span
                 ></router-link
               >
-              <router-link data-aos="fade-up-left" to="" class="btn btn-share bg-white"
+              <router-link
+                data-aos="fade-up-left"
+                to=""
+                class="btn btn-share bg-white"
                 ><i class="bi bi-share"></i>
               </router-link>
             </div>
@@ -55,7 +72,10 @@
     <section>
       <div class="container-fluid m-auto">
         <div class="follower-num row justify-content-center py-3 rounded-4">
-          <div class="col-4 d-flex justify-content-end" data-aos="fade-down-right">
+          <div
+            class="col-4 d-flex justify-content-end"
+            data-aos="fade-down-right"
+          >
             <div>
               <h3 class="text-center fw-bold color-style-2">7</h3>
               <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
@@ -65,7 +85,10 @@
             <h3 class="text-center fw-bolder bg-warning color-style-2">31</h3>
             <h5 class="fw-bold text-center">បានលក់</h5>
           </div>
-          <div class="col-4 d-flex justify-content-start" data-aos="fade-up-left">
+          <div
+            class="col-4 d-flex justify-content-start"
+            data-aos="fade-up-left"
+          >
             <div>
               <h3 class="text-center fw-bold color-style-2">999</h3>
               <h5 class="fw-bold text-center">អីវ៉ាន់ក្នុងឃ្លាំង</h5>
@@ -79,7 +102,7 @@
       <div class="container-fluid">
         <div class="row px-0 justify-content-between">
           <div class="col-12 px-0">
-            <ul 
+            <ul
               class="nav nav-pills mynav-pills mb-5 gap-3"
               id="pills-tab"
               role="tablist"
@@ -168,7 +191,8 @@
                 tabindex="0"
               >
                 <div class="row">
-                  <div  data-aos="fade-up" 
+                  <div
+                    data-aos="fade-up"
                     class="col-12 col-md-4 col-lg-3 mb-3"
                     v-for="product in allProduct.products"
                     :key="product.id"
@@ -471,13 +495,17 @@
   </section>
 </template>
 <script setup>
-import { ref } from "vue";
+import { useRoute } from 'vue-router';
+import { useShopStores } from "@/stores/views/shops_store";
 import { useAllProducts } from "@/stores/views/allProduct_store";
+import { onMounted } from "vue";
+const shopStores = useShopStores();
 const allProduct = useAllProducts();
+onMounted(() => {
+shopStores.onlaodShop();
+ 
+});
 const OnSavefav = (id) => {
-  // let index = allProduct.products.findIndex((item) => item.id == id);
-  // console.log(index);
-  // allProduct.products[index].isFav = !allProduct.products[index].isFav;
   allProduct.isFav = !allProduct.isFav;
 };
 </script>
