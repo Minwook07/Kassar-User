@@ -41,13 +41,7 @@
                    v-model="form.email" 
                    class="form-control modern-input" 
                    placeholder="បញ្ចូលអ៊ីមែល" 
-                   :class="{ 'is-invalid': $v.form.email.$dirty && $v.form.email.$error, 'is-valid': $v.form.email.$dirty && !$v.form.email.$error }" />
-            <div class="invalid-feedback" v-if="$v.form.email.$dirty && $v.form.email.$error">
-              {{ $v.form.email.$errors[0]?.$message }}
-            </div>
-            <div class="valid-feedback" v-if="$v.form.email.$dirty && !$v.form.email.$error">
-              អ៊ីមែលត្រឹមត្រូវ
-            </div>
+                   />
           </div>
 
           <!-- Password Field -->
