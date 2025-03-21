@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-12">
           <div class="about-line bg-primary rounded-pill mb-3 m-auto"></div>
-          <div  data-aos="fade-up" class="aboutus-banner rounded-4 mb-3" style="height: 500px">
+          <div  data-aos="fade-up " class="aboutus-banner rounded-4 mb-3" style="height: 500px">
             <img src="@/assets/images/team.jpg" alt="" class="rounded-4" />
           </div>
           <div

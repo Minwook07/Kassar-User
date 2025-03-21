@@ -19,23 +19,26 @@
                                         <div class="cart-img d-flex justify-content-between align-items-center">
                                             <img src="@/assets/images/cart-img/icon/visa.svg" alt="">
                                             <img src="@/assets/images/cart-img/icon/mastercard.svg" alt="">
-                                            <img src="@/assets/images/cart-img/icon/unionpay.svg" class="img-uni" alt="">
+                                            <img src="@/assets/images/cart-img/icon/unionpay.svg" class="img-uni"
+                                                alt="">
                                             <img src="@/assets/images/cart-img/icon/jcb.svg" alt="">
                                         </div>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" id="code" placeholder="លេខកាត">
+                                <input type="text" class="form-control shadow-none" id="code" placeholder="លេខកាត">
                             </div>
                         </div>
                         <div class="col-12 mt-4">
                             <div class="row">
                                 <div class="col-6 mb-3">
-                                    <label for="date" class="form-label">កាលបរិច្ឆេទផុតកំណត់</label>
-                                    <input type="date" class="form-control" id="date" placeholder="">
+                                    <label for="expiryDate" class="form-label">កាលបរិច្ឆេទផុតកំណត់ (MM/YY)</label>
+                                    <input type="text" class="form-control shadow-none" id="expiryDate"
+                                        v-model="expiryDate" placeholder="MM/YY" maxlength="5"
+                                        @input="formatExpiryDate" />
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label for="cvv" class="form-label">CVV</label>
-                                    <input type="text" class="form-control" id="cvv" placeholder="0000">
+                                    <input type="text" class="form-control shadow-none" id="cvv" placeholder="0000">
                                 </div>
                             </div>
                         </div>
@@ -53,10 +56,12 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { useCardStore } from '@/stores/card_store';
 
+const expiryDate = ref("");
 const cardStore = useCardStore()
 
 onMounted(() => {
@@ -69,6 +74,19 @@ const onSaveCart = () => {
     cardStore.mdl_credit.hide()
 
 }
+
+const formatExpiryDate = (event) => {
+    let value = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    if (value.length > 4) {
+        value = value.slice(0, 4); // Restrict length to 4 digits
+    }
+
+    if (value.length >= 2) {
+        value = value.slice(0, 2) + "/" + value.slice(2); // Add slash after MM
+    }
+
+    expiryDate.value = value;
+};
 
 
 </script>

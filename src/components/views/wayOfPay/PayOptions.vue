@@ -1,5 +1,5 @@
 <template>
-    <div class="card-pay">
+    <div class="card-pay bg-white">
         <div class="py-5 px-4">
             <div class="d-flex justify-content-between">
                 <div>
@@ -22,23 +22,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" id="code" placeholder="លេខកាត">
+                            <input type="text" class="form-control shadow-none" id="code" placeholder="លេខកាត">
                         </div>
                     </div>
                     <div class="col-12 mt-4">
                         <div class="row">
                             <div class="col-6 mb-3">
-                                <label for="date" class="form-label">កាលបរិច្ឆេទផុតកំណត់</label>
-                                <input type="date" class="form-control" id="date" placeholder="">
+                                <label for="expiryDate" class="form-label">កាលបរិច្ឆេទផុតកំណត់ (MM/YY)</label>
+                                <input type="text" class="form-control shadow-none" id="expiryDate" v-model="expiryDate"
+                                    placeholder="MM/YY" maxlength="5" @input="formatExpiryDate" />
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="cvv" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="cvv" placeholder="0000">
+                                <input type="text" class="form-control shadow-none" id="cvv" placeholder="0000">
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="mt-4 btn-wayPay ">
                 <button class="btn btn-success" type="button">
@@ -48,3 +48,22 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+const expiryDate = ref("");
+
+const formatExpiryDate = (event) => {
+    let value = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    if (value.length > 4) {
+        value = value.slice(0, 4); // Restrict length to 4 digits
+    }
+
+    if (value.length >= 2) {
+        value = value.slice(0, 2) + "/" + value.slice(2); // Add slash after MM
+    }
+
+    expiryDate.value = value;
+};
+</script>

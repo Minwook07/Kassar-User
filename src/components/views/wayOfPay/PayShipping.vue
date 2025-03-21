@@ -1,5 +1,5 @@
 <template>
-    <div class="card-process py-5 mx-auto">
+    <div class="card-process py-5 mx-auto bg-white">
         <h5 class="fw-bold">ដឹកជញ្ជូន</h5>
         <small class="">កាលបរិច្ឆេទដឹកជញ្ជូន៖ 04-Sep-2025</small>
 
