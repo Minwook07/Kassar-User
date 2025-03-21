@@ -8,6 +8,7 @@ import '@/assets/css/cart.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 // import AOS from 'aos';
 import 'aos/dist/aos.css';
+import axios from 'axios';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -20,6 +21,9 @@ const app = createApp(App);
 app.use(createPinia())
 app.use(router)
 app.mount('#app')
+
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+
 AOS.init();
 
 // AOS.init({
