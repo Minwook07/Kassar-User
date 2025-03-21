@@ -5,15 +5,12 @@ export const useShopStores = defineStore('views/shops_store',{
         selected_id:0,
     }),
     actions:{
-        onlaodShop(id){
-            axios.get(`http://kassar-api.test/api/shops/${id}`)
+        onlaodShop(){
+            axios.get('http://kassar-api.test/api/shops'===-----)
             .then((res)=>{
                 this.shops = res.data.data;
                 console.log('Response:', response.data);
             })
         },
-        setSelectShop(id){
-            this.selected_id = id;
-        }
     }
 })

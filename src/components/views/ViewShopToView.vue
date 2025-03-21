@@ -4,8 +4,8 @@
       <div class="container-fluid">
         <div
           class="seller-pf row d-flex justify-content-between rounded-4"
-          v-for="shop in shopStores.shops"
-          :key="shop.setSelectShop"
+          v-for="shop in shops"
+          :key="shop.id"
         >
           <div class="row col-10 col-md-8 gap-5">
             <div
@@ -501,10 +501,7 @@ import { useAllProducts } from "@/stores/views/allProduct_store";
 import { onMounted } from "vue";
 const shopStores = useShopStores();
 const allProduct = useAllProducts();
-// const shop = ref(null);
-// const route = useRoute();
 onMounted(() => {
-  // shopStores.selected_id()
 shopStores.onlaodShop();
  
 });
