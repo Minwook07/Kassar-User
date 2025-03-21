@@ -70,7 +70,7 @@
         <div class="text-center mt-3"
              data-aos="fade-up" 
              data-aos-delay="900">
-          <p>ចងចាំពាក្យសម្ងាត់? <router-link to="/login" class="text-success">ចូលគណនី</router-link></p>
+          <p>ចងចាំពាក្យសម្ងាត់? <router-link to="/login" class="text-success text-decoration-none ">ចូលគណនី</router-link></p>
         </div>
       </div>
     </div>
@@ -182,7 +182,4 @@ function onSubmit() {
   transition: width 0.3s ease;
 }
 
-.text-success:hover::after {
-  width: 100%;
-}
 </style>
