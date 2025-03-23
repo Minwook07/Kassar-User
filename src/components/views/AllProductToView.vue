@@ -131,19 +131,24 @@
             <hr />
           </div>
         </div>
-        <div class="col-12 col-md-9 col-lg-10 row justify-content-center">
+        <div class="col-12 col-md-9 col-lg-10 row justify-content-start">
+          <div class="col-12 row mb-3 justify-content-end px-0">
+            <div class="col-12 col-lg-6 ps-4">
+            <input type="text" placeholder="ស្វែងរក" class="form-control search"> 
+            </div>
+          </div>
           <div
             data-aos="fade-up"
             class="col-12 col-md-6 col-lg-3 mb-3"
-            v-for="product in products"
+            v-for="product in allProducts"
             :key="product.id"
           >
             <div
-              class="bg-white card card-product border-0 rounded position-relative"
+              class="bg-white text-decoration-none card card-product border-0 rounded position-relative"
             >
               <div class="card-img p-3">
                 <img
-                  :src="product.img"
+                  :src="product.product_thumbnail"
                   class="mycard-img-top rounded-top object-fit-cover"
                   alt=""
                 />
@@ -191,62 +196,31 @@
           </div>
         </div>
         <paginate
-          :page-count="pageCount"
-          :click-handler="handlePageClick"
-          :prev-text="'<i class=\'bi bi-chevron-left\'></i>'"
-          :next-text="'<i class=\'bi bi-chevron-right\'></i>'"
-          :container-class="'pagination'"
-        />
+  :page-count="pageCount"
+  :click-handler="handlePageClick"
+  :prev-text="'<i class=\'bi bi-chevron-left\'></i>'"
+  :next-text="'<i class=\'bi bi-chevron-right\'></i>'"
+  :container-class="'pagination'"
+/>
+
       </div>
     </div>
   </section>
 </template>
 <script setup>
 import { ref, computed } from "vue";
-import { useAllProducts } from "@/stores/views/allProduct_store";
 import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
 import axios from "axios";
-const allProducts = useAllProducts();
-
-const itemsPerPage = 4;
-const currentPage = ref(1);
-const pageCount = computed(() =>
-  Math.ceil(allProducts.products.length / itemsPerPage)
-);
-const paginatedProducts = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return allProducts.products.slice(start, end);
-});
-const handlePageClick = (pageNumber) => {
-  currentPage.value = pageNumber;
-};
-
-const minPrice = 0;
-const maxPrice = 100000;
-const range = ref([20000, 40000]);
-
-const validateRange = (index) => {
-  if (index === 0 && range.value[0] > range.value[1]) {
-    range.value[0] = range.value[1];
-  } else if (index === 1 && range.value[1] < range.value[0]) {
-    range.value[1] = range.value[0];
-  }
-};
-
-const formatPrice = (value) => {
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
-const products = ref([]);
+const allProducts = ref([]);
 const categories = ref([]);
 const GetAllProducts = () => {
   axios
     .get("http://kassar_api.test/api/products")
     .then((res) => {
-      // console.log(res.data.data);
-      products.value = res.data.data;
+      allProducts.value = res.data.data;
+      console.log(res.data.data);
+
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -267,4 +241,36 @@ onMounted(() => {
   GetAllProducts();
   GetAllCategories();
 });
+
+const itemsPerPage = 4;
+const currentPage = ref(1);
+const pageCount = computed(() =>
+  Math.max(1, Math.ceil(allProducts.length / itemsPerPage))
+);
+const paginatedProducts = computed(() => {
+  if (!allProducts.length) return [];
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return allProducts.products.slice(start, end);
+});
+
+const handlePageClick = (pageNumber) => {
+  currentPage.value = pageNumber;
+};
+
+const minPrice = 0;
+const maxPrice = 100000;
+const range = ref([20000, 40000]);
+
+const validateRange = (index) => {
+  if (index === 0 && range.value[0] > range.value[1]) {
+    range.value[0] = range.value[1];
+  } else if (index === 1 && range.value[1] < range.value[0]) {
+    range.value[1] = range.value[0];
+  }
+};
+
+const formatPrice = (value) => {
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 </script>

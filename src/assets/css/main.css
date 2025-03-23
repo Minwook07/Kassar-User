@@ -1400,6 +1400,10 @@ body {
 
 /* end : viewshop*/
 /* start allProduct view */
+.search:focus {
+    box-shadow: none;
+    border: #dddddd;
+}
 .bg-allProduct {
     background-image: url(@/assets/images/bg_allProducts.png);
     background-size: cover;
