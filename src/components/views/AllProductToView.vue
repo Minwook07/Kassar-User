@@ -31,7 +31,9 @@
                   class="form-check-input shadow-none"
                   id="exampleCheck1"
                 />
-                <label class="form-check-label" for="exampleCheck1">{{category.name}}</label>
+                <label class="form-check-label" for="exampleCheck1">{{
+                  category.name
+                }}</label>
               </div>
             </div>
             <hr />
@@ -131,19 +133,29 @@
             <hr />
           </div>
         </div>
-        <div class="col-12 col-md-9 col-lg-10 row justify-content-center">
+        <div class="col-12 col-md-9 col-lg-10 row justify-content-start">
+          <div class="col-12 row mb-3 justify-content-end px-0">
+            <div class="col-12 col-lg-6 ps-4">
+              <input
+                type="text"
+                placeholder="ស្វែងរក"
+                class="form-control search"
+              />
+            </div>
+          </div>
           <div
             data-aos="fade-up"
             class="col-12 col-md-6 col-lg-3 mb-3"
-            v-for="product in products"
+            v-for="product in allProducts"
             :key="product.id"
+            @click="goToDetail(product.id)"
           >
             <div
-              class="bg-white card card-product border-0 rounded position-relative"
+              class="bg-white text-decoration-none card card-product border-0 rounded position-relative"
             >
               <div class="card-img p-3">
                 <img
-                  :src="product.img"
+                  :src="product.product_thumbnail"
                   class="mycard-img-top rounded-top object-fit-cover"
                   alt=""
                 />
@@ -203,22 +215,50 @@
 </template>
 <script setup>
 import { ref, computed } from "vue";
-import { useAllProducts } from "@/stores/views/allProduct_store";
 import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
 import axios from "axios";
-const allProducts = useAllProducts();
+import { useRouter } from 'vue-router';
+const allProducts = ref([]);
+const categories = ref([]);
+const GetAllProducts = () => {
+  axios
+    .get("http://kassar_api.test/api/products")
+    .then((res) => {
+      allProducts.value = res.data.data;
+      console.log(res.data.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+};
+const GetAllCategories = () => {
+  axios
+    .get("http://kassar_api.test/api/categories")
+    .then((res) => {
+      categories.value = res.data.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching categories:", error);
+    });
+};
+onMounted(() => {
+  GetAllProducts();
+  GetAllCategories();
+});
 
 const itemsPerPage = 4;
 const currentPage = ref(1);
 const pageCount = computed(() =>
-  Math.ceil(allProducts.products.length / itemsPerPage)
+  Math.max(1, Math.ceil(allProducts.length / itemsPerPage))
 );
 const paginatedProducts = computed(() => {
+  if (!allProducts.length) return [];
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   return allProducts.products.slice(start, end);
 });
+
 const handlePageClick = (pageNumber) => {
   currentPage.value = pageNumber;
 };
@@ -238,33 +278,10 @@ const validateRange = (index) => {
 const formatPrice = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+const router = useRouter();
+const goToDetail = (id) => {
+  router.push({ name: 'detailproduct', query: { id } });
 
-const products = ref([]);
-const categories = ref([]);
-const GetAllProducts = () => {
-  axios
-    .get("http://kassar_api.test/api/products")
-    .then((res) => {
-      // console.log(res.data.data);
-      products.value = res.data.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
+
 };
-const GetAllCategories = () => {
-  axios
-    .get("http://kassar_api.test/api/categories")
-    .then((res) => {
-      console.log();
-      categories.value = res.data.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching categories:", error);
-    });
-};
-onMounted(() => {
-  GetAllProducts();
-  GetAllCategories();
-});
 </script>

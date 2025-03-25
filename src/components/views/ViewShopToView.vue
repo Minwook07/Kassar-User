@@ -163,7 +163,7 @@
                   ផ្សេងៗ
                 </button>
               </li>
-              <div class="px-0 ms-auto" data-aos="fade-left">
+              <div class="px-0 ms-auto z-3" data-aos="fade-left">
                 <div class="filter-search position-relative">
                   <div class="d-flex justify-content-end">
                     <button class="btn btn-primary filter-search px-3">
@@ -173,7 +173,7 @@
                     </button>
                   </div>
                   <div
-                    class="filter-hover z-3 position-absolute bg-gradient rounded end-0"
+                    class="filter-hover position-absolute bg-gradient rounded end-0 z-5"
                   >
                     <div class="my-2 dropdown-hover">បន្លែ</div>
                     <div class="mb-2 dropdown-hover">ផ្លែឈើ</div>
@@ -182,7 +182,7 @@
                 </div>
               </div>
             </ul>
-            <div class="tab-content shadow-none px-0" id="pills-tabContent">
+            <div class="tab-content shadow-none px-0" id="pills-tabContent z-1">
               <div
                 class="tab-pane fade show active"
                 id="pills-home"
@@ -194,7 +194,7 @@
                   <div
                     data-aos="fade-up"
                     class="col-12 col-md-4 col-lg-3 mb-3"
-                    v-for="product in allProduct.products"
+                    v-for="product in allProducts"
                     :key="product.id"
                   >
                     <div
@@ -202,14 +202,14 @@
                     >
                       <div class="card-img p-3">
                         <img
-                          :src="product.img"
+                          :src="product.product_thumbnail"
                           class="mycard-img-top rounded-top object-fit-cover"
                           alt=""
                         />
                       </div>
                       <div class="p-3 card-body">
                         <div class="d-flex justify-content-between">
-                          <p class="text-primary mb-1">បន្លែ</p>
+                          <p class="text-primary mb-1">{{ product.category.name }}</p>
                           <p class="mb-1">
                             <span class="text-warning me-2"
                               ><i class="bi bi-star-fill"></i></span
@@ -217,12 +217,12 @@
                           </p>
                         </div>
                         <h4 class="fw-bold">{{ product.name }}</h4>
-                        <p>500g</p>
+                        <p>{{ product.product_unit.name }}</p>
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
                           <p class="text-primary mb-0 fw-bold">
-                            10000៛
+                            {{ product.price }}
                             <span
                               class="text-decoration-line-through text-paragraph"
                               >10000៛</span
@@ -244,7 +244,7 @@
 
                       <div
                         class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                        @click="allProduct.toggleFav(product.id)"
+                        @click="allProducts.toggleFav(product.id)"
                       >
                         <p class="mb-0 mt-1 text-danger fw-bold">
                           <i
@@ -268,7 +268,7 @@
                 <div class="row">
                   <div
                     class="col-12 col-md-4 col-lg-3 mb-3"
-                    v-for="product in allProduct.products"
+                    v-for="product in allProducts"
                     :key="product.id"
                   >
                     <div
@@ -323,7 +323,7 @@
                         <p class="mb-0 mt-1 text-danger fw-bold">
                           <i
                             :class="
-                              allProduct.isFav
+                              allProducts.isFav
                                 ? 'bi bi-heart-fill'
                                 : 'bi bi-heart'
                             "
@@ -344,7 +344,7 @@
                 <div class="row">
                   <div
                     class="col-12 col-md-4 col-lg-3 mb-3"
-                    v-for="product in allProduct.products"
+                    v-for="product in allProducts"
                     :key="product.id"
                   >
                     <div
@@ -399,7 +399,7 @@
                         <p class="mb-0 mt-1 text-danger fw-bold">
                           <i
                             :class="
-                              allProduct.isFav
+                              allProducts.isFav
                                 ? 'bi bi-heart-fill'
                                 : 'bi bi-heart'
                             "
@@ -420,7 +420,7 @@
                 <div class="row">
                   <div
                     class="col-12 col-md-6 col-lg-3 mb-3"
-                    v-for="product in allProduct.products"
+                    v-for="product in allProducts"
                     :key="product.id"
                   >
                     <div
@@ -476,7 +476,7 @@
                         <p class="mb-0 mt-1 text-danger fw-bold">
                           <i
                             :class="
-                              allProduct.isFav
+                              allProducts.isFav
                                 ? 'bi bi-heart-fill'
                                 : 'bi bi-heart'
                             "
@@ -497,15 +497,25 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { useShopStores } from "@/stores/views/shops_store";
-import { useAllProducts } from "@/stores/views/allProduct_store";
-import { onMounted } from "vue";
-const shopStores = useShopStores();
-const allProduct = useAllProducts();
+import { onMounted,ref } from "vue";
+import axios from "axios";
+const allProducts = ref([]);
+const GetAllProducts = () => {
+  axios
+    .get("http://kassar_api.test/api/products")
+    .then((res) => {
+      allProducts.value = res.data.data;
+      // console.log(res.data.data);
+
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+};
 onMounted(() => {
-shopStores.onlaodShop();
- 
+  GetAllProducts();
 });
 const OnSavefav = (id) => {
-  allProduct.isFav = !allProduct.isFav;
+  allProducts.isFav = !allProducts.isFav;
 };
 </script>

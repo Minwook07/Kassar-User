@@ -1,18 +1,17 @@
 <template>
-  <section style="background-color: #f4f4f4">
+  <section>
     <div class="container py-5">
-      <div class="row">
+      <div class="row" v-if="detailProducts">
         <div class="col-12 col-md-6 col-lg-4 mb-5" data-aos="fade-down-right">
           <div class="mb-3 rounded" style="height: 400px">
             <img
               class="w-100 h-100 object-fit-cover rounded"
-              ref="imageDetails"
-              :src="imageSrc"
+              :src="detailProducts.product_thumbnail"
               alt=""
             />
           </div>
           <div class="d-flex">
-            <div
+            <!-- <div
               class="col-3 rounded"
               v-for="img in detailProducts.imgs"
               :key="img.id"
@@ -26,14 +25,17 @@
                 :src="img.img"
                 alt=""
               />
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4 ps-5 mb-5">
-          <h2 class="fw-bold mb-3"  data-aos="fade-down">
-            ទឹកផ្លែទំពាំងប៊្លរី <br />ដែនដីក្រុងមនោរម្យ
+          <h2 class="fw-bold mb-3" data-aos="fade-down">
+            {{ detailProducts.name }}
           </h2>
-          <div data-aos="zoom-in-up" class="d-flex gap-3 align-content-center mb-4">
+          <div
+            data-aos="zoom-in-up"
+            class="d-flex gap-3 align-content-center mb-4"
+          >
             <div
               class="d-flex justify-content-center gap-1 align-content-center"
             >
@@ -47,41 +49,64 @@
           </div>
           <div>
             <h2 data-aos="fade-down" class="text-primary fw-bold mb-4">
-              $40.00
+              {{ detailProducts.price }}
               <span
                 class="fw-bold ms-2 fs-5 text-decoration-line-through text-success-emphasis"
                 >$65.00</span
               >
             </h2>
             <h5 class="mb-4" data-aos="fade-up">
-              ប្រភេទ​ ៖ បន្លែ​ ផ្លែឈើ ទំពាំងបាយជូរ​ ក្រូចថ្លុង
+              ប្រភេទ​ ៖ {{ detailProducts.category.name }}
             </h5>
           </div>
           <div class="d-flex gap-4 align-items-center mb-3">
-            <div data-aos="fade-right"
+            <div
+              data-aos="fade-right"
               class="bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1"
             >
-              <div
+              <div 
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
-                @click="decrement()"
+                @click="count>0 && count--"
               >
                 <i class="bi bi-dash-lg text-primary fs-4"></i>
               </div>
               <p class="mb-0 fw-bold fs-5">{{ count }}</p>
               <div
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
-                @click="count++"
+                  :class="{'disabled': count >= detailProducts.qty_in_stock}"
+                 @click="count < detailProducts.qty_in_stock && count++"
               >
                 <i class="bi bi-plus-lg text-primary fs-4"></i>
               </div>
             </div>
-            <button data-aos="fade-left" class="btn btn-primary rounded-pill px-5 py-2">
-              <i class="bi bi-cart3 me-2"></i>ទូទាត់
+            <button
+              data-aos="fade-left"
+              class="btn btn-primary rounded-pill px-5 py-2 mb-2"
+            >
+              <i class="bi bi-cart3 me-2"></i>ដាក់ចូលកន្រ្តក
             </button>
           </div>
-          <button data-aos="fade-up" class="btn btn-supporting rounded-pill px-3 py-1 mb-4">
-            ក្នុងស្តុក
+          <button
+            v-if="detailProducts.stock_status === 'low_stock'"
+            class="btn btn-warning rounded-pill text-white mb-3"
+          >
+            ស្តុកតិច
           </button>
+
+          <button
+            v-if="detailProducts.stock_status === 'in_stock'"
+            class="btn btn-primary rounded-pill mb-3"
+          >
+            មានស្តុក
+          </button>
+
+          <button
+            v-else-if="detailProducts.stock_status === 'out_of_stock'"
+            class="btn btn-secondary rounded-pill text-white mb-3"
+          >
+            អស់ស្តុក
+          </button>
+
           <div data-aos="fade-down" class="d-flex text-dark mb-3">
             <p class="mb-0 me-2"><i class="bi bi-heart"></i></p>
             <p class="mb-0">ដាក់ទៅបញ្ជីប្រាថ្នា</p>
@@ -90,28 +115,38 @@
             <h5 class="fw-bold mb-4">ធានាការទូរទាត់ប្រាក់ប្រកបដោយសុវត្ថិភាព</h5>
             <div class="d-flex gap-2 align-items-center">
               <div class="visa-card">
-                <img src="@/assets/images/visa.png" alt="" />
+                <img src="@/assets/images/cart-img/icon/visa.svg" alt="" />
               </div>
               <div class="visa-card">
-                <img src="@/assets/images/visa.png" alt="" />
+                <img
+                  src="@/assets/images/cart-img/icon/mastercard (1).svg"
+                  alt=""
+                />
               </div>
               <div class="visa-card">
-                <img src="@/assets/images/visa.png" alt="" />
+                <img src="@/assets/images/cart-img/icon/unionpay.svg" alt="" />
               </div>
               <div class="visa-card">
-                <img src="@/assets/images/visa.png" alt="" />
+                <img src="@/assets/images/cart-img/icon/jcb.svg" alt="" />
               </div>
             </div>
           </div>
         </div>
         <div class="col-12 col-lg-4">
           <div class="d-flex justify-content-end">
-            <router-link data-aos="fade-up" to="/viewshop" class="btn btn-primary mb-3">
+            <router-link
+              data-aos="fade-up"
+              to="/viewshop"
+              class="btn btn-primary mb-3"
+            >
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
             </router-link>
           </div>
-          <div data-aos="fade-down-left" class="bg-white border-1 p-3 mb-3 rounded">
+          <div
+            data-aos="fade-down-left"
+            class="bg-white border-1 p-3 mb-3 rounded"
+          >
             <div class="d-flex align-items-center mb-4">
               <div class="px-3 d-flex align-items-center mb-2">
                 <div class="line-detail rounded-pill bg-primary me-2"></div>
@@ -227,7 +262,7 @@
         </div>
         <div class="col-12 col-lg-8 mb-5">
           <nav>
-            <div class="nav  mynav-tabs nav-tabs" id="nav-tab" role="tablist">
+            <div class="nav mynav-tabs nav-tabs" id="nav-tab" role="tablist">
               <button
                 class="nav-link active p-0"
                 id="nav-home-tab"
@@ -255,43 +290,15 @@
             </div>
           </nav>
           <div class="tab-content shadow-none" id="nav-tabContent">
-            <div data-aos="fade-right"
+            <div
+              data-aos="fade-right"
               class="tab-pane fade show active"
               id="nav-home"
               role="tabpanel"
               aria-labelledby="nav-home-tab"
               tabindex="0"
             >
-              <h3>អាម៉ុក (ការីត្រីដូង)</h3>
-              <p>
-                អាម៉ុកត្រយ គឺជាមុខម្ហូបជាតិរបស់កម្ពុជា ត្រីដូងក្រអូប និងហឹរ
-                ចំហុយស្លឹកចេក ដែលផ្តល់សាច់ដូចមូស ដែលធ្វើឲ្យវារលាយក្នុងមាត់។
-                គ្រឿង​ផ្សំ​គ្រឿង​ក្រៀម​ក៏​ត្រូវ​បាន​បញ្ចូល​ក្នុង​ម្ហូប​ផង​ដែរ។
-                សាច់មាន់ តៅហ៊ូ និងខ្យងអាចប្រើជំនួសត្រីបាន។ អាម៉ុកត្រយ
-                គឺជាមុខម្ហូបជាតិរបស់កម្ពុជា ត្រីដូងក្រអូប និងហឹរ ចំហុយស្លឹកចេក
-                ដែលផ្តល់សាច់ដូចមូស ដែលធ្វើឲ្យវារលាយក្នុងមាត់។
-                គ្រឿង​ផ្សំ​គ្រឿង​ក្រៀម​ក៏​ត្រូវ​បាន​បញ្ចូល​ក្នុង​ម្ហូប​ផង​ដែរ។
-
-                <br /><br />
-                មាន់ តៅហ៊ូ និងខ្យងអាចប្រើជំនួសត្រីបាន។ អាម៉ុកត្រយ
-                គឺជាមុខម្ហូបជាតិរបស់កម្ពុជា ត្រីដូងក្រអូប និងហឹរ ចំហុយស្លឹកចេក
-                ដែលផ្តល់សាច់ដូចមូស ដែលសុទ្ធសឹងតែធ្វើអោយវារលាយ។ នៅក្នុងមាត់។
-                គ្រឿង​ផ្សំ​គ្រឿង​ក្រៀម​ក៏​ត្រូវ​បាន​បញ្ចូល​ក្នុង​ម្ហូប​ផង​ដែរ។
-                មាន់ តៅហ៊ូ និងខ្យងអាចប្រើជំនួសត្រីបាន។ អាម៉ុកត្រយ
-                គឺជាមុខម្ហូបជាតិរបស់កម្ពុជា ត្រីដូងក្រអូប និងហឹរ ចំហុយស្លឹកចេក
-                ដែលផ្តល់សាច់ដូចមូស ដែលសុទ្ធសឹងតែធ្វើអោយវារលាយ។ នៅក្នុងមាត់។
-                គ្រឿង​ផ្សំ​គ្រឿង​ក្រៀម​ក៏​ត្រូវ​បាន​បញ្ចូល​ក្នុង​ម្ហូប​ផង​ដែរ។
-                សាច់មាន់ តៅហ៊ូ និងខ្យងអាចប្រើជំនួសត្រីបាន។ មាន់ តៅហ៊ូ
-                និងខ្យងអាចប្រើជំនួសត្រីបាន។ អាម៉ុកត្រយ
-                គឺជាមុខម្ហូបជាតិរបស់កម្ពុជា ត្រីដូងក្រអូប និងហឹរ ចំហុយស្លឹកចេក
-                ដែលផ្តល់សាច់ដូចមូស ដែលសុទ្ធសឹងតែធ្វើអោយវារលាយ។ នៅក្នុងមាត់។
-                គ្រឿង​ផ្សំ​គ្រឿង​ក្រៀម​ក៏​ត្រូវ​បាន​បញ្ចូល​ក្នុង​ម្ហូប​ផង​ដែរ។
-                មាន់ តៅហ៊ូ និងខ្យងអាចប្រើជំនួសត្រីបាន។ អាម៉ុកត្រយ
-                គឺជាមុខម្ហូបជាតិរបស់កម្ពុជា ត្រីដូងក្រអូប និងហឹរ ចំហុយស្លឹកចេក
-                ដែលផ្តល់សាច់ដូចមូស ដែលសុទ្ធសឹងតែធ្វើអោយវារលាយ។ នៅក្នុងមាត់។
-                គ្រឿង​ផ្សំ​គ្រឿង​ក្រៀម​ក៏​ត្រូវ​បាន​បញ្ចូល​ក្នុង​ម្ហូប​ផង​ដែរ។
-                សាច់មាន់ តៅហ៊ូ និងខ្យងអាចប្រើជំនួសត្រីបាន។
-              </p>
+              <p>{{ detailProducts.description }}</p>
             </div>
             <div
               class="tab-pane fade"
@@ -349,7 +356,8 @@
         </div>
         <div class="col-12 col-lg-4 mb-5 rounded">
           <div class="mt-0 mt-lg-5">
-            <img data-aos="fade-left"
+            <img
+              data-aos="fade-left"
               src="@/assets/images/posterDetail.gif"
               class="w-100 h-100 object-fit-cover rounded"
               alt=""
@@ -358,7 +366,8 @@
         </div>
         <h3 class="fw-bold" data-aos="fade-up-right">Related Product</h3>
         <!-- <div class="row"> -->
-        <div  data-aos="fade-up"
+        <div
+          data-aos="fade-up"
           class="col-12 col-md-6 col-lg-3 mb-3"
           v-for="product in allProducts.products"
           :key="product.id"
@@ -420,24 +429,50 @@
   </section>
 </template>
 <script setup>
-import { ref } from "vue";
-import { useDetailProducts } from "@/stores/views/detailproducts_store";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRoute } from "vue-router";
 import { useAllProducts } from "@/stores/views/allProduct_store";
 const allProducts = useAllProducts();
-const detailProducts = useDetailProducts();
+const detailProducts = ref(null);
 const count = ref(0);
+const route = useRoute();
+const getDetail = () => {
+  const id = route.params.id || route.query.id;
+  axios
+    .get(`http://kassar_api.test/api/products/${id}`)
+    .then((res) => {
+      detailProducts.value = res.data.data;
+      // stock_status = res.data.data.stock_status;
+
+      // console.log(detailProducts.stock_status);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+onMounted(() => {
+  getDetail();
+});
 const decrement = () => {
-  if (count.value > 0) {
-    count.value--;
+  if (count > 0) {
+    count--;
   }
 };
-const imageDetails = ref(null);
-const activeImage = ref(null);
-const imageSrc = ref(new URL("@/assets/images/5.avif", import.meta.url).href);
-
-activeImage.value = detailProducts.imgs[0].id;
-const onChangeImage = (imgId, newImageSrc) => {
-  activeImage.value = imgId;
-  imageSrc.value = newImageSrc;
+const increase = () => {
+  if (this.detailProducts.stock_status === "low_stock" && this.count < 5) {
+    this.count++; // Limit to 5 when stock is low
+  } else if (this.detailProducts.stock_status === "in_stock") {
+    this.count++; // Allow unlimited increase when stock is in
+  }
 };
+// const imageDetails = ref(null);
+// const activeImage = ref(null);
+// const imageSrc = ref(new URL("@/assets/images/5.avif", import.meta.url).href);
+
+// activeImage.value = detailProducts.imgs[0].id;
+// const onChangeImage = (imgId, newImageSrc) => {
+//   activeImage.value = imgId;
+//   imageSrc.value = newImageSrc;
+// };
 </script>
