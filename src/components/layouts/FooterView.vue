@@ -42,7 +42,7 @@
                                     <RouterLink class="link-a" to="/contact">ទំនាក់ទំនង</RouterLink>
                                 </li>
                                 <li>
-                                    <RouterLink class="link-a" to="">New Feed</RouterLink>
+                                    <RouterLink class="link-a" to="/video">New Feed</RouterLink>
                                 </li>
                             </ul>
                         </div>
@@ -76,7 +76,7 @@
                                     <RouterLink class="link-a" to="/termpage">លក្ខខណ្ឌ និងការប្រើប្រាស់</RouterLink>
                                 </li>
                                 <li>
-                                    <RouterLink class="link-a" to="/policy">គោលការណ៍បង្វិលវិញ</RouterLink>
+                                    <RouterLink class="link-a" to="/policy">បង្វិលប្រាក់វិញ ឬប្រាក់ត្រឡប់</RouterLink>
                                 </li>
                             </ul>
                         </div>

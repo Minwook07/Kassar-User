@@ -1,7 +1,7 @@
 <template>
     <div class="custom-card bg-white" style="height: 200px;">
         <div>
-            <div v-if="isAddress == null">
+            <div v-if="cardStore.isAddress == null">
                 <div class="location-icon">
                     <i class="bi bi-geo-alt-fill text-secondary"></i>
                 </div>
@@ -37,23 +37,13 @@
 
 <script setup>
 import { useCardStore } from '@/stores/card_store';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted} from 'vue';
 
 const cardStore = useCardStore()
-const isAddress = ref(null)
 
 onMounted(() => {
 
 })
-
-
-watch(
-    () => cardStore.isAddrese, // Dependency: watches changes to cardStore.isAddrese
-    (newVal) => {
-        isAddress.value = newVal;
-    },
-    { immediate: true } // Executes the watcher immediately on component initialization
-);
 
 const onOpenAddAddress = () => {
     cardStore.mdl_address.show()

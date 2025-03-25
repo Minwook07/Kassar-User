@@ -138,9 +138,11 @@ const router = createRouter({
       path: '/policy',
       name: 'policy',
       component: PolicyView,
-      // path: '/termpage',
-      // name: 'termpage',
-      // component: TermPageView,
+    },
+    {
+      path: '/termpage',
+      name: 'termpage',
+      component: TermPageView,
     },
     {
       path: '/privacy',

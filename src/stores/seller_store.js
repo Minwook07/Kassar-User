@@ -4,10 +4,20 @@ import { defineStore } from "pinia";
 export const useSellerStore = defineStore('view/seller',{
     state: () => ({
         frm:{
-            shop_name: '',
+            first_name:'',
+            last_name: '',
+            phone:'',
+            shop_name:'',
+            card_number: '',
+            card_date:'',
+            card_cvv:'',
+            address: '',
             description: ''
         },
-        sellers:[]
+        vv: null,
+        sellers:[],
+        isCredit: null,
+        selected_id: 0
     }),
     actions: {
         onLoadSeller(){

@@ -86,7 +86,7 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { useCardStore } from '@/stores/card_store';
 
@@ -98,7 +98,7 @@ onMounted(() => {
 
 
 const onSaveAddress = () => {
-    cardStore.setIsAdress(true)  // use for save data
+    cardStore.isAddress = "Hello" // use for save data
     cardStore.mdl_address.hide()
 
 }

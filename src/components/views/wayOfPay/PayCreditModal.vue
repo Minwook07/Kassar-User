@@ -25,7 +25,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control shadow-none" id="code" placeholder="លេខកាត">
+                                <input type="text" class="form-control shadow-none" v-model="sellerStore.frm.card_number" id="code" placeholder="លេខកាត">
                             </div>
                         </div>
                         <div class="col-12 mt-4">
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label for="cvv" class="form-label">CVV</label>
-                                    <input type="text" class="form-control shadow-none" id="cvv" placeholder="0000">
+                                    <input type="text" class="form-control shadow-none" id="cvv" placeholder="0000" v-model="sellerStore.frm.card_cvv">
                                 </div>
                             </div>
                         </div>
@@ -59,20 +59,19 @@
 import { ref } from "vue";
 import { onMounted } from 'vue';
 import { Modal } from 'bootstrap';
-import { useCardStore } from '@/stores/card_store';
+import { useSellerStore } from "@/stores/seller_store";
 
-const expiryDate = ref("");
-const cardStore = useCardStore()
+// const expiryDate = ref("");
+const sellerStore = useSellerStore()
+
 
 onMounted(() => {
-    cardStore.mdl_credit = Modal.getOrCreateInstance(document.getElementById('mdl-credit'))
+    sellerStore.mdl_credit = Modal.getOrCreateInstance(document.getElementById('mdl-credit'))
 })
 
 
-const onSaveCart = () => {
-    // cardStore.setIsAdress(true)  // use for save data
-    cardStore.mdl_credit.hide()
-
+const onSaveCart = () => {  // use for save data
+    sellerStore.mdl_credit.hide()
 }
 
 const formatExpiryDate = (event) => {

@@ -15,10 +15,9 @@
                 <div class="col-5" data-aos="fade-right" data-aos-duration="500">
                     <div class="faq-title">
                         <h2 class="title fw-bold">សំណួរទូរទៅរបស់គេហទំព័រ</h2>
-                        <p>
-                            Prepared is me marianne pleasure likewise debating. Wonder an unable except better stairs do
-                            ye
-                            admire. His secure called esteem praise.
+                        <p class="pe-4">
+                            សូមស្វាគមន៍មកកាន់ទំព័រសំណួរ និងចំលើយរបស់យើង ដើម្បីជាភាពងាយស្រួលដល់ចំងល់ការប្រើប្រាស់នូវក្នុងគេហទំព័រនេះឳ្យកាន់តែប្រសើ។
+                            ហើយប្រសិនជាលោក អ្នកមានចំងល់ណាមួយក្រៅពីសំណួរ និងចំលើយដែលបង្ហាញនេះសូមធ្វើការទាក់ទងមកកាន់យើងខ្ញុំនៅប៊ូតុងខាងក្រោមបាន  <i class="bi bi-arrow-down-circle text-success"></i>
                         </p>
                     </div>
                 </div>
@@ -54,7 +53,7 @@
                     <p class="text-light">សូមធ្វើការផ្ញើសារមកកាន់យើងប្រសិនអ្នកមានអ្វីមិនច្បាស់លើគេហទំព័ររបស់យើង</p>
                     <div class="">
                         <router-link to="/contact" role="button"
-                            class="text-light btn btn-success fw-bold text-decoration-none">
+                            class="text-light btn-link-contact btn btn-success fw-bold text-decoration-none px-5 py-3 fs-6">
                             ទំនាក់ទំនង</router-link>
                     </div>
                 </div>
