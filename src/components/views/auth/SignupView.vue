@@ -42,58 +42,59 @@
             </div>
           </div>
 
+          <!-- Password Field -->
           <div class="mb-3 position-relative" data-aos="fade-up" data-aos-delay="800">
-  <input 
-    :type="visibility.password ? 'text' : 'password'" 
-    id="password" 
-    v-model="useAuth.frm.password" 
-    class="form-control password-input" 
-    placeholder="បញ្ចូលលេខសម្ងាត់" 
-    :class="{ 'is-invalid': useAuth.vv.password.$error }" 
-  />
-  <i 
-    @click="toggleVisibility('password')" 
-    :class="['bi', visibility.password ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'password-toggle', { 'shift-left': useAuth.vv.password.$error }]"
-  ></i>
-  <div class="invalid-feedback" v-if="useAuth.vv.password.$error">
-    {{ useAuth.vv.password.$errors[0].$message }}
-  </div>
-</div>
+            <input 
+              :type="visibility.password ? 'text' : 'password'" 
+              id="password" 
+              v-model="useAuth.frm.password" 
+              class="form-control password-input" 
+              placeholder="បញ្ចូលលេខសម្ងាត់" 
+              :class="{ 'is-invalid': useAuth.vv.password.$error }" 
+            />
+            <i 
+              @click="toggleVisibility('password')" 
+              :class="['bi', visibility.password ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'password-toggle']"
+              aria-label="Toggle password visibility"
+            ></i>
+            <div class="invalid-feedback" v-if="useAuth.vv.password.$error">
+              {{ useAuth.vv.password.$errors[0].$message }}
+            </div>
+          </div>
 
-<div class="mb-3 position-relative" data-aos="fade-up" data-aos-delay="900">
-  <label for="password_confirmation" class="form-label">បញ្ជាក់ពាក្យសម្ងាត់</label>
-  <input 
-    :type="visibility.password_confirmation ? 'text' : 'password'" 
-    id="password_confirmation" 
-    v-model="useAuth.frm.password_confirmation" 
-    class="form-control" 
-    placeholder="បញ្ចូលពាក្យសម្ងាត់ឡើងវិញ" 
-    :class="{ 'is-invalid': useAuth.vv.password_confirmation.$error }" 
-  />
-  <i 
-    @click="toggleVisibility('password_confirmation')" 
-    :class="['bi', visibility.password_confirmation ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'password-toggle']"
-    role="button" 
-    aria-label="Toggle password visibility"
-  ></i>
-  <div class="invalid-feedback" v-if="useAuth.vv.password_confirmation.$error">
-    {{ useAuth.vv.password_confirmation.$errors[0].$message }}
-  </div>
-</div>
+          <!-- Password Confirmation Field -->
+          <div class="mb-3 position-relative" data-aos="fade-up" data-aos-delay="900">
+            <input 
+              :type="visibility.password_confirmation ? 'text' : 'password'" 
+              id="password_confirmation" 
+              v-model="useAuth.frm.password_confirmation" 
+              class="form-control" 
+              placeholder="បញ្ចូលពាក្យសម្ងាត់ឡើងវិញ" 
+              :class="{ 'is-invalid': useAuth.vv.password_confirmation.$error }" 
+            />
+            <i 
+              @click="toggleVisibility('password_confirmation')" 
+              :class="['bi', visibility.password_confirmation ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'password-toggle']"
+              aria-label="Toggle password visibility"
+            ></i>
+            <div class="invalid-feedback" v-if="useAuth.vv.password_confirmation.$error">
+              {{ useAuth.vv.password_confirmation.$errors[0].$message }}
+            </div>
+          </div>
+
           <!-- Terms Agreement -->
-<div class="form-check mb-2" data-aos="fade-up" data-aos-delay="900">
-  <input type="checkbox" id="termsAgreement" v-model="useAuth.frm.termsAgreement" class="form-check-input"
-    :class="{'border-danger': useAuth.vv.termsAgreement.$error}" />
-  <label for="termsAgreement" class="form-check-label">យល់ព្រមនូវលក្ខណ្ឌគោលការណ៍</label>
-  <div class="invalid-feedback" v-if="useAuth.vv.termsAgreement.$error">
-    {{ useAuth.vv.termsAgreement.$errors[0].$message }}
-  </div>
-</div>
-
+          <div class="form-check mb-2" data-aos="fade-up" data-aos-delay="900">
+            <input type="checkbox" id="termsAgreement" v-model="useAuth.frm.termsAgreement" class="form-check-input"
+              :class="{ 'border-danger': useAuth.vv.termsAgreement.$error }" />
+            <label for="termsAgreement" class="form-check-label">យល់ព្រមនូវលក្ខណ្ឌគោលការណ៍</label>
+            <div class="invalid-feedback" v-if="useAuth.vv.termsAgreement.$error">
+              {{ useAuth.vv.termsAgreement.$errors[0].$message }}
+            </div>
+          </div>
 
           <!-- Submit Button -->
           <button type="submit" class="btn btn-login w-100 mt-2" data-aos="fade-up" data-aos-delay="1000">
-            ចូលគណនី
+            ចុះឈ្មោះ
           </button>
         </form>
 
@@ -190,6 +191,7 @@ function onSubmit() {
   axios.post("http://localhost/kassar_api/public/api/auth/register", formData)
     .then(() => {
       alert("ចុះឈ្មោះជោគជ័យ!");
+      // Optionally, redirect or perform additional actions after successful registration
     })
     .catch((err) => {
       const errors = err.response?.data.errors || err.response?.data.message;
@@ -201,14 +203,23 @@ function onSubmit() {
 <style scoped>
 .password-toggle {
   position: absolute;
+  right: 15px;
   top: 50%;
-  right: 10px;
-  transform: translateY(-90%);
+  transform: translateY(-50%);
+  color: #6c757d;
   cursor: pointer;
+  transition: color 0.2s ease;
+  z-index: 10;
 }
 
-.shift-left {
-  right: 40px; /* Adjust the icon position when validation error exists */
+.password-toggle:hover {
+  color: #212529;
+}
+
+/* Adjust position when validation error is present */
+.is-invalid + .password-toggle {
+  top: 35%;
+  right: 40px;
 }
 
 .border-danger {
