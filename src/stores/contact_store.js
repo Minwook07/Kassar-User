@@ -10,6 +10,7 @@ export const useContactStore = defineStore('contact', {
             desc: ''
         },
         vv: null,
+        selected_id: 0,
         toast_alert: '',
         contacts: []
     }),

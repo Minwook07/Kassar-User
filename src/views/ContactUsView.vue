@@ -135,6 +135,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn-contact btn btn-outline-danger shadow-none me-3" @click="onClear()">សម្អាត</button>
                                     <button type="button" class="btn-contact btn btn-primary shadow-none" @click="onSaveContact()">ដាក់បញ្ជូន</button>
                                 </div>
                             </div>
@@ -152,7 +153,7 @@
 
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
         <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
-            <div class="toast-content">
+            <div class="toast-content p-3">
                 <div>
                     <i class="bi bi-check2-circle fs-5 text-success"></i>
                     <!-- <i class="bi bi-exclamation-circle fs-6 text-info"></i>
@@ -181,11 +182,10 @@ import { helpers, integer, required, email, maxLength, minLength} from '@vuelida
 import useVuelidate from '@vuelidate/core';
 
 const contactStore = useContactStore()
-const onlyLettersAndSpaces = (value) => /^[A-Za-z\s]+$/.test(value);
+
 const rules = computed(() => ({
     name:{
-        required: helpers.withMessage('សូមបញ្ចូលឈ្មោះរបស់អ្នក', required),
-        onlyLettersAndSpaces: helpers.withMessage('ឈ្មោះមិនអាចមានលេខ ឬអក្សរពិសេសបានទេ', onlyLettersAndSpaces)
+        required: helpers.withMessage('សូមបញ្ចូលឈ្មោះរបស់អ្នក', required)
     },
     phone: {
         required: helpers.withMessage('សូមបញ្ចូលលេខទូរស័ព្ទរបស់អ្នក', required),
@@ -206,6 +206,15 @@ contactStore.vv = useVuelidate(rules, contactStore.frm)
 onMounted(() => {
     contactStore.toast_alert = Toast.getOrCreateInstance(document.getElementById('liveToast'));
 })
+
+const onClear = () => {
+    contactStore.selected_id = 0
+    contactStore.frm.name = ''
+    contactStore.frm.email = ''
+    contactStore.frm.phone = ''
+    contactStore.frm.desc = ''
+    contactStore.vv.$reset()
+}
 
 const onSaveContact = () => {
 
@@ -231,7 +240,6 @@ const onSaveContact = () => {
                 email: '',
                 desc: ''
             };
-            contactStore.vv.$reset();
 
             if (contactStore.toast_alert) {
                 contactStore.toast_alert.show();
@@ -239,67 +247,3 @@ const onSaveContact = () => {
         })
 }
 </script>
-
-<style scoped>
-.toast {
-    position: relative;
-    border-radius: 6px;
-    background: #fff;
-    box-shadow: 0px 4px 24px 2px rgba(20, 25, 38, 0.05);
-    overflow: hidden;
-    transition: .4s ease-in-out;
-    width: 250px;
-}
-
-.toast-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.toast-content .message {
-    display: flex;
-    flex-direction: column;
-    margin: 0 20px;
-}
-
-.message .text {
-    font-size: 16px;
-    font-weight: 400;
-    color: #666666;
-}
-
-.message .text.text-1 {
-    font-weight: 600;
-    color: #333;
-}
-
-.progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    width: 100%;
-    background-color: #fff;
-}
-
-.progress:before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    background-color: #2770ff;
-}
-
-.progress.active:before {
-    animation: progress 5s linear forwards;
-}
-
-@keyframes progress {
-    100% {
-        right: 100%;
-    }
-}
-</style>

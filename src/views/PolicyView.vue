@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="py-5 bg-white">
             <div class="policy px-4">
-                <h4 class="fs-4 title-policy text-decoration-underline fw-bold text-center">គោលការណ៍បង្វិលវិញ</h4>
+                <h4 class="fs-4 title-policy text-decoration-underline fw-bold text-center">បង្វិលប្រាក់វិញ ឬប្រាក់ត្រឡប់</h4>
                 <div class="content">
                     <h5 class="py-3 text-center">សូមស្វាគមន៍មកកាន់គោលការណ៍បង្វិលវិញរបស់ Kassar របស់យើងខ្ញុំ</h5>
                     <ol>
