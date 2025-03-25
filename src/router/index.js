@@ -23,6 +23,7 @@ import VideoFeedView from '@/views/VideoFeedView.vue'
 import PolicyView from '@/views/PolicyView.vue'
 import TermPageView from '@/views/TermPageView.vue'
 import PrivacyView from '@/views/PrivacyView.vue'
+import AuthLoader from '@/components/views/loader/AuthLoader.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -138,15 +139,22 @@ const router = createRouter({
       path: '/policy',
       name: 'policy',
       component: PolicyView,
-      // path: '/termpage',
-      // name: 'termpage',
-      // component: TermPageView,
+    },
+    {
+      path: '/termpage',
+      name: 'termpage',
+      component: TermPageView,
     },
     {
       path: '/privacy',
       name: 'privacy',
       component: PrivacyView,
     },
+    {
+      path: '/load1',
+      name: 'load1',
+      component: AuthLoader,
+    }
   ],
 })
 

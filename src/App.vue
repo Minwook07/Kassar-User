@@ -1,7 +1,7 @@
 <template>
-  <NavBar v-if="!['login', 'signup', 'forgotpass', 'verifyotp', 'newpass', 'video'].includes(route.name)" />
+  <NavBar v-if="!['login', 'signup', 'forgotpass', 'verifyotp', 'newpass', 'video', 'load1'].includes(route.name)" />
   <RouterView />
-  <FooterView v-if="!['login', 'signup', 'forgotpass', 'verifyotp', 'newpass', 'video'].includes(route.name)" />
+  <FooterView v-if="!['login', 'signup', 'forgotpass', 'verifyotp', 'newpass', 'video', 'load1'].includes(route.name)" />
 </template>
 
 <script setup>
