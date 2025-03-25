@@ -505,7 +505,7 @@ const GetAllProducts = () => {
     .get("http://kassar_api.test/api/products")
     .then((res) => {
       allProducts.value = res.data.data;
-      console.log(res.data.data);
+      // console.log(res.data.data);
 
     })
     .catch((error) => {

@@ -31,7 +31,9 @@
                   class="form-check-input shadow-none"
                   id="exampleCheck1"
                 />
-                <label class="form-check-label" for="exampleCheck1">{{category.name}}</label>
+                <label class="form-check-label" for="exampleCheck1">{{
+                  category.name
+                }}</label>
               </div>
             </div>
             <hr />
@@ -134,7 +136,11 @@
         <div class="col-12 col-md-9 col-lg-10 row justify-content-start">
           <div class="col-12 row mb-3 justify-content-end px-0">
             <div class="col-12 col-lg-6 ps-4">
-            <input type="text" placeholder="ស្វែងរក" class="form-control search"> 
+              <input
+                type="text"
+                placeholder="ស្វែងរក"
+                class="form-control search"
+              />
             </div>
           </div>
           <div
@@ -142,6 +148,7 @@
             class="col-12 col-md-6 col-lg-3 mb-3"
             v-for="product in allProducts"
             :key="product.id"
+            @click="goToDetail(product.id)"
           >
             <div
               class="bg-white text-decoration-none card card-product border-0 rounded position-relative"
@@ -196,13 +203,12 @@
           </div>
         </div>
         <paginate
-  :page-count="pageCount"
-  :click-handler="handlePageClick"
-  :prev-text="'<i class=\'bi bi-chevron-left\'></i>'"
-  :next-text="'<i class=\'bi bi-chevron-right\'></i>'"
-  :container-class="'pagination'"
-/>
-
+          :page-count="pageCount"
+          :click-handler="handlePageClick"
+          :prev-text="'<i class=\'bi bi-chevron-left\'></i>'"
+          :next-text="'<i class=\'bi bi-chevron-right\'></i>'"
+          :container-class="'pagination'"
+        />
       </div>
     </div>
   </section>
@@ -212,6 +218,7 @@ import { ref, computed } from "vue";
 import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
 import axios from "axios";
+import { useRouter } from 'vue-router';
 const allProducts = ref([]);
 const categories = ref([]);
 const GetAllProducts = () => {
@@ -220,7 +227,6 @@ const GetAllProducts = () => {
     .then((res) => {
       allProducts.value = res.data.data;
       console.log(res.data.data);
-
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -230,7 +236,6 @@ const GetAllCategories = () => {
   axios
     .get("http://kassar_api.test/api/categories")
     .then((res) => {
-      console.log();
       categories.value = res.data.data;
     })
     .catch((error) => {
@@ -272,5 +277,11 @@ const validateRange = (index) => {
 
 const formatPrice = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+const router = useRouter();
+const goToDetail = (id) => {
+  router.push({ name: 'detailproduct', query: { id } });
+
+
 };
 </script>
