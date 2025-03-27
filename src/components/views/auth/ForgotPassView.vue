@@ -134,7 +134,7 @@ async function sendOTP() {
   successMessage.value = "";
   
   try {
-    const response = await axios.post("http://localhost/kassar_api/public/api/forgot-password", {
+    const response = await axios.post("/api/forgot-password", {
       email: email.value
     });
     

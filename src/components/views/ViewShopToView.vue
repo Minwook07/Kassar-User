@@ -502,7 +502,7 @@ const sellerStore = useSellerStore();
 const router = useRoute();
 const GetAllProducts = () => {
   axios
-    .get("http://kassar_api.test/api/products")
+    .get("/api/products")
     .then((res) => {
       allProducts.value = res.data.data;
     })
@@ -513,13 +513,13 @@ const GetAllProducts = () => {
 const GetShopDetail = ()  =>{
   const id = router.params.id || router.query.id;
   axios
-  .get(`http://kassar_api.test/api/shops/${id}`)
+  .get(`/api/shops/${id}`)
   .then((res) => {
     detailShop.value = res.data.data;
   })
 }
 const follow = () =>{
-  axios.get(`http://kassar_api.test/api/follow/${id}`)
+  axios.get(`/api/follow/${id}`)
 }
 onMounted(() => {
   GetAllProducts();

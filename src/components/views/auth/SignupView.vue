@@ -219,7 +219,7 @@ function onSubmit() {
   };
 
   // API request
-  axios.post("http://localhost/kassar_api/public/api/auth/register", formData)
+  axios.post("/api/auth/register", formData)
     .then(() => {
       // Show success toast
       if (toastInstance) {

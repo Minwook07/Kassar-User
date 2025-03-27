@@ -229,7 +229,7 @@ const onSaveContact = () => {
         frmData.append('email', contactStore.frm.email)
         frmData.append('desc', contactStore.frm.desc)
 
-    axios.post('http://localhost/kassar_api/public/api/contacts', frmData)
+    axios.post('/api/contacts', frmData)
         .then((res) => {
             contactStore.onLoadContact()
 

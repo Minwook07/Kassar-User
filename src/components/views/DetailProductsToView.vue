@@ -440,7 +440,7 @@ const router = useRouter();
 const getDetail = () => {
   const id = router.currentRoute.value.query.id;
   axios
-    .get(`http://kassar_api.test/api/products/${id}`)
+    .get(`/api/products/${id}`)
     .then((res) => {
       detailProducts.value = res.data.data;
     })

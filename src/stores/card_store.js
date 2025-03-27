@@ -41,7 +41,7 @@ export const useCardStore = defineStore("card_store", {
         return;
       }
 
-      axios.get("http://localhost/kassar_api/public/api/cart", {
+      axios.get("/api/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -61,28 +61,28 @@ export const useCardStore = defineStore("card_store", {
     },
 
     onLoadProvince() {
-        axios.get("http://localhost/kassar_api/public/api/provinces")
+        axios.get("/api/provinces")
           .then((res) => {
             this.provinces = res.data;
           });
       },
   
       onLoadDistrict(province_id){
-          axios.get(`http://localhost/kassar_api/public/api/districts/${province_id}`)
+          axios.get(`/api/districts/${province_id}`)
           .then((res) => {
               this.districts = res.data;
           });
       },
   
       onLoadCommune(commune_id){
-          axios.get(`http://localhost/kassar_api/public/api/communes/${commune_id}`)
+          axios.get(`/api/communes/${commune_id}`)
           .then((res) => {
               this.communes = res.data;
           });
       },
   
       onLoadVillage(district_id) {
-          axios.get(`http://localhost/kassar_api/public/api/villages/${district_id}`)
+          axios.get(`/api/villages/${district_id}`)
           .then((res) => {
               this.villages = res.data;
           });

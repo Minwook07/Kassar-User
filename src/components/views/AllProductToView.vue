@@ -236,7 +236,7 @@ const allProducts = ref([]);
 const categories = ref([]);
 const GetAllProducts = () => {
   axios
-    .get(`http://kassar_api.test/api/products?{}`)
+    .get(`/api/products?{}`)
     .then((res) => {
       allProducts.value = res.data.data;
       console.log(res.data.data);
@@ -247,7 +247,7 @@ const GetAllProducts = () => {
 };
 const GetAllCategories = () => {
   axios
-    .get("http://kassar_api.test/api/categories")
+    .get("/api/categories")
     .then((res) => {
       categories.value = res.data.data;
     })

@@ -11,7 +11,7 @@ export const useFaqStore = defineStore('view/faq',{
     }),
     actions: {
         onLoadFaq(){
-            axios.get('http://localhost/kassar_api/public/api/faqs')
+            axios.get('/api/faqs')
             .then((res) =>{
                 this.faqs = res.data.data
             })

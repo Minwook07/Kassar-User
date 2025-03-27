@@ -164,7 +164,7 @@ async function verifyOTP() {
   apiError.value = "";
   
   try {
-    const response = await axios.post("http://localhost/kassar_api/public/api/send-otp", {
+    const response = await axios.post("/api/send-otp", {
       email: email.value,
       otp: otp.value.join("")
     });
@@ -199,7 +199,7 @@ async function resendOTP() {
   apiError.value = "";
   
   try {
-    await axios.post("http://localhost/kassar_api/public/api/forgot-password", {
+    await axios.post("/api/forgot-password", {
       email: email.value
     });
     

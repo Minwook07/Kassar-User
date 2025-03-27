@@ -251,7 +251,7 @@ const onSaveSeller = () => {
   frmData.append('address', sellerStore.frm.address)
   frmData.append('description', sellerStore.frm.description)
 
-  axios.post('http://localhost/kassar_api/public/api/seller_request', frmData, {
+  axios.post('/api/seller_request', frmData, {
     headers: {
       'Authorization': `Bearer ${sessionStorage.getItem("token")}`
     }

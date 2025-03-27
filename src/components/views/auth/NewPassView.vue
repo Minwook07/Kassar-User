@@ -110,7 +110,7 @@ async function sendOTP() {
   apiError.value = "";
   
   try {
-    await axios.post("http://localhost/kassar_api/public/api/forgot-password", {
+    await axios.post("/api/forgot-password", {
       email: email.value
     });
     
