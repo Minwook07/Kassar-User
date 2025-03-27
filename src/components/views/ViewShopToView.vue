@@ -4,8 +4,7 @@
       <div class="container-fluid">
         <div
           class="seller-pf row d-flex justify-content-between rounded-4"
-          v-for="shop in shops"
-          :key="shop.id"
+          v-if="detailShop"
         >
           <div class="row col-10 col-md-8 gap-5">
             <div
@@ -14,9 +13,8 @@
             >
               <img
                 :src="
-                  shop.image
-                    ? `http://kassar-api.test/storage/${shop.image}`
-                    : noPhoto
+                  detailShop.image
+                   
                 "
                 alt=""
                 class="pf-seller-avatar rounded-4"
@@ -29,10 +27,10 @@
             </div>
             <div class="col-12 col-lg-6">
               <h2 class="fw-bold mb-3" data-aos="fade-down">
-                {{shop.shop_name}}
+                {{detailShop.shop_name}}
               </h2>
               <p class="text-paragraph fw-medium mb-4" data-aos="fade-up">
-               {{ shop.shop_status }}
+               {{ detailShop.comment }}
               </p>
               <div
                 data-aos="zoom-in-up"
@@ -49,15 +47,14 @@
             class="col-2 col-md-4 text-right d-flex justify-content-end px-0"
           >
             <div>
-              <router-link
+              <button
+              @click="follow()"
                 data-aos="fade-down"
-                to=""
                 class="btn btn-primary me-0 me-md-3 mb-3 mb-md-0"
                 ><i class="bi bi-heart"></i
                 ><span class="d-none d-md-inline-block ms-2"
                   >តាមដាន</span
-                ></router-link
-              >
+                ></button>
               <router-link
                 data-aos="fade-up-left"
                 to=""
@@ -217,7 +214,7 @@
                           </p>
                         </div>
                         <h4 class="fw-bold">{{ product.name }}</h4>
-                        <p>{{ product.product_unit.name }}</p>
+                        <p>{{ product.product_units.name }}</p>
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
@@ -239,7 +236,7 @@
                       <div
                         class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
                       >
-                        <p class="mb-0 px-3 text-white">20%</p>
+                        <p class="mb-0 px-3 text-white">{{ product.promotions.discount_rate }}</p>
                       </div>
 
                       <div
@@ -500,6 +497,8 @@ import { useShopStores } from "@/stores/views/shops_store";
 import { onMounted,ref } from "vue";
 import axios from "axios";
 const allProducts = ref([]);
+const detailShop = ref([]);
+const router = useRoute();
 const GetAllProducts = () => {
   axios
     .get("http://kassar_api.test/api/products")
@@ -512,8 +511,18 @@ const GetAllProducts = () => {
       console.error("Error fetching data:", error);
     });
 };
+const GetShopDetail = ()  =>{
+  const id = router.params.id || router.query.id;
+  axios
+  .get(`http://kassar_api.test/api/shops/${id}`)
+  .then((res) => {
+    detailShop.value = res.data.data;
+    console.log(res.data.data);
+  })
+}
 onMounted(() => {
   GetAllProducts();
+  GetShopDetail();
 });
 const OnSavefav = (id) => {
   allProducts.isFav = !allProducts.isFav;

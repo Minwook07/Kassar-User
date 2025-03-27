@@ -134,14 +134,14 @@
         </div>
         <div class="col-12 col-lg-4">
           <div class="d-flex justify-content-end">
-            <router-link
+            <button 
               data-aos="fade-up"
               to="/viewshop"
               class="btn btn-primary mb-3"
-            >
+              @click="goToshop(detailProducts.shop.id)">
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
-            </router-link>
+            </button>
           </div>
           <div
             data-aos="fade-down-left"
@@ -307,7 +307,7 @@
               aria-labelledby="nav-profile-tab"
               tabindex="0"
             >
-              <div
+              <divi
                 class="mt-2 d-flex gap-3 align-items-center bg-white py-4 px-3 rounded"
               >
                 <div class="pf-feedback-detail rounded-circle ms-2">
@@ -350,7 +350,7 @@
                     </p>
                   </div>
                 </div>
-              </div>
+              </divi>
             </div>
           </div>
         </div>
@@ -431,21 +431,18 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRouter } from 'vue-router';
 import { useAllProducts } from "@/stores/views/allProduct_store";
 const allProducts = useAllProducts();
 const detailProducts = ref(null);
 const count = ref(0);
-const route = useRoute();
+const router = useRouter();
 const getDetail = () => {
-  const id = route.params.id || route.query.id;
+  const id = router.currentRoute.value.query.id;
   axios
     .get(`http://kassar_api.test/api/products/${id}`)
     .then((res) => {
       detailProducts.value = res.data.data;
-      // stock_status = res.data.data.stock_status;
-
-      // console.log(detailProducts.stock_status);
     })
     .catch((error) => {
       console.log(error);
@@ -454,18 +451,10 @@ const getDetail = () => {
 onMounted(() => {
   getDetail();
 });
-const decrement = () => {
-  if (count > 0) {
-    count--;
-  }
-};
-const increase = () => {
-  if (this.detailProducts.stock_status === "low_stock" && this.count < 5) {
-    this.count++; // Limit to 5 when stock is low
-  } else if (this.detailProducts.stock_status === "in_stock") {
-    this.count++; // Allow unlimited increase when stock is in
-  }
-};
+// const router = useRouter();
+const goToshop = (id) =>{
+  router.push({ name: 'viewshop', query: { id } });
+}
 // const imageDetails = ref(null);
 // const activeImage = ref(null);
 // const imageSrc = ref(new URL("@/assets/images/5.avif", import.meta.url).href);

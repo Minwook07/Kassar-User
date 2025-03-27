@@ -170,7 +170,7 @@
                   </p>
                 </div>
                 <h5 class="fw-bold">{{ product.name }}</h5>
-                <p>{{ product.product_unit.name }}</p>
+                <p>{{ product.product_units.name }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <p class="text-primary mb-0 fw-bold">
                     {{ product.price }}
@@ -185,8 +185,9 @@
               </div>
               <div
                 class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
-              >
-                <p class="mb-0 px-3 text-white">20%</p>
+                v-for="promotion in product.promotions" :key="promotion.id">
+              
+                <p class="mb-0 px-3 text-white">{{ promotion.discount_rate }} %</p>
               </div>
 
               <div
@@ -281,7 +282,5 @@ const formatPrice = (value) => {
 const router = useRouter();
 const goToDetail = (id) => {
   router.push({ name: 'detailproduct', query: { id } });
-
-
 };
 </script>
