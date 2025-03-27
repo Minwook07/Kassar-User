@@ -16,13 +16,14 @@ import App from './App.vue';
 import router from './router';
 import AOS from 'aos';
 
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+
 const app = createApp(App);
 
 app.use(createPinia())
 app.use(router)
 app.mount('#app')
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 AOS.init();
 
