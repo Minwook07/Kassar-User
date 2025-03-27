@@ -102,7 +102,7 @@ const maskedEmail = computed(() => {
 onMounted(() => {
   AOS.init({ duration: 800, easing: 'ease', once: true, offset: 50 });
   
-  // Start cooldown timer
+  // Start cooldown timer (set to 60 seconds)
   startCooldown();
   
   // Focus first OTP input
@@ -114,7 +114,7 @@ onMounted(() => {
 });
 
 function startCooldown() {
-  resendCooldown.value = 30;
+  resendCooldown.value = 60; // Set cooldown to 60 seconds
   const timer = setInterval(() => {
     resendCooldown.value--;
     if (resendCooldown.value <= 0) {
@@ -203,7 +203,7 @@ async function resendOTP() {
       email: email.value
     });
     
-    // Start new cooldown
+    // Start new cooldown (set to 60 seconds)
     startCooldown();
     
     // Show success message
