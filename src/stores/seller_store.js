@@ -14,6 +14,7 @@ export const useSellerStore = defineStore('view/seller',{
             address: '',
             description: ''
         },
+        mdl_share : null,
         vv: null,
         sellers:[],
         isCredit: null,

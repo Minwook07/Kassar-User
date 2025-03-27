@@ -151,7 +151,7 @@
             @click="goToDetail(product.id)"
           >
             <div
-              class="bg-white text-decoration-none card card-product border-0 rounded position-relative"
+              class="bg-white text-decoration-none card h-100 card-product border-0 rounded position-relative"
             >
               <div class="card-img p-3">
                 <img
@@ -170,13 +170,22 @@
                   </p>
                 </div>
                 <h5 class="fw-bold">{{ product.name }}</h5>
-                <p>{{ product.product_unit.name }}</p>
+                <p style="height: 40px">{{ product.description }}</p>
                 <div class="d-flex justify-content-between align-items-center">
-                  <p class="text-primary mb-0 fw-bold">
-                    {{ product.price }}
-                    <span class="text-decoration-line-through text-paragraph"
-                      >10000៛</span
+                  <div
+                    v-if="product.price && product.price.has_discount !== false"
+                  >
+                    <p class="text-primary mb-0 fw-bold">
+                      {{ product.price.discounted_price }} /
+                      {{ product.product_units.name }}
+                    </p>
+                    <span class="text-decoration-line-through text-paragraph">
+                      {{ product.price.original }}</span
                     >
+                  </div>
+                  <p class="text-primary mb-0 fw-bold" v-else>
+                    {{ product.price.original }} /
+                    {{ product.product_units.name }}
                   </p>
                   <router-link to="" class="btn btn-primary rounded-pill"
                     ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link
@@ -185,8 +194,12 @@
               </div>
               <div
                 class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+                v-for="promotion in product.promotions"
+                :key="promotion.id"
               >
-                <p class="mb-0 px-3 text-white">20%</p>
+                <p class="mb-0 px-3 text-white">
+                  {{ promotion.discount_rate }} %
+                </p>
               </div>
 
               <div
@@ -218,12 +231,12 @@ import { ref, computed } from "vue";
 import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
 import axios from "axios";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 const allProducts = ref([]);
 const categories = ref([]);
 const GetAllProducts = () => {
   axios
-    .get("http://kassar_api.test/api/products")
+    .get(`http://kassar_api.test/api/products?{}`)
     .then((res) => {
       allProducts.value = res.data.data;
       console.log(res.data.data);
@@ -247,7 +260,7 @@ onMounted(() => {
   GetAllCategories();
 });
 
-const itemsPerPage = 4;
+const itemsPerPage = 5;
 const currentPage = ref(1);
 const pageCount = computed(() =>
   Math.max(1, Math.ceil(allProducts.length / itemsPerPage))
@@ -280,8 +293,6 @@ const formatPrice = (value) => {
 };
 const router = useRouter();
 const goToDetail = (id) => {
-  router.push({ name: 'detailproduct', query: { id } });
-
-
+  router.push({ name: "detailproduct", query: { id } });
 };
 </script>

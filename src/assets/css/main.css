@@ -1400,6 +1400,14 @@ body {
 
 /* end : viewshop*/
 /* start allProduct view */
+.share{
+    width: 40px;
+}
+.link-share{
+    width: 100%;
+    height: 40px;
+    border: 1px solid #dddddd;
+}
 .search:focus {
     box-shadow: none;
     border: #dddddd;
