@@ -7,7 +7,7 @@ import ForgotPassView from '@/components/views/auth/ForgotPassView.vue'
 import VerifyOtpView from '@/components/views/auth/VerifyOtpView.vue'
 import NewPassView from '@/components/views/auth/NewPassView.vue'
 import DetailProductsView from '@/views/DetailProductsView.vue';
-import ViewShopToView from '@/components/views/ViewShopToView.vue';
+import ViewShopView from '@/views/ViewShopView.vue'
 import SettingView from '@/views/SettingView.vue'
 import AllProductView from '@/views/AllProductView.vue'
 import AddCardView from '@/views/AddCartView.vue'
@@ -78,7 +78,7 @@ const router = createRouter({
     {
       path: '/viewshop',
       name: 'viewshop',
-      component: ViewShopToView,
+      component:ViewShopView ,
     },
     {
       path: '/allproducts',

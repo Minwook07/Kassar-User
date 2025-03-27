@@ -55,12 +55,12 @@
                 ><span class="d-none d-md-inline-block ms-2"
                   >តាមដាន</span
                 ></button>
-              <router-link
+              <button
+              @click="onShare()"
                 data-aos="fade-up-left"
-                to=""
                 class="btn btn-share bg-white"
                 ><i class="bi bi-share"></i>
-              </router-link>
+              </button>
             </div>
           </div>
         </div>
@@ -493,19 +493,18 @@
 </template>
 <script setup>
 import { useRoute } from 'vue-router';
-import { useShopStores } from "@/stores/views/shops_store";
 import { onMounted,ref } from "vue";
+import { useSellerStore } from '@/stores/seller_store';
 import axios from "axios";
 const allProducts = ref([]);
 const detailShop = ref([]);
+const sellerStore = useSellerStore();
 const router = useRoute();
 const GetAllProducts = () => {
   axios
     .get("http://kassar_api.test/api/products")
     .then((res) => {
       allProducts.value = res.data.data;
-      // console.log(res.data.data);
-
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -517,8 +516,10 @@ const GetShopDetail = ()  =>{
   .get(`http://kassar_api.test/api/shops/${id}`)
   .then((res) => {
     detailShop.value = res.data.data;
-    console.log(res.data.data);
   })
+}
+const follow = () =>{
+  axios.get(`http://kassar_api.test/api/follow/${id}`)
 }
 onMounted(() => {
   GetAllProducts();
@@ -527,4 +528,8 @@ onMounted(() => {
 const OnSavefav = (id) => {
   allProducts.isFav = !allProducts.isFav;
 };
+const onShare =() =>{
+  sellerStore.mdl_share.show();
+}
+
 </script>
