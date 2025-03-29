@@ -30,16 +30,16 @@
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">{{ cartList.product.name }}</h5>
               <p class="mb-1 text-muted">
-                {{ cartList.product.price }} / 1kg | <span class="text-success">In Stock</span>
+                {{ cartList.product.price }} ៛ / {{ cartList.product.product_unit.name }} | <span class="text-success"> {{ cartList.product.stock_status }}</span>
               </p>
-              <a role="button" class="delete-btn">
+              <a role="button" class="delete-btn" @click="onConfirmDelete(cartList)">
                 <i class="bi bi-trash"></i> លុបចេញ
               </a>
             </div>
 
             <!-- Quantity Controls -->
             <div class="text-end">
-              <h5 class="fw-bold mb-3"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }} </h5>
+              <h5 class="fw-bold mb-3"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }} ៛</h5>
               <div style="width:90px; height: 30px;"
                 class="quantity-controls bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1">
                 
@@ -60,6 +60,11 @@
               </div>
             </div>
           </div> <!-- End Loop -->
+          <div class="mt-4 d-flex justify-content-end">
+            <button class="btn btn-success px-5 py-3" type="button" @click="onSaveAddress()">
+              រួចរាល់
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -71,6 +76,12 @@ import { useCardStore } from '@/stores/card_store';
 import { onMounted } from 'vue';
 
 const cartListStore = useCardStore();
+
+const onConfirmDelete = ({id, name}) => {
+  cartListStore.selected_id = id
+  cartListStore.product.name = name
+  cartListStore.mdl_delete.show()
+}
 
 // Increase quantity for a specific product
 const increment = (id) => {

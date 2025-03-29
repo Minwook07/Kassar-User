@@ -61,7 +61,7 @@
                         <div class="link-contact">
                             <p class="fw-bold fs-6">តាមដានប្រព័ន្ធផ្សព្វផ្សាយសង្គមរបស់យើង ៖</p>
                             <div class="">
-                                <ul class="list-unstyled d-flex justify-content-between w-50">
+                                <ul class="list-unstyled d-flex justify-content-between" style="width: 250px;">
                                     <li>
                                         <router-link to="" class="contact-link fb">
                                             <i class="bi bi-facebook"></i>

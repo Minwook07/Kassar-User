@@ -7,10 +7,14 @@ export const useCardStore = defineStore("card_store", {
         province: '',
         district: '',
         commune: '',
-        village: ''
+        village: '',
+        name:''
     },
+    selected_id: 0,
+    vv: null,
     mdl_credit: null,
     mdl_address: null,
+    mdl_delete: null,
     isAddress: null,
     provinces: [],
     districts: [],

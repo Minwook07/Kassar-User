@@ -17,6 +17,7 @@
                                     <label class="form-label">ខេត្ត / រាជធានី</label>
                                     <select 
                                         class="form-select shadow-none" 
+                                        :class="{ 'is-invalid': cardStore.vv.province.$error }"
                                         v-model="cardStore.frm_add.province"
                                         @change="onProvinceChange"
                                     >
@@ -25,6 +26,10 @@
                                             {{ province.local_name }}
                                         </option>
                                     </select>
+                                    <div class="invalid-feedback" v-if="cardStore.vv.province.$error">
+                                {{ cardStore.vv.province.$errors[0].$message }}
+                                <!-- Please enter gender -->
+                            </div>
                                 </div>
 
                                 <!-- District -->
@@ -112,11 +117,29 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { useCardStore } from '@/stores/card_store';
 
+import useVuelidate from '@vuelidate/core';
+import { helpers, required } from '@vuelidate/validators';
+
 const cardStore = useCardStore();
+const rules = computed(() =>({
+    province:{
+        required: helpers.withMessage(() => 'សូមជ្រើសរើសខេត្ត', required)
+    },
+    district:{
+        required: helpers.withMessage(() => 'សូមជ្រើសរើសស្រុក', required)
+    },
+    commune:{
+        required: helpers.withMessage(() => 'សូមជ្រើសរើសឃុំ', required)
+    },
+    village:{
+        required: helpers.withMessage(() => 'សូមជ្រើសរើសភូមិ', required)
+    }
+}))
+cardStore.vv = useVuelidate(rules, cardStore.frm_add)
 
 onMounted(() => {
     cardStore.mdl_address = Modal.getOrCreateInstance(document.getElementById('mdl-address'));
@@ -160,6 +183,12 @@ const onCommuneChange = () => {
 };
 
 const onSaveAddress = () => {
+
+    cardStore.vv.$validate()
+    if(cardStore.vv.$error){
+        return
+    }
+
     cardStore.isAddress = "Address saved successfully!"; 
     cardStore.mdl_address.hide();
 };
