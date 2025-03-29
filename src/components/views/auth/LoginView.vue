@@ -183,7 +183,7 @@ async function onSaveLogin() {
     formData.append("email", form.email);
     formData.append("password", form.password);
 
-    const response = await axios.post("api/auth/login", formData, {
+    const response = await axios.post("/api/auth/login", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         "Accept": "application/json"
