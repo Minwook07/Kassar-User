@@ -499,7 +499,7 @@ body {
 }
 
 .search-input-wrapper button {
-    height: 34px;
+    height: 100%;
     background-color: var(--bs-primary);
     color: white;
     font-weight: 500;
