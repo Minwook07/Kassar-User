@@ -1,28 +1,47 @@
 <template>
-  <header ref="headerRef" class="page-header  bg-body-tertiary">
+  <header ref="headerRef" class="page-header bg-body-tertiary">
     <div class="container-fluid p-0">
       <div class="d-flex align-items-center justify-content-between w-100 p-2 navbar-top ">
         <RouterLink class="navbar-brand" to="/">
           <img src="/kassar_text.png" alt="" style="width: 150px;">
         </RouterLink>
         <form class="d-flex search-input-wrapper align-items-center">
-          <input class="form-control me-2" type="search" placeholder="ស្វែងរកផលិតផល" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">ស្វែងរក</button>
+          <div class="position-relative w-100">
+            <input class="form-control me-2" type="search" placeholder="ស្វែងរកផលិតផល" aria-label="Search">
+            <button class="btn btn-outline-success position-absolute top-50 end-0 translate-middle-y border-0"
+              type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
         </form>
-        <div class="d-none d-flex">
+
+        <div v-if="!token" class="d-flex">
           <div class="ms-auto">
-            <RouterLink class="btn btn-primary-outline rounded-5 px-4 me-1" to="/signup">បង្កើតគណនី</RouterLink>
+            <RouterLink class="btn btn-primary-outline rounded-5 px-4 me-1" to="/signup">
+              បង្កើតគណនី
+            </RouterLink>
           </div>
           <div class="ms-auto">
-            <RouterLink class="btn btn-primary rounded-5 px-4" to="/login">ចូលគណនី</RouterLink>
+            <RouterLink class="btn btn-primary rounded-5 px-4" to="/login">
+              ចូលគណនី
+            </RouterLink>
           </div>
         </div>
+
+        <!-- Button for offcanvas -->
         <button class="btn btn-outline-primary pt-2 d-block d-lg-none" type="button" @click="showOffcanvas">
           <i class="bi bi-list fw-bold"></i>
         </button>
-        <ul class="d-none d-lg-flex align-items-center navbar-action-btn m-0 p-0">
+
+        <ul v-if="token" class="d-none d-lg-flex align-items-center navbar-action-btn m-0 p-0">
           <RouterLink class="btn-cart fs-4 text-secondary me-2" to="/cart">
-            <img src="@/assets/images/icons-img/cart.png" alt="">
+            <div class="position-relative">
+              <img src="@/assets/images/icons-img/cart.png" alt="">
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                style="font-size: 10px; top: 10px!important">
+                3
+              </span>
+            </div>
           </RouterLink>
           <RouterLink class="btn-favorite fs-4 text-secondary me-2" to="/wishlist">
             <img src="@/assets/images/icons-img/love.png" alt="">
@@ -33,8 +52,8 @@
             </button>
             <ul class="dropdown-menu p-1" ref="profileDropdown">
               <li>
-                <RouterLink to="/profile" href="#" class="d-flex align-items-center text-decoration-none p-0">
-                  <div class="rounded-circle user-pf ">
+                <RouterLink to="/profile" class="d-flex align-items-center text-decoration-none p-0">
+                  <div class="rounded-circle user-pf">
                     <img src="@/assets/images/user_pf_sample.jpg" alt="">
                   </div>
                   <div class="name ms-2">
@@ -45,7 +64,7 @@
               <li>
                 <RouterLink to="/profile" class="d-flex align-items-center text-decoration-none p-0">
                   <i class="bi bi-gear me-1 text-secondary fs-5 pt-1"></i>
-                  <h6 class="text-black">​ការកំណត់</h6>
+                  <h6 class="text-black">ការកំណត់</h6>
                 </RouterLink>
               </li>
               <li>
@@ -65,11 +84,14 @@
         </ul>
       </div>
     </div>
+
+    <!-- Navbar bottom remains unchanged -->
     <nav class="navbar-bottom d-none d-lg-block">
       <div class="container-fluid">
         <ul class="navbar-nav d-flex flex-row align-items-center justify-content-center">
           <li class="nav-item">
-            <RouterLink class="nav-link mt-1" to="/video"><i class="bi bi-collection-play-fill fs-3"></i>
+            <RouterLink class="nav-link mt-1" to="/video">
+              <i class="bi bi-collection-play-fill fs-3"></i>
             </RouterLink>
           </li>
           <li class="nav-item">
@@ -79,7 +101,8 @@
           </li>
           <li class="nav-item position-relative category-dropdown">
             <RouterLink class="nav-link btn-dropdown d-flex align-items-center" to="" type="button">
-              <h6 class="m-0">ប្រភេទផលិតផល</h6> <i class="bi bi-chevron-down ms-1 fs-6 pt-1"></i>
+              <h6 class="m-0">ប្រភេទផលិតផល</h6>
+              <i class="bi bi-chevron-down ms-1 fs-6 pt-1"></i>
             </RouterLink>
             <ul class="dropdown-menu">
               <li>
@@ -124,7 +147,8 @@
       </div>
     </nav>
   </header>
-  <!-- offcanvas for navbar -->
+
+  <!-- Offcanvas for navbar -->
   <div class="offcanvas offcanvas-end home-offcanvas" tabindex="-1" id="myOffcanvas"
     aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
@@ -136,8 +160,8 @@
     <div class="offcanvas-body p-2">
       <ul class="navbar-nav p-0 list-unstyled">
         <li class="nav-item profile-wrapper mb-2">
-          <RouterLink to="/profile" href="#" class="d-flex align-items-center text-decoration-none p-0">
-            <div class="rounded-circle user-pf ">
+          <RouterLink to="/profile" class="d-flex align-items-center text-decoration-none p-0">
+            <div class="rounded-circle user-pf">
               <img src="@/assets/images/user_pf_sample.jpg" alt="">
             </div>
             <div class="name ms-2">
@@ -153,7 +177,8 @@
         </li>
         <li class="nav-item">
           <a class="bg-transparent w-100 d-flex justify-content-between align-items-center" @click="toggleCollapse">
-            <span>ប្រភេទផលិតផល</span> <i class="bi bi-chevron-down ms-1 fs-6 pt-1"></i>
+            <span>ប្រភេទផលិតផល</span>
+            <i class="bi bi-chevron-down ms-1 fs-6 pt-1"></i>
           </a>
         </li>
         <div class="collapse" id="categoryCollapse">
@@ -202,15 +227,18 @@
 </template>
 
 <script setup>
-
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { Offcanvas, Collapse } from "bootstrap";
 import { onBeforeRouteLeave } from "vue-router";
 
 const headerRef = ref(null);
 const toggleClass = "is-sticky";
-const btnClickProfile = ref(null)
-const profileDropdown = ref(null)
+
+// Create a reactive token variable.
+const token = ref(null);
+
+const btnClickProfile = ref(null);
+const profileDropdown = ref(null);
 const offcanvasInstance = ref(null);
 let collapseInstance = null;
 
@@ -222,22 +250,36 @@ const handleScroll = () => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener("scroll", handleScroll);
-  btnClickProfile.value.addEventListener('click', () => {
-    profileDropdown.value.classList.toggle('active');
-  })
-  offcanvasInstance.value = new Offcanvas(document.getElementById('myOffcanvas'));
-  collapseInstance = new Collapse(document.getElementById('categoryCollapse'), { toggle: false });
+
+  // Check for token in localStorage or sessionStorage
+  token.value = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  // Wait for the DOM to update before attaching event listeners
+  await nextTick();
+  if (btnClickProfile.value) {
+    btnClickProfile.value.addEventListener("click", () => {
+      if (profileDropdown.value) {
+        profileDropdown.value.classList.toggle("active");
+      }
+    });
+  } else {
+    console.warn("btnClickProfile element is not found.");
+  }
+  offcanvasInstance.value = new Offcanvas(document.getElementById("myOffcanvas"));
+  collapseInstance = new Collapse(document.getElementById("categoryCollapse"), { toggle: false });
 });
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-onBeforeRouteLeave(() => {
-  hideOffcanvas();
-});
+// Instead of onBeforeRouteLeave, you might use a route watcher if NavBar is not within <router-view>
+// For demonstration, here it is commented out.
+// onBeforeRouteLeave(() => {
+//   hideOffcanvas();
+// });
 
 const showOffcanvas = () => {
   offcanvasInstance.value?.show();
@@ -247,11 +289,9 @@ const hideOffcanvas = () => {
   offcanvasInstance.value?.hide();
 };
 
-
 const toggleCollapse = () => {
   if (collapseInstance) {
     collapseInstance.toggle();
   }
 };
-
 </script>
