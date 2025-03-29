@@ -5,7 +5,7 @@ import LoginView from '@/components/views/auth/LoginView.vue'
 import SignupView from '@/components/views/auth/SignupView.vue'
 import ForgotPassView from '@/components/views/auth/ForgotPassView.vue'
 import VerifyOtpView from '@/components/views/auth/VerifyOtpView.vue'
-import NewPassView from '@/components/views/auth/NewPassView.vue'
+import ResetPasswordView from '@/components/views/auth/ResetPassView.vue'
 import DetailProductsView from '@/views/DetailProductsView.vue';
 import ViewShopView from '@/views/ViewShopView.vue'
 import SettingView from '@/views/SettingView.vue'
@@ -49,20 +49,20 @@ const router = createRouter({
       component: SignupView,
     },
     {
-      path: '/forgotpass',
+      path: '/forgot-password',
       name: 'forgotpass',
       component: ForgotPassView,
     },
     {
-      path: '/verifyotp',
-      name: 'verifyotp',
+      path: '/verify-otp',
+      name: 'VerifyOTP',
       component: VerifyOtpView,
     },
 
     {
-      path: '/newpass',
-      name: 'newpass',
-      component: NewPassView,
+      path: '/reset-password',
+      name: 'ResetPassword', 
+      component: ResetPasswordView,
     },
 
     {
