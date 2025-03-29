@@ -4,7 +4,8 @@
       <div class="cart-container bg-white">
         <!-- Cart Header -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h4 class="fw-bold">កន្ត្រក <span class="text-secondary">{{ cartListStore.cartLists.length }} ទំនិញ</span></h4>
+          <h4 class="fw-bold">កន្ត្រក <span class="text-secondary">{{ cartListStore.cartLists.length }} ទំនិញ</span>
+          </h4>
           <div>
             <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox" id="selectAll">
             <label for="selectAll">ជ្រើសទាំងអស់</label>
@@ -12,13 +13,14 @@
         </div>
 
         <div>
-           <!-- Cart Items -->
-           <div class="form-check align-items-center d-flex justify-content-start">
+          <!-- Cart Items -->
+          <div class="form-check align-items-center d-flex justify-content-start">
             <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox">
             <label class="form-check-label fs-5 fw-bold">ហាងលក់សាច់គោ</label>
           </div>
           <!-- Loop through Cart Items -->
-          <div v-for="cartList in cartListStore.cartLists" :key="cartList.id" class="cart-item d-flex align-items-center">
+          <div v-for="cartList in cartListStore.cartLists" :key="cartList.id"
+            class="cart-item d-flex align-items-center">
             <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox">
 
             <!-- Product Image -->
@@ -30,7 +32,8 @@
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">{{ cartList.product.name }}</h5>
               <p class="mb-1 text-muted">
-                {{ cartList.product.price }} ៛ / {{ cartList.product.product_unit.name }} | <span class="text-success"> {{ cartList.product.stock_status }}</span>
+                {{ cartList.product.price }} ៛ / {{ cartList.product.product_unit.name }} | <span class="text-success">
+                  {{ cartList.product.stock_status }}</span>
               </p>
               <a role="button" class="delete-btn" @click="onConfirmDelete(cartList)">
                 <i class="bi bi-trash"></i> លុបចេញ
@@ -39,19 +42,20 @@
 
             <!-- Quantity Controls -->
             <div class="text-end">
-              <h5 class="fw-bold mb-3"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }} ៛</h5>
+              <h5 class="fw-bold mb-3"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }} ៛
+              </h5>
               <div style="width:90px; height: 30px;"
                 class="quantity-controls bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1">
-                
+
                 <!-- Decrease Quantity -->
                 <div class="bg-white rounded-circle btn-quantity d-flex justify-content-center align-items-center"
                   @click="decrement(cartList.id)">
                   <i class="bi bi-dash-lg text-black fs-6"></i>
                 </div>
-                
+
                 <!-- Quantity Display -->
                 <p class="mb-0 fw-bold fs-5">{{ cartListStore.cartCounts[cartList.id] || 1 }}</p>
-                
+
                 <!-- Increase Quantity -->
                 <div class="bg-white rounded-circle btn-quantity d-flex justify-content-center align-items-center"
                   @click="increment(cartList.id)">
@@ -69,17 +73,19 @@
       </div>
     </div>
   </section>
+<CartModalDel />
 </template>
 
 <script setup>
 import { useCardStore } from '@/stores/card_store';
 import { onMounted } from 'vue';
+import CartModalDel from './CartModalDel.vue';
 
 const cartListStore = useCardStore();
 
-const onConfirmDelete = ({id, name}) => {
+const onConfirmDelete = ({ id, name }) => {
   cartListStore.selected_id = id
-  cartListStore.product.name = name
+  // cartListStore.product.name = name
   cartListStore.mdl_delete.show()
 }
 
@@ -98,6 +104,7 @@ const decrement = (id) => {
 // Load cart items when the component is mounted
 onMounted(() => {
   cartListStore.onLoadCart();
+  // cartListStore.onConfirmDelete();
 });
 </script>
 

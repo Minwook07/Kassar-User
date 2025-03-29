@@ -277,10 +277,10 @@ const GetAllProducts = () => {
   if (selectedCategory.value) {
     url += `&category_id=${selectedCategory.value}`;
   }
-  console.log(min_price, max_price);
-  if (range.value[0] !== undefined && range.value[1] !== undefined) {
-    url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
-  }
+  // console.log(min_price, max_price);
+  // if (range.value[0] !== undefined && range.value[1] !== undefined) {
+  //   url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
+  // }
   console.log(url);
 
   axios
