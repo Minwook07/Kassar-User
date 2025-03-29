@@ -20,18 +20,23 @@
     <div class="container-fluid my-5">
       <div class="row justify-content-center">
         <div class="col-12 col-md-3 col-lg-2">
-          <h4 class="mb-0 fw-bold" data-aos="fade-up-right">ជម្រើសផលិតផល</h4>
+          <h4 class="mb-0 fw-bold text-primary" data-aos="fade-up-right">
+            ជម្រើសផលិតផល
+          </h4>
           <hr />
           <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold mb-3">ប្រភេទ</h5>
             <div v-for="category in categories" :key="category.id">
               <div class="mb-2 myform-check form-check">
                 <input
-                  type="checkbox"
+                  @change="handleCategory"
+                  v-model="selectedCategory"
+                  type="radio"
+                  :value="category.id"
+                  :id="'radio-' + category.id"
                   class="form-check-input shadow-none"
-                  id="exampleCheck1"
                 />
-                <label class="form-check-label" for="exampleCheck1">{{
+                <label class="form-check-label" :for="'radio-' + category.id">{{
                   category.name
                 }}</label>
               </div>
@@ -41,50 +46,57 @@
           <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold">តម្លៃ</h5>
             <div class="price-range-container p-4 bg-light rounded">
-              <h3 class="khmer-text mb-3">តម្លៃ</h3>
-
               <div class="price-display mb-3 fs-6">
                 ៛{{ formatPrice(range[0]) }} - ៛{{ formatPrice(range[1]) }}
               </div>
 
               <div class="position-relative">
+                <!-- Slider track -->
                 <div
                   class="slider-track"
                   :style="{
-                    '--left-position': `${(range[0] / maxPrice) * 100}%`,
-                    '--right-position': `${100 - (range[1] / maxPrice) * 100}%`,
+                    '--left-position': `${(range[0] / max_price) * 100}%`,
+                    '--right-position': `${
+                      100 - (range[1] / max_price) * 100
+                    }%`,
                   }"
                 ></div>
                 <input
                   type="range"
                   class="range-input"
                   v-model.number="range[0]"
-                  :min="minPrice"
-                  :max="maxPrice"
-                  @input="validateRange(0)"
+                  :min="min_price"
+                  :max="range[1] - 1"
+                  @input="handleRangeInput"
                 />
                 <input
                   type="range"
                   class="range-input"
                   v-model.number="range[1]"
-                  :min="minPrice"
-                  :max="maxPrice"
-                  @input="validateRange(1)"
+                  :min="range[0] + 1"
+                  :max="max_price"
+                  @input="handleRangeInput"
                 />
               </div>
             </div>
           </div>
           <div class="mb-3" data-aos="fade-up-right">
-            <h5 class="fw-bold mb-3">ម៉ាក</h5>
+            <h5 class="fw-bold mb-3">វាយតម្លៃ</h5>
             <div class="mb-2 myform-check form-check">
               <input
                 type="checkbox"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
-              <label class="form-check-label" for="exampleCheck1"
-                >កសិដ្ឋានសិរីរាង្គ</label
-              >
+              <label class="form-check-label" for="exampleCheck1">
+                <div class="d-flex gap-2 text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                </div>
+              </label>
             </div>
             <div class="mb-2 myform-check form-check">
               <input
@@ -92,9 +104,13 @@
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
-              <label class="form-check-label" for="exampleCheck1"
-                >Fresh Direct</label
-              >
+              <label class="form-check-label" for="exampleCheck1">
+                <div class="d-flex gap-2 text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i></div
+              ></label>
             </div>
             <div class="mb-2 myform-check form-check">
               <input
@@ -102,23 +118,13 @@
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
-              <label class="form-check-label" for="exampleCheck1"
-                >Locak Harvest</label
-              >
-            </div>
-            <hr />
-          </div>
-          <div class="mb-3" data-aos="fade-up-right">
-            <h5 class="fw-bold mb-3">ស្តុក</h5>
-            <div class="mb-2 myform-check form-check">
-              <input
-                type="checkbox"
-                class="form-check-input shadow-none"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1"
-                >មានក្នុងស្តុក</label
-              >
+              <label class="form-check-label" for="exampleCheck1">
+                <div class="d-flex gap-2 text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                </div>
+              </label>
             </div>
             <div class="mb-2 myform-check form-check">
               <input
@@ -126,21 +132,43 @@
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
-              <label class="form-check-label" for="exampleCheck1"
-                >គ្មានក្នុងស្តុក</label
-              >
+              <label class="form-check-label" for="exampleCheck1">
+                <div class="d-flex gap-2 text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                </div>
+              </label>
+            </div>
+            <div class="mb-2 myform-check form-check">
+              <input
+                type="checkbox"
+                class="form-check-input shadow-none"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1">
+                <div class="d-flex gap-2 text-warning">
+                  <i class="bi bi-star-fill"></i>
+                </div>
+              </label>
             </div>
             <hr />
           </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 row justify-content-start">
           <div class="col-12 row mb-3 justify-content-end px-0">
-            <div class="col-12 col-lg-6 ps-4">
+            <div
+              class="col-12 col-lg-6 bg-search rounded d-flex justify-content-between align-items-center"
+            >
               <input
+                v-model="search"
+                @input="handleSearch"
                 type="text"
                 placeholder="ស្វែងរក"
                 class="form-control search"
               />
+              <div class="pe-3">
+                <i class="bi bi-search text-primary"></i>
+              </div>
             </div>
           </div>
           <div
@@ -218,9 +246,9 @@
         <paginate
           :page-count="pageCount"
           :click-handler="handlePageClick"
-          :prev-text="'<i class=\'bi bi-chevron-left\'></i>'"
-          :next-text="'<i class=\'bi bi-chevron-right\'></i>'"
-          :container-class="'pagination'"
+          prev-text="‹"
+          next-text="›"
+          container-class="pagination"
         />
       </div>
     </div>
@@ -234,12 +262,32 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 const allProducts = ref([]);
 const categories = ref([]);
+const totalProducts = ref([]);
+const selectedCategory = ref();
+const itemsPerPage = 8;
+const currentPage = ref(1);
+const min_price = 1;
+const max_price = 15;
+const search = ref("");
 const GetAllProducts = () => {
+  let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
+  if (search.value) {
+    url += `&search=${encodeURIComponent(search.value)}`;
+  }
+  if (selectedCategory.value) {
+    url += `&category_id=${selectedCategory.value}`;
+  }
+  console.log(min_price, max_price);
+  if (range.value[0] !== undefined && range.value[1] !== undefined) {
+    url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
+  }
+  console.log(url);
+
   axios
-    .get(`/api/products?{}`)
+    .get(url)
     .then((res) => {
+      totalProducts.value = res.data.paginate.total;
       allProducts.value = res.data.data;
-      console.log(res.data.data);
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -259,35 +307,34 @@ onMounted(() => {
   GetAllProducts();
   GetAllCategories();
 });
-
-const itemsPerPage = 5;
-const currentPage = ref(1);
+const handleSearch = () => {
+  currentPage.value = 1;
+  GetAllProducts();
+};
+const handleCategory = () => {
+  currentPage.value = 1;
+  GetAllProducts();
+};
 const pageCount = computed(() =>
-  Math.max(1, Math.ceil(allProducts.length / itemsPerPage))
+  Math.max(1, Math.ceil(totalProducts.value / itemsPerPage))
 );
 const paginatedProducts = computed(() => {
   if (!allProducts.length) return [];
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-  return allProducts.products.slice(start, end);
+  return allProducts.slice(start, end);
 });
 
 const handlePageClick = (pageNumber) => {
-  currentPage.value = pageNumber;
-};
-
-const minPrice = 0;
-const maxPrice = 100000;
-const range = ref([20000, 40000]);
-
-const validateRange = (index) => {
-  if (index === 0 && range.value[0] > range.value[1]) {
-    range.value[0] = range.value[1];
-  } else if (index === 1 && range.value[1] < range.value[0]) {
-    range.value[1] = range.value[0];
+  if (pageNumber >= 1 && pageNumber <= pageCount.value) {
+    currentPage.value = pageNumber;
+    GetAllProducts();
   }
 };
-
+const range = ref([min_price, max_price]);
+const handleRangeInput = () => {
+  GetAllProducts();
+};
 const formatPrice = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };

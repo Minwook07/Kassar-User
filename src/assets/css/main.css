@@ -1561,6 +1561,17 @@ body {
     color: #fff;
     border-color: var(--bs-primary);
 }
+.bg-search{
+    height: 40px !important;
+    background-color: white ;
+    border: 1px solid var(--bs-primary);
+    }
+.search{
+    height: 10px!important;
+    border: none!important;
+    background-color: transparent!important;
+}
+    
 /* multi slider */
 .price-display {
     font-size: 1.25rem;
