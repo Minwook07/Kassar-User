@@ -61,14 +61,19 @@
               {{ $v.form.password.$errors[0]?.$message }}
             </div>
           </div>
-
-          <!-- Remember Me -->
+          <div class="d-flex justify-content-between ">
+                      <!-- Remember Me -->
           <div class="form-check mb-3" data-aos="fade-up" data-aos-delay="900">
             <input type="checkbox" 
                    id="remember" 
                    v-model="form.remember" 
                    class="form-check-input" />
             <label for="remember" class="form-check-label">ចងចាំខ្ញុំ</label>
+          </div>
+          <!-- Forgot Password  -->
+          <router-link to="/forgot-password" class="text-success fw-bold text-decoration-none ">ភ្លេចពាក្យសម្ងាត់?</router-link>
+
+           
           </div>
 
           <!-- Submit Button -->
@@ -80,7 +85,7 @@
 
         <!-- Signup Link -->
         <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="1100">
-          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup" class="text-success fw-bold">បង្កើតគណនី</router-link></p>
+          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup" class="text-success fw-bold text-decoration-none  ">បង្កើតគណនី</router-link></p>
         </div>
       </div>
     </div>
@@ -167,7 +172,7 @@ function togglePasswordVisibility() {
 
 async function onSaveLogin() {
   $v.value.$touch();
-  
+
   if ($v.value.$invalid) {
     AOS.refresh();
     return;
@@ -178,40 +183,42 @@ async function onSaveLogin() {
     formData.append("email", form.email);
     formData.append("password", form.password);
 
-    const response = await axios.post("/api/auth/login", formData, {
+    const response = await axios.post("api/auth/login", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         "Accept": "application/json"
       }
     });
 
-    // Determine storage based on remember checkbox
-    const storage = form.remember ? localStorage : sessionStorage;
-    storage.setItem('token', response.data.token);
-    storage.setItem('user', JSON.stringify(response.data.user));
+    
+    if (response.data && response.data.token) {
+      const storage = form.remember ? localStorage : sessionStorage;
+      storage.setItem('token', response.data.token);
+      storage.setItem('user', JSON.stringify(response.data.user));
 
-    // Show success toast
-    if (toastInstance) {
-      toastMessage.value = 'ចូលគណនីជោKជ័យ';
-      toastIcon.value = 'bi bi-check2-circle fs-5 text-success';
-      toastInstance.show();
+      // Show success toast
+      if (toastInstance) {
+        toastMessage.value = 'ចូលគណនីជោគជ័យ';
+        toastIcon.value = 'bi bi-check2-circle fs-5 text-success';
+        toastInstance.show();
 
-      // Redirect to home page after 2 seconds
-      setTimeout(() => {
-        router.push('/');
-      }, 2000);
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
+      }
+    } else {
+      throw new Error("Invalid credentials"); 
     }
-
   } catch (err) {
-    // Show error toast
     if (toastInstance) {
-      const errorMessage = err.response?.data.message || 'មានកំហុសកើតឡើង';
-      toastMessage.value = 'មានកំហុស: ' + errorMessage;
+      const errorMessage = err.response?.data?.message || 'អុីម៊ែលពាក្យ​ ប្ញ សម្ងាត់មិនត្រឹមត្រូវ';
+      toastMessage.value = errorMessage;
       toastIcon.value = 'bi bi-x-circle fs-5 text-danger';
       toastInstance.show();
     }
   }
 }
+
 </script>
 
 <style scoped>
