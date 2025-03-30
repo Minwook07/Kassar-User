@@ -84,11 +84,11 @@
 
           <!-- Terms Agreement -->
           <div class="form-check mb-2" data-aos="fade-up" data-aos-delay="900">
-            <input type="checkbox" id="termsAgreement" v-model="useAuth.frm.termsAgreement" class="form-check-input"
-              :class="{ 'border-danger': useAuth.vv.termsAgreement.$error }" />
-            <label for="termsAgreement" class="form-check-label">យល់ព្រមនូវលក្ខណ្ឌគោលការណ៍</label>
-            <div class="invalid-feedback" v-if="useAuth.vv.termsAgreement.$error">
-              {{ useAuth.vv.termsAgreement.$errors[0].$message }}
+            <input type="checkbox" id="terms_accepted" v-model="useAuth.frm.terms_accepted" class="form-check-input"
+              :class="{ 'border-danger': useAuth.vv.terms_accepted.$error }" />
+            <label for="terms_accepted" class="form-check-label">យល់ព្រមនូវលក្ខណ្ឌគោលការណ៍</label>
+            <div class="invalid-feedback" v-if="useAuth.vv.terms_accepted.$error">
+              {{ useAuth.vv.terms_accepted.$errors[0].$message }}
             </div>
           </div>
 
@@ -108,29 +108,42 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
+    <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
+      <div class="toast-content p-3">
+        <div>
+          <i :class="toastIcon"></i>
+        </div>
+
+        <div class="message">
+          <span class="text text-1">{{ toastMessage }}</span>
+        </div>
+        <div>
+          <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="progress active"></div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { reactive, onMounted, computed } from "vue";
+import { reactive, onMounted, computed, ref } from "vue";
 import { helpers, email } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth_store";
+import { Toast } from 'bootstrap';
+import { useRouter } from 'vue-router';
 
 // Get the auth store instance
 const useAuth = useAuthStore();
-
-// Initialize AOS when component is mounted
-onMounted(() => {
-  AOS.init({
-    duration: 800,
-    easing: "ease",
-    once: true,
-    offset: 50,
-  });
-});
+const router = useRouter();
 
 // Password Visibility Management
 const visibility = reactive({
@@ -141,6 +154,24 @@ const visibility = reactive({
 const toggleVisibility = (field) => {
   visibility[field] = !visibility[field];
 };
+
+// Toast Management
+const toastMessage = ref('');
+const toastIcon = ref('bi bi-check2-circle fs-5 text-success');
+let toastInstance = null;
+
+// Initialize AOS and Toast when component is mounted
+onMounted(() => {
+  AOS.init({
+    duration: 800,
+    easing: "ease",
+    once: true,
+    offset: 50,
+  });
+
+  // Initialize Bootstrap Toast
+  toastInstance = Toast.getOrCreateInstance(document.getElementById('liveToast'));
+});
 
 // Define validation rules
 const rules = computed(() => ({
@@ -164,8 +195,8 @@ const rules = computed(() => ({
     required: helpers.withMessage("សូមបញ្ចូលពាក្យសម្ងាត់បញ្ជាក់", helpers.req),
     sameAsPassword: helpers.withMessage("ពាក្យសម្ងាត់បញ្ជាក់មិនត្រូវគ្នា", (value) => value === useAuth.frm.password)
   },
-  termsAgreement: {
-    isChecked: helpers.withMessage("", (value) => value === true)
+  terms_accepted: {
+    isChecked: helpers.withMessage("សូមយល់ព្រមលក្ខខ័ណ្ឌ", (value) => value === true)
   }
 }));
 
@@ -184,18 +215,33 @@ function onSubmit() {
     email: useAuth.frm.email,
     password: useAuth.frm.password,
     password_confirmation: useAuth.frm.password_confirmation,
-    termsAgreement: useAuth.frm.termsAgreement,
+    terms_accepted: useAuth.frm.terms_accepted,
   };
 
   // API request
-  axios.post("http://localhost/kassar_api/public/api/auth/register", formData)
+  axios.post("api/auth/register", formData)
     .then(() => {
-      alert("ចុះឈ្មោះជោគជ័យ!");
-      // Optionally, redirect or perform additional actions after successful registration
+      // Show success toast
+      if (toastInstance) {
+        toastMessage.value = 'ចុះឈ្មោះជោKជ័យ';
+        toastIcon.value = 'bi bi-check2-circle fs-5 text-success';
+        toastInstance.show();
+
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+      }
     })
     .catch((err) => {
       const errors = err.response?.data.errors || err.response?.data.message;
-      alert("Error: " + errors);
+      
+      // Show error toast
+      if (toastInstance) {
+        toastMessage.value = 'មានកំហុស: ' + (typeof errors === 'object' ? Object.values(errors)[0] : errors);
+        toastIcon.value = 'bi bi-x-circle fs-5 text-danger';
+        toastInstance.show();
+      }
     });
 }
 </script>
@@ -216,7 +262,6 @@ function onSubmit() {
   color: #212529;
 }
 
-/* Adjust position when validation error is present */
 .is-invalid + .password-toggle {
   top: 35%;
   right: 40px;
@@ -225,4 +270,5 @@ function onSubmit() {
 .border-danger {
   border: 2px solid #e93a4b !important;
 }
+
 </style>

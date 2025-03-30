@@ -499,7 +499,7 @@ body {
 }
 
 .search-input-wrapper button {
-    height: 34px;
+    height: 100%;
     background-color: var(--bs-primary);
     color: white;
     font-weight: 500;
@@ -1400,6 +1400,14 @@ body {
 
 /* end : viewshop*/
 /* start allProduct view */
+.share{
+    width: 40px;
+}
+.link-share{
+    width: 100%;
+    height: 40px;
+    border: 1px solid #dddddd;
+}
 .search:focus {
     box-shadow: none;
     border: #dddddd;
@@ -1553,6 +1561,17 @@ body {
     color: #fff;
     border-color: var(--bs-primary);
 }
+.bg-search{
+    height: 40px !important;
+    background-color: white ;
+    border: 1px solid var(--bs-primary);
+    }
+.search{
+    height: 10px!important;
+    border: none!important;
+    background-color: transparent!important;
+}
+    
 /* multi slider */
 .price-display {
     font-size: 1.25rem;

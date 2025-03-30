@@ -6,7 +6,7 @@
           <div class="mb-3 rounded" style="height: 400px">
             <img
               class="w-100 h-100 object-fit-cover rounded"
-              :src="detailProducts.product_thumbnail"
+              :src="detailProducts.product.product_thumbnail"
               alt=""
             />
           </div>
@@ -30,7 +30,7 @@
         </div>
         <div class="col-12 col-md-6 col-lg-4 ps-5 mb-5">
           <h2 class="fw-bold mb-3" data-aos="fade-down">
-            {{ detailProducts.name }}
+            {{ detailProducts.product.name }}
           </h2>
           <div
             data-aos="zoom-in-up"
@@ -48,15 +48,23 @@
             <p class="mb-0 .text-dark-emphasis">(99 វាយតម្លៃ)</p>
           </div>
           <div>
-            <h2 data-aos="fade-down" class="text-primary fw-bold mb-4">
-              {{ detailProducts.price }}
-              <span
-                class="fw-bold ms-2 fs-5 text-decoration-line-through text-success-emphasis"
-                >$65.00</span
-              >
-            </h2>
+            <div
+                    v-if="detailProducts.product.price && detailProducts.product.price.has_discount !== false"
+                  >
+                    <p class="text-primary mb-0 fw-bold">
+                      {{ detailProducts.product.price.discounted_price }} /
+                      {{ detailProducts.product.product_units.name }}
+                    </p>
+                    <span class="text-decoration-line-through text-paragraph">
+                      {{ detailProducts.product.price.original }}</span
+                    >
+                  </div>
+                  <p class="text-primary mb-0 fw-bold" v-else>
+                    {{ detailProducts.product.price.original }} /
+                    {{ detailProducts.product.product_units.name }}
+                  </p>
             <h5 class="mb-4" data-aos="fade-up">
-              ប្រភេទ​ ៖ {{ detailProducts.category.name }}
+              ប្រភេទ​ ៖ {{ detailProducts.product.category.name }}
             </h5>
           </div>
           <div class="d-flex gap-4 align-items-center mb-3">
@@ -73,8 +81,8 @@
               <p class="mb-0 fw-bold fs-5">{{ count }}</p>
               <div
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
-                  :class="{'disabled': count >= detailProducts.qty_in_stock}"
-                 @click="count < detailProducts.qty_in_stock && count++"
+                  :class="{'disabled': count >= detailProducts.product.qty_in_stock}"
+                 @click="count < detailProducts.product.qty_in_stock && count++"
               >
                 <i class="bi bi-plus-lg text-primary fs-4"></i>
               </div>
@@ -87,21 +95,21 @@
             </button>
           </div>
           <button
-            v-if="detailProducts.stock_status === 'low_stock'"
+            v-if="detailProducts.product.stock_status === 'low_stock'"
             class="btn btn-warning rounded-pill text-white mb-3"
           >
             ស្តុកតិច
           </button>
 
           <button
-            v-if="detailProducts.stock_status === 'in_stock'"
+            v-if="detailProducts.product.stock_status === 'in_stock'"
             class="btn btn-primary rounded-pill mb-3"
           >
             មានស្តុក
           </button>
 
           <button
-            v-else-if="detailProducts.stock_status === 'out_of_stock'"
+            v-else-if="detailProducts.product.stock_status === 'out_of_stock'"
             class="btn btn-secondary rounded-pill text-white mb-3"
           >
             អស់ស្តុក
@@ -134,14 +142,14 @@
         </div>
         <div class="col-12 col-lg-4">
           <div class="d-flex justify-content-end">
-            <router-link
+            <button 
               data-aos="fade-up"
               to="/viewshop"
               class="btn btn-primary mb-3"
-            >
+              @click="goToshop(detailProducts.shop.id)">
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
-            </router-link>
+            </button>
           </div>
           <div
             data-aos="fade-down-left"
@@ -307,7 +315,7 @@
               aria-labelledby="nav-profile-tab"
               tabindex="0"
             >
-              <div
+              <divi
                 class="mt-2 d-flex gap-3 align-items-center bg-white py-4 px-3 rounded"
               >
                 <div class="pf-feedback-detail rounded-circle ms-2">
@@ -350,7 +358,7 @@
                     </p>
                   </div>
                 </div>
-              </div>
+              </divi>
             </div>
           </div>
         </div>
@@ -369,49 +377,62 @@
         <div
           data-aos="fade-up"
           class="col-12 col-md-6 col-lg-3 mb-3"
-          v-for="product in allProducts.products"
-          :key="product.id"
+          v-for="related_products in detailProducts.related_products"
+          :key="related_products.id"
         >
           <div
             class="bg-white card card-product border-0 rounded position-relative"
           >
             <div class="card-img p-3">
               <img
-                :src="product.img"
+                :src="related_products.product_thumbnail"
                 class="mycard-img-top rounded-top object-fit-cover"
                 alt=""
               />
             </div>
             <div class="p-3 card-body">
               <div class="d-flex justify-content-between">
-                <p class="text-primary mb-1">បន្លែ</p>
+                <p class="text-primary mb-1">{{related_products.category.name }}</p>
                 <p class="mb-1">
                   <span class="text-warning me-2"
                     ><i class="bi bi-star-fill"></i></span
                   >4.9
                 </p>
               </div>
-              <h4 class="fw-bold">{{ product.name }}</h4>
-              <p>500g</p>
+              <h4 class="fw-bold">{{ related_products.name }}</h4>
+              <p>{{ related_products.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <p class="text-primary mb-0 fw-bold">
-                  10000៛
-                  <span class="text-decoration-line-through text-paragraph"
-                    >10000៛</span
+                <div
+                    v-if="related_products.price && related_products.price.has_discount !== false"
                   >
-                </p>
+                    <p class="text-primary mb-0 fw-bold">
+                      {{ related_products.price.discounted_price }} /
+                      {{related_products.product_units.name }}
+                    </p>
+                    <span class="text-decoration-line-through text-paragraph">
+                      {{ related_products.price.original }}</span
+                    >
+                  </div>
+                  <p class="text-primary mb-0 fw-bold" v-else>
+                    {{ related_products.price.original }} /
+                    {{related_products.product_units.name }}
+                  </p>
                 <router-link to="" class="btn btn-primary rounded-pill"
                   ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link
                 >
               </div>
             </div>
             <div
-              class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
-            >
-              <p class="mb-0 px-3 text-white">20%</p>
-            </div>
+                class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+                v-for="promotion in related_products.promotions"
+                :key="promotion.id"
+              >
+                <p class="mb-0 px-3 text-white">
+                  {{ promotion.promotions.discount_rate }} %
+                </p>
+              </div>
 
-            <div
+            <!-- <div
               class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
               @click="allProducts.toggleFav(product.id)"
             >
@@ -420,7 +441,7 @@
                   :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"
                 ></i>
               </p>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -431,21 +452,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRouter } from 'vue-router';
 import { useAllProducts } from "@/stores/views/allProduct_store";
 const allProducts = useAllProducts();
 const detailProducts = ref(null);
+const related_products = ref();
 const count = ref(0);
-const route = useRoute();
+const router = useRouter();
 const getDetail = () => {
-  const id = route.params.id || route.query.id;
+  const id = router.currentRoute.value.query.id;
   axios
-    .get(`http://kassar_api.test/api/products/${id}`)
+    .get(`api/products/${id}`)
     .then((res) => {
       detailProducts.value = res.data.data;
-      // stock_status = res.data.data.stock_status;
-
-      // console.log(detailProducts.stock_status);
     })
     .catch((error) => {
       console.log(error);
@@ -454,18 +473,10 @@ const getDetail = () => {
 onMounted(() => {
   getDetail();
 });
-const decrement = () => {
-  if (count > 0) {
-    count--;
-  }
-};
-const increase = () => {
-  if (this.detailProducts.stock_status === "low_stock" && this.count < 5) {
-    this.count++; // Limit to 5 when stock is low
-  } else if (this.detailProducts.stock_status === "in_stock") {
-    this.count++; // Allow unlimited increase when stock is in
-  }
-};
+// const router = useRouter();
+const goToshop = (id) =>{
+  router.push({ name: 'viewshop', query: { id } });
+}
 // const imageDetails = ref(null);
 // const activeImage = ref(null);
 // const imageSrc = ref(new URL("@/assets/images/5.avif", import.meta.url).href);

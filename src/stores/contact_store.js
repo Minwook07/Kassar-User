@@ -16,7 +16,7 @@ export const useContactStore = defineStore('contact', {
     }),
     actions: {
         onLoadContact(){
-            axios.get('http://localhost/kassar_api/public/api/contacts')
+            axios.get('/api/contacts')
             .then((res) =>{
                 this.contacts = res.data.data
             })

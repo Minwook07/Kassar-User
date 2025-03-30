@@ -9,6 +9,7 @@ export const useAuthStore = defineStore('auth', {
             password: '',
             password_confirmation: '',
             termsAgreement: false,
+            terms_accepted: false, 
         },
         auths:[]
     }),

@@ -61,14 +61,19 @@
               {{ $v.form.password.$errors[0]?.$message }}
             </div>
           </div>
-
-          <!-- Remember Me -->
+          <div class="d-flex justify-content-between ">
+                      <!-- Remember Me -->
           <div class="form-check mb-3" data-aos="fade-up" data-aos-delay="900">
             <input type="checkbox" 
                    id="remember" 
                    v-model="form.remember" 
                    class="form-check-input" />
             <label for="remember" class="form-check-label">ចងចាំខ្ញុំ</label>
+          </div>
+          <!-- Forgot Password  -->
+          <router-link to="/forgot-password" class="text-success fw-bold text-decoration-none ">ភ្លេចពាក្យសម្ងាត់?</router-link>
+
+           
           </div>
 
           <!-- Submit Button -->
@@ -80,9 +85,29 @@
 
         <!-- Signup Link -->
         <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="1100">
-          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup" class="text-success fw-bold">បង្កើតគណនី</router-link></p>
+          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup" class="text-success fw-bold text-decoration-none  ">បង្កើតគណនី</router-link></p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Toast Container (Similar to signup page) -->
+  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
+    <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
+      <div class="toast-content p-3">
+        <div>
+          <i :class="toastIcon"></i>
+        </div>
+
+        <div class="message">
+          <span class="text text-1">{{ toastMessage }}</span>
+        </div>
+        <div>
+          <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="progress active"></div>
     </div>
   </div>
 </template>
@@ -94,14 +119,27 @@ import { helpers, email } from "@vuelidate/validators";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from "axios";
+import { useRouter } from 'vue-router';
+import { Toast } from 'bootstrap';
 
-// Initialize AOS
+// Initialize Router
+const router = useRouter();
+
+// Toast Management
+const toastMessage = ref('');
+const toastIcon = ref('bi bi-check2-circle fs-5 text-success');
+let toastInstance = null;
+
+// Initialize AOS and Toast
 onMounted(() => {
   AOS.init({
     once: true,
     offset: 50,
     easing: 'ease-in-out'
   });
+
+  // Initialize Bootstrap Toast
+  toastInstance = Toast.getOrCreateInstance(document.getElementById('liveToast'));
 });
 
 // Reactive Form Data
@@ -131,9 +169,10 @@ const showPassword = ref(false);
 function togglePasswordVisibility() {
   showPassword.value = !showPassword.value;
 }
+
 async function onSaveLogin() {
   $v.value.$touch();
-  
+
   if ($v.value.$invalid) {
     AOS.refresh();
     return;
@@ -143,20 +182,40 @@ async function onSaveLogin() {
     let formData = new FormData();
     formData.append("email", form.email);
     formData.append("password", form.password);
-    formData.append("remember", form.remember);
 
-    const response = await axios.post("http://localhost/kassar_api/public/api/auth/login", formData, {
+    const response = await axios.post("/api/auth/login", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         "Accept": "application/json"
       }
     });
 
-    alert("ចូលគណនីជោគជ័យ!");
-    console.log(response.data); // Handle token storage or redirection
+    
+    if (response.data && response.data.token) {
+      const storage = form.remember ? localStorage : sessionStorage;
+      storage.setItem('token', response.data.token);
+      storage.setItem('user', JSON.stringify(response.data.user));
 
+      // Show success toast
+      if (toastInstance) {
+        toastMessage.value = 'ចូលគណនីជោគជ័យ';
+        toastIcon.value = 'bi bi-check2-circle fs-5 text-success';
+        toastInstance.show();
+
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
+      }
+    } else {
+      throw new Error("Invalid credentials"); 
+    }
   } catch (err) {
-    alert("Error: " + (err.response?.data.message || "Something went wrong"));
+    if (toastInstance) {
+      const errorMessage = err.response?.data?.message || 'អុីម៊ែលពាក្យ​ ប្ញ សម្ងាត់មិនត្រឹមត្រូវ';
+      toastMessage.value = errorMessage;
+      toastIcon.value = 'bi bi-x-circle fs-5 text-danger';
+      toastInstance.show();
+    }
   }
 }
 
