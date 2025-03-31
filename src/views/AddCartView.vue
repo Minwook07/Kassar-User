@@ -36,11 +36,15 @@
     </div>
 
     <CartModalAddress />
+    <CartModalDel />
+    <CartDelAll />
 </template>
 
 <script setup>
 import CartAddress from '@/components/views/cart/CartAddress.vue';
 import CartModalAddress from '@/components/views/cart/CartModalAddress.vue';
 import CartList from '@/components/views/cart/CartList.vue';
+import CartModalDel from '@/components/views/cart/CartModalDel.vue';
+import CartDelAll from '@/components/views/cart/CartDelAll.vue';
 import CartShipping from '@/components/views/cart/CartShipping.vue';
 </script>

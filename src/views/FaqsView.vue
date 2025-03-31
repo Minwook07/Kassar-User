@@ -2,11 +2,11 @@
     <main>
         <div class="bg-faq d-flex align-items-center justify-content-center">
             <div class="" data-aos="fade-down" data-aos-duration="500">
-                <h1 class="text-secondary fw-bold">FAQs Page</h1>
+                <h1 class="text-secondary fw-bold text-center">សំណួរ</h1>
                 <div class="text-center">
                     <router-link to="/" class="text-secondary text-decoration-none">ទំព័រដើម</router-link>
                     <router-link to="/faq" class="text-secondary text-decoration-none">/
-                        FAQs</router-link>
+                        សំណួរ & ចម្លើយ</router-link>
                 </div>
             </div>
         </div>
