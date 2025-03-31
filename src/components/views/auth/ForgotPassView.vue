@@ -38,7 +38,7 @@
 
         <div class="text-center mt-3">
         
-          <p>ចងចាំពាក្យសម្ងាត់? <router-link to="/login" class="text-success">ចូលគណនី</router-link></p>
+          <p>ចងចាំពាក្យសម្ងាត់? <router-link to="/login" class="text-success fw-bold text-decoration-none">ចូលគណនី</router-link></p>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@ async function sendOTP() {
   successMessage.value = "";
   
   try {
-    await axios.post("api/forgot-password", {
+    await axios.post("/api/forgot-password", {
       email: email.value
     });
     

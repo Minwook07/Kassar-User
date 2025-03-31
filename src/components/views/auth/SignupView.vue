@@ -219,7 +219,7 @@ function onSubmit() {
   };
 
   // API request
-  axios.post("api/auth/register", formData)
+  axios.post("/api/auth/register", formData)
     .then(() => {
       // Show success toast
       if (toastInstance) {

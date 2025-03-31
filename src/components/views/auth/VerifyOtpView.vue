@@ -141,7 +141,7 @@ async function verifyOTP() {
   
   try {
     // Verify OTP first
-    await axios.post("api/send-otp", {
+    await axios.post("/api/send-otp", {
       email: email.value,
       otp: otpCode
     });
@@ -169,7 +169,7 @@ async function resendOTP() {
   
   try {
     loading.value = true;
-    await axios.post("api/forgot-password", {
+    await axios.post("/api/forgot-password", {
       email: email.value
     });
     

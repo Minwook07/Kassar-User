@@ -2,7 +2,9 @@
   <div class="frm-auth">
     <div class="row rounded-4 shadow-lg overflow-hidden">
       <!-- Left Section -->
-      <div class="col-md-6 left-section text-white d-none d-md-flex flex-column align-items-center justify-content-center p-5">
+      <div class="col-md-6 left-section text-white d-none d-md-flex flex-column align-items-center justify-content-center p-5"
+           data-aos="fade-right" 
+           data-aos-duration="1000">
         <h1 class="text-center fw-bold mb-4">Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប</h1>
         <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid auth-img" />
       </div>
@@ -52,7 +54,6 @@
           </div>
 
           <div v-if="apiError" class="text-danger text-center mb-3">{{ apiError }}</div>
-          <div v-if="successMessage" class="alert alert-success text-center">{{ successMessage }}</div>
 
           <button type="submit" class="btn btn-login w-100" :disabled="loading || !isFormValid">
             <span v-if="loading" class="spinner-border spinner-border-sm"></span>
@@ -60,10 +61,29 @@
           </button>
         </form>
 
-        <div v-if="successMessage" class="text-center mt-3">
+        <div class="text-center mt-3">
           <router-link to="/login" class="btn btn-outline-success">ចូលទៅកាន់ទំព័រចូលគណនី</router-link>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
+    <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
+      <div class="toast-content p-3">
+        <div>
+          <i :class="toastIcon"></i>
+        </div>
+        <div class="message">
+          <span class="text text-1">{{ toastMessage }}</span>
+        </div>
+        <div>
+          <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="progress active"></div>
     </div>
   </div>
 </template>
@@ -72,6 +92,9 @@
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from 'vue-router';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { Toast } from 'bootstrap';
 
 const router = useRouter();
 const route = useRoute();
@@ -84,8 +107,29 @@ const confirmPassword = ref("");
 const passwordError = ref("");
 const confirmPasswordError = ref("");
 const apiError = ref("");
-const successMessage = ref("");
 const loading = ref(false);
+
+// Toast Management
+const toastMessage = ref('');
+const toastIcon = ref('bi bi-check2-circle fs-5 text-success');
+let toastInstance = null;
+
+// Initialize AOS and Toast
+onMounted(() => {
+  AOS.init({
+    once: true,
+    offset: 50,
+    easing: 'ease-in-out'
+  });
+
+  // Initialize Bootstrap Toast
+  toastInstance = Toast.getOrCreateInstance(document.getElementById('liveToast'));
+  
+  if (!email.value || !otp.value) {
+    apiError.value = "សូមព្យាយាមម្តងទៀត ឬស្នើសុំលេខកូដថ្មី";
+    router.push('/forgot-password');
+  }
+});
 
 // Password strength indicators
 const hasUppercase = computed(() => /[A-Z]/.test(password.value));
@@ -119,14 +163,6 @@ const validatePasswordConfirmation = () => {
   }
 };
 
-// Verify required data on mount
-onMounted(() => {
-  if (!email.value || !otp.value) {
-    apiError.value = "សូមព្យាយាមម្តងទៀត ឬស្នើសុំលេខកូដថ្មី";
-    router.push('/forgot-password');
-  }
-});
-
 async function resetPassword() {
   validatePassword();
   validatePasswordConfirmation();
@@ -137,7 +173,7 @@ async function resetPassword() {
   apiError.value = "";
 
   try {
-    const response = await axios.post("api/reset-password", 
+    const response = await axios.post("/api/reset-password", 
       {
         email: email.value,
         otp: otp.value,
@@ -151,7 +187,10 @@ async function resetPassword() {
       }
     );
     
-    successMessage.value = "ពាក្យសម្ងាត់របស់អ្នកត្រូវបានកំណត់ឡើងវិញដោយជោគជ័យ!";
+    // Show success toast
+    toastMessage.value = "ពាក្យសម្ងាត់របស់អ្នកត្រូវបានផ្លាស់ប្ដូរដោយជោគជ័យ!";
+    toastIcon.value = "bi bi-check2-circle fs-5 text-success";
+    toastInstance.show();
     
     // Auto-redirect after 2 seconds
     setTimeout(() => {
@@ -162,6 +201,11 @@ async function resetPassword() {
     apiError.value = error.response?.data?.message || 
                     error.response?.data?.error || 
                     "មានបញ្ហាក្នុងការកំណត់ពាក្យសម្ងាត់ឡើងវិញ";
+    
+    // Show error toast if needed
+    toastMessage.value = apiError.value;
+    toastIcon.value = "bi bi-x-circle fs-5 text-danger";
+    toastInstance.show();
   } finally {
     loading.value = false;
   }
@@ -202,4 +246,5 @@ async function resetPassword() {
   background-color: #6c757d;
   opacity: 0.65;
 }
+
 </style>
