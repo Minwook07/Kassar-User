@@ -12,15 +12,15 @@
             </div>
 
             <!-- form -->
-            <form class="" v-else>
+            <form v-else>
                 <h4 class="fw-bold">អាស័យដ្ឋានរបស់អ្នក</h4>
                 <div class="d-flex pt-2">
                     <div
                         class="icon-address fs-1 text-light bg-success text-center rounded-circle d-flex align-items-center justify-content-center">
                         <i class="bi bi-geo-alt-fill"></i>
                     </div>
-                    <div class="text-body align-item-center pt-3 ps-3">
-                        <h5 class="fw-bold">ផ្ទះលេខ57 ផ្លូវ472 សង្កាត់ ទួលទំពួង1 ខណ្ឌ ចំការមន រាជធានីភ្នំពេញ </h5>
+                    <div v-for="cartAddress in cardStore.cartAddresses" :key="cartAddress.id" class="text-body align-item-center pt-3 ps-3">
+                        <h5 class="fw-bold">ផ្ទះលេខ57 ផ្លូវ472 សង្កាត់ ទួលទំពួង1 ខណ្ឌ ចំការមន ខេត្ត​ </h5>
                         <span>ម៉ាក់អាមួយ កំពង់ចាម</span>
                         <p>098 765 4321</p>
                     </div>
@@ -40,9 +40,10 @@ import { useCardStore } from '@/stores/card_store';
 import { onMounted} from 'vue';
 
 const cardStore = useCardStore()
+cardStore.isAddress = null;
 
 onMounted(() => {
-
+    cardStore.onLoadAddress()
 })
 
 const onOpenAddAddress = () => {

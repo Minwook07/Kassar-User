@@ -42,7 +42,7 @@
                                     <RouterLink class="link-a" to="/contact">ទំនាក់ទំនង</RouterLink>
                                 </li>
                                 <li>
-                                    <RouterLink class="link-a" to="/video">New Feed</RouterLink>
+                                    <RouterLink class="link-a" to="/video">វិឌីអូ</RouterLink>
                                 </li>
                             </ul>
                         </div>
@@ -59,7 +59,7 @@
                                     <RouterLink class="link-a" to="/">ប្រវត្តិកម្មង់</RouterLink>
                                 </li>
                                 <li>
-                                    <RouterLink class="link-a" to="/faq">FAQs</RouterLink>
+                                    <RouterLink class="link-a" to="/faq">សំណួរ & ចម្លើយ</RouterLink>
                                 </li>
                             </ul>
                         </div>
