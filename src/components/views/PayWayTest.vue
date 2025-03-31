@@ -1,27 +1,35 @@
 <template>
     <div class="container" style="margin-top: 75px; margin: 0 auto;">
-        <div style="width: 200px; margin: 0 auto;">
-            <h2>TOTAL: ${{ amount }}</h2>
-            <form method="POST" target="aba_webservice" :action="apiUrl" id="aba_merchant_request">
-                <input type="hidden" name="hash" :value="hash" />
-                <input type="hidden" name="tran_id" :value="transactionId" />
-                <input type="hidden" name="amount" :value="amount" />
-                <input type="hidden" name="firstname" :value="firstName" />
-                <input type="hidden" name="lastname" :value="lastName" />
-                <input type="hidden" name="phone" :value="phone" />
-                <input type="hidden" name="email" :value="email" />
-                <input type="hidden" name="items" :value="items" />
-                <input type="hidden" name="return_params" :value="returnParams" />
-                <input type="hidden" name="shipping" :value="shipping" />
-                <input type="hidden" name="currency" :value="currency" />
-                <input type="hidden" name="type" :value="type" />
-                <input type="hidden" name="return_url" :value="returnUrl" />
-                <input type="hidden" name="payment_option" :value="paymentOption" />
-                <input type="hidden" name="merchant_id" :value="merchantId" />
-                <input type="hidden" name="req_time" :value="reqTime" />
-                <input type="hidden" name="continue_success_url" :value="continueSuccessUrl" />
+        <input type="button" id="checkout_button" value="Checkout Now" @click="getCheckoutData" />
+        <div style="width: 200px; margin: 0 auto;" v-if="checkoutData">
+
+            <h2>TOTAL: ${{ checkoutData.data.amount }}</h2>
+
+            <input type="button" id="checkout_button" value="បង់ប្រាក់" @click="pay" />
+
+            <form method="POST" target="aba_webservice" :action="checkoutData.data.api_url" id="aba_merchant_request">
+                <input type="hidden" name="hash" :value="checkoutData.data.hash" />
+                <input type="hidden" name="tran_id" :value="checkoutData.data.transactionId" />
+                <input type="hidden" name="amount" :value="checkoutData.data.amount" />
+                <input type="hidden" name="firstname" :value="checkoutData.data.firstName" />
+                <input type="hidden" name="lastname" :value="checkoutData.data.lastName" />
+                <input type="hidden" name="phone" :value="checkoutData.data.phone" />
+                <input type="hidden" name="email" :value="checkoutData.data.email" />
+                <input type="hidden" name="items" :value="checkoutData.data.items" />
+                <input type="hidden" name="return_params" :value="checkoutData.data.return_params" />
+                <input type="hidden" name="shipping" :value="checkoutData.data.shipping" />
+                <input type="hidden" name="currency" :value="checkoutData.data.currency" />
+                <input type="hidden" name="type" :value="checkoutData.data.type" />
+                <input type="hidden" name="return_url" :value="checkoutData.data.return_url" />
+                <input type="hidden" name="payment_option" :value="checkoutData.data.payment_option" />
+                <input type="hidden" name="merchant_id" :value="checkoutData.data.merchant_id" />
+                <input type="hidden" name="req_time" :value="checkoutData.data.req_time" />
+                <input type="hidden" name="continue_success_url" :value="checkoutData.data.continue_success_url" />
             </form>
             <input type="button" id="checkout_button" value="Checkout Now" @click="checkout" />
+
+            <img v-if="qrData" :src="qrData.qrImage" alt="">
+            <a v-if="qrData" :href="qrData.abapay_deeplink">Pay</a>
         </div>
     </div>
 </template>
@@ -30,81 +38,101 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-const amount = ref(0);
-const hash = ref('');
-const transactionId = ref('');
-const firstName = ref('');
-const lastName = ref('');
-const phone = ref('');
-const email = ref('');
-const items = ref('');
-const returnParams = ref('');
-const shipping = ref('');
-const currency = ref('');
-const type = ref('');
-const paymentOption = ref('');
-const merchantId = ref('');
-const reqTime = ref('');
-const returnUrl = ref('');
-const continueSuccessUrl = ref('');
-const apiUrl = ref('');
+const checkoutData = ref(null);
+const qrData = ref(null);
 
-// Fetch payment info from API on mount
-onMounted(async () => {
+const getCheckoutData = async () => {
     const formData = new FormData();
 
-    // Add the items array to FormData
-    const items = [
+    const itemsArray = [
         { product_id: 11, quantity: 4 },
         { product_id: 12, quantity: 10 }
     ];
 
-    // Convert the items array into a JSON string and append it to FormData
-    formData.append('items', JSON.stringify(items));
-
-    // Add the address_id
+    formData.append('items', JSON.stringify(itemsArray));
     formData.append('address_id', 1);
+
     try {
+        // Get Checkout Data
         const response = await axios.post('http://kassar_api.com:8080/public/api/checkout/2', formData, {
             headers: {
-                'Authorization': 'Bearer 1|fIeRhVqKR3sjroNvR99quoCRtX34KDESM88ZmaOR9a2745e6',
+                'Authorization': 'Bearer 1|Ce9EshAXHyQMkkT9Z0eGHLpcAtBSFBX3ZPvj0IO8a11defe6',
                 'Accept': 'application/json',
                 'Content-Type': 'multipart/form-data',
             }
         });
-        const data = response.data;
-        console.log(data);
 
-
-        merchantId.value = data.merchant_id;
-        reqTime.value = data.req_time;
-        transactionId.value = data.transactionId;
-        amount.value = data.amount;
-        items.value = data.items;
-        shipping.value = data.shipping;
-        firstName.value = data.firstName;
-        lastName.value = data.lastName;
-        phone.value = data.phone;
-        email.value = data.email;
-        type.value = data.type;
-        currency.value = data.currency;
-        paymentOption.value = data.payment_option;
-        returnUrl.value = data.return_url;
-        returnParams.value = data.return_params;
-        continueSuccessUrl.value = data.continue_success_url;
-        hash.value = data.hash;
-        apiUrl.value = data.api_url;
+        checkoutData.value = response.data;
+        // console.log('Checkout Data: ', checkoutData.value);
 
     } catch (error) {
         console.error('Error fetching payment info:', error);
     }
-});
+}
+
+
+// Payway payment requests
+const generateQR = async () => {
+    if (!checkoutData.value || !checkoutData.value.data) {
+        console.error('No checkout data available for QR generation.');
+        return;
+    }
+
+    const data = checkoutData.value.data;
+    // console.log(data);
+    
+    var frmPayway = new FormData();
+    frmPayway.append('hash', data.hash);
+    frmPayway.append('tran_id', data.transactionId);
+    frmPayway.append('amount', data.amount);
+    frmPayway.append('firstname', data.firstName);
+    frmPayway.append('lastname', data.lastName);
+    frmPayway.append('phone', data.phone);
+    frmPayway.append('email', data.email);
+    frmPayway.append('items', data.items);
+    frmPayway.append('return_params', data.return_params);
+    frmPayway.append('shipping', data.shipping);
+    frmPayway.append('currency', data.currency);
+    frmPayway.append('type', data.type);
+    frmPayway.append('return_url', data.return_url);
+    frmPayway.append('payment_option', data.payment_option);
+    frmPayway.append('merchant_id', data.merchant_id);
+    frmPayway.append('req_time', data.req_time);
+    frmPayway.append('continue_success_url', data.continue_success_url);
+
+
+
+    try {
+        const qrResponse = await axios.post(
+            checkoutData.value.data.api_url,
+            frmPayway,{
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            }
+        );
+
+        qrData.value = qrResponse.data;
+        console.log('QR Data:', qrData.value);
+
+    } catch (error) {
+        console.error('Error generating QR:', error);
+    }
+};
 
 // Checkout function to call the Payway checkout API
+const pay = () => {
+    // Ensure data exists before making second API call
+    if (checkoutData.value && checkoutData.value.data) {
+        generateQR();
+    }
+};
+
 const checkout = () => {
     AbaPayway.checkout();
 };
 </script>
+
 
 <style scoped>
 .container {
