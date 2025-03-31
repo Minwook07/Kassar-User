@@ -75,7 +75,7 @@
           >
             <div>
               <h3 class="text-center fw-bold color-style-2">7</h3>
-              <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
+              <h5 class="fw-bold text-center">follower</h5>
             </div>
           </div>
           <div class="col-4" data-aos="fade-up">
