@@ -24,6 +24,7 @@ import PolicyView from '@/views/PolicyView.vue'
 import TermPageView from '@/views/TermPageView.vue'
 import PrivacyView from '@/views/PrivacyView.vue'
 import AuthLoader from '@/components/views/loader/AuthLoader.vue'
+import PayWayTest from '@/components/views/PayWayTest.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -154,6 +155,11 @@ const router = createRouter({
       path: '/load1',
       name: 'load1',
       component: AuthLoader,
+    },
+    {
+      path: '/payway-test',
+      name: 'payway-test',
+      component: PayWayTest,
     }
   ],
 })
