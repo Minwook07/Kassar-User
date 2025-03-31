@@ -12,10 +12,7 @@
               class="col-12 col-lg-6 pf-seller-main d-flex justify-content-center align-content-center bg-secondary-subtle rounded-4 position-relative"
             >
               <img
-                :src="
-                  detailShop.image
-                   
-                "
+                :src="detailShop.image"
                 alt=""
                 class="pf-seller-avatar rounded-4"
               />
@@ -27,10 +24,10 @@
             </div>
             <div class="col-12 col-lg-6">
               <h2 class="fw-bold mb-3" data-aos="fade-down">
-                {{detailShop.shop_name}}
+                {{ detailShop.shop_name }}
               </h2>
               <p class="text-paragraph fw-medium mb-4" data-aos="fade-up">
-               {{ detailShop.comment }}
+                {{ detailShop.comment }}
               </p>
               <div
                 data-aos="zoom-in-up"
@@ -48,18 +45,19 @@
           >
             <div>
               <button
-              @click="follow()"
+                @click="follow(detailShop.id)"
                 data-aos="fade-down"
                 class="btn btn-primary me-0 me-md-3 mb-3 mb-md-0"
-                ><i class="bi bi-heart"></i
-                ><span class="d-none d-md-inline-block ms-2"
-                  >តាមដាន</span
-                ></button>
+              >
+                <i class="bi bi-heart"></i
+                ><span class="d-none d-md-inline-block ms-2">តាមដាន</span>
+              </button>
               <button
-              @click="onShare()"
+                @click="onShare()"
                 data-aos="fade-up-left"
                 class="btn btn-share bg-white"
-                ><i class="bi bi-share"></i>
+              >
+                <i class="bi bi-share"></i>
               </button>
             </div>
           </div>
@@ -73,8 +71,8 @@
             class="col-4 d-flex justify-content-end"
             data-aos="fade-down-right"
           >
-            <div>
-              <h3 class="text-center fw-bold color-style-2">7</h3>
+            <div v-if="count_follow">
+              <h3 class="text-center fw-bold color-style-2">{{ count_follow.count}}</h3>
               <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
             </div>
           </div>
@@ -206,7 +204,9 @@
                       </div>
                       <div class="p-3 card-body">
                         <div class="d-flex justify-content-between">
-                          <p class="text-primary mb-1">{{ product.category.name }}</p>
+                          <p class="text-primary mb-1">
+                            {{ product.category.name }}
+                          </p>
                           <p class="mb-1">
                             <span class="text-warning me-2"
                               ><i class="bi bi-star-fill"></i></span
@@ -236,12 +236,14 @@
                       <div
                         class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
                       >
-                        <p class="mb-0 px-3 text-white">{{ product.promotions.discount_rate }}</p>
+                        <p class="mb-0 px-3 text-white">
+                          {{ product.promotions.discount_rate }}
+                        </p>
                       </div>
 
                       <div
                         class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                        @click="allProducts.toggleFav(product.id)"
+                        @click="OnSavefav(product.id)"
                       >
                         <p class="mb-0 mt-1 text-danger fw-bold">
                           <i
@@ -492,12 +494,14 @@
   </section>
 </template>
 <script setup>
-import { useRoute } from 'vue-router';
-import { onMounted,ref } from "vue";
-import { useSellerStore } from '@/stores/seller_store';
+import { useRoute } from "vue-router";
+import { onMounted, ref } from "vue";
+import { useSellerStore } from "@/stores/seller_store";
 import axios from "axios";
 const allProducts = ref([]);
 const detailShop = ref([]);
+const count_follow = ref([]);
+const token = localStorage.getItem("token");
 const sellerStore = useSellerStore();
 const router = useRoute();
 const GetAllProducts = () => {
@@ -510,26 +514,37 @@ const GetAllProducts = () => {
       console.error("Error fetching data:", error);
     });
 };
-const GetShopDetail = ()  =>{
+const GetShopDetail = () => {
   const id = router.params.id || router.query.id;
-  axios
-  .get(`/api/shops/${id}`)
-  .then((res) => {
+  axios.get(`/api/shops/${id}`).then((res) => {
     detailShop.value = res.data.data;
+  });
+};
+const follow = (id) => {
+  if(token){
+    alert()
+  }
+  axios.get(`/api/follow/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   })
-}
-const follow = () =>{
-  axios.get(`/api/follow/${id}`)
-}
+  .then((res)=>{
+    console.log(res.data.data);
+    count_follow.value = res.data.data.count_follow;
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+  });
+};
 onMounted(() => {
   GetAllProducts();
   GetShopDetail();
 });
 const OnSavefav = (id) => {
-  allProducts.isFav = !allProducts.isFav;
+  product.isFav = !product.isFav;
 };
-const onShare =() =>{
+const onShare = () => {
   sellerStore.mdl_share.show();
-}
-
+};
 </script>

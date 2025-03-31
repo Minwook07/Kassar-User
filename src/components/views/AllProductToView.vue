@@ -66,14 +66,14 @@
                   class="range-input"
                   v-model.number="range[0]"
                   :min="min_price"
-                  :max="range[1] - 1"
+                  :max="range[1]"
                   @input="handleRangeInput"
                 />
                 <input
                   type="range"
                   class="range-input"
                   v-model.number="range[1]"
-                  :min="range[0] + 1"
+                  :min="range[0]"
                   :max="max_price"
                   @input="handleRangeInput"
                 />
@@ -232,12 +232,10 @@
 
               <div
                 class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click="allProducts.toggleFav(product.id)"
+                @click.stop="StoreNewFav(product)"
               >
                 <p class="mb-0 mt-1 text-danger fw-bold">
-                  <i
-                    :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"
-                  ></i>
+                  <i :class="isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
                 </p>
               </div>
             </div>
@@ -253,6 +251,40 @@
       </div>
     </div>
   </section>
+  <div
+    class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
+    style="margin-top: 50px"
+  >
+    <div
+      id="liveToast"
+      class="toast border-0 p-3 bg-primary"
+      role="alert"
+      style="width: 500px"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-content d-flex justify-content-center gap-3">
+        <div>
+          <i class="bi bi-check2-circle fs-5 text-white"></i>
+        </div>
+
+        <div class="message">
+          <span class="text text-white"
+            >លោកអ្នកបានបន្ថែមទំនិញចូលបញ្ជីរប្រាថ្នាជោគជ័យ</span
+          >
+        </div>
+        <div>
+          <button
+            type="button"
+            class="btn btn-close border-0 ms-auto text-white p-0"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="progress active"></div>
+    </div>
+  </div>
 </template>
 <script setup>
 import { ref, computed } from "vue";
@@ -260,15 +292,19 @@ import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { Toast } from "bootstrap";
+import { useContactStore } from "@/stores/contact_store";
 const allProducts = ref([]);
 const categories = ref([]);
 const totalProducts = ref([]);
 const selectedCategory = ref();
 const itemsPerPage = 8;
 const currentPage = ref(1);
-const min_price = 1;
+const min_price = 0;
 const max_price = 15;
 const search = ref("");
+const isFav = false;
+const contactStore = useContactStore();
 const GetAllProducts = () => {
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
   if (search.value) {
@@ -303,9 +339,56 @@ const GetAllCategories = () => {
       console.error("Error fetching categories:", error);
     });
 };
+const StoreNewFav = (product) => {
+  // console.log(token);
+  const token = localStorage.getItem("token");
+  // alert(token);
+  if (!token) {
+    alert("Please login to add products to your favorites.");
+    return;
+  }
+
+  if (!product) {
+    alert("Invalid product.");
+    return;
+  }
+  axios
+    .post(
+      "api/favorites",  { product_id: product.id },
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+    )
+    .then((res) => {
+      // isFav.value = !isFav.value;
+      // console.log(isFav.value);
+      console.log(token);
+
+      const NewFav = res.data.data;
+      localStorage.setItem("favoriteProduct", NewFav);
+      if (contactStore.toast_alert) {
+        contactStore.toast_alert.show();
+      }
+      // console.log(NewFav);
+    })
+    .catch((error) => {
+      console.error(
+        "Error adding favorite:",
+        error.response?.data || error.message
+      );
+    });
+};
 onMounted(() => {
   GetAllProducts();
   GetAllCategories();
+  const toastElement = document.getElementById("liveToast");
+  if (toastElement) {
+    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
+  } else {
+    console.error("Toast element not found!");
+  }
 });
 const handleSearch = () => {
   currentPage.value = 1;

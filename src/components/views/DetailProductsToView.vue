@@ -146,7 +146,7 @@
               data-aos="fade-up"
               to="/viewshop"
               class="btn btn-primary mb-3"
-              @click="goToshop(detailProducts.shop.id)">
+              @click="goToshop(detailProducts.product.shop.id)">
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
             </button>
@@ -306,7 +306,7 @@
               aria-labelledby="nav-home-tab"
               tabindex="0"
             >
-              <p>{{ detailProducts.description }}</p>
+              <p>{{ detailProducts.product.description }}</p>
             </div>
             <div
               class="tab-pane fade"
@@ -379,6 +379,7 @@
           class="col-12 col-md-6 col-lg-3 mb-3"
           v-for="related_products in detailProducts.related_products"
           :key="related_products.id"
+            @click="goToDetail(related_products.id)"
         >
           <div
             class="bg-white card card-product border-0 rounded position-relative"
@@ -450,7 +451,7 @@
   </section>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { useRouter } from 'vue-router';
 import { useAllProducts } from "@/stores/views/allProduct_store";
@@ -485,5 +486,16 @@ const goToshop = (id) =>{
 // const onChangeImage = (imgId, newImageSrc) => {
 //   activeImage.value = imgId;
 //   imageSrc.value = newImageSrc;
-// };
+// };`
+watch(
+  () => router.currentRoute.value.query.id,
+  (newId, oldId) => {
+    if (newId !== oldId) {
+      getDetail();
+    }
+  }
+);
+const goToDetail = (id) => {
+  router.push({ name: "detailproduct", query: { id } });
+};
 </script>
