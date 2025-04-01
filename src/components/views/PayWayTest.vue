@@ -29,7 +29,6 @@
             <input type="button" id="checkout_button" value="Checkout Now" @click="checkout" />
 
             <img v-if="qrData" :src="qrData.qrImage" alt="">
-            <a v-if="qrData" :href="qrData.abapay_deeplink">Pay</a>
         </div>
     </div>
 </template>
@@ -54,7 +53,7 @@ const getCheckoutData = async () => {
 
     try {
         // Get Checkout Data
-        const response = await axios.post('http://kassar_api.com:8080/public/api/checkout/2', formData, {
+        const response = await axios.post('http://kassar_api.com:8080/public/api/checkout', formData, {
             headers: {
                 'Authorization': 'Bearer 1|Ce9EshAXHyQMkkT9Z0eGHLpcAtBSFBX3ZPvj0IO8a11defe6',
                 'Accept': 'application/json',
@@ -63,7 +62,7 @@ const getCheckoutData = async () => {
         });
 
         checkoutData.value = response.data;
-        // console.log('Checkout Data: ', checkoutData.value);
+        console.log('Checkout Data: ', checkoutData.value);
 
     } catch (error) {
         console.error('Error fetching payment info:', error);
