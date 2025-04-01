@@ -8,6 +8,9 @@ export const useCardStore = defineStore("card_store", {
         district: '',
         commune: '',
         village: '',
+        houseNumber: '',
+        streetNumber: '',
+
         name:''
     },
     selected_id: 0,
@@ -15,6 +18,7 @@ export const useCardStore = defineStore("card_store", {
     mdl_credit: null,
     mdl_address: null,
     mdl_delete: null,
+    mdl_delete_all: null,
     isAddress: null,
     provinces: [],
     districts: [],
@@ -23,6 +27,7 @@ export const useCardStore = defineStore("card_store", {
 
     cartCounts: {},  // Store quantities for each product
     cartLists: [],   // Store the list of products in the cart
+    cartAddresses: [],
   }),
   
   getters: {
@@ -36,6 +41,28 @@ export const useCardStore = defineStore("card_store", {
   },
   
   actions: {
+
+    onLoadAddress() {
+      const token = sessionStorage.getItem("token");
+
+      if (!token) {
+        alert("Token not found! Please log in again.");
+        return;
+      }
+
+      axios.get("/api/address", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        this.cartAddresses = res.data.data;
+      })
+      .catch((error) => {
+        console.error("Error loading cart:", error);
+      });
+
+    },
     // Load cart data from API
     onLoadCart() {
       const token = sessionStorage.getItem("token");

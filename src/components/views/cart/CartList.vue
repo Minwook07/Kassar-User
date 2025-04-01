@@ -7,21 +7,20 @@
           <h4 class="fw-bold">កន្ត្រក <span class="text-secondary">{{ cartListStore.cartLists.length }} ទំនិញ</span>
           </h4>
           <div>
-            <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox" id="selectAll">
-            <label for="selectAll">ជ្រើសទាំងអស់</label>
+            <!-- Select All Checkbox -->
+            <input class="form-check-input me-3 rounded-circle shadow-none" 
+              type="checkbox" 
+              id="selectAll"
+              v-model="selectAllChecked"
+              @change="onSelectAllChange">
+            <label for="selectAll">លុបទាំងអស់</label>
           </div>
         </div>
 
         <div>
-          <!-- Cart Items -->
-          <div class="form-check align-items-center d-flex justify-content-start">
-            <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox">
-            <label class="form-check-label fs-5 fw-bold">ហាងលក់សាច់គោ</label>
-          </div>
           <!-- Loop through Cart Items -->
           <div v-for="cartList in cartListStore.cartLists" :key="cartList.id"
             class="cart-item d-flex align-items-center">
-            <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox">
 
             <!-- Product Image -->
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
@@ -32,8 +31,8 @@
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">{{ cartList.product.name }}</h5>
               <p class="mb-1 text-muted">
-                {{ cartList.product.price }} ៛ / {{ cartList.product.product_unit.name }} | <span class="text-success">
-                  {{ cartList.product.stock_status }}</span>
+                {{ cartList.product.price }} ៛ /{{ cartList.product.product_unit.name }} | <span class="text-success"> 
+                  {{ cartList.product.stock_status }}</span> | <span class="text-danger">5%</span>
               </p>
               <a role="button" class="delete-btn" @click="onConfirmDelete(cartList)">
                 <i class="bi bi-trash"></i> លុបចេញ
@@ -42,7 +41,7 @@
 
             <!-- Quantity Controls -->
             <div class="text-end">
-              <h5 class="fw-bold mb-3"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }} ៛
+              <h5 class="fw-bold mb-3"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }}៛  <span style="text-decoration: line-through; " class="text-danger"> {{ cartList.product.price }}៛ </span>
               </h5>
               <div style="width:90px; height: 30px;"
                 class="quantity-controls bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1">
@@ -64,30 +63,54 @@
               </div>
             </div>
           </div> <!-- End Loop -->
+          
           <div class="mt-4 d-flex justify-content-end">
-            <button class="btn btn-success px-5 py-3" type="button" @click="onSaveAddress()">
-              រួចរាល់
+            <button class="btn btn-danger px-5 py-3" 
+              :disabled="!isAnyItemSelected" 
+              type="button" 
+              @click="onConfirmDeleteAll()">
+              លុបទាំងអស់
             </button>
           </div>
         </div>
       </div>
     </div>
   </section>
-<CartModalDel />
 </template>
 
 <script setup>
 import { useCardStore } from '@/stores/card_store';
-import { onMounted } from 'vue';
-import CartModalDel from './CartModalDel.vue';
+import { onMounted, ref, computed } from 'vue';
 
 const cartListStore = useCardStore();
+const selectAllChecked = ref(false); // Ensure it's false by default
 
-const onConfirmDelete = ({ id, name }) => {
-  cartListStore.selected_id = id
-  // cartListStore.product.name = name
-  cartListStore.mdl_delete.show()
-}
+// Create a computed property to check if any item is selected
+const isAnyItemSelected = computed(() => {
+  return cartListStore.cartLists.some(cartItem => cartItem.isSelected);
+});
+
+// Handle "Select All" checkbox click
+const onSelectAllChange = () => {
+  cartListStore.cartLists.forEach(cartItem => {
+    cartItem.isSelected = selectAllChecked.value; // Update selection for all items
+  });
+};
+
+onMounted(() => {
+  cartListStore.onLoadCart();
+  // Ensure the "Select All" checkbox is unchecked initially
+  selectAllChecked.value = false; 
+});
+
+const onConfirmDelete = ({ id }) => {
+  cartListStore.selected_id = id;
+  cartListStore.mdl_delete.show();
+};
+
+const onConfirmDeleteAll = () => {
+  cartListStore.mdl_delete_all.show();
+};
 
 // Increase quantity for a specific product
 const increment = (id) => {
@@ -100,14 +123,4 @@ const decrement = (id) => {
   const newQuantity = (cartListStore.cartCounts[id] || 1) - 1;
   cartListStore.updateQuantity(id, newQuantity);
 };
-
-// Load cart items when the component is mounted
-onMounted(() => {
-  cartListStore.onLoadCart();
-  // cartListStore.onConfirmDelete();
-});
 </script>
-
-<style scoped>
-/* Add custom styles if needed */
-</style>

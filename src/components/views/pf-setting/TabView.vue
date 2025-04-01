@@ -4,7 +4,7 @@
   <ul class="nav nav-tabs flex-column border-0">
     <li class="nav-item">
       <a class="nav-link active border-0 py-3 ps-4 tab-link" data-bs-toggle="tab" href="#profile">
-        <i class="bi bi-person me-2"></i> គណនី
+        <i class="bi bi-person-circle me-2"></i> គណនី
       </a>
     </li>
     <li class="nav-item">
@@ -14,7 +14,7 @@
     </li>
     <li class="nav-item">
       <a class="nav-link border-0 py-3 ps-4 tab-link" data-bs-toggle="tab" href="#login-method">
-        <i class="bi bi-lock me-2"></i> វិធីសាស្រ្តចូលប្រើប្រាស់គណនី
+        <i class="bi bi-shield-lock me-2"></i> វិធីសាស្រ្តចូលប្រើប្រាស់គណនី
       </a>
     </li>
     <li class="nav-item">
@@ -23,13 +23,13 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link border-0 py-3 ps-4 tab-link" data-bs-toggle="tab" href="#delete-account">
+      <a class="nav-link border-0 py-3 ps-4 tab-link delete-acc" data-bs-toggle="tab" href="#delete-account">
         <i class="bi bi-trash me-2"></i> លុបគណនី
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link border-0 py-3 ps-4" href="/login">
-        <i class="bi bi-box-arrow-right me-2"></i> ចាកចេញពីគនណី
+        <i class="bi bi-box-arrow-right me-2"></i> ចាកចេញពីគណនី
       </a>
     </li>
   </ul>
@@ -45,6 +45,7 @@ opacity: 0;
 transform: translateY(15px);
 transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 will-change: opacity, transform;
+cursor: p;
 }
 
 .tab-pane.active .tab-animation {
@@ -80,6 +81,7 @@ transform: translateX(0);
 position: relative;
 transition: all 0.3s ease;
 color: #6c757d;
+cursor: pointer!important;
 }
 
 .tab-link::after {
@@ -96,6 +98,13 @@ transition: width 0.3s ease;
 .tab-link.active {
 color: #32CA83 !important;
 background-color: rgba(50, 202, 131, 0.1) !important;
+}
+.delete-acc{
+  color: rgb(237, 2, 2)!important;
+}
+.delete-acc.active {
+  color: rgb(237, 2, 2) !important;
+  background-color: rgba(237, 2, 2, 0.1) !important; /* Optional: Light red background */
 }
 
 .tab-link.active::after {

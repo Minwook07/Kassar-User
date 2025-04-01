@@ -66,14 +66,14 @@
                   class="range-input"
                   v-model.number="range[0]"
                   :min="min_price"
-                  :max="range[1] - 1"
+                  :max="range[1]"
                   @input="handleRangeInput"
                 />
                 <input
                   type="range"
                   class="range-input"
                   v-model.number="range[1]"
-                  :min="range[0] + 1"
+                  :min="range[0]"
                   :max="max_price"
                   @input="handleRangeInput"
                 />
@@ -163,7 +163,7 @@
                 v-model="search"
                 @input="handleSearch"
                 type="text"
-                placeholder="ស្វែងរក"
+                placeholder="ស្វែងរកតាមរយៈឈ្មោះផលិតផល,ប្រភេទ ..."
                 class="form-control search"
               />
               <div class="pe-3">
@@ -232,11 +232,17 @@
 
               <div
                 class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click="allProducts.toggleFav(product.id)"
+                @click.stop="
+                  product.is_favorited
+                    ? RemoveFav(product)
+                    : StoreNewFav(product)
+                "
               >
                 <p class="mb-0 mt-1 text-danger fw-bold">
                   <i
-                    :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"
+                    :class="
+                      product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
+                    "
                   ></i>
                 </p>
               </div>
@@ -253,6 +259,40 @@
       </div>
     </div>
   </section>
+  <div
+    class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
+    style="margin-top: 50px"
+  >
+    <div
+      id="liveToast"
+      class="toast border-0 p-3 bg-primary"
+      role="alert"
+      style="width: 500px"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-content d-flex justify-content-center gap-3">
+        <div>
+          <i class="bi bi-check2-circle fs-5 text-white"></i>
+        </div>
+
+        <div class="message">
+          <span class="text text-white"
+            >លោកអ្នកបានបន្ថែមទំនិញចូលបញ្ជីរប្រាថ្នាជោគជ័យ</span
+          >
+        </div>
+        <div>
+          <button
+            type="button"
+            class="btn btn-close border-0 ms-auto text-white p-0"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="progress active"></div>
+    </div>
+  </div>
 </template>
 <script setup>
 import { ref, computed } from "vue";
@@ -260,15 +300,18 @@ import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { Toast } from "bootstrap";
+import { useContactStore } from "@/stores/contact_store";
 const allProducts = ref([]);
 const categories = ref([]);
 const totalProducts = ref([]);
 const selectedCategory = ref();
 const itemsPerPage = 8;
 const currentPage = ref(1);
-const min_price = 1;
+const min_price = 0;
 const max_price = 15;
 const search = ref("");
+const contactStore = useContactStore();
 const GetAllProducts = () => {
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
   if (search.value) {
@@ -277,14 +320,18 @@ const GetAllProducts = () => {
   if (selectedCategory.value) {
     url += `&category_id=${selectedCategory.value}`;
   }
-  // console.log(min_price, max_price);
+  console.log(min_price, max_price);
   // if (range.value[0] !== undefined && range.value[1] !== undefined) {
   //   url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
   // }
   console.log(url);
 
   axios
-    .get(url)
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+      },
+    })
     .then((res) => {
       totalProducts.value = res.data.paginate.total;
       allProducts.value = res.data.data;
@@ -303,10 +350,64 @@ const GetAllCategories = () => {
       console.error("Error fetching categories:", error);
     });
 };
+const StoreNewFav = (product) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  if (!token) {
+    alert("Please login to add products to your favorites.");
+    return;
+  }
+
+  if (!product) {
+    alert("Invalid product.");
+    return;
+  }
+  axios
+    .post(
+      "api/favorites",
+      { product_id: product.id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then((res) => {
+      console.log(token);
+      product.is_favorited = !product.is_favorited;
+      if (contactStore.toast_alert) {
+        contactStore.toast_alert.show();
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "Error adding favorite:",
+        error.response?.data || error.message
+      );
+    });
+};
+const RemoveFav = () =>{
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  if (!token) {
+    alert("Please login to remove products from your favorites.");
+    return;
+  }
+  axios.delete(``)
+}
 onMounted(() => {
   GetAllProducts();
   GetAllCategories();
+  toast();
 });
+const toast = () => {
+  const toastElement = document.getElementById("liveToast");
+  if (toastElement) {
+    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
+  } else {
+    console.error("Toast element not found!");
+  }
+};
 const handleSearch = () => {
   currentPage.value = 1;
   GetAllProducts();
@@ -318,13 +419,6 @@ const handleCategory = () => {
 const pageCount = computed(() =>
   Math.max(1, Math.ceil(totalProducts.value / itemsPerPage))
 );
-const paginatedProducts = computed(() => {
-  if (!allProducts.length) return [];
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return allProducts.slice(start, end);
-});
-
 const handlePageClick = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= pageCount.value) {
     currentPage.value = pageNumber;

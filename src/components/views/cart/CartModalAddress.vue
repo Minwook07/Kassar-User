@@ -15,37 +15,38 @@
                                 <!-- Province -->
                                 <div class="col-6 mb-3">
                                     <label class="form-label">ខេត្ត / រាជធានី</label>
-                                    <select 
-                                        class="form-select shadow-none" 
+                                    <select class="form-select shadow-none"
                                         :class="{ 'is-invalid': cardStore.vv.province.$error }"
-                                        v-model="cardStore.frm_add.province"
-                                        @change="onProvinceChange"
-                                    >
+                                        v-model="cardStore.frm_add.province" @change="onProvinceChange">
                                         <option value="">សូមជ្រើសរើសខេត្ត / រាជធានី</option>
-                                        <option v-for="province in cardStore.provinces" :key="province.id" :value="province.id">
+                                        <option v-for="province in cardStore.provinces" :key="province.id"
+                                            :value="province.id">
                                             {{ province.local_name }}
                                         </option>
                                     </select>
                                     <div class="invalid-feedback" v-if="cardStore.vv.province.$error">
-                                {{ cardStore.vv.province.$errors[0].$message }}
-                                <!-- Please enter gender -->
-                            </div>
+                                        {{ cardStore.vv.province.$errors[0].$message }}
+                                        <!-- Please enter gender -->
+                                    </div>
                                 </div>
 
                                 <!-- District -->
                                 <div class="col-6 mb-3">
                                     <label class="form-label">ក្រុង / ស្រុក / ខណ្ឌ</label>
-                                    <select 
-                                        class="form-select shadow-none" 
-                                        v-model="cardStore.frm_add.district"
-                                        @change="onDistrictChange"
-                                        :disabled="!cardStore.districts.length"
-                                    >
+                                    <select class="form-select shadow-none"
+                                        :class="{ 'is-invalid': cardStore.vv.district.$error }"
+                                        v-model="cardStore.frm_add.district" @change="onDistrictChange"
+                                        :disabled="!cardStore.districts.length">
                                         <option value="">សូមជ្រើសរើសក្រុង / ស្រុក / ខណ្ឌ</option>
-                                        <option v-for="district in cardStore.districts" :key="district.id" :value="district.id">
+                                        <option v-for="district in cardStore.districts" :key="district.id"
+                                            :value="district.id">
                                             {{ district.local_name }}
                                         </option>
                                     </select>
+                                    <div class="invalid-feedback" v-if="cardStore.vv.district.$error">
+                                        {{ cardStore.vv.district.$errors[0].$message }}
+                                        <!-- Please enter gender -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -55,31 +56,37 @@
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <label class="form-label">ឃុំ / សង្កាត់</label>
-                                    <select 
-                                        class="form-select shadow-none" 
-                                        v-model="cardStore.frm_add.commune"
-                                        @change="onCommuneChange"
-                                        :disabled="!cardStore.communes.length"
-                                    >
+                                    <select class="form-select shadow-none"
+                                        :class="{ 'is-invalid': cardStore.vv.commune.$error }"
+                                        v-model="cardStore.frm_add.commune" @change="onCommuneChange"
+                                        :disabled="!cardStore.communes.length">
                                         <option value="">សូមជ្រើសរើសឃុំ / សង្កាត់</option>
-                                        <option v-for="commune in cardStore.communes" :key="commune.id" :value="commune.id">
+                                        <option v-for="commune in cardStore.communes" :key="commune.id"
+                                            :value="commune.id">
                                             {{ commune.local_name }}
                                         </option>
                                     </select>
+                                    <div class="invalid-feedback" v-if="cardStore.vv.commune.$error">
+                                        {{ cardStore.vv.commune.$errors[0].$message }}
+                                        <!-- Please enter gender -->
+                                    </div>
                                 </div>
 
                                 <div class="col-6 mb-3">
                                     <label class="form-label">ភូមិ</label>
-                                    <select 
-                                        class="form-select shadow-none" 
-                                        v-model="cardStore.frm_add.village"
-                                        :disabled="!cardStore.villages.length"
-                                    >
+                                    <select class="form-select shadow-none"
+                                        :class="{ 'is-invalid': cardStore.vv.village.$error }"
+                                        v-model="cardStore.frm_add.village" :disabled="!cardStore.villages.length">
                                         <option value="">សូមជ្រើសរើសភូមិ</option>
-                                        <option v-for="village in cardStore.villages" :key="village.id" :value="village.id">
+                                        <option v-for="village in cardStore.villages" :key="village.id"
+                                            :value="village.id">
                                             {{ village.local_name }}
                                         </option>
                                     </select>
+                                    <div class="invalid-feedback" v-if="cardStore.vv.village.$error">
+                                        {{ cardStore.vv.village.$errors[0].$message }}
+                                        <!-- Please enter gender -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -89,21 +96,24 @@
                             <div class="row">
                                 <div class="col-5 mb-3">
                                     <label class="form-label">លេខទូរស័ព្ទ</label>
-                                    <input type="text" class="form-control shadow-none" v-model="cardStore.frm_add.phone">
+                                    <input type="text" class="form-control shadow-none"
+                                        v-model="cardStore.frm_add.phone">
                                 </div>
                                 <div class="col-5 mb-3">
                                     <label class="form-label">ផ្ទះលេខ</label>
-                                    <input type="text" class="form-control shadow-none" v-model="cardStore.frm_add.homeNumber">
+                                    <input type="text" class="form-control shadow-none"
+                                        v-model="cardStore.frm_add.houseNumber">
                                 </div>
                                 <div class="col-2 mb-3">
                                     <label class="form-label">ផ្លូវលេខ</label>
-                                    <input type="text" class="form-control shadow-none" v-model="cardStore.frm_add.streetNumber">
+                                    <input type="text" class="form-control shadow-none"
+                                        v-model="cardStore.frm_add.streetNumber">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Modal Buttons -->
                 <div class="btn-address d-flex align-items-center justify-content-end">
                     <button class="btn btn-outline-danger me-4" data-bs-dismiss="modal" type="button">បោះបង់</button>
@@ -120,22 +130,23 @@
 import { computed, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { useCardStore } from '@/stores/card_store';
+import axios from 'axios';
 
 import useVuelidate from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 
 const cardStore = useCardStore();
-const rules = computed(() =>({
-    province:{
+const rules = computed(() => ({
+    province: {
         required: helpers.withMessage(() => 'សូមជ្រើសរើសខេត្ត', required)
     },
-    district:{
+    district: {
         required: helpers.withMessage(() => 'សូមជ្រើសរើសស្រុក', required)
     },
-    commune:{
+    commune: {
         required: helpers.withMessage(() => 'សូមជ្រើសរើសឃុំ', required)
     },
-    village:{
+    village: {
         required: helpers.withMessage(() => 'សូមជ្រើសរើសភូមិ', required)
     }
 }))
@@ -154,7 +165,7 @@ const onProvinceChange = () => {
     cardStore.districts = [];
     cardStore.communes = [];
     cardStore.villages = [];
-    
+
     if (cardStore.frm_add.province) {
         cardStore.onLoadDistrict(cardStore.frm_add.province);
     }
@@ -184,12 +195,44 @@ const onCommuneChange = () => {
 
 const onSaveAddress = () => {
 
-    cardStore.vv.$validate()
-    if(cardStore.vv.$error){
-        return
-    }
+const token = sessionStorage.getItem("token");
 
-    cardStore.isAddress = "Address saved successfully!"; 
-    cardStore.mdl_address.hide();
+if (!token) {
+    alert("Token not found! Please log in again.");
+    return;
+}
+
+cardStore.vv.$validate();
+if (cardStore.vv.$error) {
+    return;
+}
+
+let frmData = new FormData();
+frmData.append('province_id', cardStore.frm_add.province); // Corrected field name
+frmData.append('district_id', cardStore.frm_add.district); // Corrected field name
+frmData.append('commune_id', cardStore.frm_add.commune); // Corrected field name
+frmData.append('village_id', cardStore.frm_add.village); // Corrected field name
+frmData.append('house_number', cardStore.frm_add.houseNumber);
+frmData.append('street_number', cardStore.frm_add.streetNumber);
+
+axios.post('/api/address', frmData, {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+})
+    .then((res) => {
+        cardStore.onLoadAddress();
+        cardStore.mdl_address.hide();
+        cardStore.isAddress = "Address saved successfully!";
+    })
+    .catch((error) => {
+        if (error.response) {
+            console.log('Error Response:', error.response.data);
+            // Handle validation errors here if needed
+        } else {
+            console.log('Error Message:', error.message);
+        }
+    });
 };
+
 </script>
