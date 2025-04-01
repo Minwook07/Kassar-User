@@ -45,6 +45,7 @@ opacity: 0;
 transform: translateY(15px);
 transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 will-change: opacity, transform;
+cursor: p;
 }
 
 .tab-pane.active .tab-animation {
@@ -80,6 +81,7 @@ transform: translateX(0);
 position: relative;
 transition: all 0.3s ease;
 color: #6c757d;
+cursor: pointer!important;
 }
 
 .tab-link::after {

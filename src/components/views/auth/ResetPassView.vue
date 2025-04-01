@@ -12,8 +12,9 @@
       <!-- Right Section -->
       <div class="col-md-6 right-section bg-white p-4">
         <div class="text-center">
-          <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
-          <h1 class="fw-bold">កំណត់ពាក្យសម្ងាត់ថ្មី</h1>
+          <router-link to="/" class="img-fluid mb-3" data-aos="zoom-in" data-aos-delay="500">
+    <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
+</router-link>          <h1 class="fw-bold">កំណត់ពាក្យសម្ងាត់ថ្មី</h1>
           <p class="text-secondary mt-3">សូមបញ្ចូលពាក្យសម្ងាត់ថ្មីរបស់អ្នក</p>
         </div>
 
@@ -246,5 +247,10 @@ async function resetPassword() {
   background-color: #6c757d;
   opacity: 0.65;
 }
+.form-control:focus{
+  outline: #2ecc71!important;
+  border-color: #2ecc71!important;
+  box-shadow: none;
 
+}
 </style>
