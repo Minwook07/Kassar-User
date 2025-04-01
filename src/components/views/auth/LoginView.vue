@@ -24,11 +24,9 @@
         <div class="text-center mb-4" 
              data-aos="fade-up" 
              data-aos-delay="300">
-          <img src="@/assets/images/kassar_text.png" 
-               alt="Kassar Logo" 
-               class="img-fluid logo-img mb-3" 
-               data-aos="zoom-in" 
-               data-aos-delay="500" />
+             <router-link to="/" class="img-fluid mb-3" data-aos="zoom-in" data-aos-delay="500">
+    <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
+</router-link>
           <h1 class="fw-bold fs-3">ចូលប្រើប្រាស់គណនី</h1>
           <p class="text-secondary">សូមធ្វើការបំពេញព័ត៌មានខាងក្រោមដើម្បីចូលគណនី</p>
         </div>
@@ -242,4 +240,11 @@ async function onSaveLogin() {
   top: 35%;
   right: 40px;
 }
+.form-control:focus{
+  outline: #2ecc71!important;
+  border-color: #2ecc71!important;
+  box-shadow: none;
+
+}
+
 </style>

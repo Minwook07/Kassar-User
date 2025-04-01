@@ -15,8 +15,9 @@
       <!-- Right Section -->
       <div class="col-md-6 right-section bg-white p-4" data-aos="fade-left" data-aos-delay="200">
         <div class="text-center">
-          <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3"
-            data-aos="zoom-in" data-aos-delay="300" />
+          <router-link to="/" class="img-fluid mb-3" data-aos="zoom-in" data-aos-delay="500">
+    <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
+</router-link>
           <h1 class="fw-bold" data-aos="fade-up" data-aos-delay="400">បង្កើតគណនី</h1>
           <p class="text-secondary" data-aos="fade-up" data-aos-delay="500">
             សូមធ្វើការបំពេញព័ត៌មានខាងក្រោមដើម្បីចូលគណនី
@@ -102,7 +103,7 @@
         <div class="text-center mt-3" data-aos="fade-up" data-aos-delay="1100">
           <p>
             មានគណនីរួចហើយមែនទេ?
-            <router-link to="/login" class="text-success">ចូលគណនី</router-link>
+            <router-link to="/login" class="text-success text-decoration-none">ចូលគណនី</router-link>
           </p>
         </div>
       </div>
@@ -270,5 +271,10 @@ function onSubmit() {
 .border-danger {
   border: 2px solid #e93a4b !important;
 }
+.form-control:focus{
+  outline: #2ecc71!important;
+  border-color: #2ecc71!important;
+  box-shadow: none;
 
+}
 </style>
