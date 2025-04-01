@@ -163,7 +163,7 @@
                 v-model="search"
                 @input="handleSearch"
                 type="text"
-                placeholder="ស្វែងរក"
+                placeholder="ស្វែងរកតាមរយៈឈ្មោះផលិតផល,ប្រភេទ ..."
                 class="form-control search"
               />
               <div class="pe-3">
@@ -232,10 +232,18 @@
 
               <div
                 class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click.stop="StoreNewFav(product)"
+                @click.stop="
+                  product.is_favorited
+                    ? RemoveFav(product)
+                    : StoreNewFav(product)
+                "
               >
                 <p class="mb-0 mt-1 text-danger fw-bold">
-                  <i :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                  <i
+                    :class="
+                      product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
+                    "
+                  ></i>
                 </p>
               </div>
             </div>
@@ -321,8 +329,8 @@ const GetAllProducts = () => {
   axios
     .get(url, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("token")}` || ''
-      }
+        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+      },
     })
     .then((res) => {
       totalProducts.value = res.data.paginate.total;
@@ -343,9 +351,8 @@ const GetAllCategories = () => {
     });
 };
 const StoreNewFav = (product) => {
-  // console.log(token);:
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token") ;
-  // alert(token);
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
   if (!token) {
     alert("Please login to add products to your favorites.");
     return;
@@ -357,23 +364,20 @@ const StoreNewFav = (product) => {
   }
   axios
     .post(
-      "api/favorites",  { product_id: product.id },
+      "api/favorites",
+      { product_id: product.id },
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     )
     .then((res) => {
-      // console.log(isFav.value);
       console.log(token);
       product.is_favorited = !product.is_favorited;
-      // const NewFav = res.data.data;
-      // localStorage.setItem("favoriteProduct", NewFav);
       if (contactStore.toast_alert) {
         contactStore.toast_alert.show();
       }
-      // console.log(NewFav);
     })
     .catch((error) => {
       console.error(
@@ -382,16 +386,28 @@ const StoreNewFav = (product) => {
       );
     });
 };
+const RemoveFav = () =>{
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  if (!token) {
+    alert("Please login to remove products from your favorites.");
+    return;
+  }
+  axios.delete(``)
+}
 onMounted(() => {
   GetAllProducts();
   GetAllCategories();
+  toast();
+});
+const toast = () => {
   const toastElement = document.getElementById("liveToast");
   if (toastElement) {
     contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
   } else {
     console.error("Toast element not found!");
   }
-});
+};
 const handleSearch = () => {
   currentPage.value = 1;
   GetAllProducts();
@@ -403,13 +419,6 @@ const handleCategory = () => {
 const pageCount = computed(() =>
   Math.max(1, Math.ceil(totalProducts.value / itemsPerPage))
 );
-const paginatedProducts = computed(() => {
-  if (!allProducts.length) return [];
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return allProducts.slice(start, end);
-});
-
 const handlePageClick = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= pageCount.value) {
     currentPage.value = pageNumber;
@@ -428,4 +437,3 @@ const goToDetail = (id) => {
   router.push({ name: "detailproduct", query: { id } });
 };
 </script>
-
