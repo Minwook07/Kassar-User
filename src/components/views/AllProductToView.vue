@@ -235,7 +235,7 @@
                 @click.stop="StoreNewFav(product)"
               >
                 <p class="mb-0 mt-1 text-danger fw-bold">
-                  <i :class="isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                  <i :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
                 </p>
               </div>
             </div>
@@ -303,7 +303,6 @@ const currentPage = ref(1);
 const min_price = 0;
 const max_price = 15;
 const search = ref("");
-const isFav = false;
 const contactStore = useContactStore();
 const GetAllProducts = () => {
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
@@ -320,7 +319,11 @@ const GetAllProducts = () => {
   console.log(url);
 
   axios
-    .get(url)
+    .get(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}` || ''
+      }
+    })
     .then((res) => {
       totalProducts.value = res.data.paginate.total;
       allProducts.value = res.data.data;
@@ -340,8 +343,8 @@ const GetAllCategories = () => {
     });
 };
 const StoreNewFav = (product) => {
-  // console.log(token);
-  const token = localStorage.getItem("token");
+  // console.log(token);:
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token") ;
   // alert(token);
   if (!token) {
     alert("Please login to add products to your favorites.");
@@ -362,12 +365,11 @@ const StoreNewFav = (product) => {
       }
     )
     .then((res) => {
-      // isFav.value = !isFav.value;
       // console.log(isFav.value);
       console.log(token);
-
-      const NewFav = res.data.data;
-      localStorage.setItem("favoriteProduct", NewFav);
+      product.is_favorited = !product.is_favorited;
+      // const NewFav = res.data.data;
+      // localStorage.setItem("favoriteProduct", NewFav);
       if (contactStore.toast_alert) {
         contactStore.toast_alert.show();
       }
@@ -426,3 +428,4 @@ const goToDetail = (id) => {
   router.push({ name: "detailproduct", query: { id } });
 };
 </script>
+
