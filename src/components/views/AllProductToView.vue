@@ -80,7 +80,7 @@
               </div>
             </div>
           </div>
-          <div class="mb-3" data-aos="fade-up-right">
+          <div class="mb-3">
             <h5 class="fw-bold mb-3">វាយតម្លៃ</h5>
             <div class="mb-2 myform-check form-check">
               <input
@@ -234,7 +234,7 @@
                 class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
                 @click.stop="
                   product.is_favorited
-                    ? RemoveFav(product)
+                    ? RemoveFav(FavProduct)
                     : StoreNewFav(product)
                 "
               >
@@ -260,14 +260,12 @@
     </div>
   </section>
   <div
-    class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
-    style="margin-top: 50px"
+  class="toast-container position-fixed top-0 end-0 p-3"
   >
     <div
       id="liveToast"
       class="toast border-0 p-3 bg-primary"
       role="alert"
-      style="width: 500px"
       aria-live="assertive"
       aria-atomic="true"
     >
@@ -278,7 +276,7 @@
 
         <div class="message">
           <span class="text text-white"
-            >លោកអ្នកបានបន្ថែមទំនិញចូលបញ្ជីរប្រាថ្នាជោគជ័យ</span
+            >ដាក់ចូលរួចរាល់</span
           >
         </div>
         <div>
@@ -311,25 +309,29 @@ const currentPage = ref(1);
 const min_price = 0;
 const max_price = 15;
 const search = ref("");
+const CountFav = ref([]);
+const router = useRouter();
 const contactStore = useContactStore();
+const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const GetAllProducts = () => {
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
+
   if (search.value) {
     url += `&search=${encodeURIComponent(search.value)}`;
   }
+
   if (selectedCategory.value) {
     url += `&category_id=${selectedCategory.value}`;
   }
-  console.log(min_price, max_price);
-  // if (range.value[0] !== undefined && range.value[1] !== undefined) {
-  //   url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
-  // }
-  console.log(url);
+
+  if (range.value[0] !== undefined && range.value[1] !== undefined) {
+    url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
+  }
 
   axios
     .get(url, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => {
@@ -340,6 +342,7 @@ const GetAllProducts = () => {
       console.error("Error fetching data:", error);
     });
 };
+
 const GetAllCategories = () => {
   axios
     .get("/api/categories")
@@ -350,6 +353,7 @@ const GetAllCategories = () => {
       console.error("Error fetching categories:", error);
     });
 };
+
 const StoreNewFav = (product) => {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -373,7 +377,6 @@ const StoreNewFav = (product) => {
       }
     )
     .then((res) => {
-      console.log(token);
       product.is_favorited = !product.is_favorited;
       if (contactStore.toast_alert) {
         contactStore.toast_alert.show();
@@ -386,15 +389,37 @@ const StoreNewFav = (product) => {
       );
     });
 };
-const RemoveFav = () =>{
+
+const RemoveFav = (FavProduct) => {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
   if (!token) {
     alert("Please login to remove products from your favorites.");
     return;
   }
-  axios.delete(``)
-}
+  axios
+    .delete(
+      `api/favorites/${FavProduct.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    
+    .then((res) => {
+      if (contactStore.toast_alert) {
+        contactStore.toast_alert.show();
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "Remove Favorite:",
+        error.response?.data || error.message
+      );
+    });
+};
+
 onMounted(() => {
   GetAllProducts();
   GetAllCategories();
@@ -432,7 +457,6 @@ const handleRangeInput = () => {
 const formatPrice = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
-const router = useRouter();
 const goToDetail = (id) => {
   router.push({ name: "detailproduct", query: { id } });
 };

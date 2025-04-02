@@ -3,31 +3,32 @@
     <div class="container py-5">
       <div class="row" v-if="detailProducts">
         <div class="col-12 col-md-6 col-lg-4 mb-5" data-aos="fade-down-right">
-          <div class="mb-3 rounded" style="height: 400px">
-            <img
-              class="w-100 h-100 object-fit-cover rounded"
-              :src="detailProducts.product.product_thumbnail"
-              alt=""
-            />
-          </div>
-          <div class="d-flex">
-            <!-- <div
-              class="col-3 rounded"
-              v-for="img in detailProducts.imgs"
-              :key="img.id"
-            >
-              <img
-                :class="{
-                  'border border-success p-0 ': activeImage === img.id,
-                }"
-                @click="onChangeImage(img.id, img.img)"
-                class="p-1 w-100 h-100 object-fit-cover rounded"
-                :src="img.img"
-                alt=""
-              />
-            </div> -->
-          </div>
-        </div>
+  <div class="mb-3 rounded" style="height: 400px">
+    <img
+      class="w-100 h-100 object-fit-cover rounded"
+      :src="selectedImageUrl || detailProducts.product.product_thumbnail"
+      alt="Product Image"
+    />
+  </div>
+  <div class="d-flex">
+    <div
+      class="col-3 rounded"
+      v-for="product_img in detailProducts.product.product_images"
+      :key="product_img.id"
+    >
+      <img
+        :class="{
+          'border border-success p-0': activeImage === product_img.id,
+        }"
+        @click="onChangeImage(product_img.id, product_img.image_url)"
+        class="p-1 w-100 h-100 object-fit-cover rounded"
+        :src="product_img.image_url"
+        alt="Product Image"
+      />
+    </div>
+  </div>
+</div>
+
         <div class="col-12 col-md-6 col-lg-4 ps-5 mb-5">
           <h2 class="fw-bold mb-3" data-aos="fade-down">
             {{ detailProducts.product.name }}
@@ -49,20 +50,23 @@
           </div>
           <div>
             <div
-                    v-if="detailProducts.product.price && detailProducts.product.price.has_discount !== false"
-                  >
-                    <p class="text-primary mb-0 fw-bold">
-                      {{ detailProducts.product.price.discounted_price }} /
-                      {{ detailProducts.product.product_units.name }}
-                    </p>
-                    <span class="text-decoration-line-through text-paragraph">
-                      {{ detailProducts.product.price.original }}</span
-                    >
-                  </div>
-                  <p class="text-primary mb-0 fw-bold" v-else>
-                    {{ detailProducts.product.price.original }} /
-                    {{ detailProducts.product.product_units.name }}
-                  </p>
+              v-if="
+                detailProducts.product.price &&
+                detailProducts.product.price.has_discount !== false
+              "
+            >
+              <p class="text-primary mb-0 fw-bold">
+                {{ detailProducts.product.price.discounted_price }} /
+                {{ detailProducts.product.product_units.name }}
+              </p>
+              <span class="text-decoration-line-through text-paragraph">
+                {{ detailProducts.product.price.original }}</span
+              >
+            </div>
+            <p class="text-primary mb-0 fw-bold" v-else>
+              {{ detailProducts.product.price.original }} /
+              {{ detailProducts.product.product_units.name }}
+            </p>
             <h5 class="mb-4" data-aos="fade-up">
               ប្រភេទ​ ៖ {{ detailProducts.product.category.name }}
             </h5>
@@ -72,17 +76,19 @@
               data-aos="fade-right"
               class="bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1"
             >
-              <div 
+              <div
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
-                @click="count>0 && count--"
+                @click="count > 0 && count--"
               >
                 <i class="bi bi-dash-lg text-primary fs-4"></i>
               </div>
               <p class="mb-0 fw-bold fs-5">{{ count }}</p>
               <div
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
-                  :class="{'disabled': count >= detailProducts.product.qty_in_stock}"
-                 @click="count < detailProducts.product.qty_in_stock && count++"
+                :class="{
+                  disabled: count >= detailProducts.product.qty_in_stock,
+                }"
+                @click="count < detailProducts.product.qty_in_stock && count++"
               >
                 <i class="bi bi-plus-lg text-primary fs-4"></i>
               </div>
@@ -115,8 +121,20 @@
             អស់ស្តុក
           </button>
 
-          <div data-aos="fade-down" class="d-flex text-dark mb-3">
-            <p class="mb-0 me-2"><i class="bi bi-heart"></i></p>
+          <div
+            data-aos="fade-down"
+            class="d-flex align-items-center text-dark mb-3"
+          >
+            <p class="mb-0 mt-1 text-danger fw-bold me-2">
+              <i
+                :class="
+                  detailProducts.product.is_favorited
+                    ? 'bi bi-heart-fill'
+                    : 'bi bi-heart'
+                "
+              ></i>
+            </p>
+            {{}}
             <p class="mb-0">ដាក់ទៅបញ្ជីប្រាថ្នា</p>
           </div>
           <div>
@@ -142,11 +160,12 @@
         </div>
         <div class="col-12 col-lg-4">
           <div class="d-flex justify-content-end">
-            <button 
+            <button
               data-aos="fade-up"
               to="/viewshop"
               class="btn btn-primary mb-3"
-              @click="goToshop(detailProducts.product.shop.id)">
+              @click="goToshop(detailProducts.product.shop.id)"
+            >
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
             </button>
@@ -379,7 +398,7 @@
           class="col-12 col-md-6 col-lg-3 mb-3"
           v-for="related_products in detailProducts.related_products"
           :key="related_products.id"
-            @click="goToDetail(related_products.id)"
+          @click="goToDetail(related_products.id)"
         >
           <div
             class="bg-white card card-product border-0 rounded position-relative"
@@ -393,7 +412,9 @@
             </div>
             <div class="p-3 card-body">
               <div class="d-flex justify-content-between">
-                <p class="text-primary mb-1">{{related_products.category.name }}</p>
+                <p class="text-primary mb-1">
+                  {{ related_products.category.name }}
+                </p>
                 <p class="mb-1">
                   <span class="text-warning me-2"
                     ><i class="bi bi-star-fill"></i></span
@@ -404,34 +425,37 @@
               <p>{{ related_products.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div
-                    v-if="related_products.price && related_products.price.has_discount !== false"
-                  >
-                    <p class="text-primary mb-0 fw-bold">
-                      {{ related_products.price.discounted_price }} /
-                      {{related_products.product_units.name }}
-                    </p>
-                    <span class="text-decoration-line-through text-paragraph">
-                      {{ related_products.price.original }}</span
-                    >
-                  </div>
-                  <p class="text-primary mb-0 fw-bold" v-else>
-                    {{ related_products.price.original }} /
-                    {{related_products.product_units.name }}
+                  v-if="
+                    related_products.price &&
+                    related_products.price.has_discount !== false
+                  "
+                >
+                  <p class="text-primary mb-0 fw-bold">
+                    {{ related_products.price.discounted_price }} /
+                    {{ related_products.product_units.name }}
                   </p>
+                  <span class="text-decoration-line-through text-paragraph">
+                    {{ related_products.price.original }}</span
+                  >
+                </div>
+                <p class="text-primary mb-0 fw-bold" v-else>
+                  {{ related_products.price.original }} /
+                  {{ related_products.product_units.name }}
+                </p>
                 <router-link to="" class="btn btn-primary rounded-pill"
                   ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link
                 >
               </div>
             </div>
             <div
-                class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
-                v-for="promotion in related_products.promotions"
-                :key="promotion.id"
-              >
-                <p class="mb-0 px-3 text-white">
-                  {{ promotion.promotions.discount_rate }} %
-                </p>
-              </div>
+              class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+              v-for="promotion in related_products.promotions"
+              :key="promotion.id"
+            >
+              <p class="mb-0 px-3 text-white">
+                {{ promotion.promotions.discount_rate }} %
+              </p>
+            </div>
 
             <!-- <div
               class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
@@ -453,40 +477,43 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import { useAllProducts } from "@/stores/views/allProduct_store";
+const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const allProducts = useAllProducts();
 const detailProducts = ref(null);
 const related_products = ref();
 const count = ref(0);
 const router = useRouter();
+const activeImage = ref(null);
+const selectedImageUrl = ref('');
 const getDetail = () => {
   const id = router.currentRoute.value.query.id;
   axios
-    .get(`api/products/${id}`)
+    .get(`api/products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
     .then((res) => {
       detailProducts.value = res.data.data;
+      console.log(detailProducts.value);
     })
     .catch((error) => {
       console.log(error);
     });
 };
+const onChangeImage = (imgId, imageUrl) => {
+      activeImage.value = imgId;
+      selectedImageUrl.value = imageUrl;
+    };
 onMounted(() => {
   getDetail();
 });
-// const router = useRouter();
-const goToshop = (id) =>{
-  router.push({ name: 'viewshop', query: { id } });
-}
-// const imageDetails = ref(null);
-// const activeImage = ref(null);
-// const imageSrc = ref(new URL("@/assets/images/5.avif", import.meta.url).href);
-
-// activeImage.value = detailProducts.imgs[0].id;
-// const onChangeImage = (imgId, newImageSrc) => {
-//   activeImage.value = imgId;
-//   imageSrc.value = newImageSrc;
-// };`
+const goToshop = (id) => {
+  router.push({ name: "viewshop", query: { id } });
+};
 watch(
   () => router.currentRoute.value.query.id,
   (newId, oldId) => {
