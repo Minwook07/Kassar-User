@@ -38,7 +38,7 @@ const onDeleteAllCart = () => {
 
     const token = sessionStorage.getItem("token");
 
-    axios.delete(`http://localhost/kassar_api/public/api/cart-clear`, {
+    axios.delete(`/api/cart-clear`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },

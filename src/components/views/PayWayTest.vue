@@ -53,7 +53,7 @@ const getCheckoutData = async () => {
 
     try {
         // Get Checkout Data
-        const response = await axios.post('http://kassar_api.com:8080/public/api/checkout', formData, {
+        const response = await axios.post('/api/checkout', formData, {
             headers: {
                 'Authorization': 'Bearer 1|Ce9EshAXHyQMkkT9Z0eGHLpcAtBSFBX3ZPvj0IO8a11defe6',
                 'Accept': 'application/json',

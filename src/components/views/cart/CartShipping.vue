@@ -4,19 +4,19 @@
       <small class="">កាលបរិច្ឆេទដឹកជញ្ជូន៖ 04-Sep-2025</small>
       <hr class="hr">
       <h6 class="fw-bold mb-2">កូដបញ្ចុះតម្លៃ</h6>
-      <div class="d-flex mt-3 mb-2 position-relative">
+      <div class="d-flex mt-3 mb-3 position-relative">
         <input type="text" class="px-2 code-discount" placeholder=" បញ្ចូលកូដបញ្ចុះតម្លៃ">
         <button type="submit" class="btn btn-custom">ទទួលយក</button>
       </div>
-      <small class="text-muted">បញ្ចុះតម្លៃ 5%</small>
+      <!-- <small class="text-muted">បញ្ចុះតម្លៃ 5%</small> -->
       <hr class="hr">
       <div class="d-flex justify-content-between mb-2">
         <h6 class="fw-bold">តម្លៃ</h6>
         <h6 class="fw-bold">{{ totalPrice }} ៛</h6>
       </div>
       <div class="d-flex justify-content-between text-muted mb-2">
-        <span>បញ្ចុះតម្លៃ (5%)</span>
-        <span>-1.5 ៛</span>
+        <span>បញ្ចុះតម្លៃសរុប</span>
+        <span> {{ totalDis }} ៛</span>
       </div>
       <div class="d-flex justify-content-between text-muted ">
         <span>ថ្លៃដឹកជញ្ចូន</span>
@@ -25,11 +25,11 @@
       <hr class="hr">
       <div class="d-flex justify-content-between fw-bold">
         <span>តម្លៃសរុប</span>
-        <span>{{ totalPrice - 1.5 }} ៛</span>
+        <span>{{ totalPrice - totalDis }} ៛</span>
       </div>
       <hr class="hr">
       <RouterLink to="/waypay" class="mt-3 btn btn-secondary btn-process w-100" >ទូទាត់
-        <span>{{ totalPrice - 1.5 }} ៛</span></RouterLink>
+        <span>{{ totalPrice - totalDis }} ៛</span></RouterLink>
     </div>
   </template>
   
@@ -41,4 +41,5 @@
   
   // Access the total price from the store
   const totalPrice = computed(() => cartListStore.totalPrice);
+  const totalDis = computed(() => cartListStore.totalDis);
   </script>
