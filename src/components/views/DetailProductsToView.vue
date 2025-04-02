@@ -457,34 +457,75 @@
               </p>
             </div>
 
-            <!-- <div
-              class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-              @click="allProducts.toggleFav(product.id)"
-            >
-              <p class="mb-0 mt-1 text-danger fw-bold">
-                <i
-                  :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"
-                ></i>
-              </p>
-            </div> -->
+            <div
+                class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                @click.stop="
+                  related_products.is_favorited
+                    ? RemoveFav(FavProduct)
+                    : StoreNewFav(related_products)
+                "
+              >
+                <p class="mb-0 mt-1 text-danger fw-bold">
+                  <i
+                    :class="
+                      related_products.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
+                    "
+                  ></i>
+                </p>
+              </div>
           </div>
         </div>
       </div>
     </div>
     <!-- </div> -->
   </section>
+  <div
+  class="toast-container position-fixed top-0 end-0 p-3"
+  >
+    <div
+      id="liveToast"
+      class="toast border-0 p-3 bg-primary"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-content d-flex justify-content-center gap-3">
+        <div>
+          <i class="bi bi-check2-circle fs-5 text-white"></i>
+        </div>
+
+        <div class="message">
+          <span class="text text-white"
+            >ដាក់ចូលរួចរាល់</span
+          >
+        </div>
+        <div>
+          <button
+            type="button"
+            class="btn btn-close border-0 ms-auto text-white p-0"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="progress active"></div>
+    </div>
+  </div>
 </template>
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { Toast } from "bootstrap";
 import { useAllProducts } from "@/stores/views/allProduct_store";
+import { useContactStore } from "@/stores/contact_store";
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const allProducts = useAllProducts();
 const detailProducts = ref(null);
 const related_products = ref();
 const count = ref(0);
 const router = useRouter();
+const contactStore = useContactStore();
 const activeImage = ref(null);
 const selectedImageUrl = ref('');
 const getDetail = () => {
@@ -504,13 +545,88 @@ const getDetail = () => {
       console.log(error);
     });
 };
+const StoreNewFav = (related_products) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  if (!token) {
+    alert("Please login to add products to your favorites.");
+    return;
+  }
+
+  if (!related_products.id) {
+    alert("Invalid product.");
+    return;
+  }
+  axios
+    .post(
+      "api/favorites",
+      { related_products_id: related_products.id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then((res) => {
+      related_products.is_favorited = !related_products.is_favorited;
+      if (contactStore.toast_alert) {
+        contactStore.toast_alert.show();
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "Error adding favorite:",
+        error.response?.data || error.message
+      );
+    });
+};
+
+const RemoveFav = (FavProduct) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  if (!token) {
+    alert("Please login to remove products from your favorites.");
+    return;
+  }
+  axios
+    .delete(
+      `api/favorites/${FavProduct.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    
+    .then((res) => {
+      if (contactStore.toast_alert) {
+        contactStore.toast_alert.show();
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "Remove Favorite:",
+        error.response?.data || error.message
+      );
+    });
+};
+
+onMounted(() => {
+  getDetail();
+  toast();
+});
+const toast = () => {
+  const toastElement = document.getElementById("liveToast");
+  if (toastElement) {
+    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
+  } else {
+    console.error("Toast element not found!");
+  }
+};
 const onChangeImage = (imgId, imageUrl) => {
       activeImage.value = imgId;
       selectedImageUrl.value = imageUrl;
     };
-onMounted(() => {
-  getDetail();
-});
 const goToshop = (id) => {
   router.push({ name: "viewshop", query: { id } });
 };

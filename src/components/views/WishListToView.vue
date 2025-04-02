@@ -1,7 +1,7 @@
 <template>
   <div class="wishlist-page">
     <!-- Header Section -->
-    <div class="bg-light py-4">
+    <div class="py-4 " :style="{ backgroundImage: `url(${bgImage})`}">
       <div class="container">
         <div class="d-flex align-items-center justify-content-between">
           <div>
@@ -13,7 +13,7 @@
           </div>
           <button
             data-aos="fade-left"
-            class="btn btn-outline-danger"
+            class="btn btn-danger"
             @click="clearWishlist"
           >
           <i class="bi bi-trash"></i>
@@ -37,25 +37,6 @@
       </div>
 
       <div v-else>
-        <!-- Category Filters -->
-        <div class="mb-4" data-aos="fade-down-right">
-          <div class="d-flex gap-2 flex-wrap">
-            <button
-              v-for="FavProduct in FavProducts"
-              :key="FavProduct.id"
-              class="btn"
-              :class="
-                selectedCategory === FavProduct.product.category.name
-                  ? 'btn-success'
-                  : 'btn-outline-success'
-              "
-              @click="filterByCategory(FavProduct.product.category.name)"
-            >
-              {{ FavProduct.product.category.name }}
-            </button>
-          </div>
-        </div>
-
         <!-- Products Grid -->
         <div class="row">
           <div
@@ -104,12 +85,9 @@
                       >${{ FavProduct.product.price }}</span
                     >
                     <span class="text-muted small"
-                      >/ {{ FavProduct.product.unit }}</span
+                      >/ {{ FavProduct.product.product_unit.name}}</span
                     >
                   </div>
-                  <span class="badge bg-light text-success">
-                    {{ FavProduct.id }}
-                  </span>
                 </div>
                 <div class="d-grid">
                   <button class="btn btn-primary" @click="addToCart(item.id)">
@@ -164,6 +142,7 @@ import axios from "axios";
 import { onMounted } from "vue";
 import { useContactStore } from "@/stores/contact_store";
 import { Toast } from "bootstrap";
+import bgImage from '@/assets/images/background/bg-fav.png';
 const contactStore = useContactStore();
 const FavProducts = ref();
 const selectedCategory = ref();
@@ -234,26 +213,6 @@ onMounted(() => {
   GetAllFav();
   toast();
 });
-
-const categories = computed(() => {
-  const uniqueCategories = new Set(items.value.map(item => item.category))
-  return ['ទាំងអស់', ...Array.from(uniqueCategories)]
-})
-
-// const filteredItems = computed(() => {
-//   if (selectedCategory.value === 'ទាំងអស់') {
-//     return items.value
-//   }
-//   return items.value.filter(item => item.category === selectedCategory.value)
-// })
-
-// const removeFromWishlist = (id: number) => {
-//   items.value = items.value.filter(item => item.id !== id)
-// }
-
-// const filterByCategory = (category: string) => {
-//   selectedCategory.value = category
-// }
 const toast = () => {
   const toastElement = document.getElementById("liveToast");
   if (toastElement) {
@@ -264,7 +223,7 @@ const toast = () => {
 };
 </script>
 
-<style scoped>
+<style>
 .card {
   transition: transform 0.2s;
 }
@@ -283,4 +242,9 @@ const toast = () => {
   background-color: var(--bs-success);
   color: white;
 }
+.bg-fav {
+  background-image: url("~@/assets/images/background/bg-fav.png") !important;
+}
+
+
 </style>

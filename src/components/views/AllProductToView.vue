@@ -194,7 +194,7 @@
                   <p class="mb-1">
                     <span class="text-warning me-2"
                       ><i class="bi bi-star-fill"></i></span
-                    >4.9
+                    >{{ product.rating.average }}
                   </p>
                 </div>
                 <h5 class="fw-bold">{{ product.name }}</h5>
@@ -232,11 +232,7 @@
 
               <div
                 class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click.stop="
-                  product.is_favorited
-                    ? RemoveFav(FavProduct)
-                    : StoreNewFav(product)
-                "
+                @click.stop="toggleFav(product)"
               >
                 <p class="mb-0 mt-1 text-danger fw-bold">
                   <i
@@ -259,9 +255,7 @@
       </div>
     </div>
   </section>
-  <div
-  class="toast-container position-fixed top-0 end-0 p-3"
-  >
+  <div class="toast-container position-fixed top-0 end-0 p-3">
     <div
       id="liveToast"
       class="toast border-0 p-3 bg-primary"
@@ -269,16 +263,21 @@
       aria-live="assertive"
       aria-atomic="true"
     >
-      <div class="toast-content d-flex justify-content-center gap-3">
+      <div class="toast-content d-flex justify-content-center gap-3"
+      v-if="product in allProducts" :key="product.id"
+      >
         <div>
           <i class="bi bi-check2-circle fs-5 text-white"></i>
         </div>
 
         <div class="message">
-          <span class="text text-white"
-            >ដាក់ចូលរួចរាល់</span
-          >
+          <span class="text text-white">{{
+            FavProduct.is_favorited ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
+            
+          }}</span>
+          {{ FavProduct.is_favorited }}
         </div>
+
         <div>
           <button
             type="button"
@@ -296,11 +295,12 @@
 import { ref, computed } from "vue";
 import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
-import axios from "axios";
+import axios, { all } from "axios";
 import { useRouter } from "vue-router";
 import { Toast } from "bootstrap";
 import { useContactStore } from "@/stores/contact_store";
 const allProducts = ref([]);
+const Fav = ref([]);
 const categories = ref([]);
 const totalProducts = ref([]);
 const selectedCategory = ref();
@@ -309,7 +309,6 @@ const currentPage = ref(1);
 const min_price = 0;
 const max_price = 15;
 const search = ref("");
-const CountFav = ref([]);
 const router = useRouter();
 const contactStore = useContactStore();
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -354,69 +353,27 @@ const GetAllCategories = () => {
     });
 };
 
-const StoreNewFav = (product) => {
+const toggleFav = (FavProduct) => {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
+
   if (!token) {
     alert("Please login to add products to your favorites.");
     return;
   }
 
-  if (!product) {
-    alert("Invalid product.");
-    return;
-  }
   axios
-    .post(
-      "api/favorites",
-      { product_id: product.id },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    .post(`api/favorites/toggle?product_id=${FavProduct.id}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
-      product.is_favorited = !product.is_favorited;
-      if (contactStore.toast_alert) {
-        contactStore.toast_alert.show();
-      }
+      FavProduct.is_favorited = !FavProduct.is_favorited;
+      contactStore.toast_alert.show();
     })
     .catch((error) => {
-      console.error(
-        "Error adding favorite:",
-        error.response?.data || error.message
-      );
-    });
-};
-
-const RemoveFav = (FavProduct) => {
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
-  if (!token) {
-    alert("Please login to remove products from your favorites.");
-    return;
-  }
-  axios
-    .delete(
-      `api/favorites/${FavProduct.id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    
-    .then((res) => {
-      if (contactStore.toast_alert) {
-        contactStore.toast_alert.show();
-      }
-    })
-    .catch((error) => {
-      console.error(
-        "Remove Favorite:",
-        error.response?.data || error.message
-      );
+      console.error("Toggle Favorite:", error.response?.data || error.message);
     });
 };
 
