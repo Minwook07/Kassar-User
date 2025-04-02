@@ -11,8 +11,9 @@
       <div class="col-md-6 right-section bg-white p-4">
         <div class="text-center">
           <router-link to="/" class="img-fluid mb-3" data-aos="zoom-in" data-aos-delay="500">
-    <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
-</router-link>          <h1 class="fw-bold">ផ្ទៀងផ្ទាត់លេខកូដ</h1>
+            <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
+          </router-link>
+          <h1 class="fw-bold">ផ្ទៀងផ្ទាត់លេខកូដ</h1>
           <p class="text-secondary mt-3">
             បញ្ចូលលេខកូដ 6 ខ្ទង់ដែលផ្ញើទៅកាន់<br>
             <span class="text-primary">{{ maskedEmail }}</span>
@@ -31,7 +32,7 @@
               class="form-control text-center otp-input"
               @input="focusNext(index, $event)"
               @keydown.delete="focusPrev(index, $event)"
-              @keypress="validateNumber"
+              @keypress="validateInput"
               ref="otpInputs"
             />
           </div>
@@ -40,7 +41,7 @@
           <div v-if="apiError" class="text-danger text-center mb-3">{{ apiError }}</div>
 
           <button type="submit" class="btn btn-login w-100" :disabled="loading">
-            <span v-if="loading" class="spinner-border spinner-border-sm"></span>
+            <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             {{ loading ? 'កំពុងផ្ទៀងផ្ទាត់...' : 'ផ្ទៀងផ្ទាត់' }}
           </button>
         </form>
@@ -104,8 +105,10 @@ function startCountdown() {
   }, 1000);
 }
 
-function validateNumber(e) {
-  if (!/[0-9]/.test(e.key)) {
+function validateInput(e) {
+  const inputChar = e.key;
+  // Allow letters and digits
+  if (!/[a-zA-Z0-9]/.test(inputChar)) {
     e.preventDefault();
   }
 }
@@ -136,7 +139,7 @@ async function verifyOTP() {
     return;
   }
 
-  loading.value = true;
+  loading.value = true; // Set loading to true
   otpError.value = "";
   apiError.value = "";
   
@@ -161,7 +164,7 @@ async function verifyOTP() {
     otp.value = ["", "", "", "", "", ""];
     if (otpInputs.value[0]) otpInputs.value[0].focus();
   } finally {
-    loading.value = false;
+    loading.value = false; // Reset loading state
   }
 }
 
@@ -169,7 +172,7 @@ async function resendOTP() {
   if (!canResend.value) return;
   
   try {
-    loading.value = true;
+    loading.value = true; // Set loading to true
     await axios.post("/api/forgot-password", {
       email: email.value
     });
@@ -185,7 +188,7 @@ async function resendOTP() {
   } catch (error) {
     apiError.value = error.response?.data?.message || "មានបញ្ហាក្នុងការផ្ញើលេខកូដឡើងវិញ";
   } finally {
-    loading.value = false;
+    loading.value = false; // Reset loading state
   }
 }
 
@@ -198,8 +201,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-
-
 .btn-login {
   background-color: #28a745;
   color: white;
@@ -223,12 +224,13 @@ onBeforeUnmount(() => {
   border: 1px solid #ced4da;
   border-radius: 8px;
 }
-.form-control:focus{
+
+.form-control:focus {
   outline: #2ecc71!important;
   border-color: #2ecc71!important;
   box-shadow: none;
-
 }
+
 .otp-input:focus {
   border-color: #28a745;
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
