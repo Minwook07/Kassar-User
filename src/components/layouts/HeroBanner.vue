@@ -26,7 +26,7 @@
                             <RouterLink class="nav-link category-link" to="/allproducts">អាហារគ្រៀម</RouterLink>
                         </li>
                         <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន</RouterLink>
+                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន់</RouterLink>
                         </li>
                     </ul>
                 </div>
