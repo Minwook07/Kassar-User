@@ -50,8 +50,8 @@
                                                 class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
                                     </div>
                                 </div>
-                                <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
-                                    <p class="mb-0 px-3 text-white">20%</p>
+                                <div v-if="!(product.promotions.length == 0) " class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
+                                    <p class="mb-0 px-3 text-white">{{product.promotions.discount_rate}}%</p>
                                 </div>
 
                                 <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
@@ -103,8 +103,8 @@
                                             class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
                                     </div>
                                 </div>
-                                <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
-                                    <p class="mb-0 px-3 text-white">20%</p>
+                                <div v-if="!(product.promotions.length == 0) " class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
+                                    <p class="mb-0 px-3 text-white">{{product.promotions.discount_rate}}%</p>
                                 </div>
 
                                 <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"

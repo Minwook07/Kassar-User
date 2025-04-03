@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import router from "@/router";
 export const useAllProducts = defineStore('views/allProduct', {
     state: () => ({
         mdl_term: null,
@@ -27,7 +28,7 @@ export const useAllProducts = defineStore('views/allProduct', {
             axios.get(`/api/products?per_page=${per_page}&page=${page}`)
                 .then(response => {
                     this.productArr = response.data.data;
-                    // console.log(this.productArr);
+                    console.log(this.productArr);
                 })
         },
 
@@ -35,7 +36,7 @@ export const useAllProducts = defineStore('views/allProduct', {
             const token = localStorage.getItem('token');
 
             if (!token) {
-                this.$router.push({ name: 'login' });
+                router.push({ name: 'login' });
                 return;
             }
 
@@ -57,7 +58,7 @@ export const useAllProducts = defineStore('views/allProduct', {
             const token = localStorage.getItem('token');
 
             if (!token) {
-                this.$router.push({ name: 'login' });
+                router.push({ name: 'login' });
                 return;
             }
 
