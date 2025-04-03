@@ -195,12 +195,7 @@ const onCommuneChange = () => {
 
 const onSaveAddress = () => {
 
-const token = sessionStorage.getItem("token");
-
-if (!token) {
-    alert("Token not found! Please log in again.");
-    return;
-}
+const token = localStorage.getItem || sessionStorage.getItem("token");
 
 cardStore.vv.$validate();
 if (cardStore.vv.$error) {

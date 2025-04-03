@@ -40,11 +40,6 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-4 btn-wayPay ">
-                <button class="btn btn-success" type="button">
-                    រួចរាល់
-                </button>
-            </div>
         </div>
     </div>
 </template>
