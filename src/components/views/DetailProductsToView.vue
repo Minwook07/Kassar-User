@@ -479,8 +479,7 @@ const topRatedPro = () =>{
     });
 }
 const toggleFav = (FavProduct) => {
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   if (!token) {
     alert("Please login to add products to your favorites.");
