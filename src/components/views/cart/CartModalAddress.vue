@@ -195,40 +195,40 @@ const onCommuneChange = () => {
 
 const onSaveAddress = () => {
 
-const token = localStorage.getItem || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-cardStore.vv.$validate();
-if (cardStore.vv.$error) {
-    return;
-}
-
-let frmData = new FormData();
-frmData.append('province_id', cardStore.frm_add.province); // Corrected field name
-frmData.append('district_id', cardStore.frm_add.district); // Corrected field name
-frmData.append('commune_id', cardStore.frm_add.commune); // Corrected field name
-frmData.append('village_id', cardStore.frm_add.village); // Corrected field name
-frmData.append('house_number', cardStore.frm_add.houseNumber);
-frmData.append('street_number', cardStore.frm_add.streetNumber);
-frmData.append('phone', cardStore.frm_add.phone);
-
-axios.post('/api/addresses', frmData, {
-    headers: {
-        'Authorization': `Bearer ${token}`
+    cardStore.vv.$validate();
+    if (cardStore.vv.$error) {
+        return;
     }
-})
-    .then((res) => {
-        cardStore.onLoadAddress();
-        cardStore.mdl_address.hide();
-        cardStore.isAddress = "Address saved successfully!";
-    })
-    .catch((error) => {
-        if (error.response) {
-            console.log('Error Response:', error.response.data);
-            // Handle validation errors here if needed
-        } else {
-            console.log('Error Message:', error.message);
+
+    let frmData = new FormData();
+    frmData.append('province_id', cardStore.frm_add.province); // Corrected field name
+    frmData.append('district_id', cardStore.frm_add.district); // Corrected field name
+    frmData.append('commune_id', cardStore.frm_add.commune); // Corrected field name
+    frmData.append('village_id', cardStore.frm_add.village); // Corrected field name
+    frmData.append('house_number', cardStore.frm_add.houseNumber);
+    frmData.append('street_number', cardStore.frm_add.streetNumber);
+    frmData.append('phone', cardStore.frm_add.phone);
+
+    axios.post('/api/addresses', frmData, {
+        headers: {
+            'Authorization': `Bearer ${token}`
         }
-    });
+    })
+        .then((res) => {
+            cardStore.onLoadAddress();
+            cardStore.mdl_address.hide();
+            cardStore.isAddress = "Address saved successfully!";
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log('Error Response:', error.response.data);
+                // Handle validation errors here if needed
+            } else {
+                console.log('Error Message:', error.message);
+            }
+        });
 };
 
 </script>
