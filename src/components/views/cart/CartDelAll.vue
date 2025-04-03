@@ -36,7 +36,7 @@ onMounted(() => {
 
 const onDeleteAllCart = () => {
 
-    const token = localStorage.getItem || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
     axios.delete(`/api/cart-clear`, {
         headers: {
