@@ -80,11 +80,12 @@
               </div>
             </div>
           </div>
-          <div class="mb-3" data-aos="fade-up-right">
+          <hr>
+          <div class="mb-3">
             <h5 class="fw-bold mb-3">វាយតម្លៃ</h5>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -100,7 +101,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -114,7 +115,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -128,7 +129,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -141,7 +142,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -151,7 +152,6 @@
                 </div>
               </label>
             </div>
-            <hr />
           </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 row justify-content-start">
@@ -194,7 +194,7 @@
                   <p class="mb-1">
                     <span class="text-warning me-2"
                       ><i class="bi bi-star-fill"></i></span
-                    >4.9
+                    >{{ product.rating.average }}
                   </p>
                 </div>
                 <h5 class="fw-bold">{{ product.name }}</h5>
@@ -232,7 +232,7 @@
 
               <div
                 class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click="allProducts.toggleFav(product.id)"
+                @click.stop="toggleFav(product)"
               >
                 <p class="mb-0 mt-1 text-danger fw-bold">
                   <i
@@ -253,14 +253,48 @@
       </div>
     </div>
   </section>
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div
+      id="liveToast"
+      class="toast border-0 p-3 bg-primary"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-content d-flex justify-content-center gap-3"
+      >
+        <div>
+          <i class="bi bi-check2-circle fs-5 text-white"></i>
+        </div>
+
+        <div class="message">
+          <span class="text text-white">{{
+            toastFav ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
+            
+          }}</span>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="btn btn-close border-0 ms-auto text-white p-0"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="progress active"></div>
+    </div>
+  </div>
 </template>
 <script setup>
 import { ref, computed } from "vue";
 import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
-import axios from "axios";
+import axios, { all } from "axios";
 import { useRouter } from "vue-router";
 const allProducts = ref([]);
+const toastFav = ref(null);
 const categories = ref([]);
 const totalProducts = ref([]);
 const selectedCategory = ref();
@@ -269,22 +303,29 @@ const currentPage = ref(1);
 const min_price = 1;
 const max_price = 15;
 const search = ref("");
+const router = useRouter();
+const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const GetAllProducts = () => {
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
+
   if (search.value) {
     url += `&search=${encodeURIComponent(search.value)}`;
   }
+
   if (selectedCategory.value) {
     url += `&category_id=${selectedCategory.value}`;
   }
-  console.log(min_price, max_price);
-  // if (range.value[0] !== undefined && range.value[1] !== undefined) {
-  //   url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
-  // }
-  console.log(url);
+
+  if (range.value[0] !== undefined && range.value[1] !== undefined) {
+    url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
+  }
 
   axios
-    .get(url)
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
       totalProducts.value = res.data.paginate.total;
       allProducts.value = res.data.data;
@@ -293,6 +334,7 @@ const GetAllProducts = () => {
       console.error("Error fetching data:", error);
     });
 };
+
 const GetAllCategories = () => {
   axios
     .get("/api/categories")
@@ -303,6 +345,36 @@ const GetAllCategories = () => {
       console.error("Error fetching categories:", error);
     });
 };
+
+const toggleFav = (FavProduct) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  if (!token) {
+    alert("Please login to add products to your favorites.");
+    return;
+  }
+
+  axios
+    .post(`api/favorites/toggle?product_id=${FavProduct.id}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      // change message toast 
+      toastFav.value = !FavProduct.is_favorited;
+      contactStore.toast_alert.show();
+
+      // change fav icon
+      let index = allProducts.value.findIndex((p) => p.id == FavProduct.id);
+      allProducts.value[index].is_favorited = toastFav.value;;
+    })
+    .catch((error) => {
+      console.error("Toggle Favorite:", error.response?.data || error.message);
+    });
+};
+
 onMounted(() => {
   GetAllProducts();
   GetAllCategories();
@@ -338,7 +410,6 @@ const handleRangeInput = () => {
 const formatPrice = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
-const router = useRouter();
 const goToDetail = (id) => {
   router.push({ name: "detailproduct", query: { id } });
 };

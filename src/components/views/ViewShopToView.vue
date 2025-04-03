@@ -72,7 +72,9 @@
             data-aos="fade-down-right"
           >
             <div v-if="count_follow">
-              <h3 class="text-center fw-bold color-style-2">{{ count_follow.count}}</h3>
+              <h3 class="text-center fw-bold color-style-2">
+                {{ count_follow.count }}8
+              </h3>
               <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
             </div>
           </div>
@@ -85,65 +87,24 @@
             data-aos="fade-up-left"
           >
             <div>
-              <h3 class="text-center fw-bold color-style-2">999</h3>
+              <h3 class="text-center fw-bold color-style-2">
+                {{ detailShop.total_quantity }}
+              </h3>
               <h5 class="fw-bold text-center">អីវ៉ាន់ក្នុងឃ្លាំង</h5>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!--  -->
     <section class="py-5">
       <div class="container-fluid">
         <div class="row px-0 justify-content-between">
           <div class="col-12 px-0">
             <ul
-              class="nav nav-pills mynav-pills mb-5 gap-3"
+              class="nav nav-pills mynav-pills mb-3 gap-3"
               id="pills-tab"
               role="tablist"
             >
-              <li data-aos="fade-right" class="nav-item" role="presentation">
-                <button
-                  class="nav-link active"
-                  id="pills-home-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-home"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-home"
-                  aria-selected="true"
-                >
-                  ទាំងអស់
-                </button>
-              </li>
-              <li data-aos="fade-right" class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-profile-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-profile"
-                  aria-selected="false"
-                >
-                  បន្លែ
-                </button>
-              </li>
-              <li data-aos="fade-right" class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-contact-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-contact"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-contact"
-                  aria-selected="false"
-                >
-                  ផ្លែឈើ
-                </button>
-              </li>
               <li data-aos="fade-right" class="nav-item" role="presentation">
                 <button
                   class="nav-link"
@@ -155,28 +116,32 @@
                   aria-controls="pills-more"
                   aria-selected="false"
                 >
-                  ផ្សេងៗ
+                  ទាំងអស់
                 </button>
               </li>
-              <div class="px-0 ms-auto z-3" data-aos="fade-left">
-                <div class="filter-search position-relative">
-                  <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary filter-search px-3">
-                      <i class="bi bi-funnel me-1"></i>
-                      <span class="d-none d-md-inline">តាមដាន</span>
-                      <i class="bi bi-chevron-down ms-1"></i>
-                    </button>
-                  </div>
-                  <div
-                    class="filter-hover position-absolute bg-gradient rounded end-0 z-5"
-                  >
-                    <div class="my-2 dropdown-hover">បន្លែ</div>
-                    <div class="mb-2 dropdown-hover">ផ្លែឈើ</div>
-                    <div class="mb-2 dropdown-hover">ផ្លែឈើ 3</div>
-                  </div>
-                </div>
-              </div>
+
+              <li
+                v-for="category in categories"
+                :key="category.id"
+                data-aos="fade-right"
+                class="nav-item"
+                role="presentation"
+              >
+                <button
+                  class="nav-link"
+                  :id="`pills-${category.id}-tab`"
+                  data-bs-toggle="pill"
+                  :data-bs-target="`#pills-${category.id}`"
+                  type="button"
+                  role="tab"
+                  :aria-controls="`pills-${category.id}`"
+                  aria-selected="false"
+                >
+                  {{ category.name }}
+                </button>
+              </li>
             </ul>
+
             <div class="tab-content shadow-none px-0" id="pills-tabContent z-1">
               <div
                 class="tab-pane fade show active"
@@ -191,6 +156,7 @@
                     class="col-12 col-md-4 col-lg-3 mb-3"
                     v-for="product in allProducts"
                     :key="product.id"
+                    @click="goToDetail(product.id)"
                   >
                     <div
                       class="bg-white card card-product border-0 rounded position-relative"
@@ -210,20 +176,18 @@
                           <p class="mb-1">
                             <span class="text-warning me-2"
                               ><i class="bi bi-star-fill"></i></span
-                            >4.9
+                            >{{ product.rating.average }}
                           </p>
                         </div>
                         <h4 class="fw-bold">{{ product.name }}</h4>
-                        <p>{{ product.product_units.name }}</p>
+                        <p>{{ product.description }}</p>
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
                           <p class="text-primary mb-0 fw-bold">
-                            {{ product.price }}
-                            <span
-                              class="text-decoration-line-through text-paragraph"
-                              >10000៛</span
-                            >
+                            {{ product.price.original }}/{{
+                              product.product_units.name
+                            }}
                           </p>
                           <router-link
                             to=""
@@ -243,12 +207,14 @@
 
                       <div
                         class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                        @click="OnSavefav(product.id)"
+                        @click.stop="toggleFav(product)"
                       >
                         <p class="mb-0 mt-1 text-danger fw-bold">
                           <i
                             :class="
-                              product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'
+                              product.is_favorited
+                                ? 'bi bi-heart-fill'
+                                : 'bi bi-heart'
                             "
                           ></i>
                         </p>
@@ -492,18 +458,58 @@
       </div>
     </section>
   </section>
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div
+      id="liveToast"
+      class="toast border-0 p-3 bg-primary"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div
+        class="toast-content d-flex justify-content-center gap-3"
+        v-if="product in allProducts"
+        :key="product.id"
+      >
+        <div>
+          <i class="bi bi-check2-circle fs-5 text-white"></i>
+        </div>
+
+        <div class="message">
+          <span class="text text-white">{{
+            FavProduct.is_favorited ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
+          }}</span>
+          {{ FavProduct.is_favorited }}
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="btn btn-close border-0 ms-auto text-white p-0"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="progress active"></div>
+    </div>
+  </div>
 </template>
 <script setup>
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { useSellerStore } from "@/stores/seller_store";
+import { Toast } from "bootstrap";
+import { useContactStore } from "@/stores/contact_store";
 import axios from "axios";
 const allProducts = ref([]);
 const detailShop = ref([]);
 const count_follow = ref([]);
+const categories = ref([]);
 const token = localStorage.getItem("token");
 const sellerStore = useSellerStore();
-const router = useRoute();
+const router = useRouter();
+const contactStore = useContactStore();
 const GetAllProducts = () => {
   axios
     .get("/api/products")
@@ -515,36 +521,80 @@ const GetAllProducts = () => {
     });
 };
 const GetShopDetail = () => {
-  const id = router.params.id || router.query.id;
-  axios.get(`/api/shops/${id}`).then((res) => {
+  const id = router.currentRoute.value.query.id;
+  axios.get(`/api/products/${id}/shop`).then((res) => {
     detailShop.value = res.data.data;
   });
 };
 const follow = (id) => {
-  if(token){
-    alert()
+  if (token) {
+    alert();
   }
-  axios.get(`/api/follow/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  .then((res)=>{
-    console.log(res.data.data);
-    count_follow.value = res.data.data.count_follow;
-  })
-  .catch((error) => {
-    console.error("Error fetching data:", error);
-  });
+  axios
+    .get(`/api/follow/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data.data);
+      count_follow.value = res.data.data.count_follow;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
 };
-onMounted(() => {
-  GetAllProducts();
-  GetShopDetail();
-});
-const OnSavefav = (id) => {
-  product.isFav = !product.isFav;
+const toggleFav = (FavProduct) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  if (!token) {
+    alert("Please login to add products to your favorites.");
+    return;
+  }
+
+  axios
+    .post(`api/favorites/toggle?product_id=${FavProduct.id}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      FavProduct.is_favorited = !FavProduct.is_favorited;
+      contactStore.toast_alert.show();
+    })
+    .catch((error) => {
+      console.error("Toggle Favorite:", error.response?.data || error.message);
+    });
+};
+const GetAllCategories = () => {
+  axios
+    .get("/api/categories")
+    .then((res) => {
+      categories.value = res.data.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching categories:", error);
+    });
 };
 const onShare = () => {
   sellerStore.mdl_share.show();
 };
+const goToDetail = (id) => {
+  router.push({ name: "detailproduct", query: { id } });
+};
+const toast = () => {
+  const toastElement = document.getElementById("liveToast");
+  if (toastElement) {
+    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
+  } else {
+    console.error("Toast element not found!");
+  }
+};
+onMounted(() => {
+  GetAllProducts();
+  GetShopDetail();
+  GetAllCategories();
+  toast();
+});
 </script>
