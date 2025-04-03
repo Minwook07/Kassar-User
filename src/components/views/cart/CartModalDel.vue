@@ -42,7 +42,7 @@ const getSelectedCartProductName = () => {
 
 const onDeleteCart = () => {
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem || sessionStorage.getItem("token");
 
     axios.delete(`/api/cart/${cartStore.selected_id}`, {
         headers: {
