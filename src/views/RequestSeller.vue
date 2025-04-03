@@ -118,8 +118,8 @@
               </div>
             </div>
             <div class="d-flex justify-content-end fs-5 pt-4">
-              <button type="button" class="btn-seller btn btn-outline-danger me-3" @click="onClear()">បោះបង់</button>
-              <button type="button" class="btn-seller btn btn-primary" @click="onSaveSeller()">ដាក់បញ្ជូន</button>
+              <button type="button" class="btn-seller btn btn-outline-danger shadow-none me-3" @click="onClear()">បោះបង់</button>
+              <button type="button" class="btn-seller btn btn-primary shadow-none" @click="onSaveSeller()">ដាក់បញ្ជូន</button>
             </div>
           </div>
         </div>
@@ -234,7 +234,6 @@ const onSaveSeller = () => {
     return
   }
 
-
   let frmData = new FormData()
   frmData.append('first_name', sellerStore.frm.first_name)
   frmData.append('last_name', sellerStore.frm.last_name)
@@ -246,9 +245,11 @@ const onSaveSeller = () => {
   frmData.append('address', sellerStore.frm.address)
   frmData.append('description', sellerStore.frm.description)
 
-  axios.post('/api/seller_request', frmData, {
+  axios.post('/api/seller_requests', frmData, {
     headers: {
-      'Authorization': `Bearer ${sessionStorage.getItem("token")}`
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json',  // Ensure the server expects JSON response
+      'Content-Type': 'multipart/form-data'
     }
   })
     .then((res) => {

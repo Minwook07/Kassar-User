@@ -55,7 +55,7 @@ const getCheckoutData = async () => {
         // Get Checkout Data
         const response = await axios.post('/api/checkout', formData, {
             headers: {
-                'Authorization': 'Bearer 1|Ce9EshAXHyQMkkT9Z0eGHLpcAtBSFBX3ZPvj0IO8a11defe6',
+                'Authorization': 'Bearer 15|gNxfuJ6A9VBhMWU6y6vCmcQyaGhHtRkOj7Wuav9se4ae17be',
                 'Accept': 'application/json',
                 'Content-Type': 'multipart/form-data',
             }
