@@ -227,12 +227,7 @@ const onClear = () => {
 }
 
 const onSaveSeller = () => {
-  const token = sessionStorage.getItem("token");
-
-  if (!token) {
-    alert("Token not found! Please log in again.");
-    return;
-  }
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   sellerStore.vv.$validate()
   if (sellerStore.vv.$error) {

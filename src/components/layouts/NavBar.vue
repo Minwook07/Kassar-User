@@ -48,16 +48,17 @@
           </RouterLink>
           <div class="profile-wrapper position-relative">
             <button ref="btnClickProfile" class="rounded-circle user-pf" type="button">
-              <img src="@/assets/images/user_pf_sample.jpg" alt="">
+              <img :src="profile.avatar" alt="">
             </button>
             <ul class="dropdown-menu p-1" ref="profileDropdown">
               <li>
                 <RouterLink to="/profile" class="d-flex align-items-center text-decoration-none p-0">
                   <div class="rounded-circle user-pf">
-                    <img src="@/assets/images/user_pf_sample.jpg" alt="">
+                    <img :src="profile.avatar" alt="">
                   </div>
                   <div class="name ms-2">
-                    <h6 class="text-secondary m-0 fw-bold"><span>ចាន់ ធី</span></h6>
+                    <h6 class="text-secondary m-0 fw-bold"><span>{{ profile.name }}</span></h6>
+                    <p class="text-muted m-0" style="font-size: 12px;">{{ profile.email }}</p>
                   </div>
                 </RouterLink>
               </li>
@@ -162,10 +163,11 @@
         <li class="nav-item profile-wrapper mb-2">
           <RouterLink to="/profile" class="d-flex align-items-center text-decoration-none p-0">
             <div class="rounded-circle user-pf">
-              <img src="@/assets/images/user_pf_sample.jpg" alt="">
+              <img :src="profile.avatar" alt="">
             </div>
             <div class="name ms-2">
-              <h5 class="text-primary m-0 fw-bold"><span>ចាន់ ធី</span></h5>
+              <h5 class="text-primary m-0 fw-bold"><span>{{ profile.name }}</span></h5>
+              <p class="text-muted m-0" style="font-size: 12px;">{{ profile.email }}</p>
             </div>
           </RouterLink>
         </li>
@@ -229,13 +231,21 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { Offcanvas, Collapse } from "bootstrap";
-import { onBeforeRouteLeave } from "vue-router";
+import axios from "axios";
+// import { onBeforeRouteLeave } from "vue-router";
 
 const headerRef = ref(null);
 const toggleClass = "is-sticky";
 
 // Create a reactive token variable.
 const token = ref(null);
+
+// New reactive profile object to store API response data.
+const profile = ref({
+  name: "",
+  email: "",
+  avatar: ""
+});
 
 const btnClickProfile = ref(null);
 const profileDropdown = ref(null);
@@ -255,6 +265,19 @@ onMounted(async () => {
 
   // Check for token in localStorage or sessionStorage
   token.value = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  // If token exists, set the Authorization header and fetch profile data.
+  if (token.value) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token.value}`;
+    try {
+      const { data } = await axios.get("/api/profile");
+      if (data.result) {
+        profile.value = data.data;
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    }
+  }
 
   // Wait for the DOM to update before attaching event listeners
   await nextTick();

@@ -49,12 +49,8 @@ export const useCardStore = defineStore("card_store", {
   actions: {
 
     async onLoadAddress() {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     
-      if (!token) {
-        alert("Token not found! Please log in again.");
-        return;
-      }
     
       try {
         console.log("Fetching addresses...");
@@ -88,12 +84,7 @@ export const useCardStore = defineStore("card_store", {
 
     // Load cart data from API
     async onLoadCart() {
-      const token = sessionStorage.getItem("token");
-
-      if (!token) {
-        alert("Token not found! Please log in again.");
-        return;
-      }
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
       try {
         const response = await axios.get("/api/cart", {
