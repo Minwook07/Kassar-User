@@ -1,5 +1,5 @@
 <template>
-    <div class="video-feed d-flex">
+    <div class="video-feed d-flex overflow-hidden">
         <div class="video-section d-flex justify-content-center position-relative">
             <img v-if="!video" src="/kassar.png" alt="" class="w-100 position-absolute">
             <img v-if="video" :src="video?video.thumbnail:'/kassar.png'" alt="" class="w-100 position-absolute" >
@@ -82,12 +82,12 @@
                 </div>
             </div>
             <div class="share-action rounded-3 bg-white mt-3 d-flex">
-                <input type="text" value="https://kassar-usr.chandalen.dev/product" id="myInput" class="w-100 ">
+                <input type="text" :value="video?'https://kassar-usr.chandalen.dev/product?id='+video.id:''" id="myInput" class="w-100 ">
                 <button class="btn btn-share" @click="copyLink()"><i class="bi bi-share"></i>
                 </button>
             </div>
             <div class="comment-section rounded-3 p-3 bg-white mt-3">
-                <p class="m-0 fw-bold fs-5">មិតិ (<span>11</span>)</p>
+                <p class="m-0 fw-bold fs-5">មតិ (<span>11</span>)</p>
                 <hr class="my-1">
             </div>
         </div>
@@ -104,7 +104,7 @@ const allVideos = useAllVideos();
 const videoPlayer = ref(null);
 let lastIndex = ref(0);
 onMounted(async () => {
-    await allVideos.onloadVideo(); // Ensure data is loaded
+    await allVideos.onloadVideo(); 
     if (allVideos.videoArr) {
         updateLatestVideo();
     }
@@ -112,11 +112,11 @@ onMounted(async () => {
 
 const updateLatestVideo = () => {
     lastIndex.value = allVideos.lastIndexVideoArr;
-    console.log('Last Index:', lastIndex.value); // Debugging output
+    // console.log('Last Index:', lastIndex.value); 
 
     if (lastIndex !== undefined) {
         video.value = allVideos.videoArr[lastIndex.value];
-        console.log('Latest Video:', video.value);
+        // console.log('Latest Video:', video.value);
     }
 };
 // Watch for changes in video array in case it's updated later

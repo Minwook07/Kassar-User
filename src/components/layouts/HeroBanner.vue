@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="hero-banner row g-3 mt-4 d-flex align-items-stretch">
             <div class="col-2 d-none d-xl-block">
-                <div class="rounded-3 overflow-hidden bg-white category-side h-100 shadow-sm">
+                <div class="rounded-3 overflow-hidden bg-white category-side h-100 shadow-sm" data-aos="fade-left">
                     <div class="text-center category-title">
                         <p class="fw-bold fs-5 text-white py-2 m-0">ប្រភេទផលិតផល</p>
                     </div>
@@ -33,7 +33,7 @@
             </div>
             <div class="col-xl-10 ">
                 <div class="row g-3 h-100">
-                    <div class="col-6 h-50 ">
+                    <div class="col-6 h-50 " data-aos="fade-up" data-aos-delay="300">
                         <div class="product-hero">
                             <div id="heroCarouselAds"
                                 class="carousel carousel-fade slide rounded-3 h-100 overflow-hidden shadow-sm"
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 h-50">
+                    <div class="col-6 h-50" data-aos="fade-up" data-aos-delay="300">
                         <div class="product-hero hero-product rounded-3 py-2 px-3 shadow-sm">
                             <div class="top-selling">
                                 <div class="title d-flex align-items-center">
@@ -114,7 +114,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 d-none d-md-block mt-2 h-50 ">
+                    <div class="col-6 d-none d-md-block mt-2 h-50 " data-aos="fade-down" data-aos-delay="500">
                         <div class="product-hero rounded-3 hero-video py-2 px-3 shadow-sm">
                             <div class="title d-flex align-items-center">
                                 <p class="m-0 pe-1 fw-semibold">វីដេអូ</p> <i
@@ -179,7 +179,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 d-none d-md-block mt-2 h-50">
+                    <div class="col-6 d-none d-md-block mt-2 h-50" data-aos="fade-down" data-aos-delay="500" >
                         <div class="hero-discount product-hero d-flex">
                             <RouterLink class="product w-50 me-4 rounded-3 shadow-sm py-2 px-3" to="/detailproduct">
                                 <div class="title w-100 d-flex align-items-center justify-content-start mb-2">

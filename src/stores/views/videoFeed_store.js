@@ -25,7 +25,7 @@ export const useAllVideos = defineStore('views/videoFeed', {
                 })
         },
         onloadVideo() {
-            axios.get(`/api/posts`)
+            axios.get(`/api/posts?sdir=asc`)
                 .then(response => {
                     this.lastIndexVideoArr = response.data.data.length - 1;
                     this.videoArr = response.data.data;

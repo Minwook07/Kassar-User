@@ -29,12 +29,12 @@
                                         <p class="text-primary mb-1">{{ product.category.name }}</p>
                                         <p class="mb-1">
                                             <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>{{
-                                            product.rating.average }}
+                                                product.rating.average }}
                                         </p>
                                     </div>
                                     <h4 class="fw-bold">{{ product.name }}</h4>
                                     <p class="product-desc">{{ product.description }}</p>
-                                    
+
                                 </div>
                                 <div class="card-footer bg-transparent border-0 pt-0">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -43,15 +43,17 @@
                                                 class="text-decoration-line-through text-paragraph m-0">
                                                 {{ product.price.original }} ៛</p>
                                             <h6 class="text-primary m-0 fw-bold">
-                                                {{ product.price.discounted_price }} ៛ / {{ product.product_units.name }}
+                                                {{ product.price.discounted_price }} ៛ / {{ product.product_units.name
+                                                }}
                                             </h6>
                                         </div>
                                         <p @click="addToCart(product.id)" class="btn btn-primary rounded-pill"><i
                                                 class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
                                     </div>
                                 </div>
-                                <div v-if="!(product.promotions.length == 0) " class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
-                                    <p class="mb-0 px-3 text-white">{{product.promotions.discount_rate}}%</p>
+                                <div v-if="!(product.promotions.length == 0)"
+                                    class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
+                                    <p class="mb-0 px-3 text-white">{{ product.promotions.discount_rate }}%</p>
                                 </div>
 
                                 <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
@@ -82,12 +84,12 @@
                                         <p class="text-primary mb-1">{{ product.category.name }}</p>
                                         <p class="mb-1">
                                             <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>{{
-                                            product.rating.average }}
+                                                product.rating.average }}
                                         </p>
                                     </div>
                                     <h4 class="fw-bold">{{ product.name }}</h4>
                                     <p class="product-desc">{{ product.description }}</p>
-                                    
+
                                 </div>
                                 <div class="card-footer bg-transparent border-0 pt-0">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -96,15 +98,17 @@
                                                 class="text-decoration-line-through text-paragraph m-0">
                                                 {{ product.price.original }} ៛</p>
                                             <h6 class="text-primary m-0 fw-bold">
-                                                {{ product.price.discounted_price }} ៛ / {{ product.product_units.name }}
+                                                {{ product.price.discounted_price }} ៛ / {{ product.product_units.name
+                                                }}
                                             </h6>
                                         </div>
                                         <p @click="addToCart(product.id)" class="btn btn-primary rounded-pill"><i
-                                            class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
+                                                class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
                                     </div>
                                 </div>
-                                <div v-if="!(product.promotions.length == 0) " class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
-                                    <p class="mb-0 px-3 text-white">{{product.promotions.discount_rate}}%</p>
+                                <div v-if="!(product.promotions.length == 0)"
+                                    class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
+                                    <p class="mb-0 px-3 text-white">{{ product.promotions.discount_rate }}%</p>
                                 </div>
 
                                 <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
@@ -135,153 +139,27 @@
                     class="bi bi-collection-play fs-3 text-secondary"></i>
             </div>
             <div class="row pe-3">
-                <div class="col-3 video-wrapper">
+                <div class="col-3 video-wrapper" v-for="video in allVideos.videoArr" :key="video.id">
                     <RouterLink class="text-decoration-none" to="">
                         <div class="video" to="">
-                            <img src="@/assets/images/products/video_sample.jpg" alt="">
-                            <span class="view-count fs-6 fw-semibold text-white">11.5K views</span>
+                            <img :src="video.thumbnail" alt="">
+                            <!-- <span class="view-count fs-6 fw-semibold text-white">11.5K views</span> -->
+                            <div class="user_info">
+                                <p class="video-desc text-white fw-semibold m-0">{{ video.description }}</p>
+                                <div class="d-flex align-items-center mb-2">
+                                    <img :src="video.product.product_thumbnail" alt="">
+                                    <p class="username m-0 fw-bold ps-1 text-white">{{video.user.name}}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="caption mt-2">
-                            <p class="text-black fw-semibold m-0">សាច់គោងៀត
-                                ផលិតផលខេត្តកំពង់ចាម
-                                ធានាអនាម័យ
-                                ១០០%</p>
-                        </div>
-                        <div class="user_info d-flex align-items-center">
-                            <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                            <p class="username m-0 fw-bold ps-1 text-black">Thy Farm Store</p>
-                        </div>
-                    </RouterLink>
-                </div>
-                <div class="col-3 video-wrapper">
-                    <RouterLink class="text-decoration-none" to="">
-                        <div class="video" to="">
-                            <img src="@/assets/images/products/video_sample.jpg" alt="">
-                            <span class="view-count fs-6 fw-semibold text-white">11.5K views</span>
-                        </div>
-                        <div class="caption mt-2">
-                            <p class="text-black fw-semibold m-0">សាច់គោងៀត
-                                ផលិតផលខេត្តកំពង់ចាម
-                                ធានាអនាម័យ
-                                ១០០%</p>
-                        </div>
-                        <div class="user_info d-flex align-items-center">
-                            <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                            <p class="username m-0 fw-bold ps-1 text-black">Thy Farm Store</p>
-                        </div>
-                    </RouterLink>
-                </div>
-                <div class="col-3 video-wrapper">
-                    <RouterLink class="text-decoration-none" to="">
-                        <div class="video" to="">
-                            <img src="@/assets/images/products/video_sample.jpg" alt="">
-                            <span class="view-count fs-6 fw-semibold text-white">11.5K views</span>
-                        </div>
-                        <div class="caption mt-2">
-                            <p class="text-black fw-semibold m-0">សាច់គោងៀត
-                                ផលិតផលខេត្តកំពង់ចាម
-                                ធានាអនាម័យ
-                                ១០០%</p>
-                        </div>
-                        <div class="user_info d-flex align-items-center">
-                            <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                            <p class="username m-0 fw-bold ps-1 text-black">Thy Farm Store</p>
-                        </div>
-                    </RouterLink>
-                </div>
-                <div class="col-3 video-wrapper">
-                    <RouterLink class="text-decoration-none" to="">
-                        <div class="video" to="">
-                            <img src="@/assets/images/products/video_sample.jpg" alt="">
-                            <span class="view-count fs-6 fw-semibold text-white">11.5K views</span>
-                        </div>
-                        <div class="caption mt-2">
-                            <p class="text-black fw-semibold m-0">សាច់គោងៀត
-                                ផលិតផលខេត្តកំពង់ចាម
-                                ធានាអនាម័យ
-                                ១០០%</p>
-                        </div>
-                        <div class="user_info d-flex align-items-center">
-                            <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                            <p class="username m-0 fw-bold ps-1 text-black">Thy Farm Store</p>
-                        </div>
-                    </RouterLink>
-                </div>
-                <div class="col-3 video-wrapper">
-                    <RouterLink class="text-decoration-none" to="">
-                        <div class="video" to="">
-                            <img src="@/assets/images/products/video_sample.jpg" alt="">
-                            <span class="view-count fs-6 fw-semibold text-white">11.5K views</span>
-                        </div>
-                        <div class="caption mt-2">
-                            <p class="text-black fw-semibold m-0">សាច់គោងៀត
-                                ផលិតផលខេត្តកំពង់ចាម
-                                ធានាអនាម័យ
-                                ១០០%</p>
-                        </div>
-                        <div class="user_info d-flex align-items-center">
-                            <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                            <p class="username m-0 fw-bold ps-1 text-black">Thy Farm Store</p>
-                        </div>
-                    </RouterLink>
-                </div>
-                <div class="col-3 video-wrapper">
-                    <RouterLink class="text-decoration-none" to="">
-                        <div class="video" to="">
-                            <img src="@/assets/images/products/video_sample.jpg" alt="">
-                            <span class="view-count fs-6 fw-semibold text-white">11.5K views</span>
-                        </div>
-                        <div class="caption mt-2">
-                            <p class="text-black fw-semibold m-0">សាច់គោងៀត
-                                ផលិតផលខេត្តកំពង់ចាម
-                                ធានាអនាម័យ
-                                ១០០%</p>
-                        </div>
-                        <div class="user_info d-flex align-items-center">
-                            <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                            <p class="username m-0 fw-bold ps-1 text-black">Thy Farm Store</p>
-                        </div>
-                    </RouterLink>
-                </div>
-                <div class="col-3 video-wrapper">
-                    <RouterLink class="text-decoration-none" to="">
-                        <div class="video" to="">
-                            <img src="@/assets/images/products/video_sample.jpg" alt="">
-                            <span class="view-count fs-6 fw-semibold text-white">11.5K views</span>
-                        </div>
-                        <div class="caption mt-2">
-                            <p class="text-black fw-semibold m-0">សាច់គោងៀត
-                                ផលិតផលខេត្តកំពង់ចាម
-                                ធានាអនាម័យ
-                                ១០០%</p>
-                        </div>
-                        <div class="user_info d-flex align-items-center">
-                            <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                            <p class="username m-0 fw-bold ps-1 text-black">Thy Farm Store</p>
-                        </div>
-                    </RouterLink>
-                </div>
-                <div class="col-3 video-wrapper">
-                    <RouterLink class="text-decoration-none" to="">
-                        <div class="video" to="">
-                            <img src="@/assets/images/products/video_sample.jpg" alt="">
-                            <span class="view-count fs-6 fw-semibold text-white">11.5K views</span>
-                        </div>
-                        <div class="caption mt-2">
-                            <p class="text-black fw-semibold m-0">សាច់គោងៀត
-                                ផលិតផលខេត្តកំពង់ចាម
-                                ធានាអនាម័យ
-                                ១០០%</p>
-                        </div>
-                        <div class="user_info d-flex align-items-center">
-                            <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                            <p class="username m-0 fw-bold ps-1 text-black">Thy Farm Store</p>
-                        </div>
+                        <!-- <div class="caption mt-2">
+                            <p class="text-black fw-semibold m-0">{{video.description}}</p>
+                        </div> -->
                     </RouterLink>
                 </div>
             </div>
             <div class="w-100 d-flex justify-content-center mt-4">
-                <RouterLink to="" type="button" class="btn-primary text-decoration-none px-3 py-2 rounded">
+                <RouterLink to="/video" type="button" class="btn-primary text-decoration-none px-3 py-2 rounded">
                     មើលបន្ថែម</RouterLink>
             </div>
         </div>
@@ -342,10 +220,12 @@ import { useAllProducts } from '@/stores/views/allProduct_store';
 import axios from 'axios';
 import { onMounted } from 'vue';
 import router from '@/router';
+import { useAllVideos } from '@/stores/views/videoFeed_store';
 const allProduct = useAllProducts();
-
+const allVideos = useAllVideos();
 onMounted(() => {
     allProduct.onloadProduct();
+    allVideos.onloadVideoFilter();
 });
 
 const goToDetail = (id) => {

@@ -903,7 +903,7 @@ body {
 
 .video-section .video-wrapper .video img {
     width: 100%;
-    height: 100%;
+    height: 380px;
     object-fit: cover;
 }
 
@@ -912,6 +912,20 @@ body {
     left: 15px;
     z-index: 1;
     bottom: 5px;
+}
+
+.video-section .video-wrapper .video .user_info {
+    position: absolute;
+    left: 15px;
+    z-index: 1;
+    bottom: 5px;
+}
+
+.video-section .video-wrapper .video .video-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .video-section .video-wrapper .user_info img {
