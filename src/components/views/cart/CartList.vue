@@ -32,7 +32,8 @@
               <h5 class="mb-2 mt-1 fw-bold">{{ cartList.product.name }}</h5>
               <p class="mb-1 text-muted">
                 {{ cartList.product.price }} ៛ /{{ cartList.product.product_unit.name }} | <span class="text-success"> 
-                  {{ cartList.product.stock_status }}</span> | <span class="text-danger">5%</span>
+                  {{ cartList.product.stock_status }}</span> | <span class="text-danger"> 
+                    {{ cartList.product.discount_rate }}% </span>
               </p>
               <a role="button" class="delete-btn" @click="onConfirmDelete(cartList)">
                 <i class="bi bi-trash"></i> លុបចេញ
@@ -41,7 +42,7 @@
 
             <!-- Quantity Controls -->
             <div class="text-end">
-              <h5 class="fw-bold mb-3"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }}៛  <span style="text-decoration: line-through; " class="text-danger"> {{ cartList.product.price }}៛ </span>
+              <h5 class="fw-bold mb-3"> <span v-show="cartList.product.discount_rate != 0" style="text-decoration: line-through; " class="text-danger"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }}៛</span>  <span> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.discounted_price }}៛</span>
               </h5>
               <div style="width:90px; height: 30px;"
                 class="quantity-controls bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1">

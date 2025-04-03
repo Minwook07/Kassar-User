@@ -5,9 +5,7 @@
       <div class="col-md-6 left-section text-white d-none d-md-flex flex-column align-items-center justify-content-center p-5"
            data-aos="fade-right" 
            data-aos-duration="1000">
-        <h1 class="text-center fw-bold mb-4" 
-            data-aos="fade-up" 
-            data-aos-delay="200">
+        <h1 class="text-center fw-bold mb-4" data-aos="fade-up" data-aos-delay="200">
           Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប
         </h1>
         <img src="@/assets/images/Auth.png" 
@@ -21,12 +19,10 @@
       <div class="col-md-6 right-section bg-white p-5" 
            data-aos="fade-left" 
            data-aos-duration="1000">
-        <div class="text-center mb-4" 
-             data-aos="fade-up" 
-             data-aos-delay="300">
-             <router-link to="/" class="img-fluid mb-3" data-aos="zoom-in" data-aos-delay="500">
-    <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
-</router-link>
+        <div class="text-center mb-4" data-aos="fade-up" data-aos-delay="300">
+          <router-link to="/" class="img-fluid mb-3" data-aos="zoom-in" data-aos-delay="500">
+            <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
+          </router-link>
           <h1 class="fw-bold fs-3">ចូលប្រើប្រាស់គណនី</h1>
           <p class="text-secondary">សូមធ្វើការបំពេញព័ត៌មានខាងក្រោមដើម្បីចូលគណនី</p>
         </div>
@@ -59,53 +55,54 @@
               {{ $v.form.password.$errors[0]?.$message }}
             </div>
           </div>
+          
           <div class="d-flex justify-content-between ">
-                      <!-- Remember Me -->
-          <div class="form-check mb-3" data-aos="fade-up" data-aos-delay="900">
-            <input type="checkbox" 
-                   id="remember" 
-                   v-model="form.remember" 
-                   class="form-check-input" />
-            <label for="remember" class="form-check-label">ចងចាំខ្ញុំ</label>
-          </div>
-          <!-- Forgot Password  -->
-          <router-link to="/forgot-password" class="text-success fw-bold text-decoration-none ">ភ្លេចពាក្យសម្ងាត់?</router-link>
-
-           
+            <!-- Remember Me -->
+            <div class="form-check mb-3" data-aos="fade-up" data-aos-delay="900">
+              <input type="checkbox" 
+                     id="remember" 
+                     v-model="form.remember" 
+                     class="form-check-input" />
+              <label for="remember" class="form-check-label">ចងចាំខ្ញុំ</label>
+            </div>
+            <!-- Forgot Password -->
+            <router-link to="/forgot-password" class="text-success fw-bold text-decoration-none">ភ្លេចពាក្យសម្ងាត់?</router-link>
           </div>
 
           <!-- Submit Button -->
           <button type="submit" 
                   class="btn btn-login w-100" 
+                  :disabled="loading" 
                   data-aos="fade-up" 
-                  data-aos-delay="1000">ចូលគណនី</button>
+                  data-aos-delay="1000">
+            <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{ loading ? 'កំពុងចូល...' : 'ចូលគណនី' }}
+          </button>
         </form>
 
         <!-- Signup Link -->
         <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="1100">
-          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup" class="text-success fw-bold text-decoration-none  ">បង្កើតគណនី</router-link></p>
+          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup" class="text-success fw-bold text-decoration-none">បង្កើតគណនី</router-link></p>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Toast Container (Similar to signup page) -->
-  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
-    <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
-      <div class="toast-content p-3">
-        <div>
-          <i :class="toastIcon"></i>
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
+      <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
+        <div class="toast-content p-3">
+          <div>
+            <i :class="toastIcon"></i>
+          </div>
+          <div class="message">
+            <span class="text text-1">{{ toastMessage }}</span>
+          </div>
+          <div>
+            <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
         </div>
-
-        <div class="message">
-          <span class="text text-1">{{ toastMessage }}</span>
-        </div>
-        <div>
-          <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast"
-            aria-label="Close"></button>
-        </div>
+        <div class="progress active"></div>
       </div>
-      <div class="progress active"></div>
     </div>
   </div>
 </template>
@@ -130,13 +127,7 @@ let toastInstance = null;
 
 // Initialize AOS and Toast
 onMounted(() => {
-  AOS.init({
-    once: true,
-    offset: 50,
-    easing: 'ease-in-out'
-  });
-
-  // Initialize Bootstrap Toast
+  AOS.init({ once: true, offset: 50, easing: 'ease-in-out' });
   toastInstance = Toast.getOrCreateInstance(document.getElementById('liveToast'));
 });
 
@@ -146,6 +137,9 @@ const form = reactive({
   password: "",
   remember: false,
 });
+
+// Loading State
+const loading = ref(false);
 
 // Validation Rules
 const rules = {
@@ -169,10 +163,12 @@ function togglePasswordVisibility() {
 }
 
 async function onSaveLogin() {
+  loading.value = true; // Set loading to true
   $v.value.$touch();
 
   if ($v.value.$invalid) {
     AOS.refresh();
+    loading.value = false; // Reset loading if invalid
     return;
   }
 
@@ -188,7 +184,6 @@ async function onSaveLogin() {
       }
     });
 
-    
     if (response.data && response.data.token) {
       const storage = form.remember ? localStorage : sessionStorage;
       storage.setItem('token', response.data.token);
@@ -209,14 +204,15 @@ async function onSaveLogin() {
     }
   } catch (err) {
     if (toastInstance) {
-      const errorMessage = err.response?.data?.message || 'អុីម៊ែលពាក្យ​ ប្ញ សម្ងាត់មិនត្រឹមត្រូវ';
+      const errorMessage = err.response?.data?.message || 'អុីម៊ែលពាក្យសម្ងាត់មិនត្រឹមត្រូវ';
       toastMessage.value = errorMessage;
       toastIcon.value = 'bi bi-x-circle fs-5 text-danger';
       toastInstance.show();
     }
+  } finally {
+    loading.value = false; // Reset loading after operation
   }
 }
-
 </script>
 
 <style scoped>
@@ -235,16 +231,14 @@ async function onSaveLogin() {
   color: #212529;
 }
 
-/* Adjust position when validation error is present */
 .is-invalid + .password-toggle {
   top: 35%;
   right: 40px;
 }
-.form-control:focus{
+
+.form-control:focus {
   outline: #2ecc71!important;
   border-color: #2ecc71!important;
   box-shadow: none;
-
 }
-
 </style>

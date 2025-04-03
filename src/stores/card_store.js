@@ -10,8 +10,8 @@ export const useCardStore = defineStore("card_store", {
         village: '',
         houseNumber: '',
         streetNumber: '',
-
-        name:''
+        phone: '',
+        name: ''
     },
     selected_id: 0,
     vv: null,
@@ -27,44 +27,67 @@ export const useCardStore = defineStore("card_store", {
 
     cartCounts: {},  // Store quantities for each product
     cartLists: [],   // Store the list of products in the cart
-    cartAddresses: [],
+    cartAddresses: [],  // Store user addresses
   }),
   
   getters: {
     // Calculate the total price for all items in the cart based on quantities
     totalPrice: (state) => {
       return state.cartLists.reduce((total, cartItem) => {
-        const quantity = state.cartCounts[cartItem.id] || 1;  // Default to 1 if no quantity set
+        const quantity = state.cartCounts[cartItem.id] || 1;
         return total + cartItem.product.price * quantity;
+      }, 0);
+    },
+    totalDis: (state) => {
+      return state.cartLists.reduce((totald, cartItem) => {
+        const quantity = state.cartCounts[cartItem.id] || 1;
+        return totald + (cartItem.product.price * quantity * cartItem.product.discount_rate) / 100;
       }, 0);
     }
   },
   
   actions: {
 
-    onLoadAddress() {
+    async onLoadAddress() {
       const token = sessionStorage.getItem("token");
-
+    
       if (!token) {
         alert("Token not found! Please log in again.");
         return;
       }
-
-      axios.get("/api/address", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        this.cartAddresses = res.data.data;
-      })
-      .catch((error) => {
-        console.error("Error loading cart:", error);
-      });
-
+    
+      try {
+        console.log("Fetching addresses...");
+    
+        // Make API request
+        const response = await axios.get(`/api/address?t=${new Date().getTime()}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    
+        console.log("🚀 Full API Response:", response);
+    
+        // ✅ Check if `response.data` is an array
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          const lastAddress = response.data[response.data.length - 1];
+          console.log("✅ Last Address:", lastAddress);
+    
+          // Update the address list
+          this.cartAddresses = [lastAddress];
+        } else {
+          console.warn("❌ No valid addresses found OR incorrect response format!");
+          console.warn("🔍 Response Structure:", response.data);
+        }
+      } catch (error) {
+        console.error("❌ Error loading address:", error);
+        console.error("🔍 Error Details:", error.response ? error.response.data : error.message);
+      }
     },
+    
+
     // Load cart data from API
-    onLoadCart() {
+    async onLoadCart() {
       const token = sessionStorage.getItem("token");
 
       if (!token) {
@@ -72,17 +95,17 @@ export const useCardStore = defineStore("card_store", {
         return;
       }
 
-      axios.get("/api/cart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        this.cartLists = res.data.data;
-      })
-      .catch((error) => {
+      try {
+        const response = await axios.get("/api/cart", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Cart Data:", response.data);
+        this.cartLists = response.data.data;
+      } catch (error) {
         console.error("Error loading cart:", error);
-      });
+      }
     },
 
     // Update cart item quantity
@@ -91,32 +114,40 @@ export const useCardStore = defineStore("card_store", {
       this.cartCounts[id] = quantity;
     },
 
-    onLoadProvince() {
-        axios.get("/api/provinces")
-          .then((res) => {
-            this.provinces = res.data;
-          });
-      },
-  
-      onLoadDistrict(province_id){
-          axios.get(`/api/districts/${province_id}`)
-          .then((res) => {
-              this.districts = res.data;
-          });
-      },
-  
-      onLoadCommune(commune_id){
-          axios.get(`/api/communes/${commune_id}`)
-          .then((res) => {
-              this.communes = res.data;
-          });
-      },
-  
-      onLoadVillage(district_id) {
-          axios.get(`/api/villages/${district_id}`)
-          .then((res) => {
-              this.villages = res.data;
-          });
+    async onLoadProvince() {
+      try {
+        const response = await axios.get("/api/provinces");
+        this.provinces = response.data;
+      } catch (error) {
+        console.error("Error loading provinces:", error);
       }
+    },
+
+    async onLoadDistrict(province_id) {
+      try {
+        const response = await axios.get(`/api/districts/${province_id}`);
+        this.districts = response.data;
+      } catch (error) {
+        console.error("Error loading districts:", error);
+      }
+    },
+
+    async onLoadCommune(commune_id) {
+      try {
+        const response = await axios.get(`/api/communes/${commune_id}`);
+        this.communes = response.data;
+      } catch (error) {
+        console.error("Error loading communes:", error);
+      }
+    },
+
+    async onLoadVillage(district_id) {
+      try {
+        const response = await axios.get(`/api/villages/${district_id}`);
+        this.villages = response.data;
+      } catch (error) {
+        console.error("Error loading villages:", error);
+      }
+    }
   }
 });

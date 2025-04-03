@@ -16,11 +16,11 @@
       <div class="col-md-6 right-section bg-white p-4" data-aos="fade-left" data-aos-delay="200">
         <div class="text-center">
           <router-link to="/" class="img-fluid mb-3" data-aos="zoom-in" data-aos-delay="500">
-    <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
-</router-link>
+            <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
+          </router-link>
           <h1 class="fw-bold" data-aos="fade-up" data-aos-delay="400">បង្កើតគណនី</h1>
           <p class="text-secondary" data-aos="fade-up" data-aos-delay="500">
-            សូមធ្វើការបំពេញព័ត៌មានខាងក្រោមដើម្បីចូលគណនី
+            សូមធ្វើការបំពេញព័ត៌មានខាងក្រោមដើម្បីចុះឈ្មោះ
           </p>
         </div>
 
@@ -87,15 +87,16 @@
           <div class="form-check mb-2" data-aos="fade-up" data-aos-delay="900">
             <input type="checkbox" id="terms_accepted" v-model="useAuth.frm.terms_accepted" class="form-check-input"
               :class="{ 'border-danger': useAuth.vv.terms_accepted.$error }" />
-            <label for="terms_accepted" class="form-check-label">យល់ព្រមនូវលក្ខណ្ឌគោលការណ៍</label>
+            <label for="terms_accepted" class="form-check-label">យល់ព្រមនូវលក្ខខណ្ឌគោលការណ៍</label>
             <div class="invalid-feedback" v-if="useAuth.vv.terms_accepted.$error">
               {{ useAuth.vv.terms_accepted.$errors[0].$message }}
             </div>
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" class="btn btn-login w-100 mt-2" data-aos="fade-up" data-aos-delay="1000">
-            ចុះឈ្មោះ
+          <button type="submit" class="btn btn-login w-100 mt-2" data-aos="fade-up" data-aos-delay="1000" :disabled="loading">
+            <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{ loading ? 'កំពុងចុះឈ្មោះ...' : 'ចុះឈ្មោះ' }}
           </button>
         </form>
 
@@ -156,6 +157,9 @@ const toggleVisibility = (field) => {
   visibility[field] = !visibility[field];
 };
 
+// Loading State
+const loading = ref(false);
+
 // Toast Management
 const toastMessage = ref('');
 const toastIcon = ref('bi bi-check2-circle fs-5 text-success');
@@ -182,7 +186,8 @@ const rules = computed(() => ({
   },
   email: {
     required: helpers.withMessage("សូមបញ្ចូលអ៊ីមែល", helpers.req),
-    email: helpers.withMessage("សូមបញ្ចូលអ៊ីមែលឲ្យបានត្រឹមត្រូវ", email)
+    email: helpers.withMessage("សូមបញ្ចូលអ៊ីមែលឲ្យបានត្រឹមត្រូវ", email),
+    isGmail: helpers.withMessage("សូមប្រើអ៊ីមែល Gmail", (value) => value && value.endsWith('@gmail.com'))
   },
   password: {
     required: helpers.withMessage("សូមបញ្ចូលពាក្យសម្ងាត់", helpers.req),
@@ -197,7 +202,7 @@ const rules = computed(() => ({
     sameAsPassword: helpers.withMessage("ពាក្យសម្ងាត់បញ្ជាក់មិនត្រូវគ្នា", (value) => value === useAuth.frm.password)
   },
   terms_accepted: {
-    isChecked: helpers.withMessage("សូមយល់ព្រមលក្ខខ័ណ្ឌ", (value) => value === true)
+    isChecked: helpers.withMessage("សូមយល់ព្រមលក្ខខណ្ឌ", (value) => value === true)
   }
 }));
 
@@ -205,9 +210,11 @@ const rules = computed(() => ({
 useAuth.vv = useVuelidate(rules, useAuth.frm);
 
 function onSubmit() {
+  loading.value = true; // Set loading to true
   useAuth.vv.$validate();
 
   if (useAuth.vv.$error) {
+    loading.value = false; // Reset loading if there are errors
     return;
   }
 
@@ -224,7 +231,7 @@ function onSubmit() {
     .then(() => {
       // Show success toast
       if (toastInstance) {
-        toastMessage.value = 'ចុះឈ្មោះជោKជ័យ';
+        toastMessage.value = 'ចុះឈ្មោះជោគជ័យ';
         toastIcon.value = 'bi bi-check2-circle fs-5 text-success';
         toastInstance.show();
 
@@ -243,6 +250,9 @@ function onSubmit() {
         toastIcon.value = 'bi bi-x-circle fs-5 text-danger';
         toastInstance.show();
       }
+    })
+    .finally(() => {
+      loading.value = false; // Reset loading after operation
     });
 }
 </script>
@@ -275,6 +285,5 @@ function onSubmit() {
   outline: #2ecc71!important;
   border-color: #2ecc71!important;
   box-shadow: none;
-
 }
 </style>

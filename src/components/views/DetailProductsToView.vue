@@ -6,28 +6,31 @@
           <div class="mb-3 rounded" style="height: 400px">
             <img
               class="w-100 h-100 object-fit-cover rounded"
-              :src="detailProducts.product.product_thumbnail"
-              alt=""
+              :src="
+                selectedImageUrl || detailProducts.product.product_thumbnail
+              "
+              alt="Product Image"
             />
           </div>
           <div class="d-flex">
-            <!-- <div
+            <div
               class="col-3 rounded"
-              v-for="img in detailProducts.imgs"
-              :key="img.id"
+              v-for="product_img in detailProducts.product.product_images"
+              :key="product_img.id"
             >
               <img
                 :class="{
-                  'border border-success p-0 ': activeImage === img.id,
+                  'border border-success p-0': activeImage === product_img.id,
                 }"
-                @click="onChangeImage(img.id, img.img)"
+                @click="onChangeImage(product_img.id, product_img.image_url)"
                 class="p-1 w-100 h-100 object-fit-cover rounded"
-                :src="img.img"
-                alt=""
+                :src="product_img.image_url"
+                alt="Product Image"
               />
-            </div> -->
+            </div>
           </div>
         </div>
+
         <div class="col-12 col-md-6 col-lg-4 ps-5 mb-5">
           <h2 class="fw-bold mb-3" data-aos="fade-down">
             {{ detailProducts.product.name }}
@@ -49,20 +52,23 @@
           </div>
           <div>
             <div
-                    v-if="detailProducts.product.price && detailProducts.product.price.has_discount !== false"
-                  >
-                    <p class="text-primary mb-0 fw-bold">
-                      {{ detailProducts.product.price.discounted_price }} /
-                      {{ detailProducts.product.product_units.name }}
-                    </p>
-                    <span class="text-decoration-line-through text-paragraph">
-                      {{ detailProducts.product.price.original }}</span
-                    >
-                  </div>
-                  <p class="text-primary mb-0 fw-bold" v-else>
-                    {{ detailProducts.product.price.original }} /
-                    {{ detailProducts.product.product_units.name }}
-                  </p>
+              v-if="
+                detailProducts.product.price &&
+                detailProducts.product.price.has_discount !== false
+              "
+            >
+              <p class="text-primary mb-0 fw-bold">
+                {{ detailProducts.product.price.discounted_price }} /
+                {{ detailProducts.product.product_units.name }}
+              </p>
+              <span class="text-decoration-line-through text-paragraph">
+                {{ detailProducts.product.price.original }}</span
+              >
+            </div>
+            <p class="text-primary mb-0 fw-bold" v-else>
+              {{ detailProducts.product.price.original }} /
+              {{ detailProducts.product.product_units.name }}
+            </p>
             <h5 class="mb-4" data-aos="fade-up">
               ប្រភេទ​ ៖ {{ detailProducts.product.category.name }}
             </h5>
@@ -72,17 +78,19 @@
               data-aos="fade-right"
               class="bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1"
             >
-              <div 
+              <div
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
-                @click="count>0 && count--"
+                @click="count > 0 && count--"
               >
                 <i class="bi bi-dash-lg text-primary fs-4"></i>
               </div>
               <p class="mb-0 fw-bold fs-5">{{ count }}</p>
               <div
                 class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
-                  :class="{'disabled': count >= detailProducts.product.qty_in_stock}"
-                 @click="count < detailProducts.product.qty_in_stock && count++"
+                :class="{
+                  disabled: count >= detailProducts.product.qty_in_stock,
+                }"
+                @click="count < detailProducts.product.qty_in_stock && count++"
               >
                 <i class="bi bi-plus-lg text-primary fs-4"></i>
               </div>
@@ -115,9 +123,20 @@
             អស់ស្តុក
           </button>
 
-          <div data-aos="fade-down" class="d-flex text-dark mb-3">
-            <p class="mb-0 me-2"><i class="bi bi-heart"></i></p>
-            <p class="mb-0">ដាក់ទៅបញ្ជីប្រាថ្នា</p>
+          <div
+            data-aos="fade-down"
+            class="d-flex align-items-center text-dark mb-3"
+          >
+            <p class="mb-0 mt-1 text-danger fw-bold me-2">
+              <i
+                :class="
+                  detailProducts.product.is_favorited
+                    ? 'bi bi-heart-fill'
+                    : 'bi bi-heart'
+                "
+              ></i>
+            </p>
+            <p class="mb-0">បានដាក់ទៅបញ្ជីប្រាថ្នា</p>
           </div>
           <div>
             <h5 class="fw-bold mb-4">ធានាការទូរទាត់ប្រាក់ប្រកបដោយសុវត្ថិភាព</h5>
@@ -142,11 +161,12 @@
         </div>
         <div class="col-12 col-lg-4">
           <div class="d-flex justify-content-end">
-            <button 
+            <button
               data-aos="fade-up"
               to="/viewshop"
               class="btn btn-primary mb-3"
-              @click="goToshop(detailProducts.product.shop.id)">
+              @click="goToshop(detailProducts.product.id)"
+            >
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
             </button>
@@ -156,17 +176,17 @@
             class="bg-white border-1 p-3 mb-3 rounded"
           >
             <div class="d-flex align-items-center mb-4">
-              <div class="px-3 d-flex align-items-center mb-2">
+              <div class="px-3 d-flex align-items-center">
                 <div class="line-detail rounded-pill bg-primary me-2"></div>
                 <div class="dot-detail rounded-circle bg-primary"></div>
               </div>
-              <h5 class="">Top Rated Product</h5>
+              <h5 class="mb-0">ផលិតផលវាយតម្លៃខ្ពស់</h5>
             </div>
-            <div class="row px-3 align-items-center">
+            <div class="row px-3 align-items-center" v-for="topRatedPro in topRatedPros.slice(0, 3)" :key="topRatedPro.id">
               <div class="col-4 mb-3">
                 <img
                   class="w-100 h-100 object-fit-cover"
-                  src="@/assets/images/5.avif"
+                  :src="topRatedPro.product_thumbnail"
                   alt=""
                 />
               </div>
@@ -188,81 +208,9 @@
                     <i class="bi bi-star-fill"></i>
                   </p>
                 </div>
-                <p class="mb-0">Mixed solid Seat Cover</p>
+                <p class="mb-0">{{ topRatedPro.name }}</p>
                 <h5 class="text-primary fw-bold">
-                  $40.00
-                  <span
-                    class="fw-bold fs-6 text-decoration-line-through text-dark"
-                    >$65.00</span
-                  >
-                </h5>
-              </div>
-              <div class="col-4 mb-3">
-                <img
-                  class="w-100 h-100 object-fit-cover"
-                  src="@/assets/images/5.avif"
-                  alt=""
-                />
-              </div>
-              <div class="col-8 mb-3">
-                <div class="d-flex gap-2 align-content-center mb-2">
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                </div>
-                <p class="mb-0">Mixed solid Seat Cover</p>
-                <h5 class="text-primary fw-bold">
-                  $40.00
-                  <span
-                    class="fw-bold fs-6 text-decoration-line-through text-dark"
-                    >$65.00</span
-                  >
-                </h5>
-              </div>
-              <div class="col-4 mb-3">
-                <img
-                  class="w-100 h-100 object-fit-cover"
-                  src="@/assets/images/5.avif"
-                  alt=""
-                />
-              </div>
-              <div class="col-8 mb-3">
-                <div class="d-flex gap-2 align-content-center mb-2">
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                </div>
-                <p class="mb-0">Mixed solid Seat Cover</p>
-                <h5 class="text-primary fw-bold">
-                  $40.00
-                  <span
-                    class="fw-bold fs-6 text-decoration-line-through text-dark"
-                    >$65.00</span
-                  >
+                  {{ topRatedPro.price.discounted_price }} / {{ topRatedPro.product_units.name }}
                 </h5>
               </div>
             </div>
@@ -372,14 +320,14 @@
             />
           </div>
         </div>
-        <h3 class="fw-bold" data-aos="fade-up-right">Related Product</h3>
+        <h4 class="fw-bold mb-3" data-aos="fade-up-right">ផលិតផលស្រដៀង</h4>
         <!-- <div class="row"> -->
         <div
           data-aos="fade-up"
           class="col-12 col-md-6 col-lg-3 mb-3"
           v-for="related_products in detailProducts.related_products"
           :key="related_products.id"
-            @click="goToDetail(related_products.id)"
+          @click="goToDetail(related_products.id)"
         >
           <div
             class="bg-white card card-product border-0 rounded position-relative"
@@ -393,7 +341,9 @@
             </div>
             <div class="p-3 card-body">
               <div class="d-flex justify-content-between">
-                <p class="text-primary mb-1">{{related_products.category.name }}</p>
+                <p class="text-primary mb-1">
+                  {{ related_products.category.name }}
+                </p>
                 <p class="mb-1">
                   <span class="text-warning me-2"
                     ><i class="bi bi-star-fill"></i></span
@@ -404,89 +354,177 @@
               <p>{{ related_products.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div
-                    v-if="related_products.price && related_products.price.has_discount !== false"
-                  >
-                    <p class="text-primary mb-0 fw-bold">
-                      {{ related_products.price.discounted_price }} /
-                      {{related_products.product_units.name }}
-                    </p>
-                    <span class="text-decoration-line-through text-paragraph">
-                      {{ related_products.price.original }}</span
-                    >
-                  </div>
-                  <p class="text-primary mb-0 fw-bold" v-else>
-                    {{ related_products.price.original }} /
-                    {{related_products.product_units.name }}
+                  v-if="
+                    related_products.price &&
+                    related_products.price.has_discount !== false
+                  "
+                >
+                  <p class="text-primary mb-0 fw-bold">
+                    {{ related_products.price.discounted_price }} /
+                    {{ related_products.product_units.name }}
                   </p>
+                  <span class="text-decoration-line-through text-paragraph">
+                    {{ related_products.price.original }}</span
+                  >
+                </div>
+                <p class="text-primary mb-0 fw-bold" v-else>
+                  {{ related_products.price.original }} /
+                  {{ related_products.product_units.name }}
+                </p>
                 <router-link to="" class="btn btn-primary rounded-pill"
                   ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link
                 >
               </div>
             </div>
             <div
-                class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
-                v-for="promotion in related_products.promotions"
-                :key="promotion.id"
-              >
-                <p class="mb-0 px-3 text-white">
-                  {{ promotion.promotions.discount_rate }} %
-                </p>
-              </div>
+              class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+              v-for="promotion in related_products.promotions"
+              :key="promotion.id"
+            >
+              <p class="mb-0 px-3 text-white">
+                {{ promotion.promotions.discount_rate }} %
+              </p>
+            </div>
 
-            <!-- <div
+            <div
               class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-              @click="allProducts.toggleFav(product.id)"
+              @click.stop="toggleFav(product)"
             >
               <p class="mb-0 mt-1 text-danger fw-bold">
                 <i
-                  :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"
+                  :class="
+                    related_products.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
+                  "
                 ></i>
               </p>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
     </div>
     <!-- </div> -->
   </section>
+  <div
+    id="liveToast"
+    class="toast border-0 p-3 bg-primary"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="toast-content d-flex justify-content-center gap-3">
+      <div>
+        <i class="bi bi-check2-circle fs-5 text-white"></i>
+      </div>
+
+      <div class="message">
+        <span class="text text-white">{{
+          toastFav ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
+        }}</span>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          class="btn btn-close border-0 ms-auto text-white p-0"
+          data-bs-dismiss="toast"
+          aria-label="Close"
+        ></button>
+      </div>
+    </div>
+    <div class="progress active"></div>
+  </div>
 </template>
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
-import { useRouter } from 'vue-router';
-import { useAllProducts } from "@/stores/views/allProduct_store";
-const allProducts = useAllProducts();
+import { useRouter } from "vue-router";
+import { Toast } from "bootstrap";
+import { useContactStore } from "@/stores/contact_store";
+const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const detailProducts = ref(null);
-const related_products = ref();
+const toastFav = ref(null);
+const topRatedPros =ref([]);
+const related_products = ref([]);
 const count = ref(0);
 const router = useRouter();
+const contactStore = useContactStore();
+const activeImage = ref(null);
+const selectedImageUrl = ref("");
 const getDetail = () => {
   const id = router.currentRoute.value.query.id;
   axios
-    .get(`api/products/${id}`)
+    .get(`api/products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
     .then((res) => {
       detailProducts.value = res.data.data;
+      console.log(detailProducts.value);
     })
     .catch((error) => {
       console.log(error);
     });
 };
+const topRatedPro = () =>{
+  axios.get("api/products?rating=5")
+  .then((res)=>{
+    topRatedPros.value = res.data.data;
+    console.log(topRatedPros.value);
+    
+  })
+  .catch((error) => {
+      console.error("Error fetching top-rated products:", error);
+    });
+}
+const toggleFav = (FavProduct) => {
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  if (!token) {
+    alert("Please login to add products to your favorites.");
+    return;
+  }
+
+  axios
+    .post(`api/favorites/toggle?product_id=${FavProduct.id}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      toastFav.value = !FavProduct.is_favorited;
+      contactStore.toast_alert.show();
+
+      let index = related_products.value.findIndex((p) => p.id == FavProduct.id);
+      related_products.value[index].is_favorited = toastFav.value;
+    })
+    .catch((error) => {
+      console.error("Toggle Favorite:", error.response?.data || error.message);
+    });
+};
+
 onMounted(() => {
   getDetail();
+  toast();
+  topRatedPro();
 });
-// const router = useRouter();
-const goToshop = (id) =>{
-  router.push({ name: 'viewshop', query: { id } });
-}
-// const imageDetails = ref(null);
-// const activeImage = ref(null);
-// const imageSrc = ref(new URL("@/assets/images/5.avif", import.meta.url).href);
-
-// activeImage.value = detailProducts.imgs[0].id;
-// const onChangeImage = (imgId, newImageSrc) => {
-//   activeImage.value = imgId;
-//   imageSrc.value = newImageSrc;
-// };`
+const toast = () => {
+  const toastElement = document.getElementById("liveToast");
+  if (toastElement) {
+    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
+  } else {
+    console.error("Toast element not found!");
+  }
+};
+const onChangeImage = (imgId, imageUrl) => {
+  activeImage.value = imgId;
+  selectedImageUrl.value = imageUrl;
+};
+const goToshop = (id) => {
+  router.push({ name: "viewshop", query: { id } });
+};
 watch(
   () => router.currentRoute.value.query.id,
   (newId, oldId) => {

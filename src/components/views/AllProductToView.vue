@@ -80,11 +80,12 @@
               </div>
             </div>
           </div>
-          <div class="mb-3" data-aos="fade-up-right">
+          <hr>
+          <div class="mb-3">
             <h5 class="fw-bold mb-3">វាយតម្លៃ</h5>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -100,7 +101,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -114,7 +115,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -128,7 +129,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -141,7 +142,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -151,7 +152,6 @@
                 </div>
               </label>
             </div>
-            <hr />
           </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 row justify-content-start">
@@ -194,7 +194,7 @@
                   <p class="mb-1">
                     <span class="text-warning me-2"
                       ><i class="bi bi-star-fill"></i></span
-                    >4.9
+                    >{{ product.rating.average }}
                   </p>
                 </div>
                 <h5 class="fw-bold">{{ product.name }}</h5>
@@ -232,11 +232,7 @@
 
               <div
                 class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click.stop="
-                  product.is_favorited
-                    ? RemoveFav(product)
-                    : StoreNewFav(product)
-                "
+                @click.stop="toggleFav(product)"
               >
                 <p class="mb-0 mt-1 text-danger fw-bold">
                   <i
@@ -259,28 +255,27 @@
       </div>
     </div>
   </section>
-  <div
-    class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
-    style="margin-top: 50px"
-  >
+  <div class="toast-container position-fixed top-0 end-0 p-3">
     <div
       id="liveToast"
       class="toast border-0 p-3 bg-primary"
       role="alert"
-      style="width: 500px"
       aria-live="assertive"
       aria-atomic="true"
     >
-      <div class="toast-content d-flex justify-content-center gap-3">
+      <div class="toast-content d-flex justify-content-center gap-3"
+      >
         <div>
           <i class="bi bi-check2-circle fs-5 text-white"></i>
         </div>
 
         <div class="message">
-          <span class="text text-white"
-            >លោកអ្នកបានបន្ថែមទំនិញចូលបញ្ជីរប្រាថ្នាជោគជ័យ</span
-          >
+          <span class="text text-white">{{
+            toastFav ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
+            
+          }}</span>
         </div>
+
         <div>
           <button
             type="button"
@@ -298,11 +293,12 @@
 import { ref, computed } from "vue";
 import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
-import axios from "axios";
+import axios, { all } from "axios";
 import { useRouter } from "vue-router";
 import { Toast } from "bootstrap";
 import { useContactStore } from "@/stores/contact_store";
 const allProducts = ref([]);
+const toastFav = ref(null);
 const categories = ref([]);
 const totalProducts = ref([]);
 const selectedCategory = ref();
@@ -311,25 +307,28 @@ const currentPage = ref(1);
 const min_price = 0;
 const max_price = 15;
 const search = ref("");
+const router = useRouter();
 const contactStore = useContactStore();
+const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const GetAllProducts = () => {
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
+
   if (search.value) {
     url += `&search=${encodeURIComponent(search.value)}`;
   }
+
   if (selectedCategory.value) {
     url += `&category_id=${selectedCategory.value}`;
   }
-  console.log(min_price, max_price);
-  // if (range.value[0] !== undefined && range.value[1] !== undefined) {
-  //   url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
-  // }
-  console.log(url);
+
+  if (range.value[0] !== undefined && range.value[1] !== undefined) {
+    url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
+  }
 
   axios
     .get(url, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}` || "",
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => {
@@ -340,6 +339,7 @@ const GetAllProducts = () => {
       console.error("Error fetching data:", error);
     });
 };
+
 const GetAllCategories = () => {
   axios
     .get("/api/categories")
@@ -350,51 +350,36 @@ const GetAllCategories = () => {
       console.error("Error fetching categories:", error);
     });
 };
-const StoreNewFav = (product) => {
+
+const toggleFav = (FavProduct) => {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
+
   if (!token) {
     alert("Please login to add products to your favorites.");
     return;
   }
 
-  if (!product) {
-    alert("Invalid product.");
-    return;
-  }
   axios
-    .post(
-      "api/favorites",
-      { product_id: product.id },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    .post(`api/favorites/toggle?product_id=${FavProduct.id}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
-      console.log(token);
-      product.is_favorited = !product.is_favorited;
-      if (contactStore.toast_alert) {
-        contactStore.toast_alert.show();
-      }
+      // change message toast 
+      toastFav.value = !FavProduct.is_favorited;
+      contactStore.toast_alert.show();
+
+      // change fav icon
+      let index = allProducts.value.findIndex((p) => p.id == FavProduct.id);
+      allProducts.value[index].is_favorited = toastFav.value;;
     })
     .catch((error) => {
-      console.error(
-        "Error adding favorite:",
-        error.response?.data || error.message
-      );
+      console.error("Toggle Favorite:", error.response?.data || error.message);
     });
 };
-const RemoveFav = () =>{
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
-  if (!token) {
-    alert("Please login to remove products from your favorites.");
-    return;
-  }
-  axios.delete(``)
-}
+
 onMounted(() => {
   GetAllProducts();
   GetAllCategories();
@@ -432,7 +417,6 @@ const handleRangeInput = () => {
 const formatPrice = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
-const router = useRouter();
 const goToDetail = (id) => {
   router.push({ name: "detailproduct", query: { id } });
 };

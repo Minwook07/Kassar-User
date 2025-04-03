@@ -214,8 +214,9 @@ frmData.append('commune_id', cardStore.frm_add.commune); // Corrected field name
 frmData.append('village_id', cardStore.frm_add.village); // Corrected field name
 frmData.append('house_number', cardStore.frm_add.houseNumber);
 frmData.append('street_number', cardStore.frm_add.streetNumber);
+frmData.append('phone', cardStore.frm_add.phone);
 
-axios.post('/api/address', frmData, {
+axios.post('/api/addresses', frmData, {
     headers: {
         'Authorization': `Bearer ${token}`
     }
