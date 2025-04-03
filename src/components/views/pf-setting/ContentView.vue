@@ -64,7 +64,7 @@
         <hr class="my-2" />
 
         <!-- Profile information -->
-        <div class="card border-0 mb-4 tab-animation">
+        <div class=" mb-4 tab-animation">
           <div class="card-body p-0">
             <div class="list-group list-group-flush">
               <div class="list-group-item d-flex justify-content-between align-items-center py-3">
@@ -73,7 +73,7 @@
               </div>
               <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                 <span class="text-muted">ភេទ</span>
-                <span class="fw-medium">{{ profile.gender }}</span>
+                <p class="fw-medium"> {{ translateGender(profile.gender) }}</p>
               </div>
               <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                 <span class="text-muted">គណនីអ៊ីមែល</span>
@@ -98,12 +98,13 @@
         <!-- Button to trigger modal -->
         <div class="d-grid d-md-flex justify-content-md-start tab-animation">
           <button class="btn btn-primary py-2 px-4" @click="openEditProfileModal">
-            <i class="bi bi-pencil-square me-2"></i> ធ្វើបច្ចុប្បន្នភាពព័ត៌មាន
+            <i class="bi bi-pencil-square me-2"></i> កែប្រែព័ត៌មាន
           </button>
         </div>
 
         <!-- Crop Modal -->
-        <div class="modal fade " id="avatar-crop-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal fade " id="avatar-crop-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="false"
+        >
           <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
               <div class="modal-header border-0 pb-0">
@@ -176,11 +177,12 @@
         </div>
 
         <!-- Edit Profile Modal -->
-        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true" data-bs-backdrop="false"
+        >
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="editProfileModalLabel">ធ្វើបច្ចុប្បន្នភាពព័ត៌មានផ្ទាល់ខ្លួន</h5>
+                <h5 class="modal-title" id="editProfileModalLabel">កែប្រែព័ត៌មានផ្ទាល់ខ្លួន</h5>
                 <button type="button" class="btn-close" @click="closeEditModal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -209,11 +211,17 @@
                     <textarea class="form-control" id="history" rows="4" style="resize: none" v-model="editForm.history"></textarea>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" @click="closeEditModal">បិទ</button>
-                    <button type="submit" class="btn btn-primary">
-                      <i class="bi bi-save me-1"></i> ធ្វើបច្ចុប្បន្នភាព
-                    </button>
-                  </div>
+  <button type="button" class="btn btn-outline-secondary" @click="closeEditModal">បិទ</button>
+  <button type="submit" class="btn btn-primary" :disabled="updating">
+    <span v-if="!updating">
+      <i class="bi bi-save me-1"></i> កែប្រែ
+    </span>
+    <span v-else>
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      កំពុងធ្វើការកែប្រែ...
+    </span>
+  </button>
+</div>
                 </form>
               </div>
             </div>
@@ -474,7 +482,8 @@
     </div>
   
     <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="false"
+    >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header border-0">
@@ -518,9 +527,24 @@
     </div>
   </div>
     </div>
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
+      <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
+        <div class="toast-content p-3">
+          <div>
+            <i :class="toastIcon"></i>
+          </div>
+          <div class="message">
+            <span class="text text-1">{{ toastMessage }}</span>
+          </div>
+          <div>
+            <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="progress active"></div>
+      </div>
+    </div>
   </div>
 </template>
-
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
@@ -545,7 +569,7 @@ const editForm = ref({
   name: '',
   email: '',
   phone: '',
-  gender: 1,
+  gender: 1, // Default to male
   history: ''
 });
 
@@ -575,6 +599,19 @@ const cropper = ref(null);
 let cropModal = null;
 let editModal = null;
 
+// Toast state
+const toastMessage = ref('');
+const toastIcon = ref('');
+
+const showToast = (message, icon = 'bi bi-check-circle') => {
+  toastMessage.value = message;
+  toastIcon.value = icon;
+  
+  const toastEl = document.getElementById('liveToast');
+  const toast = new bootstrap.Toast(toastEl);
+  toast.show();
+};
+
 // Computed properties
 const avatarUrl = computed(() => {
   return profile.value.avatar || '/img/default.jpg';
@@ -583,11 +620,16 @@ const avatarUrl = computed(() => {
 // Role translations
 const translateRole = (roleName) => {
   const translations = {
-    "Regular User": "Customer",
-    "Seller User": "Seller",
-    "System Admin": "Administrator"
+    "Regular User": "អតិថិជន",
+    "Seller User": "អ្នកលក់",
+    "System Admin": "អ្នកគ្រប់គ្រង"
   };
   return translations[roleName] || roleName;
+};
+
+// Gender translations
+const translateGender = (gender) => {
+  return gender === 1 ? 'ប្រុស' : gender === 2 ? 'ស្រី' : 'មិនបញ្ជាក់';
 };
 
 // Helper functions
@@ -596,7 +638,7 @@ const getToken = () => {
 };
 
 const showSuccess = (message) => {
-  alert(`Success: ${message}`);
+  showToast(`ជោគជ័យ: ${message}`, 'bi bi-check-circle');
 };
 
 const showError = (message, error = null) => {
@@ -608,16 +650,16 @@ const showError = (message, error = null) => {
       if (error.response.data?.message) {
         errorMessage = error.response.data.message;
       } else if (error.response.status === 413) {
-        errorMessage = 'File is too large (max 2MB allowed)';
+        errorMessage = 'ឯកសារធំជាងទៅ (អតិថិជន 2MB)';
       } else if (error.response.status === 415) {
-        errorMessage = 'Unsupported file type';
+        errorMessage = 'ប្រភេទឯកសារមិនគាំទ្រ';
       }
     } else if (error.request) {
-      errorMessage = 'Network error - please check your connection';
+      errorMessage = 'កំហុសប្រព័ន្ធបណ្តាញ - សូមពិនិត្យការតភ្ជាប់របស់អ្នក';
     }
   }
-  
-  alert(`Error: ${errorMessage}`);
+
+  showToast(`កំហុស: ${errorMessage}`, 'bi bi-x-circle');
 };
 
 // Profile functions
@@ -629,7 +671,7 @@ const fetchProfile = async () => {
     profile.value = response.data.data;
     prepareEditForm();
   } catch (error) {
-    showError('Failed to load profile', error);
+    showError('បរាជ័យក្នុងការទាញយកប្រវត្តិរូប', error);
   }
 };
 
@@ -638,7 +680,7 @@ const prepareEditForm = () => {
     name: profile.value.name,
     email: profile.value.email,
     phone: profile.value.phone || '',
-    gender: profile.value.gender || 1,
+    gender: profile.value.gender ||'',
     history: profile.value.history || ''
   };
 };
@@ -651,9 +693,9 @@ const updateProfile = async () => {
     });
     await fetchProfile();
     closeEditModal();
-    showSuccess('Profile updated successfully');
+    showSuccess('ប្រវត្តិរូបបានកែប្រែបានជោគជ័យ');
   } catch (error) {
-    showError('Failed to update profile', error);
+    showError('បរាជ័យក្នុងការកែប្រែប្រវត្តិរូប', error);
   } finally {
     updating.value = false;
   }
@@ -671,13 +713,13 @@ const handleFileSelect = async (e) => {
   // Validate file type
   const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
   if (!validTypes.includes(file.type)) {
-    showError('Please select a JPEG, PNG, or WebP image');
+    showError('សូមជ្រើសរើសរូបភាព JPEG, PNG, ឬ WebP');
     return;
   }
 
   // Validate file size (2MB max)
   if (file.size > 2 * 1024 * 1024) {
-    showError('Image must be less than 2MB');
+    showError('រូបភាពត្រូវតែលតិចជាង 2MB');
     return;
   }
 
@@ -690,7 +732,7 @@ const handleFileSelect = async (e) => {
     };
     openCropModal();
   };
-  reader.onerror = () => showError('Error reading image file');
+  reader.onerror = () => showError('កំហុសក្នុងការអានឯកសាររូបភាព');
   reader.readAsDataURL(file);
 };
 
@@ -701,7 +743,7 @@ const performCrop = async () => {
   
   try {
     const { canvas } = cropper.value.getResult();
-    if (!canvas) throw new Error('No image to crop');
+    if (!canvas) throw new Error('គ្មានរូបភាពសម្រាប់កាត់');
     
     const blob = await new Promise(resolve => {
       canvas.toBlob(resolve, 'image/jpeg', 0.85);
@@ -719,9 +761,9 @@ const performCrop = async () => {
     
     profile.value.avatar = response.data.avatar;
     closeCropModal();
-    showSuccess('Profile picture updated successfully');
+    showSuccess('រូបភាពប្រវត្តិបានធ្វើអាប់ដេតដោយជោគជ័យ');
   } catch (error) {
-    showError('Failed to upload avatar', error);
+    showError('បរាជ័យក្នុងការបង្ហោះរូបភាព', error);
   } finally {
     cropping.value = false;
   }
@@ -732,61 +774,67 @@ const replaceImage = () => {
   imgCrop.value = { img_crop: '', file_name: '' };
   triggerFileInput();
 };
-const updatePassword = async () => {
-  console.log("Update Password function called");
 
-  if (passwordForm.new_password !== passwordForm.new_password_confirmation) {
-    alert("New passwords do not match.");
+const updatePassword = async () => {
+  if (passwordForm.value.new_password !== passwordForm.value.new_password_confirmation) {
+    showToast("ពាក្យសម្ងាត់ថ្មីមិនត្រូវគ្នា។", 'bi bi-x-circle');
     return;
   }
 
   changingPassword.value = true;
-  console.log("Changing password state:", changingPassword.value);
-  console.log("Password form data:", passwordForm.value);
 
   try {
     const response = await axios.post('/api/profile/password', passwordForm.value, {
       headers: { Authorization: `Bearer ${getToken()}` }
     });
-    console.log("Password update response:", response.data);
 
-    // Reset the form after a successful update
     passwordForm.value = {
       current_password: '',
       new_password: '',
       new_password_confirmation: ''
     };
-    showSuccess('Password updated successfully');
+    showSuccess('ពាក្យសម្ងាត់ត្រូវបានធ្វើកែប្រែដោយជោគជ័យ');
   } catch (error) {
-    console.error("Error updating password:", error.response ? error.response.data : error);
-    showError('Failed to update password', error);
+    showError('បរាជ័យក្នុងការធ្វើកែប្រែពាក្យសម្ងាត់', error);
   } finally {
     changingPassword.value = false;
-    console.log("Changing password state:", changingPassword.value);
   }
 };
-const deleteAccount = async () => {
-    if (!confirm('Are you absolutely sure? This cannot be undone.')) return;
+
+const deleteAccount = async () => {  
+  deleting.value = true;
   
-    deleting.value = true;
+  try {
+    await axios.post('/api/profile/delete', {
+      password: deletePassword.value
+    }, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    });
     
-    try {
-      await axios.post('/api/profile/delete', {
-        password: deletePassword.value
-      }, {
-        headers: { Authorization: `Bearer ${getToken()}` }
-      });
-      
-      localStorage.removeItem('token');
-      sessionStorage.removeItem('token');
-      window.location.href = '/login';
-    } catch (error) {
-      showError('Failed to delete account', error);
-    } finally {
-      deleting.value = false;
-    }
-  };
-  
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    window.location.href = '/login';
+  } catch (error) {
+    showError('បរាជ័យក្នុងការលុបគណនី', error);
+  } finally {
+    deleting.value = false;
+  }
+};
+
+const removeAvatar = async () => {
+  if (!confirm('តើអ្នកប្រាកដថាចង់លុបរូបភាពប្រវត្តិនេះមែនទេ?')) return;
+
+  try {
+    await axios.delete('/api/profiles/avatar', {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    });
+    profile.value.avatar = '';
+    showSuccess('រូបភាពប្រវត្តិបានលុបដោយជោគជ័យ');
+  } catch (error) {
+    showError('បរាជ័យក្នុងការលុបរូបភាព', error);
+  }
+};
+
 // Modal controls
 const openCropModal = () => {
   cropModal.show();
@@ -870,11 +918,7 @@ onMounted(async () => {
 }
 
 /* Card Styles */
-.card {
-  border: none; /* Remove default border */
-  border-radius: 8px; /* Rounded edges */
-  background-color: #ffffff; /* White background */
-}
+
 
 /* List Group Item Styles */
 .list-group-item {
