@@ -66,14 +66,14 @@
                   class="range-input"
                   v-model.number="range[0]"
                   :min="min_price"
-                  :max="range[1] - 1"
+                  :max="range[1]"
                   @input="handleRangeInput"
                 />
                 <input
                   type="range"
                   class="range-input"
                   v-model.number="range[1]"
-                  :min="range[0] + 1"
+                  :min="range[0]"
                   :max="max_price"
                   @input="handleRangeInput"
                 />
@@ -163,7 +163,7 @@
                 v-model="search"
                 @input="handleSearch"
                 type="text"
-                placeholder="ស្វែងរក"
+                placeholder="ស្វែងរកតាមរយៈឈ្មោះផលិតផល,ប្រភេទ ..."
                 class="form-control search"
               />
               <div class="pe-3">
@@ -236,7 +236,9 @@
               >
                 <p class="mb-0 mt-1 text-danger fw-bold">
                   <i
-                    :class="product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'"
+                    :class="
+                      product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
+                    "
                   ></i>
                 </p>
               </div>
@@ -293,6 +295,8 @@ import Paginate from "vuejs-paginate-next";
 import { onMounted } from "vue";
 import axios, { all } from "axios";
 import { useRouter } from "vue-router";
+import { Toast } from "bootstrap";
+import { useContactStore } from "@/stores/contact_store";
 const allProducts = ref([]);
 const toastFav = ref(null);
 const categories = ref([]);
@@ -300,10 +304,11 @@ const totalProducts = ref([]);
 const selectedCategory = ref();
 const itemsPerPage = 8;
 const currentPage = ref(1);
-const min_price = 1;
+const min_price = 0;
 const max_price = 15;
 const search = ref("");
 const router = useRouter();
+const contactStore = useContactStore();
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const GetAllProducts = () => {
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
@@ -378,7 +383,16 @@ const toggleFav = (FavProduct) => {
 onMounted(() => {
   GetAllProducts();
   GetAllCategories();
+  toast();
 });
+const toast = () => {
+  const toastElement = document.getElementById("liveToast");
+  if (toastElement) {
+    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
+  } else {
+    console.error("Toast element not found!");
+  }
+};
 const handleSearch = () => {
   currentPage.value = 1;
   GetAllProducts();
@@ -390,13 +404,6 @@ const handleCategory = () => {
 const pageCount = computed(() =>
   Math.max(1, Math.ceil(totalProducts.value / itemsPerPage))
 );
-const paginatedProducts = computed(() => {
-  if (!allProducts.length) return [];
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return allProducts.slice(start, end);
-});
-
 const handlePageClick = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= pageCount.value) {
     currentPage.value = pageNumber;
