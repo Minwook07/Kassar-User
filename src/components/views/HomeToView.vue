@@ -17,78 +17,37 @@
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
                     tabindex="0">
                     <div class="row">
-                        <div class="col-6 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.products"
+                        <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.productArr"
                             :key="product.id">
                             <div class="bg-white card card-product border-0 rounded position-relative">
                                 <div class="card-img p-3">
-                                    <img :src="product.img" class="mycard-img-top rounded-top object-fit-cover"
-                                        alt="" />
+                                    <img :src="product.product_thumbnail"
+                                        class="mycard-img-top rounded-top object-fit-cover" alt="" />
                                 </div>
-                                <div class="p-3 card-body">
+                                <div class="p-3 card-body pb-0" @click="goToDetail(product.id)">
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-primary mb-1">បន្លែ</p>
+                                        <p class="text-primary mb-1">{{ product.category.name }}</p>
                                         <p class="mb-1">
-                                            <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>4.9
+                                            <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>{{
+                                            product.rating.average }}
                                         </p>
                                     </div>
                                     <h4 class="fw-bold">{{ product.name }}</h4>
-                                    <p>500g</p>
+                                    <p class="product-desc">{{ product.description }}</p>
+                                    
+                                </div>
+                                <div class="card-footer bg-transparent border-0 pt-0">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-primary mb-0 fw-bold">
-                                            10000៛
-                                            <span class="text-decoration-line-through text-paragraph">10000៛</span>
-                                        </p>
-                                        <router-link to="" class="btn btn-primary rounded-pill"><i
-                                                class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
-                                    </div>
-                                </div>
-                                <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
-                                    <p class="mb-0 px-3 text-white">20%</p>
-                                </div>
-
-                                <div
-                        class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                        @click="allProduct.toggleFav(product.id)"
-                      >
-                        <p class="mb-0 mt-1 text-danger fw-bold">
-                          <i
-                            :class="
-                              product.isFav ? 'bi bi-heart-fill' : 'bi bi-heart'
-                            "
-                          ></i>
-                        </p>
-                      </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
-                    tabindex="0">
-                    <div class="row">
-                        <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.products"
-                            :key="product.id">
-                            <div class="bg-white card card-product border-0 rounded position-relative">
-                                <div class="card-img p-3">
-                                    <img :src="product.img" class="mycard-img-top rounded-top object-fit-cover"
-                                        alt="" />
-                                </div>
-                                <div class="p-3 card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-primary mb-1">បន្លែ</p>
-                                        <p class="mb-1">
-                                            <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>4.9
-                                        </p>
-                                    </div>
-                                    <h4 class="fw-bold">{{ product.name }}</h4>
-                                    <p>500g</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-primary mb-0 fw-bold">
-                                            10000៛
-                                            <span class="text-decoration-line-through text-paragraph">10000៛</span>
-                                        </p>
-                                        <router-link to="" class="btn btn-primary rounded-pill"><i
-                                                class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
+                                        <div>
+                                            <p v-if="!(product.price.discount_rate == 0)"
+                                                class="text-decoration-line-through text-paragraph m-0">
+                                                {{ product.price.original }} ៛</p>
+                                            <h6 class="text-primary m-0 fw-bold">
+                                                {{ product.price.discounted_price }} ៛ / {{ product.product_units.name }}
+                                            </h6>
+                                        </div>
+                                        <p @click="addToCart(product.id)" class="btn btn-primary rounded-pill"><i
+                                                class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
                                     </div>
                                 </div>
                                 <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
@@ -107,7 +66,59 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
+                    tabindex="0">
+                    <div class="row">
+                        <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.productArr"
+                            :key="product.id">
+                            <div class="bg-white card card-product border-0 rounded position-relative">
+                                <div class="card-img p-3">
+                                    <img :src="product.product_thumbnail"
+                                        class="mycard-img-top rounded-top object-fit-cover" alt="" />
+                                </div>
+                                <div class="p-3 card-body pb-0" @click="goToDetail(product.id)">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-primary mb-1">{{ product.category.name }}</p>
+                                        <p class="mb-1">
+                                            <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>{{
+                                            product.rating.average }}
+                                        </p>
+                                    </div>
+                                    <h4 class="fw-bold">{{ product.name }}</h4>
+                                    <p class="product-desc">{{ product.description }}</p>
+                                    
+                                </div>
+                                <div class="card-footer bg-transparent border-0 pt-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p v-if="!(product.price.discount_rate == 0)"
+                                                class="text-decoration-line-through text-paragraph m-0">
+                                                {{ product.price.original }} ៛</p>
+                                            <h6 class="text-primary m-0 fw-bold">
+                                                {{ product.price.discounted_price }} ៛ / {{ product.product_units.name }}
+                                            </h6>
+                                        </div>
+                                        <p @click="addToCart(product.id)" class="btn btn-primary rounded-pill"><i
+                                            class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
+                                    </div>
+                                </div>
+                                <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3">
+                                    <p class="mb-0 px-3 text-white">20%</p>
+                                </div>
 
+                                <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                                    @click="OnSavefav(product.id)">
+                                    <p class="mb-0 mt-1 text-danger fw-bold">
+                                        <i :class="allProduct.isFav
+                                            ? 'bi bi-heart-fill'
+                                            : 'bi bi-heart'
+                                            "></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -328,6 +339,24 @@
 <script setup>
 import HeroBanner from '../layouts/HeroBanner.vue';
 import { useAllProducts } from '@/stores/views/allProduct_store';
+import axios from 'axios';
+import { onMounted } from 'vue';
+import router from '@/router';
 const allProduct = useAllProducts();
 
+onMounted(() => {
+    allProduct.onloadProduct();
+});
+
+const goToDetail = (id) => {
+    router.push({ name: 'detailproduct', query: { id: id } });
+};
+
+const addToCart = (id) => {
+    allProduct.addToCart(id);
+};
+
+function OnSavefav(id) {
+    allProduct.addToFavorite(id);
+}
 </script>
