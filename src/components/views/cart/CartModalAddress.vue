@@ -200,7 +200,7 @@ const onCommuneChange = () => {
 
 const onSaveAddress = () => {
 
-const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
     cardStore.vv.$validate();
     if (cardStore.vv.$error) {
@@ -215,13 +215,13 @@ const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     frmData.append('house_number', cardStore.frm_add.houseNumber);
     frmData.append('street_number', cardStore.frm_add.streetNumber);
     frmData.append('phone', cardStore.frm_add.phone);
-frmData.append('name', cardStore.frm_add.name)
+    frmData.append('name', cardStore.frm_add.name)
 
     axios.post('/api/addresses', frmData, {
         headers: {
             'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data'
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data'
         }
     })
         .then((res) => {
