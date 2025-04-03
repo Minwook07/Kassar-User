@@ -109,6 +109,11 @@
                                     <input type="text" class="form-control shadow-none"
                                         v-model="cardStore.frm_add.streetNumber">
                                 </div>
+                                <div class="col-2 mb-3">
+                                    <label class="form-label">name</label>
+                                    <input type="text" class="form-control shadow-none"
+                                        v-model="cardStore.frm_add.name">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -195,7 +200,7 @@ const onCommuneChange = () => {
 
 const onSaveAddress = () => {
 
-const token = localStorage.getItem || sessionStorage.getItem("token");
+const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
 cardStore.vv.$validate();
 if (cardStore.vv.$error) {
@@ -210,10 +215,13 @@ frmData.append('village_id', cardStore.frm_add.village); // Corrected field name
 frmData.append('house_number', cardStore.frm_add.houseNumber);
 frmData.append('street_number', cardStore.frm_add.streetNumber);
 frmData.append('phone', cardStore.frm_add.phone);
+frmData.append('name', cardStore.frm_add.name)
 
 axios.post('/api/addresses', frmData, {
     headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data'
     }
 })
     .then((res) => {
