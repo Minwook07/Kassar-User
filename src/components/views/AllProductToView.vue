@@ -80,11 +80,12 @@
               </div>
             </div>
           </div>
+          <hr>
           <div class="mb-3">
             <h5 class="fw-bold mb-3">វាយតម្លៃ</h5>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -100,7 +101,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -114,7 +115,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -128,7 +129,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -141,7 +142,7 @@
             </div>
             <div class="mb-2 myform-check form-check">
               <input
-                type="checkbox"
+                type="radio"
                 class="form-check-input shadow-none"
                 id="exampleCheck1"
               />
@@ -151,7 +152,6 @@
                 </div>
               </label>
             </div>
-            <hr />
           </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 row justify-content-start">
@@ -264,7 +264,6 @@
       aria-atomic="true"
     >
       <div class="toast-content d-flex justify-content-center gap-3"
-      v-if="product in allProducts" :key="product.id"
       >
         <div>
           <i class="bi bi-check2-circle fs-5 text-white"></i>
@@ -272,10 +271,9 @@
 
         <div class="message">
           <span class="text text-white">{{
-            FavProduct.is_favorited ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
+            toastFav ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
             
           }}</span>
-          {{ FavProduct.is_favorited }}
         </div>
 
         <div>
@@ -300,7 +298,7 @@ import { useRouter } from "vue-router";
 import { Toast } from "bootstrap";
 import { useContactStore } from "@/stores/contact_store";
 const allProducts = ref([]);
-const Fav = ref([]);
+const toastFav = ref(null);
 const categories = ref([]);
 const totalProducts = ref([]);
 const selectedCategory = ref();
@@ -369,8 +367,13 @@ const toggleFav = (FavProduct) => {
       },
     })
     .then((res) => {
-      FavProduct.is_favorited = !FavProduct.is_favorited;
+      // change message toast 
+      toastFav.value = !FavProduct.is_favorited;
       contactStore.toast_alert.show();
+
+      // change fav icon
+      let index = allProducts.value.findIndex((p) => p.id == FavProduct.id);
+      allProducts.value[index].is_favorited = toastFav.value;;
     })
     .catch((error) => {
       console.error("Toggle Favorite:", error.response?.data || error.message);

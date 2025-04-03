@@ -3,31 +3,33 @@
     <div class="container py-5">
       <div class="row" v-if="detailProducts">
         <div class="col-12 col-md-6 col-lg-4 mb-5" data-aos="fade-down-right">
-  <div class="mb-3 rounded" style="height: 400px">
-    <img
-      class="w-100 h-100 object-fit-cover rounded"
-      :src="selectedImageUrl || detailProducts.product.product_thumbnail"
-      alt="Product Image"
-    />
-  </div>
-  <div class="d-flex">
-    <div
-      class="col-3 rounded"
-      v-for="product_img in detailProducts.product.product_images"
-      :key="product_img.id"
-    >
-      <img
-        :class="{
-          'border border-success p-0': activeImage === product_img.id,
-        }"
-        @click="onChangeImage(product_img.id, product_img.image_url)"
-        class="p-1 w-100 h-100 object-fit-cover rounded"
-        :src="product_img.image_url"
-        alt="Product Image"
-      />
-    </div>
-  </div>
-</div>
+          <div class="mb-3 rounded" style="height: 400px">
+            <img
+              class="w-100 h-100 object-fit-cover rounded"
+              :src="
+                selectedImageUrl || detailProducts.product.product_thumbnail
+              "
+              alt="Product Image"
+            />
+          </div>
+          <div class="d-flex">
+            <div
+              class="col-3 rounded"
+              v-for="product_img in detailProducts.product.product_images"
+              :key="product_img.id"
+            >
+              <img
+                :class="{
+                  'border border-success p-0': activeImage === product_img.id,
+                }"
+                @click="onChangeImage(product_img.id, product_img.image_url)"
+                class="p-1 w-100 h-100 object-fit-cover rounded"
+                :src="product_img.image_url"
+                alt="Product Image"
+              />
+            </div>
+          </div>
+        </div>
 
         <div class="col-12 col-md-6 col-lg-4 ps-5 mb-5">
           <h2 class="fw-bold mb-3" data-aos="fade-down">
@@ -134,8 +136,7 @@
                 "
               ></i>
             </p>
-            {{}}
-            <p class="mb-0">ដាក់ទៅបញ្ជីប្រាថ្នា</p>
+            <p class="mb-0">បានដាក់ទៅបញ្ជីប្រាថ្នា</p>
           </div>
           <div>
             <h5 class="fw-bold mb-4">ធានាការទូរទាត់ប្រាក់ប្រកបដោយសុវត្ថិភាព</h5>
@@ -164,7 +165,7 @@
               data-aos="fade-up"
               to="/viewshop"
               class="btn btn-primary mb-3"
-              @click="goToshop(detailProducts.product.shop.id)"
+              @click="goToshop(detailProducts.product.id)"
             >
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
@@ -175,17 +176,17 @@
             class="bg-white border-1 p-3 mb-3 rounded"
           >
             <div class="d-flex align-items-center mb-4">
-              <div class="px-3 d-flex align-items-center mb-2">
+              <div class="px-3 d-flex align-items-center">
                 <div class="line-detail rounded-pill bg-primary me-2"></div>
                 <div class="dot-detail rounded-circle bg-primary"></div>
               </div>
-              <h5 class="">Top Rated Product</h5>
+              <h5 class="mb-0">ផលិតផលវាយតម្លៃខ្ពស់</h5>
             </div>
-            <div class="row px-3 align-items-center">
+            <div class="row px-3 align-items-center" v-for="topRatedPro in topRatedPros.slice(0, 3)" :key="topRatedPro.id">
               <div class="col-4 mb-3">
                 <img
                   class="w-100 h-100 object-fit-cover"
-                  src="@/assets/images/5.avif"
+                  :src="topRatedPro.product_thumbnail"
                   alt=""
                 />
               </div>
@@ -207,81 +208,9 @@
                     <i class="bi bi-star-fill"></i>
                   </p>
                 </div>
-                <p class="mb-0">Mixed solid Seat Cover</p>
+                <p class="mb-0">{{ topRatedPro.name }}</p>
                 <h5 class="text-primary fw-bold">
-                  $40.00
-                  <span
-                    class="fw-bold fs-6 text-decoration-line-through text-dark"
-                    >$65.00</span
-                  >
-                </h5>
-              </div>
-              <div class="col-4 mb-3">
-                <img
-                  class="w-100 h-100 object-fit-cover"
-                  src="@/assets/images/5.avif"
-                  alt=""
-                />
-              </div>
-              <div class="col-8 mb-3">
-                <div class="d-flex gap-2 align-content-center mb-2">
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                </div>
-                <p class="mb-0">Mixed solid Seat Cover</p>
-                <h5 class="text-primary fw-bold">
-                  $40.00
-                  <span
-                    class="fw-bold fs-6 text-decoration-line-through text-dark"
-                    >$65.00</span
-                  >
-                </h5>
-              </div>
-              <div class="col-4 mb-3">
-                <img
-                  class="w-100 h-100 object-fit-cover"
-                  src="@/assets/images/5.avif"
-                  alt=""
-                />
-              </div>
-              <div class="col-8 mb-3">
-                <div class="d-flex gap-2 align-content-center mb-2">
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                  <p class="mb-0 text-warning">
-                    <i class="bi bi-star-fill"></i>
-                  </p>
-                </div>
-                <p class="mb-0">Mixed solid Seat Cover</p>
-                <h5 class="text-primary fw-bold">
-                  $40.00
-                  <span
-                    class="fw-bold fs-6 text-decoration-line-through text-dark"
-                    >$65.00</span
-                  >
+                  {{ topRatedPro.price.discounted_price }} / {{ topRatedPro.product_units.name }}
                 </h5>
               </div>
             </div>
@@ -391,7 +320,7 @@
             />
           </div>
         </div>
-        <h3 class="fw-bold" data-aos="fade-up-right">Related Product</h3>
+        <h4 class="fw-bold mb-3" data-aos="fade-up-right">ផលិតផលស្រដៀង</h4>
         <!-- <div class="row"> -->
         <div
           data-aos="fade-up"
@@ -458,21 +387,17 @@
             </div>
 
             <div
-                class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click.stop="
-                  related_products.is_favorited
-                    ? RemoveFav(FavProduct)
-                    : StoreNewFav(related_products)
-                "
-              >
-                <p class="mb-0 mt-1 text-danger fw-bold">
-                  <i
-                    :class="
-                      related_products.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
-                    "
-                  ></i>
-                </p>
-              </div>
+              class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+              @click.stop="toggleFav(product)"
+            >
+              <p class="mb-0 mt-1 text-danger fw-bold">
+                <i
+                  :class="
+                    related_products.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
+                  "
+                ></i>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -480,36 +405,33 @@
     <!-- </div> -->
   </section>
   <div
-  class="toast-container position-fixed top-0 end-0 p-3"
+    id="liveToast"
+    class="toast border-0 p-3 bg-primary"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
   >
-    <div
-      id="liveToast"
-      class="toast border-0 p-3 bg-primary"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      <div class="toast-content d-flex justify-content-center gap-3">
-        <div>
-          <i class="bi bi-check2-circle fs-5 text-white"></i>
-        </div>
-
-        <div class="message">
-          <span class="text text-white"
-            >ដាក់ចូលរួចរាល់</span
-          >
-        </div>
-        <div>
-          <button
-            type="button"
-            class="btn btn-close border-0 ms-auto text-white p-0"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
-        </div>
+    <div class="toast-content d-flex justify-content-center gap-3">
+      <div>
+        <i class="bi bi-check2-circle fs-5 text-white"></i>
       </div>
-      <div class="progress active"></div>
+
+      <div class="message">
+        <span class="text text-white">{{
+          toastFav ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
+        }}</span>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          class="btn btn-close border-0 ms-auto text-white p-0"
+          data-bs-dismiss="toast"
+          aria-label="Close"
+        ></button>
+      </div>
     </div>
+    <div class="progress active"></div>
   </div>
 </template>
 <script setup>
@@ -517,17 +439,17 @@ import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { Toast } from "bootstrap";
-import { useAllProducts } from "@/stores/views/allProduct_store";
 import { useContactStore } from "@/stores/contact_store";
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-const allProducts = useAllProducts();
 const detailProducts = ref(null);
-const related_products = ref();
+const toastFav = ref(null);
+const topRatedPros =ref([]);
+const related_products = ref([]);
 const count = ref(0);
 const router = useRouter();
 const contactStore = useContactStore();
 const activeImage = ref(null);
-const selectedImageUrl = ref('');
+const selectedImageUrl = ref("");
 const getDetail = () => {
   const id = router.currentRoute.value.query.id;
   axios
@@ -545,75 +467,48 @@ const getDetail = () => {
       console.log(error);
     });
 };
-const StoreNewFav = (related_products) => {
+const topRatedPro = () =>{
+  axios.get("api/products?rating=5")
+  .then((res)=>{
+    topRatedPros.value = res.data.data;
+    console.log(topRatedPros.value);
+    
+  })
+  .catch((error) => {
+      console.error("Error fetching top-rated products:", error);
+    });
+}
+const toggleFav = (FavProduct) => {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
+
   if (!token) {
     alert("Please login to add products to your favorites.");
     return;
   }
 
-  if (!related_products.id) {
-    alert("Invalid product.");
-    return;
-  }
   axios
-    .post(
-      "api/favorites",
-      { related_products_id: related_products.id },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    .then((res) => {
-      related_products.is_favorited = !related_products.is_favorited;
-      if (contactStore.toast_alert) {
-        contactStore.toast_alert.show();
-      }
+    .post(`api/favorites/toggle?product_id=${FavProduct.id}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
-    .catch((error) => {
-      console.error(
-        "Error adding favorite:",
-        error.response?.data || error.message
-      );
-    });
-};
+    .then((res) => {
+      toastFav.value = !FavProduct.is_favorited;
+      contactStore.toast_alert.show();
 
-const RemoveFav = (FavProduct) => {
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
-  if (!token) {
-    alert("Please login to remove products from your favorites.");
-    return;
-  }
-  axios
-    .delete(
-      `api/favorites/${FavProduct.id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    
-    .then((res) => {
-      if (contactStore.toast_alert) {
-        contactStore.toast_alert.show();
-      }
+      let index = related_products.value.findIndex((p) => p.id == FavProduct.id);
+      related_products.value[index].is_favorited = toastFav.value;
     })
     .catch((error) => {
-      console.error(
-        "Remove Favorite:",
-        error.response?.data || error.message
-      );
+      console.error("Toggle Favorite:", error.response?.data || error.message);
     });
 };
 
 onMounted(() => {
   getDetail();
   toast();
+  topRatedPro();
 });
 const toast = () => {
   const toastElement = document.getElementById("liveToast");
@@ -624,9 +519,9 @@ const toast = () => {
   }
 };
 const onChangeImage = (imgId, imageUrl) => {
-      activeImage.value = imgId;
-      selectedImageUrl.value = imageUrl;
-    };
+  activeImage.value = imgId;
+  selectedImageUrl.value = imageUrl;
+};
 const goToshop = (id) => {
   router.push({ name: "viewshop", query: { id } });
 };
