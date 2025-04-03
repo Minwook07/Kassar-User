@@ -1,17 +1,18 @@
 <template>
   <!-- Navigation Menu using Bootstrap Tabs -->
   <div class="tab-content bg-white rounded-2 border p-0">
+  <!-- Navigation Menu using Bootstrap Tabs -->
+  <div class="tab-content bg-white rounded-2 border p-0">
     <div id="profile" class="tab-pane fade show active">
       <div class="container p-4">
         <!-- Header with profile picture and save button -->
         <div class="row align-items-center mb-4 tab-animation">
           <div class="col-md-8">
             <div class="d-flex align-items-center">
-              <!-- Avatar with dropdown menu -->
               <div class="position-relative me-4">
                 <div class="dropdown">
                   <img
-                    :src="profile.avatar "
+                    :src="profile.avatar"
                     alt="Profile"
                     class="rounded-circle border border-3 border-primary-subtle dropdown-toggle"
                     style="width: 80px; height: 80px; object-fit: cover"
@@ -48,7 +49,6 @@
                   />
                 </div>
               </div>
-
               <div>
                 <h5 class="fw-semibold mb-1">{{ profile.name }}</h5>
                 <p class="text-muted mb-0">{{ profile.email }}</p>
@@ -56,9 +56,9 @@
             </div>
           </div>
           <div class="col-md-4 text-md-end mt-3 mt-md-0">
-            <button class="btn btn-primary px-4 py-2">
-              <i class="bi bi-shop-window me-1 fs-5 pt-1"></i> ស្នើរជាអ្នកលក់
-            </button>
+            <router-link to="/seller" class="btn btn-primary px-4 py-2">
+  <i class="bi bi-shop-window me-1 fs-5 pt-1"></i> ស្នើរជាអ្នកលក់
+</router-link>
           </div>
         </div>
         <hr class="my-2" />
@@ -67,47 +67,29 @@
         <div class="card border-0 mb-4 tab-animation">
           <div class="card-body p-0">
             <div class="list-group list-group-flush">
-              <div
-                class="list-group-item d-flex justify-content-between align-items-center py-3"
-              >
+              <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                 <span class="text-muted">ឈ្មោះ</span>
                 <span class="fw-medium">{{ profile.name }}</span>
               </div>
-              <div
-                class="list-group-item d-flex justify-content-between align-items-center py-3"
-              >
+              <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                 <span class="text-muted">ភេទ</span>
                 <span class="fw-medium">{{ profile.gender }}</span>
               </div>
-              <div
-                class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2"
-              >
+              <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                 <span class="text-muted">គណនីអ៊ីមែល</span>
                 <span class="fw-medium">{{ profile.email }}</span>
               </div>
-              <div
-                class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2"
-              >
+              <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                 <span class="text-muted">ប្រភេទអ្នកប្រើប្រាស់</span>
-                <span class="fw-medium">{{
-                  translateRole(profile.roles[0]?.name) || "អតិថិជន"
-                }}</span>
+                <span class="fw-medium">{{ translateRole(profile.roles[0]?.name) || "អតិថិជន" }}</span>
               </div>
-              <div
-                class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2"
-              >
+              <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                 <span class="text-muted">លេខទូរស័ព្ទ</span>
-                <span class="fw-medium">{{
-                  profile.phone || "មិនទាន់កំណត់"
-                }}</span>
+                <span class="fw-medium">{{ profile.phone || "មិនទាន់កំណត់" }}</span>
               </div>
-              <div
-                class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2"
-              >
+              <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                 <span class="text-muted">ជីវប្រវត្តិ</span>
-                <span class="fw-medium">{{
-                  profile.history || "មិនទាន់កំណត់"
-                }}</span>
+                <span class="fw-medium">{{ profile.history || "មិនទាន់កំណត់" }}</span>
               </div>
             </div>
           </div>
@@ -115,171 +97,119 @@
 
         <!-- Button to trigger modal -->
         <div class="d-grid d-md-flex justify-content-md-start tab-animation">
-          <button
-            class="btn btn-primary py-2 px-4"
-            @click="openEditProfileModal"
-          >
+          <button class="btn btn-primary py-2 px-4" @click="openEditProfileModal">
             <i class="bi bi-pencil-square me-2"></i> ធ្វើបច្ចុប្បន្នភាពព័ត៌មាន
           </button>
         </div>
 
         <!-- Crop Modal -->
-        <div
-          class="modal fade"
-          id="avatar-crop-modal"
-          tabindex="-1"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
+        <div class="modal fade " id="avatar-crop-modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Crop Profile Picture</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  @click="closeCropModal"
-                  aria-label="Close"
-                ></button>
+              <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title">កែសម្រួលរូបភាព</h5>
+                <button type="button" class="btn-close" @click="closeCropModal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
-                <div v-if="imgCrop.img_crop" class="cropper-container">
+              <div class="modal-body p-4">
+                <div v-if="imgCrop.img_crop" class="cropper-container rounded-3 overflow-hidden">
                   <Cropper
                     ref="cropper"
                     :src="imgCrop.img_crop"
-                    :stencil-props="{ aspectRatio: 1 }"
+                    :stencil-props="{
+                      aspectRatio: 1,
+                      handlers: {},
+                      movable: false,
+                      resizable: false
+                    }"
+                    :stencil-size="{ width: 300, height: 300 }"
+                    image-restriction="stencil"
+                    :zoomable="false"
                     @change="onCrop"
                     class="cropper"
                   />
                 </div>
                 <div v-else class="text-center p-5">
-                  <p class="mb-3">No image selected for cropping</p>
-                  <button class="btn btn-primary" @click="triggerFileInput">
-                    <i class="bi bi-upload me-2"></i>Upload Image
-                  </button>
-                </div>
-
-                <div
-                  v-if="profile.avatar"
-                  class="mt-3 d-flex justify-content-center"
-                >
-                  <div class="btn-group">
-                    <button
-                      class="btn btn-outline-secondary btn-sm"
-                      @click="triggerFileInput"
-                    >
-                      <i class="bi bi-arrow-repeat me-1"></i> Replace
-                    </button>
-                    <button
-                      class="btn btn-outline-danger btn-sm"
-                      @click="removeAvatarFromModal"
-                    >
-                      <i class="bi bi-trash me-1"></i> Delete
+                  <div class="d-inline-block p-4 rounded-3 bg-light">
+                    <i class="bi bi-image text-muted fs-1"></i>
+                    <p class="mb-3 mt-2">No image selected</p>
+                    <button class="btn btn-primary" @click="triggerFileInput">
+                      <i class="bi bi-upload me-2"></i>Select Image
                     </button>
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
-                <button
-                  class="btn btn-outline-secondary"
-                  type="button"
-                  @click="closeCropModal"
-                >
-                  Cancel
-                </button>
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  @click="performCrop"
-                  :disabled="!imgCrop.img_crop"
-                >
-                  <i class="bi bi-check-circle me-1"></i> Save Changes
-                </button>
+              <div class="modal-footer border-0 pt-0">
+                <div class="d-flex justify-content-between w-100">
+                  <div>
+                    <button
+                      v-if="imgCrop.img_crop"
+                      class="btn btn-outline-danger"
+                      type="button"
+                      @click="replaceImage"
+                    >
+                      <i class="bi bi-upload me-1"></i> Replace
+                    </button>
+                  </div>
+                  <div>
+                    <button class="btn btn-outline-secondary me-2" type="button" @click="closeCropModal">
+                      Cancel
+                    </button>
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      @click="performCrop"
+                      :disabled="!imgCrop.img_crop"
+                    >
+                      <span v-if="!cropping">
+                        <i class="bi bi-check-circle me-1"></i> Save
+                      </span>
+                      <span v-else>
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Saving...
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Edit Profile Modal -->
-        <!-- Edit Profile Modal -->
-         
-        <div
-          class="modal fade"
-          id="editProfileModal"
-          tabindex="-1"
-          aria-labelledby="editProfileModalLabel"
-          aria-hidden="true"
-        >
+        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="editProfileModalLabel">
-                  ធ្វើបច្ចុប្បន្នភាពព័ត៌មានផ្ទាល់ខ្លួន
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  @click="closeEditModal"
-                  aria-label="Close"
-                ></button>
+                <h5 class="modal-title" id="editProfileModalLabel">ធ្វើបច្ចុប្បន្នភាពព័ត៌មានផ្ទាល់ខ្លួន</h5>
+                <button type="button" class="btn-close" @click="closeEditModal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <form @submit.prevent="updateProfile">
                   <div class="mb-3">
                     <label for="name" class="form-label">ឈ្មោះ</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name"
-                      v-model="editForm.name"
-                    />
+                    <input type="text" class="form-control" id="name" v-model="editForm.name" />
                   </div>
                   <div class="mb-3">
                     <label for="gender" class="form-label">ភេទ</label>
-                    <select
-                      class="form-select"
-                      id="gender"
-                      v-model="editForm.gender"
-                    >
+                    <select class="form-select" id="gender" v-model="editForm.gender">
                       <option value="1">ប្រុស</option>
                       <option value="2">ស្រី</option>
                     </select>
                   </div>
                   <div class="mb-3">
                     <label for="email" class="form-label">គណនីអ៊ីមែល</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      v-model="editForm.email"
-                    />
+                    <input type="email" class="form-control" id="email" v-model="editForm.email" />
                   </div>
                   <div class="mb-3">
                     <label for="phone" class="form-label">លេខទូរស័ព្ទ</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="phone"
-                      v-model="editForm.phone"
-                    />
+                    <input type="text" class="form-control" id="phone" v-model="editForm.phone" />
                   </div>
                   <div class="mb-3">
                     <label for="history" class="form-label">ជីវប្រវត្តិ</label>
-                    <textarea
-                      class="form-control"
-                      id="history"
-                      rows="4"
-                      style="resize: none"
-                      v-model="editForm.history"
-                    ></textarea>
+                    <textarea class="form-control" id="history" rows="4" style="resize: none" v-model="editForm.history"></textarea>
                   </div>
                   <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary"
-                      @click="closeEditModal"
-                    >
-                      បិទ
-                    </button>
+                    <button type="button" class="btn btn-outline-secondary" @click="closeEditModal">បិទ</button>
                     <button type="submit" class="btn btn-primary">
                       <i class="bi bi-save me-1"></i> ធ្វើបច្ចុប្បន្នភាព
                     </button>
@@ -292,55 +222,86 @@
       </div>
     </div>
     <div id="login-method" class="tab-pane fade p-4">
-      <h4 class="fw-bold text-primary mb-3 tab-animation">
-        វិធីសាស្រ្តចូលប្រើប្រាស់គណនី
-      </h4>
-
-      <p class="text-muted mb-4 tab-animation">
-        លោកអ្នកបានចូលគណនីដោយអនុវត្តន៍តាមជំហានដូចខាងក្រោម
-      </p>
-
-      <form class="auth-form">
-        <div class="mb-4 tab-animation">
-          <label class="form-label fw-semibold mb-2">គណនីអ៊ីមែល</label>
-          <div class="input-group">
-            <input
-              type="email"
-              class="form-control form-control-lg rounded-start"
-              placeholder="chanthy0105@gmail.com"
-            />
-          </div>
+    <h4 class="fw-bold text-primary mb-3 tab-animation">
+      វិធីសាស្រ្តចូលប្រើប្រាស់គណនី
+    </h4>
+  
+    <p class="text-muted mb-4 tab-animation">
+      លោកអ្នកបានចូលគណនីដោយអនុវត្តន៍តាមជំហានដូចខាងក្រោម
+    </p>
+  
+    <form @submit.prevent="updatePassword" class="auth-form">
+      <div class="mb-4 tab-animation">
+        <label class="form-label fw-semibold mb-2">គណនីអ៊ីមែល</label>
+        <div class="input-group">
+          <input
+            type="email"
+            class="form-control form-control-lg rounded-start"
+            v-model="profile.email"
+            disabled
+          />
         </div>
-
-        <div class="mb-4 tab-animation">
-          <label class="form-label fw-semibold mb-2">ពាក្យសម្ងាត់</label>
-          <div class="input-group">
-            <input
-              type="password"
-              class="form-control form-control-lg rounded-start"
-              placeholder="សូមបំពេញពាក្យសម្ងាត់"
-            />
-            <button type="button" class="btn btn-primary rounded-end px-3">
-              <i class="bi bi-key me-2"></i>ធ្វើបច្ចុប្បន្នភាពពាក្យសម្ងាត់
-            </button>
-          </div>
+      </div>
+  
+      <div class="mb-4 tab-animation">
+        <label class="form-label fw-semibold mb-2">ពាក្យសម្ងាត់បច្ចុប្បន្ន</label>
+        <div class="input-group">
+          <input
+            type="password"
+            class="form-control form-control-lg rounded-start"
+            placeholder="បញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្ន"
+            v-model="passwordForm.current_password"
+            required
+          />
+          <span class="input-group-text rounded-end">
+            <i class="bi bi-lock"></i>
+          </span>
         </div>
-
-        <div class="bg-light p-4 rounded-2 border mt-4 tab-animation">
-          <h6 class="fw-bold mb-3">
-            ចាប់ផ្តើមការផ្ទៀងផ្ទាត់ការកំណត់ប្រព័ន្ធសុវត្ថិភាពសម្រាប់គណនី
-          </h6>
-          <p class="mb-3">
-            ដើម្បីមានសុវត្ថិភាពខ្ពស់របស់គណនីអ្នកការផ្ទៀងផ្ទាត់ពីរកត្តាបន្ថែមស្រទាប់សុវត្ថិភាពបន្ថែមទៅក្នុងគណនីរបស់អ្នក។
-            ដើម្បីចូល អ្នកនឹងត្រូវផ្តល់លេខកូដ 6 ខ្ទង់
-            ព្រមទាំងអនុវត្តតាមគោលការណ៍របស់គេហទំព័រ
-          </p>
-          <button type="button" class="btn btn-outline-primary rounded-2 px-4 py-2">
-            <i class="bi bi-search me-2"></i>អានបន្ថែម
-          </button>
+      </div>
+  
+      <div class="mb-4 tab-animation">
+        <label class="form-label fw-semibold mb-2">ពាក្យសម្ងាត់ថ្មី</label>
+        <div class="input-group">
+          <input
+            type="password"
+            class="form-control form-control-lg rounded-start"
+            placeholder="បញ្ចូលពាក្យសម្ងាត់ថ្មី"
+            v-model="passwordForm.new_password"
+            required
+          />
+          <span class="input-group-text rounded-end">
+            <i class="bi bi-key"></i>
+          </span>
         </div>
-      </form>
-    </div>
+      </div>
+  
+      <div class="mb-4 tab-animation">
+        <label class="form-label fw-semibold mb-2">បញ្ជាក់ពាក្យសម្ងាត់ថ្មី</label>
+        <div class="input-group">
+          <input
+            type="password"
+            class="form-control form-control-lg rounded-start"
+            placeholder="បញ្ចូលពាក្យសម្ងាត់ថ្មីម្តងទៀត"
+            v-model="passwordForm.new_password_confirmation"
+            required
+          />
+          <span class="input-group-text rounded-end">
+            <i class="bi bi-key"></i>
+          </span>
+        </div>
+      </div>
+  
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end tab-animation">
+        <button
+          type="submit"
+          class="btn btn-primary px-4 py-2"
+          :disabled="passwordForm.new_password !== passwordForm.new_password_confirmation"
+        >
+          <i class="bi bi-key me-2"></i>ធ្វើបច្ចុប្បន្នភាពពាក្យសម្ងាត់
+        </button>
+      </div>
+    </form>
+  </div>
     <div id="usage-history" class="tab-pane fade p-4">
 
 <h3 class="fw-bold text-primary mb-4 tab-animation">
@@ -450,8 +411,6 @@
 
 </div>
 
-<!-- Login Method Tab -->
-
 
 <!-- Edit Delivery Tab -->
 
@@ -490,123 +449,187 @@
 <!-- Delete Account Tab -->
 
 <div id="delete-account" class="tab-pane fade p-4">
-
-<h2 class="fw-bold text-primary mb-4 tab-animation">លុបគណនី</h2>
-
-<div class="bg-danger bg-opacity-10 p-4 rounded-2 mt-3 tab-animation">
-
-  <div class="d-flex align-items-center gap-2">
-
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-      class="text-danger bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-
-      <path
-        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-
-    </svg>
-
-    <span class="fw-semibold">តើអ្នកប្រាកដថាចង់លុបគណនីរបស់អ្នកមែនទេ?</span>
-
+    <h2 class="fw-bold text-primary mb-4 tab-animation">លុបគណនី</h2>
+  
+    <div class="alert alert-danger rounded-2 mt-3 tab-animation">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+        <span class="fw-semibold">តើអ្នកប្រាកដថាចង់លុបគណនីរបស់អ្នកមែនទេ?</span>
+      </div>
+      <p class="mb-0 mt-2 ms-4 ps-2">
+        ប្រសិនបើអ្នកលុបគណនីរបស់អ្នក ទិន្នន័យ ពត៌មាន
+        និងទាំងអស់របស់អ្នកនឹងត្រូវបានលុបជាអចិន្ត្រៃយ៍។
+      </p>
+    </div>
+  
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end tab-animation mt-4">
+      <button 
+        type="button" 
+        class="btn btn-danger px-4 py-2"
+        data-bs-toggle="modal"
+        data-bs-target="#deleteConfirmModal"
+      >
+        <i class="bi bi-trash me-2"></i>លុបគណនី
+      </button>
+    </div>
+  
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title text-danger">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>ផ្ទៀងផ្ទាត់ការលុបគណនី
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>តើអ្នកប្រាកដថាចង់លុបគណនីរបស់អ្នកជាអចិន្ត្រៃយ៍មែនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។</p>
+            <div class="form-group mb-3">
+              <label for="deletePassword" class="form-label">បញ្ចូលពាក្យសម្ងាត់របស់អ្នកដើម្បីបញ្ជាក់</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="deletePassword"
+                v-model="deletePassword"
+                placeholder="ពាក្យសម្ងាត់បច្ចុប្បន្នរបស់អ្នក"
+              >
+            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">បោះបង់</button>
+            <button 
+              type="button" 
+              class="btn btn-danger"
+              @click="deleteAccount"
+              :disabled="!deletePassword"
+            >
+              <span v-if="!deleting">
+                <i class="bi bi-trash me-2"></i>លុបគណនី
+              </span>
+              <span v-else>
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                កំពុងលុប...
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <p class="mb-0 mt-2 ms-4 ps-2">
-
-    ប្រសិនបើអ្នកលុបគណនីរបស់អ្នក ទិន្នន័យ ពត៌មាន
-
-    និងទាំងអស់របស់អ្នកនឹងត្រូវបានលុបជាអចិន្ត្រៃយ៍។
-
-  </p>
-
-</div>
-
-<!-- Delete Button (Trigger Modal) -->
-
-<button type="button" class="btn btn-danger px-5 py-2 rounded-2 border mt-4 tab-animation" data-bs-toggle="modal"
-  data-bs-target="#deleteConfirmModal">
-
-  <i class="bi bi-trash me-2"></i>លុបគណនី
-
-</button>
-
-</div>
-
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
-import axios from "axios";
-import { Cropper } from "vue-advanced-cropper";
-import "vue-advanced-cropper/dist/style.css";
-import { Modal } from "bootstrap";
+import { ref, computed, onMounted } from 'vue';
+import { Cropper } from 'vue-advanced-cropper';
+import 'vue-advanced-cropper/dist/style.css';
+import { Modal } from 'bootstrap';
+import axios from 'axios';
 
+// Profile data
 const profile = ref({
   id: null,
-  name: "",
-  email: "",
+  name: '',
+  email: '',
   gender: null,
   phone: null,
-  avatar: "",
+  avatar: '',
   roles: [],
-  history: "",
+  history: ''
 });
 
+// Forms
 const editForm = ref({
-  name: "",
-  email: "",
-  phone: "",
+  name: '',
+  email: '',
+  phone: '',
   gender: 1,
-  history: "",
-  role: "",
+  history: ''
 });
 
-// Avatar management
+const passwordForm = ref({
+  current_password: '',
+  new_password: '',
+  new_password_confirmation: ''
+});
+
+const deletePassword = ref('');
+
+// Avatar cropping
 const imgCrop = ref({
-  img_crop: "",
+  img_crop: '',
+  file_name: ''
 });
-const cropper = ref(null);
-const fileInput = ref(null);
-let cropModal = null;
-let editProfileModal = null;
 
-// Toast notification system
-const showToast = (message, type = "success") => {
-  // You can implement a toast notification system here
-  console.log(`${type}: ${message}`);
-  // Example implementation with alert for now
-  alert(`${message}`);
-};
+// Loading states
+const cropping = ref(false);
+const updating = ref(false);
+const deleting = ref(false);
+const changingPassword = ref(false);
+
+// Refs
+const fileInput = ref(null);
+const cropper = ref(null);
+let cropModal = null;
+let editModal = null;
+
+// Computed properties
+const avatarUrl = computed(() => {
+  return profile.value.avatar || '/img/default.jpg';
+});
 
 // Role translations
-const roleTranslations = {
-  "Regular User": "អតិថិជន",
-  "Seller User": "អ្នកលក់",
-  "System Admin": "អ្នកគ្រប់គ្រងប្រព័ន្ធ",
+const translateRole = (roleName) => {
+  const translations = {
+    "Regular User": "Customer",
+    "Seller User": "Seller",
+    "System Admin": "Administrator"
+  };
+  return translations[roleName] || roleName;
 };
 
+// Helper functions
 const getToken = () => {
   return localStorage.getItem("token") || sessionStorage.getItem("token");
 };
 
-const translateRole = (roleName) => {
-  return roleTranslations[roleName] || roleName;
+const showSuccess = (message) => {
+  alert(`Success: ${message}`);
 };
 
-// Fetch user profile
+const showError = (message, error = null) => {
+  let errorMessage = message;
+  
+  if (error) {
+    console.error(error);
+    if (error.response) {
+      if (error.response.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.response.status === 413) {
+        errorMessage = 'File is too large (max 2MB allowed)';
+      } else if (error.response.status === 415) {
+        errorMessage = 'Unsupported file type';
+      }
+    } else if (error.request) {
+      errorMessage = 'Network error - please check your connection';
+    }
+  }
+  
+  alert(`Error: ${errorMessage}`);
+};
+
+// Profile functions
 const fetchProfile = async () => {
-  const token = getToken();
   try {
-    const response = await axios.get("/api/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await axios.get('/api/profile', {
+      headers: { Authorization: `Bearer ${getToken()}` }
     });
     profile.value = response.data.data;
-    profile.value.gender = profile.value.gender === 1 ? "ប្រុស" : "ស្រី";
     prepareEditForm();
   } catch (error) {
-    console.error("Error fetching profile:", error);
-    showToast("Failed to load profile", "error");
+    showError('Failed to load profile', error);
   }
 };
 
@@ -614,213 +637,226 @@ const prepareEditForm = () => {
   editForm.value = {
     name: profile.value.name,
     email: profile.value.email,
-    phone: profile.value.phone || "",
-    gender: profile.value.gender === "ប្រុស" ? 1 : 2,
-    role: profile.value.roles[0]?.name || "",
-    history: profile.value.history || "",
+    phone: profile.value.phone || '',
+    gender: profile.value.gender || 1,
+    history: profile.value.history || ''
   };
 };
 
 const updateProfile = async () => {
-  const token = getToken();
+  updating.value = true;
   try {
-    await axios.post("/api/profile", editForm.value, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    await axios.post('/api/profile', editForm.value, {
+      headers: { Authorization: `Bearer ${getToken()}` }
     });
     await fetchProfile();
     closeEditModal();
-    showToast("Profile updated successfully");
+    showSuccess('Profile updated successfully');
   } catch (error) {
-    console.error("Error updating profile:", error);
-    showToast("Failed to update profile", "error");
-  }
-};
-
-// Modal handling functions
-const openEditProfileModal = () => {
-  prepareEditForm();
-  if (editProfileModal) {
-    editProfileModal.show();
-  } else {
-    // Try to initialize the modal if it's not already initialized
-    const modalEl = document.getElementById("editProfileModal");
-    if (modalEl) {
-      editProfileModal = new Modal(modalEl);
-      editProfileModal.show();
-    } else {
-      showToast("Modal element not found in DOM", "error");
-    }
-  }
-};
-
-const closeEditModal = () => {
-  if (editProfileModal) {
-    editProfileModal.hide();
-  }
-};
-
-const closeCropModal = () => {
-  if (cropModal) {
-    cropModal.hide();
+    showError('Failed to update profile', error);
+  } finally {
+    updating.value = false;
   }
 };
 
 // Avatar functions
-const triggerFileInput = () => {
-  fileInput.value.click();
-};
+const triggerFileInput = () => fileInput.value.click();
 
-const handleFileSelect = (event) => {
-  const file = event.target.files[0];
+const handleFileSelect = async (e) => {
+  const file = e.target.files[0];
   if (!file) return;
 
+  e.target.value = '';
+
+  // Validate file type
+  const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  if (!validTypes.includes(file.type)) {
+    showError('Please select a JPEG, PNG, or WebP image');
+    return;
+  }
+
+  // Validate file size (2MB max)
+  if (file.size > 2 * 1024 * 1024) {
+    showError('Image must be less than 2MB');
+    return;
+  }
+
+  // Read and show in cropper
   const reader = new FileReader();
-  reader.onload = (e) => {
-    imgCrop.value.img_crop = e.target.result;
-    openAvatarModal();
+  reader.onload = (event) => {
+    imgCrop.value = {
+      img_crop: event.target.result,
+      file_name: file.name
+    };
+    openCropModal();
   };
+  reader.onerror = () => showError('Error reading image file');
   reader.readAsDataURL(file);
-
-  // Reset file input to allow selecting the same file again
-  event.target.value = "";
-};
-
-const openImageUpload = () => {
-  // Close edit modal first
-  if (editProfileModal) {
-    editProfileModal.hide();
-  }
-
-  // Then trigger file input
-  setTimeout(() => {
-    triggerFileInput();
-  }, 300);
-};
-
-const openAvatarModal = () => {
-  // First ensure modal is initialized
-  if (!cropModal) {
-    const modalEl = document.getElementById("avatar-crop-modal");
-    if (modalEl) {
-      cropModal = new Modal(modalEl);
-    } else {
-      showToast("Avatar modal element not found in DOM", "error");
-      return;
-    }
-  }
-
-  // Then show it
-  cropModal.show();
-};
-
-const removeAvatar = async () => {
-  const token = getToken();
-  try {
-    await axios.delete("/api/profile/avatar", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    profile.value.avatar = "";
-    showToast("Profile picture removed");
-  } catch (error) {
-    console.error("Error removing avatar:", error);
-    showToast("Failed to remove profile picture", "error");
-  }
-};
-
-const removeAvatarFromModal = async () => {
-  await removeAvatar();
-  closeCropModal();
-
-  // Clear the crop data
-  imgCrop.value.img_crop = "";
-};
-
-const onCrop = ({ canvas }) => {
-  // Store reference to the cropper canvas in state
-  console.log("Crop changed!", canvas);
 };
 
 const performCrop = async () => {
-  if (!cropper.value) {
-    showToast("Cropper not initialized properly", "error");
-    return;
-  }
-
-  const { canvas } = cropper.value.getResult();
-  if (!canvas) {
-    showToast("Please crop the image first", "error");
-    return;
-  }
-
-  const token = getToken();
-  canvas.toBlob(
-    async (blob) => {
-      const formData = new FormData();
-      formData.append("avatar", blob, "avatar.jpg");
-
-      try {
-        const response = await axios.post("https://api.kassar.publicvm.com/api/profile/avatar", formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        profile.value.avatar = response.data.avatar;
-        closeCropModal();
-
-        // Clear the crop data
-        imgCrop.value.img_crop = "";
-
-        showToast("Profile picture updated successfully");
-      } catch (error) {
-        console.error("Error updating avatar:", error);
-        showToast("Failed to update profile picture", "error");
+  if (!imgCrop.value.img_crop) return;
+  
+  cropping.value = true;
+  
+  try {
+    const { canvas } = cropper.value.getResult();
+    if (!canvas) throw new Error('No image to crop');
+    
+    const blob = await new Promise(resolve => {
+      canvas.toBlob(resolve, 'image/jpeg', 0.85);
+    });
+    
+    const formData = new FormData();
+    formData.append('avatar', blob, 'profile.jpg');
+    
+    const response = await axios.post('/api/profile/avatar', formData, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Content-Type': 'multipart/form-data'
       }
-    },
-    "image/jpeg",
-    0.9
-  );
+    });
+    
+    profile.value.avatar = response.data.avatar;
+    closeCropModal();
+    showSuccess('Profile picture updated successfully');
+  } catch (error) {
+    showError('Failed to upload avatar', error);
+  } finally {
+    cropping.value = false;
+  }
 };
 
+// Replace image function
+const replaceImage = () => {
+  imgCrop.value = { img_crop: '', file_name: '' };
+  triggerFileInput();
+};
+const updatePassword = async () => {
+  console.log("Update Password function called");
+
+  if (passwordForm.new_password !== passwordForm.new_password_confirmation) {
+    alert("New passwords do not match.");
+    return;
+  }
+
+  changingPassword.value = true;
+  console.log("Changing password state:", changingPassword.value);
+  console.log("Password form data:", passwordForm.value);
+
+  try {
+    const response = await axios.post('/api/profile/password', passwordForm.value, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    });
+    console.log("Password update response:", response.data);
+
+    // Reset the form after a successful update
+    passwordForm.value = {
+      current_password: '',
+      new_password: '',
+      new_password_confirmation: ''
+    };
+    showSuccess('Password updated successfully');
+  } catch (error) {
+    console.error("Error updating password:", error.response ? error.response.data : error);
+    showError('Failed to update password', error);
+  } finally {
+    changingPassword.value = false;
+    console.log("Changing password state:", changingPassword.value);
+  }
+};
+const deleteAccount = async () => {
+    if (!confirm('Are you absolutely sure? This cannot be undone.')) return;
+  
+    deleting.value = true;
+    
+    try {
+      await axios.post('/api/profile/delete', {
+        password: deletePassword.value
+      }, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      });
+      
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
+      window.location.href = '/login';
+    } catch (error) {
+      showError('Failed to delete account', error);
+    } finally {
+      deleting.value = false;
+    }
+  };
+  
+// Modal controls
+const openCropModal = () => {
+  cropModal.show();
+};
+
+const closeCropModal = () => {
+  imgCrop.value = { img_crop: '', file_name: '' };
+  cropModal.hide();
+};
+
+const openEditProfileModal = () => {
+  prepareEditForm();
+  editModal.show();
+};
+
+const closeEditModal = () => editModal.hide();
+
+// Initialize when component mounts
 onMounted(async () => {
   await fetchProfile();
-
-  // Initialize modals after DOM is fully rendered
-  nextTick(() => {
-    // Try to initialize modals with proper error handling
-    try {
-      const cropModalEl = document.getElementById("avatar-crop-modal");
-      const editModalEl = document.getElementById("editProfileModal");
-
-      if (cropModalEl) {
-        cropModal = new Modal(cropModalEl, {
-          backdrop: "static", // Prevent closing when clicking outside
-          keyboard: false, // Prevent closing with keyboard
-        });
-      } else {
-        console.warn("Crop modal element not found");
-      }
-
-      if (editModalEl) {
-        editProfileModal = new Modal(editModalEl, {
-          backdrop: "static", // Prevent closing when clicking outside
-          keyboard: false, // Prevent closing with keyboard
-        });
-      } else {
-        console.warn("Edit profile modal element not found");
-      }
-    } catch (error) {
-      console.error("Error initializing modals:", error);
-    }
-  });
+  cropModal = new Modal(document.getElementById('avatar-crop-modal'));
+  editModal = new Modal(document.getElementById('editProfileModal'));
 });
 </script>
+
 <style scoped>
+/* Add to your style section */
+.cropper-container {
+  width: 100%;
+  height: 400px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.cropper {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-left: 4px solid #dc3545;
+}
+
+.btn-danger {
+  transition: all 0.2s;
+}
+
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+}
+
+.form-control:disabled {
+  background-color: #f8f9fa;
+  opacity: 1;
+}
 /* Avatar Styles */
 .avatar {
   width: 80px;
@@ -885,5 +921,34 @@ onMounted(async () => {
 .modal-backdrop {
     z-index: 1040 !important;
 }
+/* Ensure cropper is properly sized */
+.cropper-container {
+  width: 100%;
+  height: 400px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+}
 
+.cropper {
+  width: 100%;
+  height: 100%;
+}
+
+/* Modal styling */
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Avatar styling */
+.avatar-upload {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.avatar-upload:hover {
+  transform: scale(1.05);
+}
 </style>
