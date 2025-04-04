@@ -95,33 +95,16 @@
     </div>
   </div>
 
-  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="margin-top: 50px;">
-        <div id="liveToast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="false">
-            <div class="toast-content p-3">
-                <div>
-                    <i class="bi bi-check2-circle fs-5 text-success"></i>
-                    <!-- <i class="bi bi-exclamation-circle fs-6 text-info"></i>
-                    <i class="bi bi-x-circle fs-6 text-danger"></i> -->
-                </div>
-
-                <div class="message">
-                    <span class="text text-1">បង់ប្រាក់ជោគជ័យ</span>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
-                </div>
-            </div>
-            <div class="progress active"></div>
-        </div>
-    </div>
+  <Toast />
 </template>
 
 <script setup>
+import Toast from '../Toast.vue';
 import { useCardStore } from '@/stores/card_store';
-import { Toast } from 'bootstrap';
+import { useToastStore } from '@/stores/toast_store';
 import { computed, ref, onBeforeUnmount, onMounted } from 'vue';
 
+const toastStore = useToastStore();
 const cartListStore = useCardStore();
 
 // format money
@@ -131,9 +114,6 @@ const formatPrice = cartListStore.formatPrice;
 const totalPrice = computed(() => cartListStore.totalPrice);
 const totalDis = computed(() => cartListStore.totalDis);
 
-onMounted(() => {
-    cartListStore.toast_alert = Toast.getOrCreateInstance(document.getElementById('liveToast'));
-})
 
 // Modal visibility state
 const showModal = ref(false);
@@ -169,20 +149,22 @@ const openQR = () => {
     // If total time is up (after 10 seconds)
     if (countdown.value === 0 && timerSeconds.value === 0) {
       clearInterval(countdownInterval);
-      if (cartListStore.toast_alert) {
-                cartListStore.toast_alert.show();
-            }
+      toastStore.showToast("បង់ប្រាក់ជោគជ័យ")
       closeModal();
     }
   }, 1000);
 };
 
-// Close modal
 const closeModal = () => {
   showModal.value = false;
   showQR.value = false;
   clearInterval(countdownInterval);
+
+  setTimeout(() => {
+    window.location.href = '/success';  // Fallback method to navigate
+  }, 50);
 };
+
 
 // Clean up interval when component is unmounted
 onBeforeUnmount(() => {

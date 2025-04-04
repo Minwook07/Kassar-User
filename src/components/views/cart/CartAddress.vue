@@ -26,7 +26,7 @@
                             ផ្លូវលេខ​{{ cartAddress.street_number || '' }}
                             សង្កាត់ {{ cartAddress.commune || 'N/A' }},
                             ខណ្ឌ {{ cartAddress.district || 'N/A' }},
-                            រាជធានី\ខេត្ត {{ cartAddress.province || 'N/A' }}
+                            រាជធានី/ខេត្ត {{ cartAddress.province || 'N/A' }}
                             </h5>
                             <span>{{ cartAddress.name || 'N/A' }}</span>
                             <p>{{ formatPhone(cartAddress.phone) || 'N/A' }}</p>
