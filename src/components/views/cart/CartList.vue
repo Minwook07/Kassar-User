@@ -24,7 +24,7 @@
 
             <!-- Product Image -->
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
-              <img :src="cartList.product.thumbnail" alt="Product Image" class="item-img me-3 rounded-2" />
+              <img :src="cartList.product.thumbnail_url" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
 
             <!-- Product Details -->
