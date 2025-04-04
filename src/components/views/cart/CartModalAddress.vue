@@ -94,25 +94,25 @@
                         <!-- Additional Inputs -->
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-5 mb-3">
+                                <div class="col-3 mb-3">
+                                    <label class="form-label">ឈ្មោះអ្នកទទួល</label>
+                                    <input type="text" class="form-control shadow-none"
+                                        v-model="cardStore.frm_add.name">
+                                </div>
+                                <div class="col-3 mb-3">
                                     <label class="form-label">លេខទូរស័ព្ទ</label>
                                     <input type="text" class="form-control shadow-none"
                                         v-model="cardStore.frm_add.phone">
                                 </div>
-                                <div class="col-5 mb-3">
+                                <div class="col-3 mb-3">
                                     <label class="form-label">ផ្ទះលេខ</label>
                                     <input type="text" class="form-control shadow-none"
                                         v-model="cardStore.frm_add.houseNumber">
                                 </div>
-                                <div class="col-2 mb-3">
+                                <div class="col-3 mb-3">
                                     <label class="form-label">ផ្លូវលេខ</label>
                                     <input type="text" class="form-control shadow-none"
                                         v-model="cardStore.frm_add.streetNumber">
-                                </div>
-                                <div class="col-2 mb-3">
-                                    <label class="form-label">name</label>
-                                    <input type="text" class="form-control shadow-none"
-                                        v-model="cardStore.frm_add.name">
                                 </div>
                             </div>
                         </div>

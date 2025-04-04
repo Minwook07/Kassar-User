@@ -52,11 +52,9 @@ export const useCardStore = defineStore("card_store", {
     async onLoadAddress() {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     
-    
       try {
         console.log("Fetching addresses...");
     
-        // Make API request
         const response = await axios.get(`/api/address?t=${new Date().getTime()}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,12 +63,12 @@ export const useCardStore = defineStore("card_store", {
     
         console.log("🚀 Full API Response:", response);
     
-        // ✅ Check if `response.data` is an array
-        if (Array.isArray(response.data) && response.data.length > 0) {
-          const lastAddress = response.data[response.data.length - 1];
+        const addresses = response.data.addresses;
+    
+        if (Array.isArray(addresses) && addresses.length > 0) {
+          const lastAddress = addresses[addresses.length - 1];
           console.log("✅ Last Address:", lastAddress);
     
-          // Update the address list
           this.cartAddresses = [lastAddress];
         } else {
           console.warn("❌ No valid addresses found OR incorrect response format!");
@@ -81,6 +79,7 @@ export const useCardStore = defineStore("card_store", {
         console.error("🔍 Error Details:", error.response ? error.response.data : error.message);
       }
     },
+    
     
 
     // Load cart data from API

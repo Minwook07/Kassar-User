@@ -22,16 +22,17 @@
                     <div v-if="cardStore.cartAddresses.length > 0" class="text-body align-items-center pt-3 ps-3">
                         <div v-for="cartAddress in cardStore.cartAddresses" :key="cartAddress.id">
                             <h5 class="fw-bold">
-                                ផ្ទះលេខ{{ cartAddress.house_number || 'N/A' }} 
-                                ផ្លូវលេខ​{{ cartAddress.street_number || '' }}
-                                សង្កាត់ {{ cartAddress.commune?.local_name || 'N/A' }},
-                                ខណ្ឌ {{ cartAddress.district?.local_name || 'N/A' }},
-                                រាជធានី/ខេត្ត {{ cartAddress.province?.local_name || 'N/A' }}
+                            ផ្ទះលេខ{{ cartAddress.house_number || 'N/A' }} 
+                            ផ្លូវលេខ​{{ cartAddress.street_number || '' }}
+                            សង្កាត់ {{ cartAddress.commune || 'N/A' }},
+                            ខណ្ឌ {{ cartAddress.district || 'N/A' }},
+                            រាជធានី\ខេត្ត {{ cartAddress.province || 'N/A' }}
                             </h5>
-                            <span> {{ cartAddress.user_id || 'N/A' }} </span>
+                            <span>{{ cartAddress.name || 'N/A' }}</span>
                             <p>{{ formatPhone(cartAddress.phone) || 'N/A' }}</p>
                         </div>
                     </div>
+
                     <div v-else>
                         <p class="text-muted">មិនមានអាសយដ្ឋាន</p>
                     </div>
@@ -59,8 +60,19 @@ onMounted(async () => {
 });
 
 const formatPhone = (phone) => {
-    if (!phone) return null;
-    return phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+  if (!phone) return 'N/A';
+
+  const digits = phone.replace(/\D/g, '');
+
+  if (digits.length === 10) {
+    return digits.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+  } else if (digits.length === 9) {
+    return digits.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+  } else if (digits.length === 8) {
+    return digits.replace(/(\d{3})(\d{3})(\d{2})/, '$1 $2 $3');
+  }
+
+  return phone; 
 };
 
 const onOpenAddAddress = () => {
