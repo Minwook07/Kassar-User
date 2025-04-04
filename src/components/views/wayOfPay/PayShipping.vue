@@ -24,7 +24,7 @@
         <hr class="hr">
         
         <RouterLink class="text-white text-decoration-none" to="/success">
-            <button class="mt-3 btn btn-secondary btn-process w-100">
+            <button class="mt-3 btn btn-primary btn-process w-100">
                 ទូទាត់
                 <span>{{ formatPrice(totalPrice - totalDis) }} ៛</span>
             </button>
