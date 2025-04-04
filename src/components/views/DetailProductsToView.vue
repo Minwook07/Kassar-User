@@ -4,29 +4,16 @@
       <div class="row" v-if="detailProducts">
         <div class="col-12 col-md-6 col-lg-4 mb-5" data-aos="fade-down-right">
           <div class="mb-3 rounded" style="height: 400px">
-            <img
-              class="w-100 h-100 object-fit-cover rounded"
-              :src="
-                selectedImageUrl || detailProducts.product.product_thumbnail
-              "
-              alt="Product Image"
-            />
+            <img class="w-100 h-100 object-fit-cover rounded" :src="selectedImageUrl || detailProducts.product.product_thumbnail
+              " alt="Product Image" />
           </div>
           <div class="d-flex">
-            <div
-              class="col-3 rounded"
-              v-for="product_img in detailProducts.product.product_images"
-              :key="product_img.id"
-            >
-              <img
-                :class="{
-                  'border border-success p-0': activeImage === product_img.id,
-                }"
-                @click="onChangeImage(product_img.id, product_img.image_url)"
-                class="p-1 w-100 h-100 object-fit-cover rounded"
-                :src="product_img.image_url"
-                alt="Product Image"
-              />
+            <div class="col-3 rounded" v-for="product_img in detailProducts.product.product_images"
+              :key="product_img.id">
+              <img :class="{
+                'border border-success p-0': activeImage === product_img.id,
+              }" @click="onChangeImage(product_img.id, product_img.image_url)"
+                class="p-1 w-100 h-100 object-fit-cover rounded" :src="product_img.image_url" alt="Product Image" />
             </div>
           </div>
         </div>
@@ -35,13 +22,8 @@
           <h2 class="fw-bold mb-3" data-aos="fade-down">
             {{ detailProducts.product.name }}
           </h2>
-          <div
-            data-aos="zoom-in-up"
-            class="d-flex gap-3 align-content-center mb-4"
-          >
-            <div
-              class="d-flex justify-content-center gap-1 align-content-center"
-            >
+          <div data-aos="zoom-in-up" class="d-flex gap-3 align-content-center mb-4">
+            <div class="d-flex justify-content-center gap-1 align-content-center">
               <p class="mb-0 text-warning"><i class="bi bi-star-fill"></i></p>
               <p class="mb-0 text-warning"><i class="bi bi-star-fill"></i></p>
               <p class="mb-0 text-warning"><i class="bi bi-star-fill"></i></p>
@@ -51,19 +33,16 @@
             <p class="mb-0 .text-dark-emphasis">(99 វាយតម្លៃ)</p>
           </div>
           <div>
-            <div
-              v-if="
-                detailProducts.product.price &&
-                detailProducts.product.price.has_discount !== false
-              "
-            >
+            <div v-if="
+              detailProducts.product.price &&
+              detailProducts.product.price.has_discount !== false
+            ">
               <p class="text-primary mb-0 fw-bold">
                 {{ detailProducts.product.price.discounted_price }} /
                 {{ detailProducts.product.product_units.name }}
               </p>
               <span class="text-decoration-line-through text-paragraph">
-                {{ detailProducts.product.price.original }}</span
-              >
+                {{ detailProducts.product.price.original }}</span>
             </div>
             <p class="text-primary mb-0 fw-bold" v-else>
               {{ detailProducts.product.price.original }} /
@@ -74,67 +53,44 @@
             </h5>
           </div>
           <div class="d-flex gap-4 align-items-center mb-3">
-            <div
-              data-aos="fade-right"
-              class="bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1"
-            >
-              <div
-                class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
-                @click="count > 0 && count--"
-              >
-                <i class="bi bi-dash-lg text-primary fs-4"></i>
+            <div data-aos="fade-right"
+              class="bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1">
+              <div class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
+                @click="count > 1 && count--">
+                <i class="bi bi-dash-lg text-primary fs-4" style="cursor: pointer;"></i>
               </div>
               <p class="mb-0 fw-bold fs-5">{{ count }}</p>
-              <div
-                class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
+              <div class="bg-white rounded-circle btn-select-qty d-flex justify-content-center align-items-center"
                 :class="{
                   disabled: count >= detailProducts.product.qty_in_stock,
-                }"
-                @click="count < detailProducts.product.qty_in_stock && count++"
-              >
-                <i class="bi bi-plus-lg text-primary fs-4"></i>
+                }" @click="count < detailProducts.product.qty_in_stock && count++">
+                <i class="bi bi-plus-lg text-primary fs-4" style="cursor: pointer;"></i>
               </div>
             </div>
-            <button
-              data-aos="fade-left"
-              class="btn btn-primary rounded-pill px-5 py-2 mb-2"
-            >
+            <button data-aos="fade-left" class="btn btn-primary rounded-pill px-5 py-2 mb-2" @click="addToCart">
               <i class="bi bi-cart3 me-2"></i>ដាក់ចូលកន្រ្តក
             </button>
           </div>
-          <button
-            v-if="detailProducts.product.stock_status === 'low_stock'"
-            class="btn btn-warning rounded-pill text-white mb-3"
-          >
+          <button v-if="detailProducts.product.stock_status === 'low_stock'"
+            class="btn btn-warning rounded-pill text-white mb-3">
             ស្តុកតិច
           </button>
 
-          <button
-            v-if="detailProducts.product.stock_status === 'in_stock'"
-            class="btn btn-primary rounded-pill mb-3"
-          >
+          <button v-if="detailProducts.product.stock_status === 'in_stock'" class="btn btn-primary rounded-pill mb-3">
             មានស្តុក
           </button>
 
-          <button
-            v-else-if="detailProducts.product.stock_status === 'out_of_stock'"
-            class="btn btn-secondary rounded-pill text-white mb-3"
-          >
+          <button v-else-if="detailProducts.product.stock_status === 'out_of_stock'"
+            class="btn btn-secondary rounded-pill text-white mb-3">
             អស់ស្តុក
           </button>
 
-          <div
-            data-aos="fade-down"
-            class="d-flex align-items-center text-dark mb-3"
-          >
+          <div data-aos="fade-down" class="d-flex align-items-center text-dark mb-3">
             <p class="mb-0 mt-1 text-danger fw-bold me-2">
-              <i
-                :class="
-                  detailProducts.product.is_favorited
-                    ? 'bi bi-heart-fill'
-                    : 'bi bi-heart'
-                "
-              ></i>
+              <i :class="detailProducts.product.is_favorited
+                ? 'bi bi-heart-fill'
+                : 'bi bi-heart'
+                "></i>
             </p>
             <p class="mb-0">បានដាក់ទៅបញ្ជីប្រាថ្នា</p>
           </div>
@@ -145,10 +101,7 @@
                 <img src="@/assets/images/cart-img/icon/visa.svg" alt="" />
               </div>
               <div class="visa-card">
-                <img
-                  src="@/assets/images/cart-img/icon/mastercard (1).svg"
-                  alt=""
-                />
+                <img src="@/assets/images/cart-img/icon/mastercard (1).svg" alt="" />
               </div>
               <div class="visa-card">
                 <img src="@/assets/images/cart-img/icon/unionpay.svg" alt="" />
@@ -161,20 +114,13 @@
         </div>
         <div class="col-12 col-lg-4">
           <div class="d-flex justify-content-end">
-            <button
-              data-aos="fade-up"
-              to="/viewshop"
-              class="btn btn-primary mb-3"
-              @click="goToshop(detailProducts.product.id)"
-            >
+            <button data-aos="fade-up" to="/viewshop" class="btn btn-primary mb-3"
+              @click="goToshop(detailProducts.product.id)">
               <i class="bi bi-shop me-1"></i>
               ចូលមើលហាង
             </button>
           </div>
-          <div
-            data-aos="fade-down-left"
-            class="bg-white border-1 p-3 mb-3 rounded"
-          >
+          <div data-aos="fade-down-left" class="bg-white border-1 p-3 mb-3 rounded">
             <div class="d-flex align-items-center mb-4">
               <div class="px-3 d-flex align-items-center">
                 <div class="line-detail rounded-pill bg-primary me-2"></div>
@@ -182,13 +128,10 @@
               </div>
               <h5 class="mb-0">ផលិតផលវាយតម្លៃខ្ពស់</h5>
             </div>
-            <div class="row px-3 align-items-center" v-for="topRatedPro in topRatedPros.slice(0, 3)" :key="topRatedPro.id">
+            <div class="row px-3 align-items-center cart-style-hover" v-for="topRatedPro in topRatedPros.slice(0, 3)"
+              :key="topRatedPro.id" @click="goToDetail(topRatedPro.id)" style="cursor: pointer;">
               <div class="col-4 mb-3">
-                <img
-                  class="w-100 h-100 object-fit-cover"
-                  :src="topRatedPro.product_thumbnail"
-                  alt=""
-                />
+                <img class="w-100 h-100 object-fit-cover" :src="topRatedPro.product_thumbnail" alt="" />
               </div>
               <div class="col-8 mb-3">
                 <div class="d-flex gap-2 align-content-center mb-2">
@@ -208,7 +151,7 @@
                     <i class="bi bi-star-fill"></i>
                   </p>
                 </div>
-                <p class="mb-0">{{ topRatedPro.name }}</p>
+                <p class="mb-0 pro_name">{{ topRatedPro.name }}</p>
                 <h5 class="text-primary fw-bold">
                   {{ topRatedPro.price.discounted_price }} / {{ topRatedPro.product_units.name }}
                 </h5>
@@ -219,59 +162,25 @@
         <div class="col-12 col-lg-8 mb-5">
           <nav>
             <div class="nav mynav-tabs nav-tabs" id="nav-tab" role="tablist">
-              <button
-                class="nav-link active p-0"
-                id="nav-home-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#nav-home"
-                type="button"
-                role="tab"
-                aria-controls="nav-home"
-                aria-selected="true"
-              >
+              <button class="nav-link active p-0" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                type="button" role="tab" aria-controls="nav-home" aria-selected="true">
                 Description
               </button>
-              <button
-                class="nav-link"
-                id="nav-profile-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#nav-profile"
-                type="button"
-                role="tab"
-                aria-controls="nav-profile"
-                aria-selected="false"
-              >
+              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
                 Reviews
               </button>
             </div>
           </nav>
           <div class="tab-content shadow-none" id="nav-tabContent">
-            <div
-              data-aos="fade-right"
-              class="tab-pane fade show active"
-              id="nav-home"
-              role="tabpanel"
-              aria-labelledby="nav-home-tab"
-              tabindex="0"
-            >
+            <div data-aos="fade-right" class="tab-pane fade show active" id="nav-home" role="tabpanel"
+              aria-labelledby="nav-home-tab" tabindex="0">
               <p>{{ detailProducts.product.description }}</p>
             </div>
-            <div
-              class="tab-pane fade"
-              id="nav-profile"
-              role="tabpanel"
-              aria-labelledby="nav-profile-tab"
-              tabindex="0"
-            >
-              <divi
-                class="mt-2 d-flex gap-3 align-items-center bg-white py-4 px-3 rounded"
-              >
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+              <divi class="mt-2 d-flex gap-3 align-items-center bg-white py-4 px-3 rounded">
                 <div class="pf-feedback-detail rounded-circle ms-2">
-                  <img
-                    src="@/assets/images/1.jpg"
-                    class="rounded-circle"
-                    alt=""
-                  />
+                  <img src="@/assets/images/1.jpg" class="rounded-circle" alt="" />
                 </div>
                 <div data-aos="fade-right">
                   <div class="d-flex px-3 justify-content-between">
@@ -296,13 +205,10 @@
                   </div>
                   <div class="px-3">
                     <p>
-                      <i class="bi bi-quote text-primary me-1 fs-4"></i
-                      >ក្រូចខ្វិចឆ្ញាញ់ណាស់​ ក្រូចខ្វិចឆ្ញាញ់ណាស់
+                      <i class="bi bi-quote text-primary me-1 fs-4"></i>ក្រូចខ្វិចឆ្ញាញ់ណាស់​ ក្រូចខ្វិចឆ្ញាញ់ណាស់
                       ក្រូចខ្វិចឆ្ញាញ់ណាស់ ក្រូចខ្វិចឆ្ញាញ់ណាស់
-                      ក្រូចខ្វិចឆ្ញាញ់ណាស់ ក្រូចខ្វិចឆ្ញាញ់ណាស់<i
-                        class="bi bi-quote ms-1 text-primary fs-4"
-                        style="display: inline-block; transform: scaleX(-1)"
-                      ></i>
+                      ក្រូចខ្វិចឆ្ញាញ់ណាស់ ក្រូចខ្វិចឆ្ញាញ់ណាស់<i class="bi bi-quote ms-1 text-primary fs-4"
+                        style="display: inline-block; transform: scaleX(-1)"></i>
                     </p>
                   </div>
                 </div>
@@ -312,32 +218,19 @@
         </div>
         <div class="col-12 col-lg-4 mb-5 rounded">
           <div class="mt-0 mt-lg-5">
-            <img
-              data-aos="fade-left"
-              src="@/assets/images/posterDetail.gif"
-              class="w-100 h-100 object-fit-cover rounded"
-              alt=""
-            />
+            <img data-aos="fade-left" src="@/assets/images/posterDetail.gif"
+              class="w-100 h-100 object-fit-cover rounded" alt="" />
           </div>
         </div>
         <h4 class="fw-bold mb-3" data-aos="fade-up-right">ផលិតផលស្រដៀង</h4>
         <!-- <div class="row"> -->
-        <div
-          data-aos="fade-up"
-          class="col-12 col-md-6 col-lg-3 mb-3"
-          v-for="related_products in detailProducts.related_products"
-          :key="related_products.id"
-          @click="goToDetail(related_products.id)"
-        >
-          <div
-            class="bg-white card card-product border-0 rounded position-relative"
-          >
+        <div data-aos="fade-up" class="col-12 col-md-6 col-lg-3 mb-3"
+          v-for="related_products in detailProducts.related_products" :key="related_products.id"
+          @click="goToDetail(related_products.id)">
+          <div class="bg-white card card-product border-0 rounded position-relative">
             <div class="card-img p-3">
-              <img
-                :src="related_products.product_thumbnail"
-                class="mycard-img-top rounded-top object-fit-cover"
-                alt=""
-              />
+              <img :src="related_products.product_thumbnail" class="mycard-img-top rounded-top object-fit-cover"
+                alt="" />
             </div>
             <div class="p-3 card-body">
               <div class="d-flex justify-content-between">
@@ -345,58 +238,44 @@
                   {{ related_products.category.name }}
                 </p>
                 <p class="mb-1">
-                  <span class="text-warning me-2"
-                    ><i class="bi bi-star-fill"></i></span
-                  >4.9
+                  <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>4.9
                 </p>
               </div>
               <h4 class="fw-bold">{{ related_products.name }}</h4>
               <p class="product-desc">{{ related_products.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <div
-                  v-if="
-                    related_products.price &&
-                    related_products.price.has_discount !== false
-                  "
-                >
+                <div v-if="
+                  related_products.price &&
+                  related_products.price.has_discount !== false
+                ">
                   <p class="text-primary mb-0 fw-bold">
                     {{ related_products.price.discounted_price }} /
                     {{ related_products.product_units.name }}
                   </p>
                   <span class="text-decoration-line-through text-paragraph">
-                    {{ related_products.price.original }}</span
-                  >
+                    {{ related_products.price.original }}</span>
                 </div>
                 <p class="text-primary mb-0 fw-bold" v-else>
                   {{ related_products.price.original }} /
                   {{ related_products.product_units.name }}
                 </p>
-                <router-link to="" class="btn btn-primary rounded-pill"
-                  ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link
-                >
+                <router-link to="" class="btn btn-primary rounded-pill"><i
+                    class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
               </div>
             </div>
-            <div
-              class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
-              v-for="promotion in related_products.promotions"
-              :key="promotion.id"
-            >
+            <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+              v-for="promotion in related_products.promotions" :key="promotion.id">
               <p class="mb-0 px-3 text-white">
                 {{ promotion.promotions.discount_rate }} %
               </p>
             </div>
 
-            <div
-            v-if="related_products"
+            <div v-if="related_products"
               class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-              @click.stop="toggleFav(related_products)"
-            >
+              @click.stop="toggleFav(related_products)">
               <p class="mb-0 mt-1 text-danger fw-bold">
-                <i
-                  :class="
-                    related_products.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
-                  "
-                ></i>
+                <i :class="related_products.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
+                  "></i>
               </p>
             </div>
           </div>
@@ -416,9 +295,9 @@ import { useToastStore } from "@/stores/toast_store";
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const detailProducts = ref(null);
 const toastFav = ref(null);
-const topRatedPros =ref([]);
+const topRatedPros = ref([]);
 const related_products = ref([]);
-const count = ref(0);
+const count = ref(1);
 const router = useRouter();
 const toastStore = useToastStore();
 const activeImage = ref(null);
@@ -434,20 +313,59 @@ const getDetail = () => {
 
     .then((res) => {
       detailProducts.value = res.data.data;
+      related_products.value = res.data.data.related_products;
       console.log(detailProducts.value);
     })
     .catch((error) => {
       console.log(error);
     });
 };
-const topRatedPro = () =>{
+
+const addToCart = () => {
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  if (!token) {
+    alert("សូមចូលគណនីមុននឹងដាក់ចូលកន្រ្តក។");
+    return;
+  }
+  if (!detailProducts.value || !detailProducts.value.product) {
+    alert("ព័ត៌មានផលិតផលមិនទាន់ត្រូវបានផ្ទុកឡើងទេ!");
+    return;
+  }
+
+  // Prepare data with product_id and qty only.
+  const data = {
+    product_id: detailProducts.value.product.id,
+    qty: count.value || 1, // default to 1 if count is 0
+  };
+
+  axios
+    .post("api/cart", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      if (res.data && res.data.result) {
+        // alert(res.data.message);
+        toastStore.showToast('ដាក់ចូលកន្ត្រកជោគជ័យ');
+      } else {
+        alert("មានបញ្ហាមួយចំនួន។");
+      }
+    })
+    .catch((error) => {
+      console.error("Error adding to cart:", error.response?.data || error.message);
+      alert("ការដាក់ចូលកន្រ្តកបរាជ័យ។");
+    });
+};
+
+const topRatedPro = () => {
   axios.get("api/products?rating=5")
-  .then((res)=>{
-    topRatedPros.value = res.data.data;
-    console.log(topRatedPros.value);
-    
-  })
-  .catch((error) => {
+    .then((res) => {
+      topRatedPros.value = res.data.data;
+      console.log(topRatedPros.value);
+
+    })
+    .catch((error) => {
       console.error("Error fetching top-rated products:", error);
     });
 }
@@ -468,11 +386,11 @@ const toggleFav = (FavProduct) => {
     .then((res) => {
       toastFav.value = !FavProduct.is_favorited;
       console.log(toastFav.value);
-      
-      if(!toastFav.value) {
+
+      if (!toastFav.value) {
         toastStore.showToast('ដកចេញរួចរាល់');
       }
-      else{
+      else {
         toastStore.showToast('ដាក់ចូលរូចរាល់');
       }
 
@@ -504,6 +422,28 @@ watch(
   }
 );
 const goToDetail = (id) => {
-  router.push({ name: "detailproduct", query: { id } });
+  router.push({ name: "detailproduct", query: { id } }).then(() => {
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }, 200); // Adjust the delay as needed (200ms here)
+});
 };
 </script>
+
+<style scoped>
+.cart-style-hover:hover {
+  background-color: #32CA83;
+  transition: .3s ease-in-out;
+}
+
+.cart-style-hover:hover .pro_name {
+  color: #ffffff!important;
+}
+
+.cart-style-hover:hover h5 {
+  color: #ffffff!important;
+}
+</style>
