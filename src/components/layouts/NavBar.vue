@@ -37,14 +37,18 @@
           <RouterLink class="btn-cart fs-4 text-secondary me-2" to="/cart">
             <div class="position-relative">
               <img src="@/assets/images/icons-img/cart.png" alt="">
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                style="font-size: 10px; top: 10px!important">
-                3
+              <span v-if="cartListStore" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                style="font-size: 11px; top: 10px!important">
+                {{cartListStore.cartLists.length}}
               </span>
             </div>
           </RouterLink>
-          <RouterLink class="btn-favorite fs-4 text-secondary me-2" to="/wishlist">
+          <RouterLink class="position-relative btn-favorite fs-4 text-secondary me-3" to="/wishlist">
             <img src="@/assets/images/icons-img/love.png" alt="">
+            <span v-if="cartListStore" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                style="font-size: 11px; top: 10px!important">
+                {{cartListStore.countFavItem}}
+              </span>
           </RouterLink>
           <div class="profile-wrapper position-relative">
             <button ref="btnClickProfile" class="rounded-circle user-pf" type="button">
@@ -240,9 +244,15 @@ import { Offcanvas, Collapse } from "bootstrap";
 import axios from "axios";
 // import { onBeforeRouteLeave } from "vue-router";
 import { useAllVideos } from '@/stores/views/videoFeed_store';
+import { useCardStore } from '@/stores/card_store';
 const allVideos = useAllVideos();
+const cartListStore = useCardStore();
+
+
 onMounted(() => {
-    allVideos.onloadVideoFilter();
+  cartListStore.onLoadCart();
+  cartListStore.onLoadFav();
+  allVideos.onloadVideoFilter();
 });
 const headerRef = ref(null);
 const toggleClass = "is-sticky";

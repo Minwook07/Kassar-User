@@ -19,6 +19,7 @@ export const useCardStore = defineStore("card_store", {
     mdl_address: null,
     mdl_delete: null,
     mdl_delete_all: null,
+    countFavItem: null,
     isAddress: null,
     provinces: [],
     districts: [],
@@ -96,6 +97,18 @@ export const useCardStore = defineStore("card_store", {
         });
     }
     ,
+    onLoadFav() {
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+      axios.get('api/favorites', { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => {
+          this.countFavItem = res.data.data.length;
+        })
+        .catch((error) => {
+          console.error("Error loading cart:", error);
+        });
+    }
+    ,
 
     // format maney
     formatPrice(price) {
@@ -145,6 +158,7 @@ export const useCardStore = defineStore("card_store", {
       } catch (error) {
         console.error("Error loading villages:", error);
       }
-    }
+    },
+
   }
 });
