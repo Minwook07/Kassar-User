@@ -7,7 +7,7 @@
     <h6 class="fw-bold mb-2">កូដបញ្ចុះតម្លៃ</h6>
     <div class="d-flex mt-3 mb-3 position-relative">
       <input type="text" class="px-2 code-discount" placeholder=" បញ្ចូលកូដបញ្ចុះតម្លៃ">
-      <button type="submit" class="btn btn-custom">ទទួលយក</button>
+      <button type="submit" class="btn btn-custom btn-primary">ទទួលយក</button>
     </div>
 
     <hr class="hr">
@@ -32,7 +32,7 @@
     <hr class="hr">
 
     <!-- Payment Button -->
-    <button @click="showModal = true" class="mt-3 btn btn-secondary btn-process w-100">
+    <button @click="showModal = true" class="mt-3 btn btn-primary btn-process w-100">
       ទូទាត់ <span>{{ formatPrice(totalPrice - totalDis) }} ៛</span>
     </button>
 
