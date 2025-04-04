@@ -198,7 +198,7 @@
                   </p>
                 </div>
                 <h5 class="fw-bold">{{ product.name }}</h5>
-                <p style="height: 40px">{{ product.description }}</p>
+                <p class="product-desc">{{ product.description }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div
                     v-if="product.price && product.price.has_discount !== false"
@@ -215,8 +215,8 @@
                     {{ product.price.original }} /
                     {{ product.product_units.name }}
                   </p>
-                  <router-link to="" class="btn btn-primary rounded-pill"
-                    ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link
+                  <button @click.stop="AddToCart()" class="btn btn-primary rounded-pill"
+                    ><i class="bi bi-bag-fill me-1"></i>កន្រ្តក</button
                   >
                 </div>
               </div>
@@ -305,7 +305,7 @@ const selectedCategory = ref();
 const itemsPerPage = 8;
 const currentPage = ref(1);
 const min_price = 0;
-const max_price = 15;
+const max_price = 100000;
 const search = ref("");
 const router = useRouter();
 const contactStore = useContactStore();
@@ -334,6 +334,7 @@ const GetAllProducts = () => {
     .then((res) => {
       totalProducts.value = res.data.paginate.total;
       allProducts.value = res.data.data;
+      
     })
     .catch((error) => {
       console.error("Error fetching data:", error);

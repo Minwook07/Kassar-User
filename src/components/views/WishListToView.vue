@@ -74,7 +74,7 @@
                     <!-- <span class="small">{{ item.rating }}</span> -->
                   </div>
                 </div>
-                <p class="small text-muted mb-3">
+                <p class="small text-muted mb-3 product-desc">
                   {{ FavProduct.product.description }}
                 </p>
                 <div
