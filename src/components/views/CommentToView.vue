@@ -200,14 +200,14 @@ const deleteComment = (index) => {
 const postComment = () => {
   if (newComment.value.trim() === '') return;
 
-  // Add the new comment to the list
+// Add the new comment to the list
   comments.unshift({
-    username: 'You',
+    username: 'ស្រឿង ចន្ធី',
     text: newComment.value,
     timestamp: 'Just now',
     likes: 0,
     isLiked: false,
-    avatar: '/placeholder.svg?height=40&width=40'
+    avatar: 'src/assets/images/user_pf_sample.jpg'
   });
 
   // Clear the input
