@@ -3,10 +3,10 @@
           <div class="col-lg-12 col-md-6 col-lg-4">
             <div class="profile-card bg-white border rounded-2 p-4 mb-4" data-aos="zoom-in" data-aos-delay="200">
               <div class="profile-img-container mb-4 d-flex justify-content-center">
-                <img src="@/assets/images/user_pf_sample.jpg" alt="Profile Image" class="pf-user img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
+                <img :src="profile.avatar" alt="Profile Image" class="pf-user img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
               </div>
               <div class="profile-info text-center">
-                <h2 class="profile-name fs-4 mb-3">ស្រឿន​ ចន្ធី</h2>
+                <h2 class="profile-name fs-4 mb-3">{{ profile.name }}</h2>
                 <div class="profile-social d-flex justify-content-center gap-3 mt-3">
                   <a href="https://www.facebook.com/profile.php?id=100036610731530&mibextid=LQQJ4d" class="social-link fs-5 text-decoration-none">
                     <i class="bi bi-facebook"></i>
@@ -26,6 +26,31 @@
           </div>
         </div>
 </template>
+
+<script setup>
+
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
+const profile = ref({});
+
+const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+const onLoadProfile = () => {
+  axios.get('/api/profile', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  .then((res) => {
+    profile.value = res.data.data;
+  })
+}
+
+onMounted(() => {
+  onLoadProfile();
+})
+</script>
 <style scoped>
 
 .modal-backdrop {
