@@ -31,6 +31,7 @@ export const useCardStore = defineStore("card_store", {
   }),
   
   getters: {
+
     // Calculate the total price for all items in the cart based on quantities
     totalPrice: (state) => {
       return state.cartLists.reduce((total, cartItem) => {
@@ -97,6 +98,14 @@ export const useCardStore = defineStore("card_store", {
       } catch (error) {
         console.error("Error loading cart:", error);
       }
+    },
+
+    // format maney
+    formatPrice(price) {
+      if (!price) return '0';
+      return Math.floor(price)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
     },
 
     // Update cart item quantity

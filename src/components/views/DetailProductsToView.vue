@@ -351,7 +351,7 @@
                 </p>
               </div>
               <h4 class="fw-bold">{{ related_products.name }}</h4>
-              <p>{{ related_products.description }}</p>
+              <p class="product-desc">{{ related_products.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div
                   v-if="
@@ -387,8 +387,9 @@
             </div>
 
             <div
+            v-if="related_products"
               class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-              @click.stop="toggleFav(product)"
+              @click.stop="toggleFav(related_products)"
             >
               <p class="mb-0 mt-1 text-danger fw-bold">
                 <i
@@ -404,42 +405,14 @@
     </div>
     <!-- </div> -->
   </section>
-  <div
-    id="liveToast"
-    class="toast border-0 p-3 bg-primary"
-    role="alert"
-    aria-live="assertive"
-    aria-atomic="true"
-  >
-    <div class="toast-content d-flex justify-content-center gap-3">
-      <div>
-        <i class="bi bi-check2-circle fs-5 text-white"></i>
-      </div>
-
-      <div class="message">
-        <span class="text text-white">{{
-          toastFav ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
-        }}</span>
-      </div>
-
-      <div>
-        <button
-          type="button"
-          class="btn btn-close border-0 ms-auto text-white p-0"
-          data-bs-dismiss="toast"
-          aria-label="Close"
-        ></button>
-      </div>
-    </div>
-    <div class="progress active"></div>
-  </div>
+  <Toast />
 </template>
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import { Toast } from "bootstrap";
-import { useContactStore } from "@/stores/contact_store";
+import Toast from "./Toast.vue";
+import { useToastStore } from "@/stores/toast_store";
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const detailProducts = ref(null);
 const toastFav = ref(null);
@@ -447,7 +420,7 @@ const topRatedPros =ref([]);
 const related_products = ref([]);
 const count = ref(0);
 const router = useRouter();
-const contactStore = useContactStore();
+const toastStore = useToastStore();
 const activeImage = ref(null);
 const selectedImageUrl = ref("");
 const getDetail = () => {
@@ -494,7 +467,14 @@ const toggleFav = (FavProduct) => {
     })
     .then((res) => {
       toastFav.value = !FavProduct.is_favorited;
-      contactStore.toast_alert.show();
+      console.log(toastFav.value);
+      
+      if(!toastFav.value) {
+        toastStore.showToast('ដកចេញរួចរាល់');
+      }
+      else{
+        toastStore.showToast('ដាក់ចូលរូចរាល់');
+      }
 
       let index = related_products.value.findIndex((p) => p.id == FavProduct.id);
       related_products.value[index].is_favorited = toastFav.value;
@@ -506,17 +486,8 @@ const toggleFav = (FavProduct) => {
 
 onMounted(() => {
   getDetail();
-  toast();
   topRatedPro();
 });
-const toast = () => {
-  const toastElement = document.getElementById("liveToast");
-  if (toastElement) {
-    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
-  } else {
-    console.error("Toast element not found!");
-  }
-};
 const onChangeImage = (imgId, imageUrl) => {
   activeImage.value = imgId;
   selectedImageUrl.value = imageUrl;

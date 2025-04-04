@@ -11,11 +11,7 @@
               data-aos="fade-up-right"
               class="col-12 col-lg-6 pf-seller-main d-flex justify-content-center align-content-center bg-secondary-subtle rounded-4 position-relative"
             >
-              <img
-                :src="detailShop.image"
-                alt=""
-                class="pf-seller-avatar rounded-4"
-              />
+              <img :src="detailShop.image" alt="" class="pf-seller-avatar" />
               <p
                 class="mb-0 bg-primary py-1 px-2 text-white position-absolute verify-status rounded"
               >
@@ -45,12 +41,17 @@
           >
             <div>
               <button
-                @click="follow(detailShop.id)"
+               v-if="detailShop && detailShop.id"
+                @click="toggleFollow(detailShop.id)"
                 data-aos="fade-down"
                 class="btn btn-primary me-0 me-md-3 mb-3 mb-md-0"
               >
-                <i class="bi bi-heart"></i
-                ><span class="d-none d-md-inline-block ms-2">តាមដាន</span>
+                <i
+                  :class="follow.is_following ? 'bi bi-heart-fill' : 'bi bi-heart'"
+                ></i>
+                <span class="d-none d-md-inline-block ms-2">{{
+                  follow.is_following ? "ឈប់តាមដាន" : "តាមដាន"
+                }}</span>
               </button>
               <button
                 @click="onShare()"
@@ -71,9 +72,9 @@
             class="col-4 d-flex justify-content-end"
             data-aos="fade-down-right"
           >
-            <div v-if="count_follow">
+            <div v-if="count_follows">
               <h3 class="text-center fw-bold color-style-2">
-                {{ count_follow.count }}8
+                {{ count_follows.total }}
               </h3>
               <h5 class="fw-bold text-center">អ្នកតាមដាន</h5>
             </div>
@@ -107,7 +108,7 @@
             >
               <li data-aos="fade-right" class="nav-item" role="presentation">
                 <button
-                  class="nav-link"
+                  class="nav-link active"
                   id="pills-more-tab"
                   data-bs-toggle="pill"
                   data-bs-target="#pills-more"
@@ -129,26 +130,24 @@
               >
                 <button
                   class="nav-link"
-                  :id="`pills-${category.id}-tab`"
+                  :id="`pills-${category.name}-tab`"
                   data-bs-toggle="pill"
-                  :data-bs-target="`#pills-${category.id}`"
+                  :data-bs-target="`#pills-${category.name}`"
                   type="button"
                   role="tab"
-                  :aria-controls="`pills-${category.id}`"
-                  aria-selected="false"
+                  :aria-controls="`pills-${category.name}`"
+                  :aria-selected="false"
                 >
                   {{ category.name }}
                 </button>
               </li>
             </ul>
-
             <div class="tab-content shadow-none px-0" id="pills-tabContent z-1">
               <div
-                class="tab-pane fade show active"
-                id="pills-home"
+                class="tab-pane fade"
+                :class="{ 'show active': selectedTab === 'ទាំងអស់' }"
+                id="pills-more"
                 role="tabpanel"
-                aria-labelledby="pills-home-tab"
-                tabindex="0"
               >
                 <div class="row">
                   <div
@@ -180,7 +179,7 @@
                           </p>
                         </div>
                         <h4 class="fw-bold">{{ product.name }}</h4>
-                        <p>{{ product.description }}</p>
+                        <p class="product-desc">{{ product.description }}</p>
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
@@ -224,224 +223,78 @@
                 </div>
               </div>
               <div
+                v-for="category in categories"
+                :key="category.id"
                 class="tab-pane fade"
-                id="pills-profile"
+                :class="{ 'show active': selectedTab === category.name }"
+                :id="`pills-${category.name}`"
                 role="tabpanel"
-                aria-labelledby="pills-profile-tab"
-                tabindex="0"
+                :aria-labelledby="`pills-${category.name}-tab`"
               >
                 <div class="row">
                   <div
+                    data-aos="fade-up"
                     class="col-12 col-md-4 col-lg-3 mb-3"
-                    v-for="product in allProducts"
+                    v-for="product in filteredProducts(category)"
                     :key="product.id"
+                    @click="goToDetail(product.id)"
                   >
                     <div
                       class="bg-white card card-product border-0 rounded position-relative"
                     >
                       <div class="card-img p-3">
                         <img
-                          :src="product.img"
+                          :src="product.product_thumbnail"
                           class="mycard-img-top rounded-top object-fit-cover"
                           alt=""
                         />
                       </div>
                       <div class="p-3 card-body">
                         <div class="d-flex justify-content-between">
-                          <p class="text-primary mb-1">បន្លែ</p>
+                          <p class="text-primary mb-1">
+                            {{ product.category.name }}
+                          </p>
                           <p class="mb-1">
                             <span class="text-warning me-2"
-                              ><i class="bi bi-star-fill"></i></span
-                            >4.9
+                              ><i class="bi bi-star-fill"></i
+                            ></span>
+                            {{ product.rating.average }}
                           </p>
                         </div>
                         <h4 class="fw-bold">{{ product.name }}</h4>
-                        <p>500g</p>
+                        <p class="product-desc">{{ product.description }}</p>
                         <div
                           class="d-flex justify-content-between align-items-center"
                         >
                           <p class="text-primary mb-0 fw-bold">
-                            10000៛
-                            <span
-                              class="text-decoration-line-through text-paragraph"
-                              >10000៛</span
-                            >
+                            {{ product.price.original }}/{{
+                              product.product_units.name
+                            }}
                           </p>
                           <router-link
                             to=""
                             class="btn btn-primary rounded-pill"
-                            ><i class="bi bi-bag-fill me-1"></i
-                            >កន្រ្តក</router-link
                           >
+                            <i class="bi bi-bag-fill me-1"></i> កន្រ្តក
+                          </router-link>
                         </div>
                       </div>
                       <div
                         class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
                       >
-                        <p class="mb-0 px-3 text-white">20%</p>
-                      </div>
-
-                      <div
-                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                        @click="OnSavefav(product.id)"
-                      >
-                        <p class="mb-0 mt-1 text-danger fw-bold">
-                          <i
-                            :class="
-                              allProducts.isFav
-                                ? 'bi bi-heart-fill'
-                                : 'bi bi-heart'
-                            "
-                          ></i>
+                        <p class="mb-0 px-3 text-white">
+                          {{ product.promotions.discount_rate }}
                         </p>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="pills-contact"
-                role="tabpanel"
-                aria-labelledby="pills-contact-tab"
-                tabindex="0"
-              >
-                <div class="row">
-                  <div
-                    class="col-12 col-md-4 col-lg-3 mb-3"
-                    v-for="product in allProducts"
-                    :key="product.id"
-                  >
-                    <div
-                      class="bg-white card card-product border-0 rounded position-relative"
-                    >
-                      <div class="card-img p-3">
-                        <img
-                          :src="product.img"
-                          class="mycard-img-top rounded-top object-fit-cover"
-                          alt=""
-                        />
-                      </div>
-                      <div class="p-3 card-body">
-                        <div class="d-flex justify-content-between">
-                          <p class="text-primary mb-1">បន្លែ</p>
-                          <p class="mb-1">
-                            <span class="text-warning me-2"
-                              ><i class="bi bi-star-fill"></i></span
-                            >4.9
-                          </p>
-                        </div>
-                        <h4 class="fw-bold">{{ product.name }}</h4>
-                        <p>500g</p>
-                        <div
-                          class="d-flex justify-content-between align-items-center"
-                        >
-                          <p class="text-primary mb-0 fw-bold">
-                            10000៛
-                            <span
-                              class="text-decoration-line-through text-paragraph"
-                              >10000៛</span
-                            >
-                          </p>
-                          <router-link
-                            to=""
-                            class="btn btn-primary rounded-pill"
-                            ><i class="bi bi-bag-fill me-1"></i
-                            >កន្រ្តក</router-link
-                          >
-                        </div>
-                      </div>
-                      <div
-                        class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
-                      >
-                        <p class="mb-0 px-3 text-white">20%</p>
-                      </div>
 
                       <div
-                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                        @click="OnSavefav(product.id)"
+                        class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                        @click.stop="toggleFav(product)"
                       >
                         <p class="mb-0 mt-1 text-danger fw-bold">
                           <i
                             :class="
-                              allProducts.isFav
-                                ? 'bi bi-heart-fill'
-                                : 'bi bi-heart'
-                            "
-                          ></i>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="pills-more"
-                role="tabpanel"
-                aria-labelledby="pills-more-tab"
-                tabindex="0"
-              >
-                <div class="row">
-                  <div
-                    class="col-12 col-md-6 col-lg-3 mb-3"
-                    v-for="product in allProducts"
-                    :key="product.id"
-                  >
-                    <div
-                      class="bg-white card card-product border-0 rounded position-relative"
-                    >
-                      <div class="card-img p-3">
-                        <img
-                          :src="product.img"
-                          class="mycard-img-top rounded-top object-fit-cover"
-                          alt=""
-                        />
-                      </div>
-                      <div class="p-3 card-body">
-                        <div class="d-flex justify-content-between">
-                          <p class="text-primary mb-1">បន្លែ</p>
-                          <p class="mb-1">
-                            <span class="text-warning me-2"
-                              ><i class="bi bi-star-fill"></i></span
-                            >4.9
-                          </p>
-                        </div>
-                        <h4 class="fw-bold">{{ product.name }}</h4>
-                        <p>500g</p>
-                        <div
-                          class="d-flex justify-content-between align-items-center"
-                        >
-                          <p class="text-primary mb-0 fw-bold">
-                            10000៛
-                            <span
-                              class="text-decoration-line-through text-paragraph"
-                              >10000៛</span
-                            >
-                          </p>
-                          <router-link
-                            to=""
-                            class="btn btn-primary rounded-pill"
-                            ><i class="bi bi-bag-fill me-1"></i
-                            >កន្រ្តក</router-link
-                          >
-                        </div>
-                      </div>
-                      <div
-                        class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
-                      >
-                        <p class="mb-0 px-3 text-white">20%</p>
-                      </div>
-
-                      <div
-                        class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                        v-show="!product.isFav"
-                        @click="OnSavefav(product.id)"
-                      >
-                        <p class="mb-0 mt-1 text-danger fw-bold">
-                          <i
-                            :class="
-                              allProducts.isFav
+                              product.is_favorited
                                 ? 'bi bi-heart-fill'
                                 : 'bi bi-heart'
                             "
@@ -458,58 +311,25 @@
       </div>
     </section>
   </section>
-  <div class="toast-container position-fixed top-0 end-0 p-3">
-    <div
-      id="liveToast"
-      class="toast border-0 p-3 bg-primary"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      <div
-        class="toast-content d-flex justify-content-center gap-3"
-        v-if="product in allProducts"
-        :key="product.id"
-      >
-        <div>
-          <i class="bi bi-check2-circle fs-5 text-white"></i>
-        </div>
-
-        <div class="message">
-          <span class="text text-white">{{
-            FavProduct.is_favorited ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
-          }}</span>
-          {{ FavProduct.is_favorited }}
-        </div>
-
-        <div>
-          <button
-            type="button"
-            class="btn btn-close border-0 ms-auto text-white p-0"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
-        </div>
-      </div>
-      <div class="progress active"></div>
-    </div>
-  </div>
+  <Toast />
 </template>
 <script setup>
 import { useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
+import { onMounted, ref,watch } from "vue";
 import { useSellerStore } from "@/stores/seller_store";
-import { Toast } from "bootstrap";
-import { useContactStore } from "@/stores/contact_store";
+import Toast from "./Toast.vue";
+import { useToastStore } from "@/stores/toast_store";
 import axios from "axios";
 const allProducts = ref([]);
 const detailShop = ref([]);
-const count_follow = ref([]);
+const toastFav = ref(null);
+const count_follows = ref([]);
 const categories = ref([]);
-const token = localStorage.getItem("token");
+const follow=  ref({ isFollowing: null});
 const sellerStore = useSellerStore();
 const router = useRouter();
-const contactStore = useContactStore();
+const selectedTab = "ទាំងអស់";
+const toastStore = useToastStore();
 const GetAllProducts = () => {
   axios
     .get("/api/products")
@@ -520,25 +340,51 @@ const GetAllProducts = () => {
       console.error("Error fetching data:", error);
     });
 };
+const filteredProducts = (category) => {
+  return allProducts.value.filter(
+    (product) => product.category.id === category.id
+  );
+};
 const GetShopDetail = () => {
   const id = router.currentRoute.value.query.id;
   axios.get(`/api/products/${id}/shop`).then((res) => {
     detailShop.value = res.data.data;
+    if (detailShop.value) {
+      getCountFollower(detailShop.value.id);
+    }
   });
 };
-const follow = (id) => {
-  if (token) {
-    alert();
+const toggleFollow = (id) => {
+  if (!id) {
+    alert("Shop ID is missing!");
+    return;
+  }
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  if (!token) {
+    alert("please login");
   }
   axios
-    .get(`/api/follow/${id}`, {
+    .post(`api/shops/${id}/toggle-follow`,null ,{
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => {
-      console.log(res.data.data);
-      count_follow.value = res.data.data.count_follow;
+      follow.value = res.data.data;
+      getCountFollower(id);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+};
+const getCountFollower = (id) => {
+  axios
+    .get(`api/shops/${id}/followers`)
+    .then((res) => {
+      count_follows.value = res.data.paginate;
+      console.log(count_follows.value);
+      
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -560,8 +406,19 @@ const toggleFav = (FavProduct) => {
       },
     })
     .then((res) => {
-      FavProduct.is_favorited = !FavProduct.is_favorited;
-      contactStore.toast_alert.show();
+      // change message toast
+      toastFav.value = !FavProduct.is_favorited;
+      
+      if(!toastFav.value) {
+        toastStore.showToast('ដកចេញរួចរាល់');
+      }
+      else{
+        toastStore.showToast('ដាក់ចូលរូចរាល់');
+      }
+
+      // change fav icon
+      let index = allProducts.value.findIndex((p) => p.id == FavProduct.id);
+      allProducts.value[index].is_favorited = toastFav.value;
     })
     .catch((error) => {
       console.error("Toggle Favorite:", error.response?.data || error.message);
@@ -583,18 +440,22 @@ const onShare = () => {
 const goToDetail = (id) => {
   router.push({ name: "detailproduct", query: { id } });
 };
-const toast = () => {
-  const toastElement = document.getElementById("liveToast");
-  if (toastElement) {
-    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
-  } else {
-    console.error("Toast element not found!");
-  }
-};
 onMounted(() => {
   GetAllProducts();
   GetShopDetail();
   GetAllCategories();
-  toast();
+  getCountFollower();
+  if (detailShop.value && detailShop.value.id) {
+    toggleFollow(detailShop.value.id);
+  }
 });
+watch(
+  () => detailShop.value,
+  (newVal) => {
+    if (newVal && newVal.id) {
+      toggleFollow(newVal.id);
+    }
+  },
+  { immediate: true }
+);
 </script>

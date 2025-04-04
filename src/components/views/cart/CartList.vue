@@ -31,7 +31,7 @@
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">{{ cartList.product.name }}</h5>
               <p class="mb-1 text-muted">
-                {{ cartList.product.price }} ៛ /{{ cartList.product.product_unit.name }} | <span class="text-success"> 
+                {{ formatPrice(cartList.product.price) }} ៛ /{{ cartList.product.product_unit.name }} | <span class="text-success"> 
                   {{ cartList.product.stock_status }}</span> | <span class="text-danger"> 
                     {{ cartList.product.discount_rate }}% </span>
               </p>
@@ -42,7 +42,9 @@
 
             <!-- Quantity Controls -->
             <div class="text-end">
-              <h5 class="fw-bold mb-3"> <span v-show="cartList.product.discount_rate != 0" style="text-decoration: line-through; " class="text-danger"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }}៛</span>  <span> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.discounted_price }}៛</span>
+              <h5 class="fw-bold mb-3"> 
+                <span v-show="cartList.product.discount_rate != 0" style="text-decoration: line-through; " class="text-danger"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }}៛</span>  
+                <span> {{ formatPrice((cartListStore.cartCounts[cartList.id] || 1) * cartList.product.discounted_price) }}៛</span>
               </h5>
               <div style="width:90px; height: 30px;"
                 class="quantity-controls bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1">
@@ -86,10 +88,20 @@ import { onMounted, ref, computed } from 'vue';
 const cartListStore = useCardStore();
 const selectAllChecked = ref(false); // Ensure it's false by default
 
+// format money
+const formatPrice = cartListStore.formatPrice;
+
 // Create a computed property to check if any item is selected
 const isAnyItemSelected = computed(() => {
   return cartListStore.cartLists.some(cartItem => cartItem.isSelected);
 });
+
+// const formatPrice = (price) => {
+//   if (!price) return null;
+//   return Math.floor(price) // Remove decimals
+//     .toString()
+//     .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
+// };
 
 // Handle "Select All" checkbox click
 const onSelectAllChange = () => {
