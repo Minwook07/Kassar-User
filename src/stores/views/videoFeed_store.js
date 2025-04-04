@@ -29,7 +29,7 @@ export const useAllVideos = defineStore('views/videoFeed', {
                 .then(response => {
                     this.lastIndexVideoArr = response.data.data.length - 1;
                     this.videoArr = response.data.data;
-                    // this.lastVideoId = this.videoArr[0].id;
+                    this.lastVideoId = this.videoArr[0].id;
                     // this.firstVideoId = this.videoArr[this.videoArr.length - 1].id;
                     console.log(this.videoArr);
                     // console.log('last vdo:',this.lastIndexVideoArr);

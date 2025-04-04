@@ -97,7 +97,7 @@
       <div class="container-fluid">
         <ul class="navbar-nav d-flex flex-row align-items-center justify-content-center">
           <li class="nav-item">
-            <RouterLink class="nav-link mt-1" to="/video?id=">
+            <RouterLink class="nav-link mt-1" :to="{ path: '/video', query: { id: allVideos.lastVideoId } }">
               <i class="bi bi-collection-play-fill fs-3"></i>
             </RouterLink>
           </li>
@@ -239,7 +239,11 @@ import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { Offcanvas, Collapse } from "bootstrap";
 import axios from "axios";
 // import { onBeforeRouteLeave } from "vue-router";
-
+import { useAllVideos } from '@/stores/views/videoFeed_store';
+const allVideos = useAllVideos();
+onMounted(() => {
+    allVideos.onloadVideoFilter();
+});
 const headerRef = ref(null);
 const toggleClass = "is-sticky";
 

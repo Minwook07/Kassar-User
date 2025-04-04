@@ -56,9 +56,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="btn btn-primary">
+                    <!-- <div class="btn btn-primary">
                         <span class="d-none d-md-inline-block" v-if="video">តាមដាន</span>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="shop-post-title mt-3">
                     <p v-if="video">{{ video.description }}</p>
@@ -86,14 +86,14 @@
                 </div>
             </div>
             <div class="share-action rounded-3 bg-white mt-3 d-flex">
-                <input type="text" :value="video ? 'https://kassar-usr.chandalen.dev/product?id=' + video.id : ''"
+                <input type="text" :value="video ? 'https://usr.kassar.publicvm.com/video?id=' + video.id : ''"
                     id="myInput" class="w-100 ">
                 <button class="btn btn-share" @click="copyLink()"><i class="bi bi-share"></i>
                 </button>
             </div>
             <div class="comment-section rounded-3 p-3 bg-white mt-3">
                 <p class="m-0 fw-bold fs-5">មតិ (<span>11</span>)</p>
-                <hr class="my-1">
+                <hr class="my-1 mb-3">
                 <CommentToView :post_id="video ? video.id : ''" />
             </div>
         </div>
