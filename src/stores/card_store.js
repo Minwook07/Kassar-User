@@ -4,14 +4,14 @@ import { defineStore } from "pinia";
 export const useCardStore = defineStore("card_store", {
   state: () => ({
     frm_add: {
-        province: '',
-        district: '',
-        commune: '',
-        village: '',
-        houseNumber: '',
-        streetNumber: '',
-        phone: '',
-        name: ''
+      province: '',
+      district: '',
+      commune: '',
+      village: '',
+      houseNumber: '',
+      streetNumber: '',
+      phone: '',
+      name: ''
     },
     selected_id: 0,
     vv: null,
@@ -29,7 +29,7 @@ export const useCardStore = defineStore("card_store", {
     cartLists: [],   // Store the list of products in the cart
     cartAddresses: [],  // Store user addresses
   }),
-  
+
   getters: {
 
     // Calculate the total price for all items in the cart based on quantities
@@ -46,59 +46,56 @@ export const useCardStore = defineStore("card_store", {
       }, 0);
     }
   },
-  
+
   actions: {
 
     async onLoadAddress() {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    
-    
+
+
       try {
         console.log("Fetching addresses...");
-    
+
         // Make API request
         const response = await axios.get(`/api/address?t=${new Date().getTime()}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-    
+
         console.log("🚀 Full API Response:", response);
-    
-        // ✅ Check if `response.data` is an array
+
         if (Array.isArray(response.data) && response.data.length > 0) {
           const lastAddress = response.data[response.data.length - 1];
-          console.log("✅ Last Address:", lastAddress);
-    
+          console.log("Last Address:", lastAddress);
+
           // Update the address list
           this.cartAddresses = [lastAddress];
         } else {
-          console.warn("❌ No valid addresses found OR incorrect response format!");
+          console.warn("No valid addresses found OR incorrect response format!");
           console.warn("🔍 Response Structure:", response.data);
         }
       } catch (error) {
-        console.error("❌ Error loading address:", error);
+        console.error("Error loading address:", error);
         console.error("🔍 Error Details:", error.response ? error.response.data : error.message);
       }
     },
-    
 
-    // Load cart data from API
-    async onLoadCart() {
+    onLoadCart() {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-      try {
-        const response = await axios.get("/api/cart", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      axios.get('api/cart', { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => {
+          this.cartLists = res.data.data;
+          this.cartLists.forEach(cartItem => {
+            this.cartCounts[cartItem.id] = parseInt(cartItem.qty, 10);
+          });
+        })
+        .catch((error) => {
+          console.error("Error loading cart:", error);
         });
-        console.log("Cart Data:", response.data);
-        this.cartLists = response.data.data;
-      } catch (error) {
-        console.error("Error loading cart:", error);
-      }
-    },
+    }
+    ,
 
     // format maney
     formatPrice(price) {
