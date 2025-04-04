@@ -41,11 +41,11 @@
             <div class="shop-profile rounded-3 p-3  bg-white">
                 <div class="d-flex align-items-start justify-content-between">
                     <div class="d-flex">
-                        <RouterLink to="/viewshop" class="shop-avatar border">
+                        <RouterLink :to="video?`/viewshop?id=`+video.shop.id:''" class="shop-avatar border">
                             <img v-if="video" :src="video.shop.image" alt="">
                         </RouterLink>
                         <div class="owner-detail ps-2">
-                            <RouterLink to="/viewshop" class="name text-decoration-none ">
+                            <RouterLink :to="video?`/viewshop?id=`+video.shop.id:''" class="name text-decoration-none ">
                                 <h5 class="m-0 fw-bold" v-if="video">{{ video.shop.name }}</h5>
                             </RouterLink>
                             <div class="rating d-flex align-items-center mt-1">
@@ -64,11 +64,11 @@
                 </div>
             </div>
             <div class="product rounded-3 p-3 bg-white mt-3 d-flex align-items-start">
-                <div class="thumbnail">
+                <div class="thumbnail" v-if="video" @click="goToProductDetail(video.product.id)">
                     <img v-if="video" :src="video.product.product_thumbnail" alt="">
                 </div>
                 <div class="detail ms-3">
-                    <h5 class="fw-bold text-semidark" v-if="video">{{video.product.name}}</h5>
+                    <h5 class="fw-bold text-semidark" v-if="video" @click="goToProductDetail(video.product.id)">{{video.product.name}}</h5>
                     <p class="m-0" v-if="video">1 <span>{{video.product.product_units.name}} </span></p>
                     <p class="fw-bold fs-3 text-secondary m-0" v-if="video">{{video.product.price.discounted_price}} ៛</p>
                     <router-link to="" class="btn btn-outline-primary rounded-2 ms-auto"><i
@@ -135,6 +135,10 @@ function prevVideo() {
         video.value = allVideos.videoArr[lastIndex.value];
     }
     // console.log(lastIndex.value);
+}
+
+function goToProductDetail($id) {
+    router.push(`/product?id=${$id}`);
 }
 function copyLink() {
     var copyText = document.getElementById("myInput");

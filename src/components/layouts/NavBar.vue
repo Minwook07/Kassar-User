@@ -75,6 +75,12 @@
                 </RouterLink>
               </li>
               <li>
+                <a href="https://adm.kassar.publicvm.com/" class="d-flex align-items-center text-decoration-none p-0">
+                  <i class="bi bi-kanban me-1 text-secondary fs-5 pt-1"></i>
+                  <h6 class="text-black">ការគ្រប់គ្រង</h6>
+                </a>
+              </li>
+              <li>
                 <RouterLink to="/login" class="d-flex align-items-center text-decoration-none p-0">
                   <i class="bi bi-escape me-1 text-secondary fs-5 pt-1"></i>
                   <h6 class="text-black">ចាកចេញ</h6>
@@ -253,7 +259,7 @@ const offcanvasInstance = ref(null);
 let collapseInstance = null;
 
 const handleScroll = () => {
-  if (window.scrollY > 390) {
+  if (window.scrollY > 250) {
     headerRef.value.classList.add(toggleClass);
   } else {
     headerRef.value.classList.remove(toggleClass);

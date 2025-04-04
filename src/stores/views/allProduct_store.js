@@ -24,8 +24,8 @@ export const useAllProducts = defineStore('views/allProduct', {
             }
         },
 
-        onloadProduct(per_page = 8, page = 1) {
-            axios.get(`/api/products?per_page=${per_page}&page=${page}`)
+        onloadProduct(per_page = 8, page = 1, sdir = 'desc') {
+            axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
                 .then(response => {
                     this.productArr = response.data.data;
                     console.log(this.productArr);

@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.productArr"
                             :key="product.id">
-                            <div class="bg-white card card-product border-0 rounded position-relative">
+                            <div class="bg-white card card-product border-0 rounded position-relative" data-aos="fade-up" data-aos-delay="100">
                                 <div class="card-img p-3">
                                     <img :src="product.product_thumbnail"
                                         class="mycard-img-top rounded-top object-fit-cover" alt="" />
@@ -74,7 +74,7 @@
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.productArr"
                             :key="product.id">
-                            <div class="bg-white card card-product border-0 rounded position-relative">
+                            <div class="bg-white card card-product border-0 rounded position-relative" data-aos="fade-up" data-aos-delay="100">
                                 <div class="card-img p-3">
                                     <img :src="product.product_thumbnail"
                                         class="mycard-img-top rounded-top object-fit-cover" alt="" />
@@ -140,15 +140,15 @@
             </div>
             <div class="row pe-3">
                 <div class="col-3 video-wrapper" v-for="video in allVideos.videoArr" :key="video.id">
-                    <RouterLink class="text-decoration-none" to="">
+                    <RouterLink class="text-decoration-none" to="" data-aos="fade-up" data-aos-delay="100">
                         <div class="video" to="">
                             <img :src="video.thumbnail" alt="">
                             <!-- <span class="view-count fs-6 fw-semibold text-white">11.5K views</span> -->
                             <div class="user_info">
-                                <p class="video-desc text-white fw-semibold m-0">{{ video.description }}</p>
+                                <p class="video-desc text-white m-0">{{ video.description }}</p>
                                 <div class="d-flex align-items-center mb-2">
                                     <img :src="video.product.product_thumbnail" alt="">
-                                    <p class="username m-0 fw-bold ps-1 text-white">{{video.user.name}}</p>
+                                    <p class="username m-0 ps-1 text-white">{{video.user.name}}</p>
                                 </div>
                             </div>
                         </div>

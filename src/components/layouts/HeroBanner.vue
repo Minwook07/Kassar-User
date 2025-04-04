@@ -90,7 +90,7 @@
                                         <img src="@/assets/images/products/product-2.jpg" alt="">
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                            <p class="m-0">សាច់គោងៀត</p>
+                                            <p class="m-0">មៀន ប៉ៃលិន</p>
                                             <span>$10.99</span>
                                         </div>
                                     </RouterLink>
@@ -98,7 +98,7 @@
                                         <img src="@/assets/images/products/product-3.jpg" alt="">
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                            <p class="m-0">សាច់គោងៀត</p>
+                                            <p class="m-0">សាច់ក្រកសៀមរាប</p>
                                             <span>$10.99</span>
                                         </div>
                                     </RouterLink>
@@ -106,7 +106,7 @@
                                         <img src="@/assets/images/products/product-4.jpg" alt="">
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                            <p class="m-0">សាច់គោងៀត</p>
+                                            <p class="m-0">ទាបបាត់ដំបង</p>
                                             <span>$10.99</span>
                                         </div>
                                     </RouterLink>
@@ -163,8 +163,7 @@
                                                     <p class="username m-0 fw-bold ps-1">Thy Farm Store</p>
                                                 </div>
                                                 <div class="caption pt-2">
-                                                    <p class="ps-1 fw-semibold ">សាច់គោងៀត
-                                                        ផលិតផលខេត្តកំពង់ចាម
+                                                    <p class="ps-1 fw-semibold ">មៀនប៉ៃលិន ផ្អែមឆ្ងាញ់ ដាំបែបធម្មជាតិ
                                                         ធានាអនាម័យ
                                                         ១០០%</p>
                                                 </div>
@@ -199,7 +198,7 @@
                                 </div>
                                 <img src="@/assets/images/products/product-6.png" alt="">
                                 <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
-                                    <p class="m-0">អង្ករផ្កាម្លិះ</p>
+                                    <p class="m-0">ថ្នាំកម្ចាត់សត្វល្អិតដំណាំពោទត</p>
                                     <span>$9.99</span>
                                 </div>
                             </RouterLink>
