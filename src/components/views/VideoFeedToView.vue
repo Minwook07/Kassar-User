@@ -2,7 +2,7 @@
     <div class="video-feed d-flex overflow-hidden">
         <div class="video-section d-flex justify-content-center position-relative">
             <img v-if="!video" src="/kassar.png" alt="" class="w-100 position-absolute">
-            <img v-if="video" :src="video?video.thumbnail:'/kassar.png'" alt="" class="w-100 position-absolute" >
+            <img v-if="video" :src="video ? video.thumbnail : '/kassar.png'" alt="" class="w-100 position-absolute">
             <div
                 class="top-bar p-3 w-100 d-flex  align-items-center justify-content-between position-absolute top-0 start-0">
                 <RouterLink to="/allproducts" class="btn-dark text-decoration-none
@@ -14,11 +14,11 @@
                     <input class="form-control me-2" type="search" placeholder="ស្វែងរកផលិតផល" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">ស្វែងរក</button>
                 </form>
-                <RouterLink to="/allproducts" class="btn-dark text-decoration-none
+                <a href="https://adm.kassar.publicvm.com/upload-video" class="btn-dark text-decoration-none
            d-flex align-items-center">
                     <i class="fa-solid fa-plus fs-3 p-2 text-white"></i>
                     <h6 class="m-0 pe-2 text-white">បង្ហោះវីដេអូ</h6>
-                </RouterLink>
+                </a>
             </div>
             <div class="sidebar p-3 h-100 position-absolute top-0 end-0 d-flex align-items-center">
                 <div class="switch-button-wrapper d-flex flex-column">
@@ -37,21 +37,22 @@
                 </div>
             </div>
         </div>
-        <div class="video-detail p-3">
+        <div class="video-detail p-3 position-relative">
             <div class="shop-profile rounded-3 p-3  bg-white">
                 <div class="d-flex align-items-start justify-content-between">
                     <div class="d-flex">
-                        <RouterLink :to="video?`/viewshop?id=`+video.shop.id:''" class="shop-avatar border">
+                        <RouterLink :to="video ? `/viewshop?id=` + video.shop.id : ''" class="shop-avatar border">
                             <img v-if="video" :src="video.shop.image" alt="">
                         </RouterLink>
                         <div class="owner-detail ps-2">
-                            <RouterLink :to="video?`/viewshop?id=`+video.shop.id:''" class="name text-decoration-none ">
+                            <RouterLink :to="video ? `/viewshop?id=` + video.shop.id : ''"
+                                class="name text-decoration-none ">
                                 <h5 class="m-0 fw-bold" v-if="video">{{ video.shop.name }}</h5>
                             </RouterLink>
                             <div class="rating d-flex align-items-center mt-1">
 
-                                <span class="px-2 fw-bold fs-5 text-black-50"> · </span>
-                                <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video">{{video.created_since}}</h6>
+                                <!-- <span class="px-2 fw-bold fs-5 text-black-50"></span> -->
+                                <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video">{{ video.created_since }}</h6>
                             </div>
                         </div>
                     </div>
@@ -60,35 +61,40 @@
                     </div>
                 </div>
                 <div class="shop-post-title mt-3">
-                    <p v-if="video">{{video.description}}</p>
+                    <p v-if="video">{{ video.description }}</p>
                 </div>
             </div>
             <div class="product rounded-3 p-3 bg-white mt-3 d-flex align-items-start">
                 <div class="thumbnail" v-if="video" @click="goToProductDetail(video.product.id)">
-                    <img v-if="video" :src="video.product.product_thumbnail" alt="">
+                    <img v-if="video" :src="video.product.product_thumbnail" alt="" class="object-fit-cover">
                 </div>
                 <div class="detail ms-3">
-                    <h5 class="fw-bold text-semidark" v-if="video" @click="goToProductDetail(video.product.id)">{{video.product.name}}</h5>
-                    <p class="m-0" v-if="video">1 <span>{{video.product.product_units.name}} </span></p>
-                    <p class="fw-bold fs-3 text-secondary m-0" v-if="video">{{video.product.price.discounted_price}} ៛</p>
+                    <h5 class="fw-bold text-semidark" v-if="video" @click="goToProductDetail(video.product.id)">
+                        {{ video.product.name }}</h5>
+                    <p class="m-0" v-if="video">1 <span>{{ video.product.product_units.name }} </span></p>
+                    <p class="fw-bold fs-3 text-secondary m-0" v-if="video">{{ video.product.price.discounted_price }} ៛
+                    </p>
                     <router-link to="" class="btn btn-outline-primary rounded-2 ms-auto"><i
                             class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
                 </div>
                 <div class="d-flex flex-column align-content-between">
-                    <span class="category-pill ms-auto" v-if="video">{{video.product.category.name}}</span>
+                    <span class="category-pill ms-auto" v-if="video">{{ video.product.category.name }}</span>
                     <div class="d-flex mt-2">
-                        <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video">{{video.product.rating.average}}</h6> <i class="fa fa-star text-warning fs-6"></i>
+                        <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video">{{ video.product.rating.average }}</h6>
+                        <i class="fa fa-star text-warning fs-6"></i>
                     </div>
                 </div>
             </div>
             <div class="share-action rounded-3 bg-white mt-3 d-flex">
-                <input type="text" :value="video?'https://kassar-usr.chandalen.dev/product?id='+video.id:''" id="myInput" class="w-100 ">
+                <input type="text" :value="video ? 'https://kassar-usr.chandalen.dev/product?id=' + video.id : ''"
+                    id="myInput" class="w-100 ">
                 <button class="btn btn-share" @click="copyLink()"><i class="bi bi-share"></i>
                 </button>
             </div>
             <div class="comment-section rounded-3 p-3 bg-white mt-3">
                 <p class="m-0 fw-bold fs-5">មតិ (<span>11</span>)</p>
                 <hr class="my-1">
+                <CommentToView :post_id="video ? video.id : ''" />
             </div>
         </div>
     </div>
@@ -96,46 +102,105 @@
 <script setup>
 import { useAllVideos } from '@/stores/views/videoFeed_store.js';
 import axios from 'axios';
-import { ref, onMounted, watch, nextTick } from 'vue';
+import { ref, onMounted, watch, watchEffect } from 'vue';
 import router from '@/router';
-
+import CommentToView from '@/components/views/CommentToView.vue';
+import { useRoute } from 'vue-router';
 const video = ref(null);
 const allVideos = useAllVideos();
 const videoPlayer = ref(null);
 let lastIndex = ref(0);
+const route = useRoute();
+
 onMounted(async () => {
     await allVideos.onloadVideo(); 
-    if (allVideos.videoArr) {
-        updateLatestVideo();
+
+    if (allVideos.videoArr && allVideos.videoArr.length > 0) {
+        if (route.query.id) {
+            updateVideoById(route.query.id);
+        } else {
+            updateLatestVideo();
+        }
+
+        if (!video.value) {
+            lastIndex.value = 0;
+            video.value = allVideos.videoArr[0];
+        }
     }
 });
 
-const updateLatestVideo = () => {
-    lastIndex.value = allVideos.lastIndexVideoArr;
-    // console.log('Last Index:', lastIndex.value); 
 
-    if (lastIndex !== undefined) {
-        video.value = allVideos.videoArr[lastIndex.value];
-        // console.log('Latest Video:', video.value);
+
+const updateVideoById = (id) => {
+    if (!allVideos.videoArr || allVideos.videoArr.length === 0) {
+        console.warn("Video array is empty or not loaded yet.");
+        return;
+    }
+
+    const foundVideo = allVideos.videoArr.find(v => v.id == id);
+    if (foundVideo) {
+        video.value = foundVideo;
+        lastIndex.value = allVideos.videoArr.findIndex(v => v.id == id);
+    } else {
+        console.warn("Video not found for ID:", id);
     }
 };
-// Watch for changes in video array in case it's updated later
-watch(() => allVideos.videoArr, updateLatestVideo, { deep: true });
 
-function nextVideo() {
+const updateLatestVideo = () => {
+    if (!allVideos.videoArr || allVideos.videoArr.length === 0) {
+        console.warn("No videos available.");
+        return;
+    }
+
+    lastIndex.value = allVideos.lastIndexVideoArr ?? (allVideos.videoArr.length - 1);
+    
+    if (lastIndex.value < 0 || lastIndex.value >= allVideos.videoArr.length) {
+        lastIndex.value = 0;
+    }
+
+    video.value = allVideos.videoArr[lastIndex.value];
+};
+
+
+
+// Watch for changes in the route query
+watch(() => route.query.id, (newId) => {
+    if (newId && allVideos.videoArr && allVideos.videoArr.length > 0) {
+        updateVideoById(newId);
+    }
+});
+
+// Ensure the video updates when video list is available
+watchEffect(() => {
+    if (allVideos.videoArr && allVideos.videoArr.length > 0) {
+        if (route.query.id) {
+            updateVideoById(route.query.id);
+        } else {
+            updateLatestVideo();
+        }
+    }
+});
+
+
+function prevVideo() {
     if (lastIndex.value > 0) {
         lastIndex.value = lastIndex.value - 1;
         video.value = allVideos.videoArr[lastIndex.value];
     }
     // console.log('Lastest Idex2',lastIndex.value);
 }
-function prevVideo() {
+function nextVideo() {
     if (lastIndex.value < allVideos.videoArr.length - 1) {
         lastIndex.value = lastIndex.value + 1;
-        video.value = allVideos.videoArr[lastIndex.value];
+    } else {
+        lastIndex.value = 0; // Loop back to the first video
     }
-    // console.log(lastIndex.value);
+    video.value = allVideos.videoArr[lastIndex.value];
 }
+watch(lastIndex, (newIndex) => {
+    console.log("Updated lastIndex:", newIndex);
+    console.log("Current Video:", video.value);
+});
 
 function goToProductDetail($id) {
     router.push(`/product?id=${$id}`);

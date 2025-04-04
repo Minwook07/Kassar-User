@@ -87,7 +87,7 @@
                                                 product.rating.average }}
                                         </p>
                                     </div>
-                                    <h4 class="fw-bold">{{ product.name }}</h4>
+                                    <h4 class="fw-bold product_name">{{ product.name }}</h4>
                                     <p class="product-desc">{{ product.description }}</p>
 
                                 </div>

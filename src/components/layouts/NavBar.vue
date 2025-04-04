@@ -97,7 +97,7 @@
       <div class="container-fluid">
         <ul class="navbar-nav d-flex flex-row align-items-center justify-content-center">
           <li class="nav-item">
-            <RouterLink class="nav-link mt-1" to="/video">
+            <RouterLink class="nav-link mt-1" to="/video?id=">
               <i class="bi bi-collection-play-fill fs-3"></i>
             </RouterLink>
           </li>

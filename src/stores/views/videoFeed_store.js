@@ -36,6 +36,17 @@ export const useAllVideos = defineStore('views/videoFeed', {
                 })
         },
 
+        onloadVideoFilterId(id) {
+            axios.get(`/api/posts/${id}`)
+                .then(response => {
+                    this.videoArr = response.data.data;
+                    // this.lastVideoId = this.videoArr[0].id;
+                    // this.firstVideoId = this.videoArr[this.videoArr.length - 1].id;
+                    console.log(this.videoArr);
+                    // console.log('last vdo:',this.lastIndexVideoArr);
+                })
+        },
+
         addToCart(id) {
             const token = localStorage.getItem('token');
 
