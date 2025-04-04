@@ -7,10 +7,10 @@
                         <p class="fw-bold fs-5 text-white py-2 m-0">ប្រភេទផលិតផល</p>
                     </div>
                     <ul class="category-list list-unstyled">
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">ត្រី</RouterLink>
+                        <li class="category-item" v-for="category in categories" :key="category.id">
+                            <RouterLink class="nav-link category-link" to="/allproducts">{{ category.name }}</RouterLink>
                         </li>
-                        <li class="category-item">
+                        <!-- <li class="category-item">
                             <RouterLink class="nav-link category-link" to="/allproducts">បន្លែ</RouterLink>
                         </li>
                         <li class="category-item">
@@ -27,7 +27,7 @@
                         </li>
                         <li class="category-item">
                             <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន់</RouterLink>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -178,7 +178,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 d-none d-md-block mt-2 h-50" data-aos="fade-down" data-aos-delay="500" >
+                    <div class="col-6 d-none d-md-block mt-2 h-50" data-aos="fade-down" data-aos-delay="500">
                         <div class="hero-discount product-hero d-flex">
                             <RouterLink class="product w-50 me-4 rounded-3 shadow-sm py-2 px-3" to="/detailproduct">
                                 <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
@@ -218,4 +218,22 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination } from 'swiper/modules';
 import "swiper/css";
 import "swiper/css/pagination";
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
+const categories = ref([]);
+
+const GetAllCategories = () => {
+    axios
+        .get("/api/categories")
+        .then((res) => {
+            categories.value = res.data.data;
+        })
+        .catch((error) => {
+            console.error("Error fetching categories:", error);
+        });
+};
+onMounted(() => {
+    GetAllCategories();
+})
 </script>

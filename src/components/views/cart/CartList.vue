@@ -8,11 +8,8 @@
           </h4>
           <div>
             <!-- Select All Checkbox -->
-            <input class="form-check-input me-3 rounded-circle shadow-none" 
-              type="checkbox" 
-              id="selectAll"
-              v-model="selectAllChecked"
-              @change="onSelectAllChange">
+            <input class="form-check-input me-3 rounded-circle shadow-none" type="checkbox" id="selectAll"
+              v-model="selectAllChecked" @change="onSelectAllChange">
             <label for="selectAll">លុបទាំងអស់</label>
           </div>
         </div>
@@ -24,16 +21,17 @@
 
             <!-- Product Image -->
             <div class="me-3 rounded-2 img-cart" style="width: 100px; height: 100px;">
-              <img :src="cartList.product.thumbnail" alt="Product Image" class="item-img me-3 rounded-2" />
+              <img :src="cartList.product.thumbnail_url" alt="Product Image" class="item-img me-3 rounded-2" />
             </div>
 
             <!-- Product Details -->
             <div class="flex-grow-1">
               <h5 class="mb-2 mt-1 fw-bold">{{ cartList.product.name }}</h5>
               <p class="mb-1 text-muted">
-                {{ formatPrice(cartList.product.price) }} ៛ /{{ cartList.product.product_unit.name }} | <span class="text-success"> 
-                  {{ cartList.product.stock_status }}</span> | <span class="text-danger"> 
-                    {{ cartList.product.discount_rate }}% </span>
+                {{ formatPrice(cartList.product.price) }} ៛ /{{ cartList.product.product_unit.name }} | <span
+                  class="text-success">
+                  {{ cartList.product.stock_status }}</span> | <span class="text-danger">
+                  {{ cartList.product.discount_rate }}% </span>
               </p>
               <a role="button" class="delete-btn" @click="onConfirmDelete(cartList)">
                 <i class="bi bi-trash"></i> លុបចេញ
@@ -42,16 +40,19 @@
 
             <!-- Quantity Controls -->
             <div class="text-end">
-              <h5 class="fw-bold mb-3"> 
-                <span v-show="cartList.product.discount_rate != 0" style="text-decoration: line-through; " class="text-danger"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price }}៛</span>  
-                <span> {{ formatPrice((cartListStore.cartCounts[cartList.id] || 1) * cartList.product.discounted_price) }}៛</span>
+              <h5 class="fw-bold mb-3">
+                <span v-show="cartList.product.discount_rate != 0" style="text-decoration: line-through; "
+                  class="text-danger"> {{ (cartListStore.cartCounts[cartList.id] || 1) * cartList.product.price
+                  }}៛</span>
+                <span> {{ formatPrice((cartListStore.cartCounts[cartList.id] || 1) * cartList.product.discounted_price)
+                }}៛</span>
               </h5>
               <div style="width:90px; height: 30px;"
                 class="quantity-controls bg-secondary-subtle btn-select-main rounded-pill d-flex justify-content-between align-items-center p-1">
 
                 <!-- Decrease Quantity -->
                 <div class="bg-white rounded-circle btn-quantity d-flex justify-content-center align-items-center"
-                  @click="decrement(cartList.id)">
+                  @click="decrement(cartList.id)" style="cursor: pointer;">
                   <i class="bi bi-dash-lg text-black fs-6"></i>
                 </div>
 
@@ -60,17 +61,15 @@
 
                 <!-- Increase Quantity -->
                 <div class="bg-white rounded-circle btn-quantity d-flex justify-content-center align-items-center"
-                  @click="increment(cartList.id)">
+                  @click="increment(cartList.id)" style="cursor: pointer;">
                   <i class="bi bi-plus-lg text-black fs-6"></i>
                 </div>
               </div>
             </div>
           </div> <!-- End Loop -->
-          
+
           <div class="mt-4 d-flex justify-content-end">
-            <button class="btn btn-danger px-5 py-3" 
-              :disabled="!isAnyItemSelected" 
-              type="button" 
+            <button class="btn btn-danger px-5 py-3" :disabled="!isAnyItemSelected" type="button"
               @click="onConfirmDeleteAll()">
               លុបទាំងអស់
             </button>
@@ -113,7 +112,7 @@ const onSelectAllChange = () => {
 onMounted(() => {
   cartListStore.onLoadCart();
   // Ensure the "Select All" checkbox is unchecked initially
-  selectAllChecked.value = false; 
+  selectAllChecked.value = false;
 });
 
 const onConfirmDelete = ({ id }) => {
