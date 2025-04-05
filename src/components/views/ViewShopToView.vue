@@ -192,7 +192,7 @@
                             to=""
                             class="btn btn-primary rounded-pill"
                             ><i class="bi bi-bag-fill me-1"></i
-                            >កន្រ្តក</router-link
+                            >កន្ត្រក</router-link
                           >
                         </div>
                       </div>
@@ -275,7 +275,7 @@
                             to=""
                             class="btn btn-primary rounded-pill"
                           >
-                            <i class="bi bi-bag-fill me-1"></i> កន្រ្តក
+                            <i class="bi bi-bag-fill me-1"></i> កន្ត្រក
                           </router-link>
                         </div>
                       </div>

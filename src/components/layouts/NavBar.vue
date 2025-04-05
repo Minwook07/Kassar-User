@@ -282,11 +282,8 @@ const handleScroll = () => {
 
 onMounted(async () => {
   window.addEventListener("scroll", handleScroll);
-
-  // Check for token in localStorage or sessionStorage
   token.value = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  // If token exists, set the Authorization header and fetch profile data.
   if (token.value) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token.value}`;
     try {
@@ -299,10 +296,11 @@ onMounted(async () => {
     }
   }
 
-  // Wait for the DOM to update before attaching event listeners
   await nextTick();
   if (btnClickProfile.value) {
-    btnClickProfile.value.addEventListener("click", () => {
+    btnClickProfile.value.addEventListener("click", (event) => {
+      // Prevent event from bubbling up so that global click listener doesn't immediately hide it.
+      event.stopPropagation();
       if (profileDropdown.value) {
         profileDropdown.value.classList.toggle("active");
       }
@@ -310,9 +308,27 @@ onMounted(async () => {
   } else {
     console.warn("btnClickProfile element is not found.");
   }
+  
+  // Add a global click listener to detect outside clicks
+  document.addEventListener("click", handleOutsideClick);
+  
   offcanvasInstance.value = new Offcanvas(document.getElementById("myOffcanvas"));
   collapseInstance = new Collapse(document.getElementById("categoryCollapse"), { toggle: false });
 });
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+  document.removeEventListener("click", handleOutsideClick);
+});
+
+// Function to handle clicks outside the profile dropdown
+const handleOutsideClick = (event) => {
+  if (profileDropdown.value && !profileDropdown.value.contains(event.target) && 
+      btnClickProfile.value && !btnClickProfile.value.contains(event.target)) {
+    profileDropdown.value.classList.remove("active");
+  }
+};
+
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);

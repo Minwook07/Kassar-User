@@ -75,7 +75,7 @@
                     <p class="fw-bold fs-3 text-secondary m-0" v-if="video">{{ video.product.price.discounted_price }} ៛
                     </p>
                     <router-link to="" class="btn btn-outline-primary rounded-2 ms-auto"><i
-                            class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
+                            class="bi bi-bag-fill me-1"></i>កន្ត្រក</router-link>
                 </div>
                 <div class="d-flex flex-column align-content-between">
                     <span class="category-pill ms-auto" v-if="video">{{ video.product.category.name }}</span>

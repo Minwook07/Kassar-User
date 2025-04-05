@@ -68,7 +68,7 @@
               </div>
             </div>
             <button data-aos="fade-left" class="btn btn-primary rounded-pill px-5 py-2 mb-2" @click="addToCart">
-              <i class="bi bi-cart3 me-2"></i>ដាក់ចូលកន្រ្តក
+              <i class="bi bi-cart3 me-2"></i>ដាក់ចូលកន្ត្រក
             </button>
           </div>
           <button v-if="detailProducts.product.stock_status === 'low_stock'"
@@ -260,7 +260,7 @@
                   {{ related_products.product_units.name }}
                 </p>
                 <router-link to="" class="btn btn-primary rounded-pill"><i
-                    class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
+                    class="bi bi-bag-fill me-1"></i>កន្ត្រក</router-link>
               </div>
             </div>
             <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
@@ -324,7 +324,7 @@ const getDetail = () => {
 const addToCart = () => {
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   if (!token) {
-    alert("សូមចូលគណនីមុននឹងដាក់ចូលកន្រ្តក។");
+    alert("សូមចូលគណនីមុននឹងដាក់ចូលកន្ត្រក។");
     return;
   }
   if (!detailProducts.value || !detailProducts.value.product) {
@@ -354,7 +354,7 @@ const addToCart = () => {
     })
     .catch((error) => {
       console.error("Error adding to cart:", error.response?.data || error.message);
-      alert("ការដាក់ចូលកន្រ្តកបរាជ័យ។");
+      alert("ការដាក់ចូលកន្ត្រកបរាជ័យ។");
     });
 };
 

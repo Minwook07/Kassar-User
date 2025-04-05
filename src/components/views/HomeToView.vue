@@ -19,7 +19,8 @@
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-3 mb-3 h-100" v-for="product in allProduct.productArr"
                             :key="product.id">
-                            <div class="bg-white card card-product border-0 rounded position-relative" data-aos="fade-up" data-aos-delay="100">
+                            <div class="bg-white card card-product border-0 rounded position-relative"
+                                data-aos="fade-up" data-aos-delay="100">
                                 <div class="card-img p-3">
                                     <img :src="product.product_thumbnail"
                                         class="mycard-img-top rounded-top object-fit-cover" alt="" />
@@ -48,7 +49,7 @@
                                             </h6>
                                         </div>
                                         <p @click="addToCart(product.id)" class="btn btn-primary rounded-pill"><i
-                                                class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
+                                                class="bi bi-bag-fill me-1"></i>កន្ត្រក</p>
                                     </div>
                                 </div>
                                 <div v-if="!(product.promotions.length == 0)"
@@ -59,10 +60,7 @@
                                 <div class="position-absolute border border-dark-subtle bg-white top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
                                     @click="OnSavefav(product.id)">
                                     <p class="mb-0 mt-1 text-danger fw-bold">
-                                        <i :class="allProduct.isFav
-                                            ? 'bi bi-heart-fill'
-                                            : 'bi bi-heart'
-                                            "></i>
+                                        <i :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
                                     </p>
                                 </div>
                             </div>
@@ -74,7 +72,8 @@
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.productArr"
                             :key="product.id">
-                            <div class="bg-white card card-product border-0 rounded position-relative" data-aos="fade-up" data-aos-delay="100">
+                            <div class="bg-white card card-product border-0 rounded position-relative"
+                                data-aos="fade-up" data-aos-delay="100">
                                 <div class="card-img p-3">
                                     <img :src="product.product_thumbnail"
                                         class="mycard-img-top rounded-top object-fit-cover" alt="" />
@@ -103,7 +102,7 @@
                                             </h6>
                                         </div>
                                         <p @click="addToCart(product.id)" class="btn btn-primary rounded-pill"><i
-                                                class="bi bi-bag-fill me-1"></i>កន្រ្តក</p>
+                                                class="bi bi-bag-fill me-1"></i>កន្ត្រក</p>
                                     </div>
                                 </div>
                                 <div v-if="!(product.promotions.length == 0)"
@@ -139,7 +138,8 @@
                     class="bi bi-collection-play fs-3 text-secondary"></i>
             </div>
             <div class="row pe-3">
-                <div class="col-3 video-wrapper" v-for="video in allVideos.videoArr" :key="video.id" @click="goToDetailVideo(video.id)">
+                <div class="col-3 video-wrapper" v-for="video in allVideos.videoArr" :key="video.id"
+                    @click="goToDetailVideo(video.id)">
                     <RouterLink class="text-decoration-none" to="" data-aos="fade-up" data-aos-delay="100">
                         <div class="video" to="">
                             <img :src="video.thumbnail" alt="">
@@ -148,7 +148,7 @@
                                 <p class="video-desc text-white m-0">{{ video.description }}</p>
                                 <div class="d-flex align-items-center mb-2">
                                     <img :src="video.product.product_thumbnail" alt="">
-                                    <p class="username m-0 ps-1 text-white">{{video.user.name}}</p>
+                                    <p class="username m-0 ps-1 text-white">{{ video.user.name }}</p>
                                 </div>
                             </div>
                         </div>
