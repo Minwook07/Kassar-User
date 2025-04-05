@@ -30,8 +30,8 @@
                     </button>
                 </div>
             </div>
-            <div class="video-link d-flex align-items-center justify-content-center h-100 bg-danger">
-                <div class="bg-accent h-100 overflow-hidden">
+            <div class="video-link d-flex align-items-center justify-content-center h-100 ">
+                <div class=" h-100 overflow-hidden">
                     <video ref="videoPlayer" class="video-display" autoplay playsinline controls v-if="video"
                         :src="video.video_url"></video>
                 </div>
@@ -74,14 +74,14 @@
                     <p class="m-0" v-if="video">1 <span>{{ video.product.product_units.name }} </span></p>
                     <p class="fw-bold fs-3 text-secondary m-0" v-if="video">{{ video.product.price.discounted_price }} ៛
                     </p>
-                    <div @click="addToCart(video.product.id)" class="btn btn-outline-primary rounded-2 ms-auto"><i
+                    <div v-if="video" @click="addToCart(video.product.id)" class="btn btn-outline-primary rounded-2 ms-auto"><i
                             class="bi bi-bag-fill me-1"></i>កន្រ្តក</div>
                 </div>
                 <div class="d-flex flex-column align-content-between">
                     <span class="category-pill ms-auto" v-if="video">{{ video.product.category.name }}</span>
                     <div class="d-flex mt-2">
                         <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video">{{ video.product.rating.average }}</h6>
-                        <i class="fa fa-star text-warning fs-6"></i>
+                        <i v-if="video" class="fa fa-star text-warning fs-6"></i>
                     </div>
                 </div>
             </div>
@@ -91,11 +91,8 @@
                 <button class="btn btn-share" @click="copyLink()"><i class="bi bi-share"></i>
                 </button>
             </div>
-            <div class="comment-section rounded-3 p-3 bg-white mt-3">
-                <p class="m-0 fw-bold fs-5">មតិ (<span>11</span>)</p>
-                <hr class="my-1 mb-3">
-                <CommentToView :post_id="video ? video.id : ''" />
-            </div>
+            
+            <CommentToView :post_id="video ? video.id : ''" />
         </div>
     </div>
     <ToastView/>
@@ -138,7 +135,7 @@ onMounted(async () => {
 
 const updateVideoById = (id) => {
     if (!allVideos.videoArr || allVideos.videoArr.length === 0) {
-        console.warn("Video array is empty or not loaded yet.");
+        // console.warn("Video array is empty or not loaded yet.");
         return;
     }
 
@@ -147,13 +144,13 @@ const updateVideoById = (id) => {
         video.value = foundVideo;
         lastIndex.value = allVideos.videoArr.findIndex(v => v.id == id);
     } else {
-        console.warn("Video not found for ID:", id);
+        // console.warn("Video not found for ID:", id);
     }
 };
 
 const updateLatestVideo = () => {
     if (!allVideos.videoArr || allVideos.videoArr.length === 0) {
-        console.warn("No videos available.");
+        // console.warn("No videos available.");
         return;
     }
 
@@ -202,10 +199,10 @@ function nextVideo() {
     }
     video.value = allVideos.videoArr[lastIndex.value];
 }
-watch(lastIndex, (newIndex) => {
-    console.log("Updated lastIndex:", newIndex);
-    console.log("Current Video:", video.value);
-});
+// watch(lastIndex, (newIndex) => {
+//     console.log("Updated lastIndex:", newIndex);
+//     console.log("Current Video:", video.value);
+// });
 
 function goToProductDetail($id) {
     router.push(`/product?id=${$id}`);

@@ -7,7 +7,8 @@ export const useAllVideos = defineStore('views/videoFeed', {
         videoArr: null,
         lastVideoId: null,
         fiestVideoId: null,
-        lastIndexVideoArr: null
+        lastIndexVideoArr: null,
+        commentArr: null,
     }),
     actions: {
         toggleFav(id) {
@@ -21,7 +22,7 @@ export const useAllVideos = defineStore('views/videoFeed', {
             axios.get(`/api/posts?per_page=${per_page}&page=${page}`)
                 .then(response => {
                     this.videoArr = response.data.data;
-                    console.log(this.videoArr);
+                    // console.log(this.videoArr);
                 })
         },
         onloadVideo() {
@@ -31,7 +32,7 @@ export const useAllVideos = defineStore('views/videoFeed', {
                     this.videoArr = response.data.data;
                     this.lastVideoId = this.videoArr[0].id;
                     // this.firstVideoId = this.videoArr[this.videoArr.length - 1].id;
-                    console.log(this.videoArr);
+                    // console.log(this.videoArr);
                     // console.log('last vdo:',this.lastIndexVideoArr);
                 })
         },
@@ -42,7 +43,7 @@ export const useAllVideos = defineStore('views/videoFeed', {
                     this.videoArr = response.data.data;
                     // this.lastVideoId = this.videoArr[0].id;
                     // this.firstVideoId = this.videoArr[this.videoArr.length - 1].id;
-                    console.log(this.videoArr);
+                    // console.log(this.videoArr);
                     // console.log('last vdo:',this.lastIndexVideoArr);
                 })
         },
@@ -89,7 +90,39 @@ export const useAllVideos = defineStore('views/videoFeed', {
                 .then(response => {
                     // console.log(response.data);
                 })
-        }
+        },
+        onloadComment(id) {
+            axios.get(`api/comments/${id}`)
+                .then(response => {
+                    this.commentArr = response.data.data;
+                })
+        },
+        postComment(id, comment) {
+            const token = localStorage.getItem('token');
+            axios.post(`api/comments/${id}`, { comment }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    // console.log(response.data.data);
+                    
+                })
+        },
+        deleteComment(id) {
+            const token = localStorage.getItem('token');
+            axios.delete(`api/comments/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    
+                })
+        },
+
     }
 
 })

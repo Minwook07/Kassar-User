@@ -187,6 +187,8 @@ async function onSaveLogin() {
     if (response.data && response.data.token) {
       const storage = form.remember ? localStorage : sessionStorage;
       storage.setItem('token', response.data.token);
+      storage.setItem('token', response.data.token);
+      storage.setItem('id', response.data.data.id);
       storage.setItem('user', JSON.stringify(response.data.user));
 
       // Show success toast

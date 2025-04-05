@@ -1,176 +1,82 @@
 <template>
-  <div class="comments-container">
-    <!-- Comments List with Scroll -->
-    <div class="comments-scroll-container">
-      <div class="comments-list">
-        <!-- Comment Item (repeated for each comment) -->
-        <div v-for="(comment, index) in comments" :key="index" class="comment">
-          <div class="comment-avatar">
-            <img :src="comment.avatar" alt="User avatar" />
-          </div>
-          <div class="comment-content">
-            <div class="comment-header">
-              <p class="m-0 username">{{ comment.username }}</p>
-              <p class="m-0 comment-text" v-html="formatComment(comment.text)"></p>
+  <div class="comment-section rounded-3 p-3 bg-white mt-3">
+    <p class="m-0 fw-bold fs-5">មតិ (<span> {{ allComment.commentArr ? allComment.commentArr.length : 0 }}</span>)</p>
+    <hr class="my-1 mb-3">
+    <div class="comments-container">
+      <!-- Comments List with Scroll -->
+      <div class="comments-scroll-container">
+        <div class="comments-list">
+          <!-- Comment Item (repeated for each comment) -->
+          <div v-for="comment in allComment.commentArr" :key="comment.id" class="comment">
+            <div class="comment-avatar">
+              <img :src="comment.user.avatar" alt="" />
             </div>
-            <div class="comment-footer">
-              <p class="m-0 timestamp">{{ comment.timestamp }}</p>
+            <div class="comment-content">
+              <div class="comment-header">
+                <p class="m-0 username">{{ comment.user.name }}</p>
+                <p class="m-0 comment-text">{{ comment.comment }}</p>
+              </div>
+              <div class="comment-footer">
+                <p class="m-0 timestamp">{{ comment.created_since }}</p>
+              </div>
             </div>
-          </div>
-
-          <!-- Like Section -->
-          <!-- <div class="like-section">
-              <button class="like-btn" @click="toggleLike(index)">
-                <svg :class="{ 'liked': comment.isLiked }" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <div class="dropdown" v-if="comment.user.id == userId">
+              <button class="bg-transparent border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots"></i>
               </button>
-              <span class="like-count">{{ comment.likes }}</span>
-            </div> -->
-
-          <!-- 3-Dot Menu -->
-          <div class="menu-container">
-            <button class="menu-toggle" @click="toggleMenu(index)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="1" />
-                <circle cx="12" cy="5" r="1" />
-                <circle cx="12" cy="19" r="1" />
-              </svg>
-            </button>
-
-            <!-- Dropdown Menu -->
-            <div class="dropdown-menu" v-if="activeMenu === index">
-              <button class="dropdown-item delete-btn" @click="deleteComment(index)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                </svg>
-                Delete
-              </button>
+              <ul class="dropdown-menu comment-action align-items-center p-3">
+                <i class="bi bi-trash text-danger"></i>
+                <button class="bg-transparent border-0" @click="deleteComment(comment.id)">លុប</button>
+              </ul>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Comment Input -->
-    <div class="comment-input-container">
-      <div class="comment-input-wrapper">
-        <input type="text" class="comment-input" placeholder="Add comment..." v-model="newComment"
-          @keyup.enter="postComment" />
-        <div class="comment-input-actions">
-          <button class="action-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-              <line x1="9" y1="9" x2="9.01" y2="9" />
-              <line x1="15" y1="9" x2="15.01" y2="9" />
-            </svg>
-          </button>
-          <button class="action-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-              <path d="M12 17h.01" />
-            </svg>
-          </button>
+      <!-- Comment Input -->
+      <div class="comment-input-container">
+        <div class="comment-input-wrapper">
+          <input type="text" class="comment-input" placeholder="បញ្ជេញមតិ..." v-model="newComment"
+            @keyup.enter="postComment" />
+          <div class="comment-input-actions">
+          </div>
         </div>
+        <button class="post-btn" :class="{ 'active': newComment.length > 0 }" :disabled="newComment.length === 0"
+          @click="postComment">
+          បញ្ជូន
+        </button>
       </div>
-      <button class="post-btn" :class="{ 'active': newComment.length > 0 }" :disabled="newComment.length === 0"
-        @click="postComment">
-        Post
-      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted, watchEffect } from 'vue';
+import { useAllVideos } from '@/stores/views/videoFeed_store';
+import { useAuthStore } from '@/stores/auth_store';
 
-// State for new comment
+const allComment = useAllVideos();
 const newComment = ref('');
-
-// State for active menu
 const activeMenu = ref(null);
+const userId = ref(null);
+const user = useAuthStore();
 
-// Sample comments data
-const comments = reactive([
-  {
-    username: 'Bro_Germany1945',
-    text: 'ផលិផលល្អ',
-    timestamp: '3d ago',
-    likes: 323,
-    isLiked: false,
-    avatar: 'src/assets/images/no_photo.jpg'
-  },
-  {
-    username: 'Mak Samvichar',
-    text: 'ទិញម្តងរួចហើយ​គឺថាជាប់ចិត្តណាស់',
-    timestamp: '1h ago',
-    likes: 0,
-    isLiked: false,
-    avatar: 'src/assets/images/no_photo.jpg'
-  },
-  {
-    username: 'Ah Dam',
-    text: 'ឆ្ងាញ់',
-    timestamp: '3d ago',
-    likes: 2507,
-    isLiked: false,
-    avatar: 'src/assets/images/user_pf_sample.jpg'
-  },
-  {
-    username: 'GODZILLA',
-    text: 'ឆ្ងាញ់ណាស់',
-    timestamp: '3d ago',
-    likes: 2,
-    isLiked: false,
-    avatar: '/kassar.png'
-  },
-  {
-    username: 'プレイボーイ',
-    text: 'គូរអូនមិនប្រៀបបានទេនៅលើលោកនេះ <span class="emoji">💛</span> LAMM',
-    timestamp: '3d ago',
-    likes: 359,
-    isLiked: false,
-    avatar: '/placeholder.svg?height=40&width=40'
-  },
-  {
-    username: 'anhanha998',
-    text: 'Cambodia is dreaming rn <span class="emoji">😔</span>',
-    timestamp: '3d ago',
-    likes: 0,
-    isLiked: false,
-    avatar: '/placeholder.svg?height=40&width=40'
-  },
-  // Add more comments to demonstrate scrolling
-  {
-    username: 'user123',
-    text: 'Great video! <span class="emoji">🔥</span>',
-    timestamp: '2d ago',
-    likes: 45,
-    isLiked: false,
-    avatar: '/placeholder.svg?height=40&width=40'
-  },
-  {
-    username: 'traveler_2023',
-    text: 'I want to visit Cambodia someday!',
-    timestamp: '1d ago',
-    likes: 12,
-    isLiked: false,
-    avatar: '/placeholder.svg?height=40&width=40'
-  },
-  {
-    username: 'history_buff',
-    text: 'The architecture is amazing <span class="emoji">😍</span>',
-    timestamp: '5h ago',
-    likes: 8,
-    isLiked: false,
-    avatar: '/placeholder.svg?height=40&width=40'
+const props = defineProps({
+  post_id: {
+    type: [String, Number], // Adjust this type based on your post_id type
+    required: true
   }
-]);
+});
 
-// Toggle like state for a comment
+
+watchEffect(() => {
+  if (props.post_id) {
+    allComment.onloadComment(props.post_id);
+  }
+  userId.value = localStorage.getItem('id');
+})
+
+
 const toggleLike = (index) => {
   const comment = comments[index];
   if (comment.isLiked) {
@@ -191,30 +97,25 @@ const toggleMenu = (index) => {
 };
 
 // Delete a comment
-const deleteComment = (index) => {
-  comments.splice(index, 1);
-  activeMenu.value = null;
+const deleteComment = (id) => {
+  allComment.deleteComment(id);
 };
 
-// Post a new comment
-const postComment = () => {
+const postComment = async () => {
   if (newComment.value.trim() === '') return;
 
-// Add the new comment to the list
-  comments.unshift({
-    username: 'ស្រឿង ចន្ធី',
-    text: newComment.value,
-    timestamp: 'Just now',
-    likes: 0,
-    isLiked: false,
-    avatar: 'src/assets/images/user_pf_sample.jpg'
-  });
+
+  await allComment.postComment(props.post_id, newComment.value);
+
+  // Reload the comments after successful post
+  await allComment.onloadComment(props.post_id);
 
   // Clear the input
   newComment.value = '';
+
 };
 
-// Format comment text to render HTML (for emojis)
+
 const formatComment = (text) => {
   return text;
 };
@@ -226,22 +127,18 @@ const closeMenuOnOutsideClick = (event) => {
   }
 };
 
-// Add event listener for outside clicks
 if (typeof window !== 'undefined') {
   window.addEventListener('click', closeMenuOnOutsideClick);
 }
 </script>
 
 <style scoped>
-/* Base styles */
-
 .comments-container {
   background-color: var(--bg-color);
   color: var(--text-color);
   max-width: 600px;
   margin: 0 auto;
   position: relative;
-  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -264,6 +161,7 @@ if (typeof window !== 'undefined') {
 /* Comments list */
 .comments-list {
   padding: 0 16px;
+  padding-bottom: 30px;
 }
 
 /* Individual comment */
@@ -497,6 +395,11 @@ if (typeof window !== 'undefined') {
   color: var(--primary-color);
   cursor: pointer;
   opacity: 1;
+}
+
+.dropdown-menu.comment-action {
+  box-shadow: none;
+  background-color: #f9f9f9e8 !important;
 }
 
 /* Responsive adjustments */

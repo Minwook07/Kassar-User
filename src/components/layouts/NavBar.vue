@@ -283,10 +283,8 @@ const handleScroll = () => {
 onMounted(async () => {
   window.addEventListener("scroll", handleScroll);
 
-  // Check for token in localStorage or sessionStorage
   token.value = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  // If token exists, set the Authorization header and fetch profile data.
   if (token.value) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token.value}`;
     try {
@@ -299,7 +297,6 @@ onMounted(async () => {
     }
   }
 
-  // Wait for the DOM to update before attaching event listeners
   await nextTick();
   if (btnClickProfile.value) {
     btnClickProfile.value.addEventListener("click", () => {
@@ -308,7 +305,7 @@ onMounted(async () => {
       }
     });
   } else {
-    console.warn("btnClickProfile element is not found.");
+    // console.warn("btnClickProfile element is not found.");
   }
   offcanvasInstance.value = new Offcanvas(document.getElementById("myOffcanvas"));
   collapseInstance = new Collapse(document.getElementById("categoryCollapse"), { toggle: false });
