@@ -142,8 +142,8 @@
                                                     <p class="ps-1 fw-semibold video-desc pe-3">{{video.description}}</p>
                                                 </div>
                                                 <div class="price">
-                                                    <p class="text-secondary fw-bolder fs-4">{{video.product.price.discounted_price}} ៛ / <span
-                                                            class="fs-5">{{video.product.product_units.name}}</span></p>
+                                                    <p class="text-secondary fw-bolder fs-4" v-if="video.product">{{video.product?.price.discounted_price}} ៛ / <span
+                                                            class="fs-5">{{video.product?.product_units.name}}</span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -208,7 +208,7 @@ const GetAllCategories = () => {
 };
 onMounted(() => {
     GetAllCategories();
-    allVideos.onloadVideo();
+    allVideos.onloadVideoFilter();
 })
 
 function goToVideoDetail(id) {

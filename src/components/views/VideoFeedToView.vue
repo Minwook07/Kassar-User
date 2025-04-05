@@ -64,24 +64,24 @@
                     <p v-if="video">{{ video.description }}</p>
                 </div>
             </div>
-            <div class="product rounded-3 p-3 bg-white mt-3 d-flex align-items-start">
-                <div class="thumbnail" v-if="video" @click="goToProductDetail(video.product.id)">
-                    <img v-if="video" :src="video.product.product_thumbnail" alt="" class="object-fit-cover">
+            <div v-if="video.product" class="product rounded-3 p-3 bg-white mt-3 d-flex align-items-start">
+                <div class="thumbnail" v-if="video.product" @click="goToProductDetail(video.product.id)">
+                    <img v-if="video.product" :src="video.product.product_thumbnail" alt="" class="object-fit-cover">
                 </div>
                 <div class="detail ms-3">
-                    <h5 class="fw-bold text-semidark" v-if="video" @click="goToProductDetail(video.product.id)">
+                    <h5 class="fw-bold text-semidark" v-if="video.product" @click="goToProductDetail(video.product.id)">
                         {{ video.product.name }}</h5>
-                    <p class="m-0" v-if="video">1 <span>{{ video.product.product_units.name }} </span></p>
+                    <p class="m-0" v-if="video.product">1 <span>{{ video.product.product_units.name }} </span></p>
                     <p class="fw-bold fs-3 text-secondary m-0" v-if="video">{{ video.product.price.discounted_price }} ៛
                     </p>
-                    <div v-if="video" @click="addToCart(video.product.id)" class="btn btn-outline-primary rounded-2 ms-auto"><i
+                    <div v-if="video.product" @click="addToCart(video.product.id)" class="btn btn-outline-primary rounded-2 ms-auto"><i
                             class="bi bi-bag-fill me-1"></i>កន្រ្តក</div>
                 </div>
                 <div class="d-flex flex-column align-content-between">
-                    <span class="category-pill ms-auto" v-if="video">{{ video.product.category.name }}</span>
+                    <span class="category-pill ms-auto" v-if="video.product">{{ video.product.category.name }}</span>
                     <div class="d-flex mt-2">
-                        <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video">{{ video.product.rating.average }}</h6>
-                        <i v-if="video" class="fa fa-star text-warning fs-6"></i>
+                        <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video.product">{{ video.product.rating.average }}</h6>
+                        <i v-if="video.product" class="fa fa-star text-warning fs-6"></i>
                     </div>
                 </div>
             </div>
