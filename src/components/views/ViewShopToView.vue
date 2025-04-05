@@ -50,7 +50,7 @@
                   :class="follow.is_following ? 'bi bi-heart-fill' : 'bi bi-heart'"
                 ></i>
                 <span class="d-none d-md-inline-block ms-2">{{
-                  follow.is_following ? "ឈប់តាមដាន" : "តាមដាន"
+                  follow.is_following ? "កំពុងតាមដាន" : "តាមដាន"
                 }}</span>
               </button>
               <button
