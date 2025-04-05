@@ -814,6 +814,13 @@ body {
     border: 1px solid #ddd;
 }
 
+.hero-video-wrapper .video-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .swiper {
     max-height: 170px;
     overflow: hidden !important;

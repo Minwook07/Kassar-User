@@ -126,50 +126,24 @@
                                 }" class="mySwiper" :autoplay="{
                                     delay: 4500,
                                     disableOnInteraction: false,
-                                }" :direction="'vertical'">
-                                    <swiper-slide>
+                                }" :direction="'vertical'" >
+                                    <swiper-slide v-for="video in allVideos.videoArr.slice(0, 4)" :key="video.id">
                                         <div class="d-flex">
                                             <RouterLink class="video w-50 rounded-3 overflow-hidden" to="">
-                                                <img src="@/assets/images/products/product-1.jpg" alt="">
-                                                <span class="view-count text-white fw-semibold">10.7k views</span>
+                                                <img :src="video.thumbnail" alt="">
+                                                <span class="view-count text-white fw-semibold">{{video.created_since}}</span>
                                             </RouterLink>
                                             <div class="detail w-50 ps-3">
                                                 <div class="user_info d-flex align-items-center">
-                                                    <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                                                    <p class="username m-0 fw-bold ps-1">Thy Farm Store</p>
+                                                    <img :src="video.shop.image" alt="" class="rounded-circle me-1">
+                                                    <p class="username m-0 fw-bold ps-1">{{video.shop.name}}</p>
                                                 </div>
                                                 <div class="caption pt-2">
-                                                    <p class="ps-1 fw-semibold ">សាច់គោងៀត
-                                                        ផលិតផលខេត្តកំពង់ចាម
-                                                        ធានាអនាម័យ
-                                                        ១០០%</p>
+                                                    <p class="ps-1 fw-semibold video-desc pe-3">{{video.description}}</p>
                                                 </div>
                                                 <div class="price">
-                                                    <p class="text-secondary fw-bolder fs-4">39000៛ / <span
-                                                            class="fs-5">Kg</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </swiper-slide>
-                                    <swiper-slide>
-                                        <div class="d-flex">
-                                            <RouterLink class="video w-50 rounded-3 overflow-hidden " to="">
-                                                <img src="@/assets/images/products/product-2.jpg" alt="">
-                                                <span class="view-count text-white fw-semibold">10.7k views</span>
-                                            </RouterLink>
-                                            <div class="detail w-50 ps-3">
-                                                <div class="user_info d-flex align-items-center">
-                                                    <img src="@/assets/images/user_pf_sample.jpg" alt="">
-                                                    <p class="username m-0 fw-bold ps-1">Thy Farm Store</p>
-                                                </div>
-                                                <div class="caption pt-2">
-                                                    <p class="ps-1 fw-semibold ">មៀនប៉ៃលិន ផ្អែមឆ្ងាញ់ ដាំបែបធម្មជាតិ
-                                                        ធានាអនាម័យ
-                                                        ១០០%</p>
-                                                </div>
-                                                <div class="price">
-                                                    <p class="text-secondary fw-bolder fs-4">39000៛ / <span
-                                                            class="fs-5">Kg</span></p>
+                                                    <p class="text-secondary fw-bolder fs-4">{{video.product.price.discounted_price}} ៛ / <span
+                                                            class="fs-5">{{video.product.product_units.name}}</span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -219,9 +193,11 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import "swiper/css";
 import "swiper/css/pagination";
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
+import { useAllVideos } from '@/stores/views/videoFeed_store';
 
 const categories = ref([]);
+const allVideos = useAllVideos();
 
 const GetAllCategories = () => {
     axios
@@ -235,5 +211,6 @@ const GetAllCategories = () => {
 };
 onMounted(() => {
     GetAllCategories();
+    allVideos.onloadVideo();
 })
 </script>
