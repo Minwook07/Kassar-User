@@ -14,7 +14,7 @@
                     <input class="form-control me-2" type="search" placeholder="ស្វែងរកផលិតផល" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">ស្វែងរក</button>
                 </form>
-                <a href="https://adm.kassar.publicvm.com/upload-video" class="btn-dark text-decoration-none
+                <a href="https://adm.kassar.publicvm.com/upload-video" class="btn-dark go-create-video text-decoration-none
            d-flex align-items-center">
                     <i class="fa-solid fa-plus fs-3 p-2 text-white"></i>
                     <h6 class="m-0 pe-2 text-white">បង្ហោះវីដេអូ</h6>
@@ -74,8 +74,8 @@
                     <p class="m-0" v-if="video">1 <span>{{ video.product.product_units.name }} </span></p>
                     <p class="fw-bold fs-3 text-secondary m-0" v-if="video">{{ video.product.price.discounted_price }} ៛
                     </p>
-                    <router-link to="" class="btn btn-outline-primary rounded-2 ms-auto"><i
-                            class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
+                    <div @click="addToCart(video.product.id)" class="btn btn-outline-primary rounded-2 ms-auto"><i
+                            class="bi bi-bag-fill me-1"></i>កន្រ្តក</div>
                 </div>
                 <div class="d-flex flex-column align-content-between">
                     <span class="category-pill ms-auto" v-if="video">{{ video.product.category.name }}</span>
@@ -98,6 +98,7 @@
             </div>
         </div>
     </div>
+    <ToastView/>
 </template>
 <script setup>
 import { useAllVideos } from '@/stores/views/videoFeed_store.js';
@@ -106,6 +107,10 @@ import { ref, onMounted, watch, watchEffect } from 'vue';
 import router from '@/router';
 import CommentToView from '@/components/views/CommentToView.vue';
 import { useRoute } from 'vue-router';
+import { useToastStore } from '@/stores/toast_store';
+import ToastView from './ToastView.vue';
+const toastStore = useToastStore();
+
 const video = ref(null);
 const allVideos = useAllVideos();
 const videoPlayer = ref(null);
@@ -212,6 +217,10 @@ function copyLink() {
     navigator.clipboard.writeText(copyText.value);
 
 }
-
+import { useAllProducts } from '@/stores/views/allProduct_store';
+const allProduct = useAllProducts();
+const addToCart = (id) => {
+    allProduct.addToCart(id);
+}
 
 </script>

@@ -1025,7 +1025,10 @@ body {
     backdrop-filter: blur(40px);
     z-index: 0;
 }
-
+.video-feed .video-section .go-create-video{
+    z-index: 9999;
+    position: relative;
+}
 .btn-dark{
     border-radius: 30px;
     background-color: #4a47477d;
@@ -1036,7 +1039,7 @@ body {
     background-color:#222020!important;
 }
 .video-feed .video-section .top-bar {
-    z-index: 3;
+    z-index: 6;
 }
 .video-feed .video-section .top-bar .search-input-wrapper
 .form-control{
@@ -1058,7 +1061,7 @@ body {
 }
 
 .video-feed .video-section .sidebar {
-    z-index: 999;
+    z-index: 5;
 }
 
 .video-feed .video-section .video-link{
