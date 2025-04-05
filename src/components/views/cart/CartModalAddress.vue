@@ -97,22 +97,42 @@
                                 <div class="col-3 mb-3">
                                     <label class="form-label">ឈ្មោះអ្នកទទួល</label>
                                     <input type="text" class="form-control shadow-none"
+                                        :class="{ 'is-invalid': cardStore.vv.name.$error }"
                                         v-model="cardStore.frm_add.name">
+                                    <div class="invalid-feedback" v-if="cardStore.vv.name.$error">
+                                        {{ cardStore.vv.name.$errors[0].$message }}
+                                        <!-- Please enter gender -->
+                                    </div>
                                 </div>
                                 <div class="col-3 mb-3">
                                     <label class="form-label">លេខទូរស័ព្ទ</label>
                                     <input type="text" class="form-control shadow-none"
+                                        :class="{ 'is-invalid': cardStore.vv.phone.$error }"
                                         v-model="cardStore.frm_add.phone">
+                                    <div class="invalid-feedback" v-if="cardStore.vv.phone.$error">
+                                        {{ cardStore.vv.phone.$errors[0].$message }}
+                                        <!-- Please enter gender -->
+                                    </div>
                                 </div>
                                 <div class="col-3 mb-3">
                                     <label class="form-label">ផ្ទះលេខ</label>
                                     <input type="text" class="form-control shadow-none"
+                                        :class="{ 'is-invalid': cardStore.vv.houseNumber.$error }"
                                         v-model="cardStore.frm_add.houseNumber">
+                                    <div class="invalid-feedback" v-if="cardStore.vv.houseNumber.$error">
+                                        {{ cardStore.vv.houseNumber.$errors[0].$message }}
+                                        <!-- Please enter gender -->
+                                    </div>
                                 </div>
                                 <div class="col-3 mb-3">
                                     <label class="form-label">ផ្លូវលេខ</label>
                                     <input type="text" class="form-control shadow-none"
+                                        :class="{ 'is-invalid': cardStore.vv.streetNumber.$error }"
                                         v-model="cardStore.frm_add.streetNumber">
+                                    <div class="invalid-feedback" v-if="cardStore.vv.streetNumber.$error">
+                                        {{ cardStore.vv.streetNumber.$errors[0].$message }}
+                                        <!-- Please enter gender -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -129,17 +149,21 @@
             </div>
         </div>
     </div>
+    <Toast />
 </template>
 
 <script setup>
+import Toast from '../ToastView.vue';
 import { computed, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { useCardStore } from '@/stores/card_store';
+import { useToastStore } from '@/stores/toast_store';
 import axios from 'axios';
 
 import useVuelidate from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 
+const toastStore = useToastStore();
 const cardStore = useCardStore();
 const rules = computed(() => ({
     province: {
@@ -153,6 +177,18 @@ const rules = computed(() => ({
     },
     village: {
         required: helpers.withMessage(() => 'សូមជ្រើសរើសភូមិ', required)
+    },
+    name: {
+        required: helpers.withMessage(() => "សូមបញ្ចូលឈ្មោះអ្នកទទួល", required)
+    },
+    phone: {
+        required: helpers.withMessage(() => "សូមបញ្ចូលលេខទូរស័ព្ទចាប់ពី 8 ខ្ទង់", required)
+    },
+    streetNumber: {
+        required: helpers.withMessage(() => "សូមបញ្ចូលលេខផ្លូវ", required)
+    },
+    houseNumber: {
+        required: helpers.withMessage(() => "សូមបញ្ចូលលេខផ្ទះ", required)
     }
 }))
 cardStore.vv = useVuelidate(rules, cardStore.frm_add)
@@ -226,6 +262,7 @@ const onSaveAddress = () => {
     })
         .then((res) => {
             cardStore.onLoadAddress();
+            toastStore.showToast("រក្សាទុកជោគជ័យ")
             cardStore.mdl_address.hide();
             cardStore.isAddress = "Address saved successfully!";
         })

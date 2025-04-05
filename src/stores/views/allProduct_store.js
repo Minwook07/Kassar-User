@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import router from "@/router";
+import { useToastStore } from "../toast_store";
 export const useAllProducts = defineStore('views/allProduct', {
     state: () => ({
         mdl_term: null,
@@ -34,6 +35,7 @@ export const useAllProducts = defineStore('views/allProduct', {
 
         addToCart(id) {
             const token = localStorage.getItem('token');
+            const toastStore = useToastStore();
 
             if (!token) {
                 router.push({ name: 'login' });
@@ -51,30 +53,47 @@ export const useAllProducts = defineStore('views/allProduct', {
                 }
             })
                 .then(response => {
-                    // console.log(response.data);
+                    if (response.data && response.data.result) {
+                        toastStore.showToast('ដាក់ចូលកន្ត្រកជោគជ័យ');
+                    } else {
+                        toastStore.showToast('មានបញ្ហា! មិនអាចដាក់ចូលកន្ត្រកបានទេ');
+                    }
                 })
         },
         addToFavorite(id) {
             const token = localStorage.getItem('token');
-
+            const toastStore = useToastStore();
+          
             if (!token) {
-                router.push({ name: 'login' });
-                return;
+              router.push({ name: 'login' });
+              return;
             }
-
-            const formData = new FormData();
-            formData.append('product_id', id);
-
-            axios.post('/api/favorites', formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
+          
+            axios.post(`/api/favorites/toggle?product_id=${id}`, null, {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              }
             })
-                .then(response => {
-                    // console.log(response.data);
-                })
-        }
+              .then(response => {
+                if (response.data && response.data.result) {
+                  // បង្ហាញ Toast message
+                  toastStore.showToast("រក្សាទុកក្នុង Favorites ជោគជ័យ!");
+          
+                  // Update UI: ប្តូរតម្លៃ is_favorited នៅក្នុង productArr
+                  const index = this.productArr.findIndex(product => product.id === id);
+                  if (index !== -1) {
+                    this.productArr[index].is_favorited = !this.productArr[index].is_favorited;
+                  }
+                } else {
+                  toastStore.showToast("មានបញ្ហា! មិនអាចរក្សាទុកបានទេ។");
+                }
+              })
+              .catch(error => {
+                console.error("Add to favorite failed:", error.response?.data || error.message);
+                toastStore.showToast("បរាជ័យក្នុងការកំណត់ Favorites។");
+              });
+          }
+          
     }
 
 })

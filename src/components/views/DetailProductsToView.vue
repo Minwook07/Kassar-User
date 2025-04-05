@@ -284,13 +284,13 @@
     </div>
     <!-- </div> -->
   </section>
-  <Toast />
+  <ToastView />
 </template>
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import Toast from "./Toast.vue";
+import ToastView from "./ToastView.vue";
 import { useToastStore } from "@/stores/toast_store";
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const detailProducts = ref(null);
