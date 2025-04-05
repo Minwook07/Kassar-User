@@ -60,14 +60,14 @@ const newComment = ref('');
 const activeMenu = ref(null);
 const userId = ref(null);
 const user = useAuthStore();
+const isPosting = ref(false);
 
 const props = defineProps({
   post_id: {
-    type: [String, Number], // Adjust this type based on your post_id type
+    type: [String, Number],
     required: true
   }
 });
-
 
 watchEffect(() => {
   if (props.post_id) {
@@ -77,47 +77,56 @@ watchEffect(() => {
 })
 
 
-const toggleLike = (index) => {
-  const comment = comments[index];
-  if (comment.isLiked) {
-    comment.likes--;
-  } else {
-    comment.likes++;
-  }
-  comment.isLiked = !comment.isLiked;
-};
-
-// Toggle menu visibility
-const toggleMenu = (index) => {
-  if (activeMenu.value === index) {
-    activeMenu.value = null;
-  } else {
-    activeMenu.value = index;
-  }
-};
-
 // Delete a comment
-const deleteComment = (id) => {
-  allComment.deleteComment(id);
+const deleteComment = async (id) => {
+  await allComment.deleteComment(id);
+  // Reload comments after deletion
+  await allComment.onloadComment(props.post_id);
 };
 
 const postComment = async () => {
-  if (newComment.value.trim() === '') return;
-
-
-  await allComment.postComment(props.post_id, newComment.value);
-
-  // Reload the comments after successful post
-  await allComment.onloadComment(props.post_id);
-
-  // Clear the input
-  newComment.value = '';
-
-};
-
-
-const formatComment = (text) => {
-  return text;
+  if (newComment.value.trim() === '' || isPosting.value) return;
+  
+  try {
+    isPosting.value = true;
+    
+    // Get current user info for optimistic update
+    const currentUser = {
+      id: userId.value,
+      name: user.user?.name || 'User',
+      avatar: user.user?.avatar || ''
+    };
+    
+    // Create temporary comment for immediate display
+    const tempComment = {
+      id: 'temp-' + Date.now(),
+      user: currentUser,
+      comment: newComment.value,
+      created_since: 'Just now'
+    };
+    
+    // Add temporary comment to the UI immediately
+    if (!allComment.commentArr) {
+      allComment.commentArr = [];
+    }
+    allComment.commentArr.push(tempComment);
+    
+    // Store the comment text before clearing input
+    const commentText = newComment.value;
+    
+    // Clear the input immediately for better UX
+    newComment.value = '';
+    
+    // Send to server
+    await allComment.postComment(props.post_id, commentText);
+    
+    // Reload the comments to get the proper server data
+    await allComment.onloadComment(props.post_id);
+  } catch (error) {
+    console.error('Error posting comment:', error);
+  } finally {
+    isPosting.value = false;
+  }
 };
 
 // Close menu when clicking outside
@@ -413,3 +422,4 @@ if (typeof window !== 'undefined') {
   }
 }
 </style>
+

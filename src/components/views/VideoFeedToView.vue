@@ -185,6 +185,8 @@ function prevVideo() {
         lastIndex.value = lastIndex.value - 1;
         video.value = allVideos.videoArr[lastIndex.value];
     }
+    updateQueryId(lastIndex.value); 
+
 }
 function nextVideo() {
     if (lastIndex.value < allVideos.videoArr.length - 1) {
@@ -193,8 +195,16 @@ function nextVideo() {
         lastIndex.value = 0; // Loop back to the first video
     }
     video.value = allVideos.videoArr[lastIndex.value];
+    updateQueryId(allVideos.videoArr[lastIndex.value].id); 
 }
-
+function updateQueryId(newId) {
+  router.push({
+    query: {
+      ...route.query, 
+      id: newId
+    }
+  });
+}
 
 function goToProductDetail($id) {
     router.push(`/product?id=${$id}`);
