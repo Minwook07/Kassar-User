@@ -185,7 +185,7 @@ function prevVideo() {
         lastIndex.value = lastIndex.value - 1;
         video.value = allVideos.videoArr[lastIndex.value];
     }
-    updateQueryId(lastIndex.value); 
+    updateQueryId(allVideos.videoArr[lastIndex.value].id); 
 
 }
 function nextVideo() {
