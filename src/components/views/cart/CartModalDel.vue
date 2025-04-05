@@ -17,7 +17,7 @@
                     <button class="btn btn-outline-danger me-3" type="button" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> បោះបង់
                     </button>
-                    <button class="btn btn-danger" type="button" @click="onDeleteCart()"><i class="bi bi-check-circle"></i> អូខ, យល់ព្រម</button>
+                    <button class="btn btn-danger" type="button" @click="onDeleteCart()"><i class="bi bi-check-circle"></i> អូខេ, យល់ព្រម</button>
                 </div>
             </div>
         </div>
