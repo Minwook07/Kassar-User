@@ -22,7 +22,6 @@ export const useAllVideos = defineStore('views/videoFeed', {
             axios.get(`/api/posts?per_page=${per_page}&page=${page}`)
                 .then(response => {
                     this.videoArr = response.data.data;
-                    // console.log(this.videoArr);
                 })
         },
         onloadVideo() {

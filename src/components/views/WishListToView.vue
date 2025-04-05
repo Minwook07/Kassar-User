@@ -149,7 +149,6 @@ const selectedCategory = ref();
 const CountFav = ref();
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const GetAllFav = () => {
-  console.log(token);
 
   axios
     .get("/api/favorites", {
@@ -172,18 +171,11 @@ const clearWishlist = () => {
     .then((res) => {
       GetAllFav();
     })
-    .catch((error) => {
-      console.error(
-        "Error clearing wishlist:",
-        error.response?.data || error.message
-      );
-    });
 };
 const RemoveFav = (FavProduct) => {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
   if (!token) {
-    alert("Please login to remove products from your favorites.");
     return;
   }
   axios
@@ -202,12 +194,6 @@ const RemoveFav = (FavProduct) => {
       }
       GetAllFav();
     })
-    .catch((error) => {
-      console.error(
-        "Remove Favorite:",
-        error.response?.data || error.message
-      );
-    });
 };
 onMounted(() => {
   GetAllFav();
@@ -217,8 +203,6 @@ const toast = () => {
   const toastElement = document.getElementById("liveToast");
   if (toastElement) {
     contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
-  } else {
-    console.error("Toast element not found!");
   }
 };
 </script>

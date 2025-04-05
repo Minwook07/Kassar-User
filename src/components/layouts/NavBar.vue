@@ -282,7 +282,6 @@ const handleScroll = () => {
 
 onMounted(async () => {
   window.addEventListener("scroll", handleScroll);
-
   token.value = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   if (token.value) {
@@ -293,23 +292,40 @@ onMounted(async () => {
         profile.value = data.data;
       }
     } catch (error) {
-      console.error("Error fetching profile:", error);
     }
   }
 
   await nextTick();
   if (btnClickProfile.value) {
-    btnClickProfile.value.addEventListener("click", () => {
+    btnClickProfile.value.addEventListener("click", (event) => {
+      // Prevent event from bubbling up so that global click listener doesn't immediately hide it.
+      event.stopPropagation();
       if (profileDropdown.value) {
         profileDropdown.value.classList.toggle("active");
       }
     });
-  } else {
-    // console.warn("btnClickProfile element is not found.");
   }
+  
+  // Add a global click listener to detect outside clicks
+  document.addEventListener("click", handleOutsideClick);
+  
   offcanvasInstance.value = new Offcanvas(document.getElementById("myOffcanvas"));
   collapseInstance = new Collapse(document.getElementById("categoryCollapse"), { toggle: false });
 });
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+  document.removeEventListener("click", handleOutsideClick);
+});
+
+// Function to handle clicks outside the profile dropdown
+const handleOutsideClick = (event) => {
+  if (profileDropdown.value && !profileDropdown.value.contains(event.target) && 
+      btnClickProfile.value && !btnClickProfile.value.contains(event.target)) {
+    profileDropdown.value.classList.remove("active");
+  }
+};
+
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);

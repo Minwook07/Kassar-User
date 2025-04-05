@@ -266,14 +266,6 @@ const onSaveAddress = () => {
             cardStore.mdl_address.hide();
             cardStore.isAddress = "Address saved successfully!";
         })
-        .catch((error) => {
-            if (error.response) {
-                console.log('Error Response:', error.response.data);
-                // Handle validation errors here if needed
-            } else {
-                console.log('Error Message:', error.message);
-            }
-        });
 };
 
 </script>

@@ -29,7 +29,6 @@ export const useAllProducts = defineStore('views/allProduct', {
             axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
                 .then(response => {
                     this.productArr = response.data.data;
-                    console.log(this.productArr);
                 })
         },
 
@@ -76,20 +75,21 @@ export const useAllProducts = defineStore('views/allProduct', {
             })
               .then(response => {
                 if (response.data && response.data.result) {
-                  // បង្ហាញ Toast message
-                  toastStore.showToast("រក្សាទុកក្នុង Favorites ជោគជ័យ!");
-          
-                  // Update UI: ប្តូរតម្លៃ is_favorited នៅក្នុង productArr
                   const index = this.productArr.findIndex(product => product.id === id);
                   if (index !== -1) {
-                    this.productArr[index].is_favorited = !this.productArr[index].is_favorited;
+                    // Determine the message based on the current state
+                    const currentState = this.productArr[index].is_favorited;
+                    const message = currentState ? "ដកចេញរួចរាល់" : "ដាក់ចូលរួចរាល់";
+                    toastStore.showToast(message);
+              
+                    // Toggle the state
+                    this.productArr[index].is_favorited = !currentState;
                   }
                 } else {
                   toastStore.showToast("មានបញ្ហា! មិនអាចរក្សាទុកបានទេ។");
                 }
               })
               .catch(error => {
-                console.error("Add to favorite failed:", error.response?.data || error.message);
                 toastStore.showToast("បរាជ័យក្នុងការកំណត់ Favorites។");
               });
           }

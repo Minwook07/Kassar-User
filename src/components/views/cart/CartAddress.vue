@@ -54,9 +54,7 @@ import { onMounted } from 'vue';
 const cardStore = useCardStore();
 
 onMounted(async () => {
-    console.log("Calling onLoadAddress()...");
     await cardStore.onLoadAddress();
-    console.log("onLoadAddress() has been executed.");
 });
 
 const formatPhone = (phone) => {
@@ -78,8 +76,6 @@ const formatPhone = (phone) => {
 const onOpenAddAddress = () => {
     if (cardStore.mdl_address) {
         cardStore.mdl_address.show();
-    } else {
-        console.error("mdl_address is not initialized");
     }
 };
 </script>

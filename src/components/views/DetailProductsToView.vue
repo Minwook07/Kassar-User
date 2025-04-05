@@ -68,7 +68,7 @@
               </div>
             </div>
             <button data-aos="fade-left" class="btn btn-primary rounded-pill px-5 py-2 mb-2" @click="addToCart">
-              <i class="bi bi-cart3 me-2"></i>ដាក់ចូលកន្រ្តក
+              <i class="bi bi-cart3 me-2"></i>ដាក់ចូលកន្ត្រក
             </button>
           </div>
           <button v-if="detailProducts.product.stock_status === 'low_stock'"
@@ -260,7 +260,7 @@
                   {{ related_products.product_units.name }}
                 </p>
                 <router-link to="" class="btn btn-primary rounded-pill"><i
-                    class="bi bi-bag-fill me-1"></i>កន្រ្តក</router-link>
+                    class="bi bi-bag-fill me-1"></i>កន្ត្រក</router-link>
               </div>
             </div>
             <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
@@ -314,21 +314,15 @@ const getDetail = () => {
     .then((res) => {
       detailProducts.value = res.data.data;
       related_products.value = res.data.data.related_products;
-      console.log(detailProducts.value);
     })
-    .catch((error) => {
-      console.log(error);
-    });
 };
 
 const addToCart = () => {
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   if (!token) {
-    alert("សូមចូលគណនីមុននឹងដាក់ចូលកន្រ្តក។");
     return;
   }
   if (!detailProducts.value || !detailProducts.value.product) {
-    alert("ព័ត៌មានផលិតផលមិនទាន់ត្រូវបានផ្ទុកឡើងទេ!");
     return;
   }
 
@@ -346,34 +340,22 @@ const addToCart = () => {
     })
     .then((res) => {
       if (res.data && res.data.result) {
-        // alert(res.data.message);
         toastStore.showToast('ដាក់ចូលកន្ត្រកជោគជ័យ');
-      } else {
-        alert("មានបញ្ហាមួយចំនួន។");
       }
     })
-    .catch((error) => {
-      console.error("Error adding to cart:", error.response?.data || error.message);
-      alert("ការដាក់ចូលកន្រ្តកបរាជ័យ។");
-    });
 };
 
 const topRatedPro = () => {
   axios.get("api/products?rating=5")
     .then((res) => {
       topRatedPros.value = res.data.data;
-      console.log(topRatedPros.value);
 
     })
-    .catch((error) => {
-      console.error("Error fetching top-rated products:", error);
-    });
 }
 const toggleFav = (FavProduct) => {
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   if (!token) {
-    alert("Please login to add products to your favorites.");
     return;
   }
 
@@ -385,7 +367,6 @@ const toggleFav = (FavProduct) => {
     })
     .then((res) => {
       toastFav.value = !FavProduct.is_favorited;
-      console.log(toastFav.value);
 
       if (!toastFav.value) {
         toastStore.showToast('ដកចេញរួចរាល់');
@@ -397,9 +378,6 @@ const toggleFav = (FavProduct) => {
       let index = related_products.value.findIndex((p) => p.id == FavProduct.id);
       related_products.value[index].is_favorited = toastFav.value;
     })
-    .catch((error) => {
-      console.error("Toggle Favorite:", error.response?.data || error.message);
-    });
 };
 
 onMounted(() => {
