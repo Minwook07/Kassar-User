@@ -34,7 +34,7 @@ export const useAllProducts = defineStore('views/allProduct', {
         },
 
         addToCart(id) {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             const toastStore = useToastStore();
 
             if (!token) {
@@ -61,7 +61,7 @@ export const useAllProducts = defineStore('views/allProduct', {
                 })
         },
         addToFavorite(id) {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             const toastStore = useToastStore();
           
             if (!token) {
