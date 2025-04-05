@@ -212,11 +212,13 @@
             </div>
         </div>
     </section>
+    <ToastView />
 </template>
 
 <script setup>
 import HeroBanner from '../layouts/HeroBanner.vue';
 import { useAllProducts } from '@/stores/views/allProduct_store';
+import ToastView from './ToastView.vue';
 import axios from 'axios';
 import { onMounted } from 'vue';
 import router from '@/router';

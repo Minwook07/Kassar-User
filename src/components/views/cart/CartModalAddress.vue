@@ -153,7 +153,7 @@
 </template>
 
 <script setup>
-import Toast from '../Toast.vue';
+import Toast from '../ToastView.vue';
 import { computed, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { useCardStore } from '@/stores/card_store';

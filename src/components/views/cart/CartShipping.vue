@@ -95,11 +95,11 @@
     </div>
   </div>
 
-  <Toast />
+  <ToastView />
 </template>
 
 <script setup>
-import Toast from '../Toast.vue';
+import Toast from '../ToastView.vue';
 import { useCardStore } from '@/stores/card_store';
 import { useToastStore } from '@/stores/toast_store';
 import { computed, ref, onBeforeUnmount, onMounted } from 'vue';

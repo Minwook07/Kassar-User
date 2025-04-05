@@ -311,13 +311,13 @@
       </div>
     </section>
   </section>
-  <Toast />
+  <ToastView />
 </template>
 <script setup>
 import { useRouter } from "vue-router";
 import { onMounted, ref,watch } from "vue";
 import { useSellerStore } from "@/stores/seller_store";
-import Toast from "./Toast.vue";
+import ToastView from "./ToastView.vue";
 import { useToastStore } from "@/stores/toast_store";
 import axios from "axios";
 const allProducts = ref([]);
