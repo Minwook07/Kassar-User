@@ -41,11 +41,11 @@
             <div class="shop-profile rounded-3 p-3  bg-white">
                 <div class="d-flex align-items-start justify-content-between">
                     <div class="d-flex">
-                        <RouterLink :to="video ? `/viewshop?id=` + video.shop.id : ''" class="shop-avatar border">
+                        <RouterLink :to="video ? `/viewshop?id=` + video.user.id : ''" class="shop-avatar border">
                             <img v-if="video" :src="video.shop.image" alt="">
                         </RouterLink>
                         <div class="owner-detail ps-2">
-                            <RouterLink :to="video ? `/viewshop?id=` + video.shop.id : ''"
+                            <RouterLink :to="video ? `/viewshop?id=` + video.user.id : ''"
                                 class="name text-decoration-none ">
                                 <h5 class="m-0 fw-bold" v-if="video">{{ video.shop.name }}</h5>
                             </RouterLink>

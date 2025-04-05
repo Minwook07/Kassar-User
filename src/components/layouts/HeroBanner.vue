@@ -83,7 +83,7 @@
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                             <p class="m-0">សាច់គោងៀត</p>
-                                            <span>$10.99</span>
+                                            <span>39000៛</span>
                                         </div>
                                     </RouterLink>
                                     <RouterLink class="product col-4 col-md-3" to="/detailproduct">
@@ -91,7 +91,7 @@
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                             <p class="m-0">មៀន ប៉ៃលិន</p>
-                                            <span>$10.99</span>
+                                            <span>39000៛</span>
                                         </div>
                                     </RouterLink>
                                     <RouterLink class="product col-4 col-md-3" to="/detailproduct">
@@ -99,7 +99,7 @@
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                             <p class="m-0">សាច់ក្រកសៀមរាប</p>
-                                            <span>$10.99</span>
+                                            <span>39000៛</span>
                                         </div>
                                     </RouterLink>
                                     <RouterLink class="product col-3 d-none d-md-block" to="/detailproduct">
@@ -107,7 +107,7 @@
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                             <p class="m-0">ទាបបាត់ដំបង</p>
-                                            <span>$10.99</span>
+                                            <span>39000៛</span>
                                         </div>
                                     </RouterLink>
                                 </div>
@@ -145,7 +145,7 @@
                                                         ១០០%</p>
                                                 </div>
                                                 <div class="price">
-                                                    <p class="text-secondary fw-bolder fs-4">$10.99 / <span
+                                                    <p class="text-secondary fw-bolder fs-4">39000៛ / <span
                                                             class="fs-5">Kg</span></p>
                                                 </div>
                                             </div>
@@ -168,7 +168,7 @@
                                                         ១០០%</p>
                                                 </div>
                                                 <div class="price">
-                                                    <p class="text-secondary fw-bolder fs-4">$10.99 / <span
+                                                    <p class="text-secondary fw-bolder fs-4">39000៛ / <span
                                                             class="fs-5">Kg</span></p>
                                                 </div>
                                             </div>
@@ -188,7 +188,7 @@
                                 <img src="@/assets/images/products/product-5.png" alt="">
                                 <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                     <p class="m-0">អង្ករផ្កាម្លិះ</p>
-                                    <span>$9.99</span>
+                                    <span>39000៛</span>
                                 </div>
                             </RouterLink>
                             <RouterLink class="product w-50 rounded-3 shadow-sm py-2 px-3" to="detailproduct">
@@ -199,7 +199,7 @@
                                 <img src="@/assets/images/products/product-6.png" alt="">
                                 <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                     <p class="m-0">ថ្នាំកម្ចាត់សត្វល្អិតដំណាំពោទត</p>
-                                    <span>$9.99</span>
+                                    <span>39000៛</span>
                                 </div>
                             </RouterLink>
                         </div>
