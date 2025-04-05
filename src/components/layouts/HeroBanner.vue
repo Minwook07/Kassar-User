@@ -127,8 +127,8 @@
                                     delay: 4500,
                                     disableOnInteraction: false,
                                 }" :direction="'vertical'" >
-                                    <swiper-slide v-for="video in allVideos.videoArr.slice(0, 4)" :key="video.id">
-                                        <div class="d-flex">
+                                    <swiper-slide v-for="video in allVideos.videoArr" :key="video.id">
+                                        <div class="d-flex" @click="goToVideoDetail(video.id)">
                                             <RouterLink class="video w-50 rounded-3 overflow-hidden" to="">
                                                 <img :src="video.thumbnail" alt="">
                                                 <span class="view-count text-white fw-semibold">{{video.created_since}}</span>
@@ -213,4 +213,8 @@ onMounted(() => {
     GetAllCategories();
     allVideos.onloadVideo();
 })
+
+function goToVideoDetail(id) {
+    router.push({ name: 'video', params: { id } });
+}
 </script>
