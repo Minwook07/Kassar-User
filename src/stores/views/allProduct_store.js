@@ -29,7 +29,6 @@ export const useAllProducts = defineStore('views/allProduct', {
             axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
                 .then(response => {
                     this.productArr = response.data.data;
-                    console.log(this.productArr);
                 })
         },
 
@@ -91,7 +90,6 @@ export const useAllProducts = defineStore('views/allProduct', {
                 }
               })
               .catch(error => {
-                console.error("Add to favorite failed:", error.response?.data || error.message);
                 toastStore.showToast("បរាជ័យក្នុងការកំណត់ Favorites។");
               });
           }

@@ -292,7 +292,6 @@ onMounted(async () => {
         profile.value = data.data;
       }
     } catch (error) {
-      console.error("Error fetching profile:", error);
     }
   }
 
@@ -305,8 +304,6 @@ onMounted(async () => {
         profileDropdown.value.classList.toggle("active");
       }
     });
-  } else {
-    console.warn("btnClickProfile element is not found.");
   }
   
   // Add a global click listener to detect outside clicks

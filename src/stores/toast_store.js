@@ -13,8 +13,6 @@ export const useToastStore = defineStore('toast_store', {
             this.toastMessage = message;
             if (this.toast_alert) {
                 this.toast_alert.show();
-            } else {
-                console.error('Toast instance not initialized');
             }
         }
     },

@@ -21,7 +21,6 @@ export const useAllVideos = defineStore('views/videoFeed', {
             axios.get(`/api/posts?per_page=${per_page}&page=${page}`)
                 .then(response => {
                     this.videoArr = response.data.data;
-                    console.log(this.videoArr);
                 })
         },
         onloadVideo() {
@@ -30,9 +29,6 @@ export const useAllVideos = defineStore('views/videoFeed', {
                     this.lastIndexVideoArr = response.data.data.length - 1;
                     this.videoArr = response.data.data;
                     this.lastVideoId = this.videoArr[0].id;
-                    // this.firstVideoId = this.videoArr[this.videoArr.length - 1].id;
-                    console.log(this.videoArr);
-                    // console.log('last vdo:',this.lastIndexVideoArr);
                 })
         },
 
@@ -40,10 +36,6 @@ export const useAllVideos = defineStore('views/videoFeed', {
             axios.get(`/api/posts/${id}`)
                 .then(response => {
                     this.videoArr = response.data.data;
-                    // this.lastVideoId = this.videoArr[0].id;
-                    // this.firstVideoId = this.videoArr[this.videoArr.length - 1].id;
-                    console.log(this.videoArr);
-                    // console.log('last vdo:',this.lastIndexVideoArr);
                 })
         },
 

@@ -262,9 +262,6 @@ const GetAllProducts = () => {
       allProducts.value = res.data.data;
 
     })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
 };
 
 const GetAllCategories = () => {
@@ -273,9 +270,6 @@ const GetAllCategories = () => {
     .then((res) => {
       categories.value = res.data.data;
     })
-    .catch((error) => {
-      console.error("Error fetching categories:", error);
-    });
 };
 
 const toggleFav = (FavProduct) => {
@@ -283,7 +277,6 @@ const toggleFav = (FavProduct) => {
     localStorage.getItem("token") || sessionStorage.getItem("token");
 
   if (!token) {
-    alert("Please login to add products to your favorites.");
     return;
   }
 
@@ -302,9 +295,6 @@ const toggleFav = (FavProduct) => {
       let index = allProducts.value.findIndex((p) => p.id == FavProduct.id);
       allProducts.value[index].is_favorited = toastFav.value;;
     })
-    .catch((error) => {
-      console.error("Toggle Favorite:", error.response?.data || error.message);
-    });
 };
 
 const AddToCart = (id) => {
@@ -346,7 +336,6 @@ const AddToCart = (id) => {
       }
     })
     .catch(error => {
-      console.error("Add to cart failed:", error.response?.data, error.message);
       const cartToastMessage = document.getElementById("cartToastMessage");
       if (cartToastMessage) {
         cartToastMessage.textContent = 'មានបញ្ហា! មិនអាចដាក់ចូលកន្ត្រកបានទេ';
@@ -370,8 +359,6 @@ const toast = () => {
   const toastElement = document.getElementById("liveToast");
   if (toastElement) {
     contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
-  } else {
-    console.error("Toast element not found!");
   }
 };
 const handleSearch = () => {

@@ -138,7 +138,6 @@ onMounted(async () => {
 
 const updateVideoById = (id) => {
     if (!allVideos.videoArr || allVideos.videoArr.length === 0) {
-        console.warn("Video array is empty or not loaded yet.");
         return;
     }
 
@@ -146,14 +145,11 @@ const updateVideoById = (id) => {
     if (foundVideo) {
         video.value = foundVideo;
         lastIndex.value = allVideos.videoArr.findIndex(v => v.id == id);
-    } else {
-        console.warn("Video not found for ID:", id);
     }
 };
 
 const updateLatestVideo = () => {
     if (!allVideos.videoArr || allVideos.videoArr.length === 0) {
-        console.warn("No videos available.");
         return;
     }
 
@@ -192,7 +188,6 @@ function prevVideo() {
         lastIndex.value = lastIndex.value - 1;
         video.value = allVideos.videoArr[lastIndex.value];
     }
-    // console.log('Lastest Idex2',lastIndex.value);
 }
 function nextVideo() {
     if (lastIndex.value < allVideos.videoArr.length - 1) {
@@ -202,10 +197,7 @@ function nextVideo() {
     }
     video.value = allVideos.videoArr[lastIndex.value];
 }
-watch(lastIndex, (newIndex) => {
-    console.log("Updated lastIndex:", newIndex);
-    console.log("Current Video:", video.value);
-});
+
 
 function goToProductDetail($id) {
     router.push(`/product?id=${$id}`);

@@ -62,23 +62,19 @@ const getCheckoutData = async () => {
         });
 
         checkoutData.value = response.data;
-        console.log('Checkout Data: ', checkoutData.value);
 
     } catch (error) {
-        console.error('Error fetching payment info:', error);
     }
 }
 
 
 // Payway payment requests
 const generateQR = async () => {
-    if (!checkoutData.value || !checkoutData.value.data) {
-        console.error('No checkout data available for QR generation.');
+    if (!checkoutData.value || !checkoutData.value.data) {        
         return;
     }
 
     const data = checkoutData.value.data;
-    // console.log(data);
     
     var frmPayway = new FormData();
     frmPayway.append('hash', data.hash);
@@ -112,10 +108,8 @@ const generateQR = async () => {
         );
 
         qrData.value = qrResponse.data;
-        console.log('QR Data:', qrData.value);
 
     } catch (error) {
-        console.error('Error generating QR:', error);
     }
 };
 

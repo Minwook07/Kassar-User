@@ -576,7 +576,6 @@ const showError = (message, error = null) => {
   let errorMessage = message;
 
   if (error) {
-    console.error(error);
     if (error.response) {
       if (error.response.data?.message) {
         errorMessage = error.response.data.message;

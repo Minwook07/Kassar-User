@@ -205,9 +205,6 @@ const GetAllCategories = () => {
         .then((res) => {
             categories.value = res.data.data;
         })
-        .catch((error) => {
-            console.error("Error fetching categories:", error);
-        });
 };
 onMounted(() => {
     GetAllCategories();
