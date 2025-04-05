@@ -123,7 +123,6 @@ const postComment = async () => {
     // Reload the comments to get the proper server data
     await allComment.onloadComment(props.post_id);
   } catch (error) {
-    console.error('Error posting comment:', error);
   } finally {
     isPosting.value = false;
   }
