@@ -7,27 +7,9 @@
                         <p class="fw-bold fs-5 text-white py-2 m-0">ប្រភេទផលិតផល</p>
                     </div>
                     <ul class="category-list list-unstyled">
-                        <li class="category-item" v-for="category in categories" :key="category.id">
+                        <li class="category-item" v-for="category in categoryStore.categories" :key="category.id">
                             <RouterLink class="nav-link category-link" to="/allproducts">{{ category.name }}</RouterLink>
                         </li>
-                        <!-- <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">បន្លែ</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">ផ្លែឈើ</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">អង្ករ</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">គ្រឿងទេស</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារគ្រៀម</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន់</RouterLink>
-                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -195,19 +177,20 @@ import "swiper/css/pagination";
 import axios from 'axios';
 import { onMounted, ref, reactive } from 'vue';
 import { useAllVideos } from '@/stores/views/videoFeed_store';
+import { useCategoryStore } from '@/stores/views/categories_store';
 
-const categories = ref([]);
+const categoryStore = useCategoryStore();
 const allVideos = useAllVideos();
 
-const GetAllCategories = () => {
-    axios
-        .get("/api/categories")
-        .then((res) => {
-            categories.value = res.data.data;
-        })
-};
+// const GetAllCategories = () => {
+//     axios
+//         .get("/api/categories")
+//         .then((res) => {
+//             categories.value = res.data.data;
+//         })
+// };
 onMounted(() => {
-    GetAllCategories();
+    categoryStore.GetAllCategories();
     allVideos.onloadVideoFilter();
 })
 

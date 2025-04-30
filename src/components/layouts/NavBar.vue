@@ -16,17 +16,20 @@
         </form>
 
         <div v-if="!token" class="d-flex">
-          <div class="ms-auto">
-            <RouterLink class="btn btn-primary-outline rounded-5 px-4 me-1" to="/signup">
-              បង្កើតគណនី
+          <div class="ms-auto d-none d-lg-inline">
+            <RouterLink class="btn btn-outline-primary rounded-5 px-4 me-1 d-flex align-items-center" to="/signup">
+              <i class="bi bi-person-plus me-2"></i>
+              <span class="d-none d-lg-inline">បង្កើតគណនី</span>
             </RouterLink>
           </div>
           <div class="ms-auto">
-            <RouterLink class="btn btn-primary rounded-5 px-4" to="/login">
-              ចូលគណនី
+            <RouterLink class="btn btn-primary rounded-5 px-2 px-lg-4 d-flex align-items-center" to="/login">
+              <i class="bi bi-box-arrow-in-right me-2"></i>
+              <span class="d-none d-lg-inline">ចូលគណនី</span>
             </RouterLink>
           </div>
         </div>
+
 
         <!-- Button for offcanvas -->
         <button class="btn btn-outline-primary pt-2 d-block d-lg-none" type="button" @click="showOffcanvas">
@@ -37,18 +40,20 @@
           <RouterLink class="btn-cart fs-4 text-secondary me-2" to="/cart">
             <div class="position-relative">
               <img src="@/assets/images/icons-img/cart.png" alt="">
-              <span v-if="cartListStore" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              <span v-if="cartListStore"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                 style="font-size: 11px; top: 10px!important">
-                {{cartListStore.cartLists.length}}
+                {{ cartListStore.cartLists.length }}
               </span>
             </div>
           </RouterLink>
           <RouterLink class="position-relative btn-favorite fs-4 text-secondary me-3" to="/wishlist">
             <img src="@/assets/images/icons-img/love.png" alt="">
-            <span v-if="cartListStore" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                style="font-size: 11px; top: 10px!important">
-                {{cartListStore.countFavItem}}
-              </span>
+            <span v-if="cartListStore"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 11px; top: 10px!important">
+              {{ cartListStore.countFavItem }}
+            </span>
           </RouterLink>
           <div class="profile-wrapper position-relative">
             <button ref="btnClickProfile" class="rounded-circle user-pf" type="button">
@@ -85,10 +90,10 @@
                 </a>
               </li>
               <li>
-                <RouterLink to="/login" class="d-flex align-items-center text-decoration-none p-0">
+                <a href="#" @click.prevent="logout" class="d-flex align-items-center text-decoration-none p-0">
                   <i class="bi bi-escape me-1 text-secondary fs-5 pt-1"></i>
                   <h6 class="text-black">ចាកចេញ</h6>
-                </RouterLink>
+                </a>
               </li>
             </ul>
           </div>
@@ -116,26 +121,11 @@
               <i class="bi bi-chevron-down ms-1 fs-6 pt-1"></i>
             </RouterLink>
             <ul class="dropdown-menu">
-              <li>
-                <RouterLink class="dropdown-item" to="/allproducts">ត្រី</RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" to="/allproducts">បន្លែ</RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" to="/allproducts">ផ្លែឈើ</RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" to="/allproducts">អង្ករ</RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" to="/allproducts">គ្រឿងទេស</RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" to="/allproducts">អាហារគ្រៀម</RouterLink>
-              </li>
-              <li>
-                <RouterLink class="dropdown-item" to="/allproducts">អាហារសម្រន</RouterLink>
+              <li v-for="category in categoryStore.categories" :key="category.id">
+                <RouterLink class="dropdown-item" :to="{
+                  path: '/allproducts',
+                  query: { category_id: category.id }
+                }">{{ category.name }}</RouterLink>
               </li>
             </ul>
           </li>
@@ -247,18 +237,61 @@ import { useAllVideos } from '@/stores/views/videoFeed_store';
 import { useCardStore } from '@/stores/card_store';
 const allVideos = useAllVideos();
 const cartListStore = useCardStore();
+import { useRouter } from "vue-router";
+import { useCategoryStore } from "@/stores/views/categories_store";
 
+const categoryStore = useCategoryStore();
 
 onMounted(() => {
-  cartListStore.onLoadCart();
-  cartListStore.onLoadFav();
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  if (token) {
+    cartListStore.onLoadCart();
+    cartListStore.onLoadFav();
+  }
   allVideos.onloadVideoFilter();
+  categoryStore.GetAllCategories();
+  return
 });
 const headerRef = ref(null);
 const toggleClass = "is-sticky";
 
 // Create a reactive token variable.
 const token = ref(null);
+
+const router = useRouter();
+
+const logout = async () => {
+  const storedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
+  if (!storedToken) {
+    router.push('/');
+    return;
+  }
+
+  try {
+    await axios.post('/api/auth/logout', {}, {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // 1) Remove token from storage
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+
+    // 2) Remove default header
+    delete axios.defaults.headers.common['Authorization'];
+
+    // 3) Clear reactive token so template re-evaluates v-if
+    token.value = null;
+
+    // 4) Navigate home
+    router.push('/');
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+};
+
 
 // New reactive profile object to store API response data.
 const profile = ref({
@@ -305,10 +338,12 @@ onMounted(async () => {
       }
     });
   }
-  
+
+
+
   // Add a global click listener to detect outside clicks
   document.addEventListener("click", handleOutsideClick);
-  
+
   offcanvasInstance.value = new Offcanvas(document.getElementById("myOffcanvas"));
   collapseInstance = new Collapse(document.getElementById("categoryCollapse"), { toggle: false });
 });
@@ -320,8 +355,8 @@ onUnmounted(() => {
 
 // Function to handle clicks outside the profile dropdown
 const handleOutsideClick = (event) => {
-  if (profileDropdown.value && !profileDropdown.value.contains(event.target) && 
-      btnClickProfile.value && !btnClickProfile.value.contains(event.target)) {
+  if (profileDropdown.value && !profileDropdown.value.contains(event.target) &&
+    btnClickProfile.value && !btnClickProfile.value.contains(event.target)) {
     profileDropdown.value.classList.remove("active");
   }
 };

@@ -28,7 +28,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link border-0 py-3 ps-4" href="/login">
+      <a class="nav-link border-0 py-3 ps-4" href="/">
         <i class="bi bi-box-arrow-right me-2"></i> ចាកចេញពីគណនី
       </a>
     </li>

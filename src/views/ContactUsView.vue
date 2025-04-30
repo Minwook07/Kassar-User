@@ -18,43 +18,45 @@
                         <p>អ្នកអាចទាក់ទងមកយើងខ្ញុំតាមរយៈខាងក្រោមនេះបាន</p>
                         <ul class="list-unstyled">
                             <li>
-                                <router-link to="" class="contact-link">
+                                <a href="tel:+18003334455" class="contact-link text-dark">
                                     <div class="contact-card">
                                         <div class="icon-circle">
                                             <i class="bi bi-telephone"></i>
                                         </div>
                                         <div class="contact-details">
                                             <h5>Phone</h5>
-                                            <p>+1 (800) 333 44 55</p>
+                                            <a href="tel:+85516666653" class="text-dark">+855 16 66 66 53</a>
                                         </div>
                                     </div>
-                                </router-link>
+                                </a>
                             </li>
                             <li>
-                                <router-link to="" class="contact-link">
+                                <a href="mailto:kassar@gmail.com" class="contact-link text-dark">
                                     <div class="contact-card">
                                         <div class="icon-circle">
                                             <i class="bi bi-envelope"></i>
                                         </div>
                                         <div class="contact-details">
                                             <h5>Email</h5>
-                                            <p>kassar@gmail.com</p>
+                                            <a href="mailto:kassar@gmail.com" class="text-dark">kassar@gmail.com</a>
                                         </div>
                                     </div>
-                                </router-link>
+                                </a>
                             </li>
                             <li>
-                                <router-link to="" class="contact-link">
+                                <a href="https://maps.app.goo.gl/4tugjwNFZprXrn9o6" target="_blank"
+                                    class="contact-link text-dark">
                                     <div class="contact-card">
                                         <div class="icon-circle">
                                             <i class="bi bi-geo-alt"></i>
                                         </div>
                                         <div class="contact-details">
                                             <h5>Address</h5>
-                                            <p>289, Tuol Kouk, Phnom Penh</p>
+                                            <a href="https://maps.app.goo.gl/4tugjwNFZprXrn9o6" class="text-dark" target="_blank">#42 st 606,
+                                                Tuol Kouk, Phnom Penh</a>
                                         </div>
                                     </div>
-                                </router-link>
+                                </a>
                             </li>
                         </ul>
                         <hr>
@@ -95,48 +97,54 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">ឈ្មោះ</label>
-                                        <input type="text" class="form-control shadow-none" id="name" placeholder="" 
-                                            :class="{'is-invalid': contactStore.vv.name.$error}" v-model="contactStore.frm.name">
-                                            <div class="invalid-feedback" v-if="contactStore.vv.name.$error">
-                                                {{ contactStore.vv.name.$errors[0].$message }}
-                                                <!-- Please enter your name -->
-                                            </div>
+                                        <input type="text" class="form-control shadow-none" id="name" placeholder=""
+                                            :class="{ 'is-invalid': contactStore.vv.name.$error }"
+                                            v-model="contactStore.frm.name">
+                                        <div class="invalid-feedback" v-if="contactStore.vv.name.$error">
+                                            {{ contactStore.vv.name.$errors[0].$message }}
+                                            <!-- Please enter your name -->
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">លេខទូរស័ព្ទ</label>
-                                        <input type="text" class="form-control shadow-none" id="phone" placeholder="" 
-                                            :class="{'is-invalid': contactStore.vv.phone.$error}" v-model="contactStore.frm.phone">
-                                            <div class="invalid-feedback" v-if="contactStore.vv.phone.$error">
-                                                {{ contactStore.vv.phone.$errors[0].$message }}
-                                            </div>
+                                        <input type="text" class="form-control shadow-none" id="phone" placeholder=""
+                                            :class="{ 'is-invalid': contactStore.vv.phone.$error }"
+                                            v-model="contactStore.frm.phone">
+                                        <div class="invalid-feedback" v-if="contactStore.vv.phone.$error">
+                                            {{ contactStore.vv.phone.$errors[0].$message }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="email" class="form-label">អ៊ីមែល</label>
                                         <input type="text" class="form-control shadow-none" id="email" placeholder=""
-                                            :class="{'is-invalid': contactStore.vv.email.$error}" v-model="contactStore.frm.email">
-                                            <div class="invalid-feedback" v-if="contactStore.vv.email.$error">
-                                                {{ contactStore.vv.email.$errors[0].$message }}
-                                            </div>
+                                            :class="{ 'is-invalid': contactStore.vv.email.$error }"
+                                            v-model="contactStore.frm.email">
+                                        <div class="invalid-feedback" v-if="contactStore.vv.email.$error">
+                                            {{ contactStore.vv.email.$errors[0].$message }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">បញ្ចេញមតិ</label>
-                                        <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" 
-                                            :class="{'is-invalid': contactStore.vv.desc.$error}" v-model="contactStore.frm.desc"
-                                            rows="4" style="min-height: 150px;"></textarea>
-                                            <div class="invalid-feedback" v-if="contactStore.vv.desc.$error">
-                                                {{ contactStore.vv.desc.$errors[0].$message }}
-                                            </div>
+                                        <textarea class="form-control shadow-none" id="exampleFormControlTextarea1"
+                                            :class="{ 'is-invalid': contactStore.vv.desc.$error }"
+                                            v-model="contactStore.frm.desc" rows="4"
+                                            style="min-height: 150px;"></textarea>
+                                        <div class="invalid-feedback" v-if="contactStore.vv.desc.$error">
+                                            {{ contactStore.vv.desc.$errors[0].$message }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <button type="button" class="btn-contact btn btn-outline-danger shadow-none me-3" @click="onClear()">សម្អាត</button>
-                                    <button type="button" class="btn-contact btn btn-primary shadow-none" @click="onSaveContact()">ដាក់បញ្ជូន</button>
+                                    <button type="button" class="btn-contact btn btn-outline-danger shadow-none me-3"
+                                        @click="onClear()">សម្អាត</button>
+                                    <button type="button" class="btn-contact btn btn-primary shadow-none"
+                                        @click="onSaveContact()">ដាក់បញ្ជូន</button>
                                 </div>
                             </div>
                         </form>
@@ -178,24 +186,24 @@ import { useContactStore } from '@/stores/contact_store';
 import { Toast } from 'bootstrap';
 import { computed, onMounted } from 'vue';
 import axios from 'axios';
-import { helpers, integer, required, email, maxLength, minLength} from '@vuelidate/validators';
+import { helpers, integer, required, email, maxLength, minLength } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 
 const contactStore = useContactStore()
 
 const rules = computed(() => ({
-    name:{
+    name: {
         required: helpers.withMessage('សូមបញ្ចូលឈ្មោះរបស់អ្នក', required)
     },
     phone: {
         required: helpers.withMessage('សូមបញ្ចូលលេខទូរស័ព្ទរបស់អ្នក', required),
         integer: helpers.withMessage('លេខទូរស័ព្ទមិនអាចមានអក្សរ ឬអក្សរពិសេសបានទេ', integer)
     },
-    email:{
+    email: {
         required: helpers.withMessage('សូមបញ្ចូលអ៊ីមែលរបស់អ្នក', required),
         email: helpers.withMessage('អ៊ីមែលមិនត្រឹមត្រូវទេ', email)
     },
-    desc:{
+    desc: {
         required: helpers.withMessage('សូមបញ្ចូលការពិពណ៌នារ', required),
         minLength: helpers.withMessage('ការពិពណ៌នាត្រូវមានយ៉ាងតិច 10 តួអក្សរ', minLength(10)),
         maxLength: helpers.withMessage('ការពិពណ៌នាមិនអាចលើស 500 តួអក្សរ', maxLength(500))
@@ -219,15 +227,15 @@ const onClear = () => {
 const onSaveContact = () => {
 
     contactStore.vv.$validate()
-    if(contactStore.vv.$error){
+    if (contactStore.vv.$error) {
         return
     }
 
     let frmData = new FormData()
     frmData.append('name', contactStore.frm.name)
-        frmData.append('phone', contactStore.frm.phone)
-        frmData.append('email', contactStore.frm.email)
-        frmData.append('desc', contactStore.frm.desc)
+    frmData.append('phone', contactStore.frm.phone)
+    frmData.append('email', contactStore.frm.email)
+    frmData.append('desc', contactStore.frm.desc)
 
     axios.post('/api/contacts', frmData)
         .then((res) => {

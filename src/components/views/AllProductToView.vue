@@ -16,6 +16,12 @@
             ជម្រើសផលិតផល
           </h4>
           <hr />
+          <div class="mt-3 mb-4 text-center">
+            <button class="btn btn-outline-secondary w-100" @click="resetFilters">
+              <i class="bi bi-arrow-repeat"></i>
+              <span>កំណត់ឡើងវិញ</span>
+            </button>
+          </div>
           <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold mb-3">ប្រភេទ</h5>
             <div v-for="category in categories" :key="category.id">
@@ -115,58 +121,72 @@
               </div>
             </div>
           </div>
-          <div data-aos="fade-up" class="col-12 col-md-6 col-lg-4 col-xl-3 mb-3" v-for="product in allProducts" :key="product.id"
-            @click="goToDetail(product.id)">
-            <div class="bg-white text-decoration-none card h-100 card-product border-0 rounded position-relative">
-              <div class="card-img p-3">
-                <img :src="product.product_thumbnail" class="mycard-img-top rounded-top object-fit-cover" alt="" />
-              </div>
-              <div class="p-3 card-body">
-                <div class="d-flex justify-content-between">
-                  <p class="text-primary mb-1">{{ product.category.name }}</p>
-                  <p class="mb-1">
-                    <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>{{ product.rating.average }}
-                  </p>
+          <div v-if="allProducts.length > 0" class="row justify-content-start">
+            <div data-aos="fade-up" class="col-12 col-md-6 col-lg-4 col-xl-3 mb-3" v-for="product in allProducts"
+              :key="product.id" @click="goToDetail(product.id)">
+              <div class="bg-white text-decoration-none card h-100 card-product border-0 rounded position-relative">
+                <div class="card-img p-3">
+                  <img :src="product.product_thumbnail" class="mycard-img-top rounded-top object-fit-cover" alt="" />
                 </div>
-                <h5 class="fw-bold">{{ product.name }}</h5>
-                <p class="product-desc">{{ product.description }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div v-if="product.price && product.price.has_discount !== false">
-                    <p class="text-primary mb-0 fw-bold">
-                      {{ product.price.discounted_price }} /
+                <div class="p-3 card-body">
+                  <div class="d-flex justify-content-between">
+                    <p class="text-primary mb-1">{{ product.category.name }}</p>
+                    <p class="mb-1">
+                      <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>{{ product.rating.average }}
+                    </p>
+                  </div>
+                  <h5 class="fw-bold">{{ product.name }}</h5>
+                  <p class="product-desc">{{ product.description }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div v-if="product.price && product.price.has_discount !== false">
+                      <p class="text-primary mb-0 fw-bold">
+                        {{ product.price.discounted_price }} /
+                        {{ product.product_units.name }}
+                      </p>
+                      <span class="text-decoration-line-through text-paragraph">
+                        {{ product.price.original }}</span>
+                    </div>
+                    <p class="text-primary mb-0 fw-bold" v-else>
+                      {{ product.price.original }} ៛ /
                       {{ product.product_units.name }}
                     </p>
-                    <span class="text-decoration-line-through text-paragraph">
-                      {{ product.price.original }}</span>
+                    <button @click.stop="AddToCart(product.id)" class="btn btn-primary rounded-pill"><i
+                        class="bi bi-bag-fill me-1"></i>កន្ត្រក</button>
                   </div>
-                  <p class="text-primary mb-0 fw-bold" v-else>
-                    {{ product.price.original }} ៛ /
-                    {{ product.product_units.name }}
+                </div>
+                <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
+                  v-for="promotion in product.promotions" :key="promotion.id">
+                  <p class="mb-0 px-3 text-white">
+                    {{ promotion.discount_rate }} %
                   </p>
-                  <button @click.stop="AddToCart(product.id)" class="btn btn-primary rounded-pill"><i
-                      class="bi bi-bag-fill me-1"></i>កន្ត្រក</button>
+                </div>
+
+                <div
+                  class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
+                  @click.stop="toggleFav(product)">
+                  <p class="mb-0 mt-1 text-danger fw-bold">
+                    <i :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
+                      "></i>
+                  </p>
                 </div>
               </div>
-              <div class="position-absolute bg-primary card-product-discount top-0 ms-3 mt-3"
-                v-for="promotion in product.promotions" :key="promotion.id">
-                <p class="mb-0 px-3 text-white">
-                  {{ promotion.discount_rate }} %
-                </p>
-              </div>
-
-              <div
-                class="position-absolute border border-dark-subtle top-0 end-0 me-3 save-fav rounded-circle d-flex justify-content-center align-items-center"
-                @click.stop="toggleFav(product)">
-                <p class="mb-0 mt-1 text-danger fw-bold">
-                  <i :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'
-                    "></i>
-                </p>
-              </div>
             </div>
+            <paginate :page-count="pageCount" :click-handler="handlePageClick" prev-text="‹" next-text="›"
+              container-class="pagination" />
           </div>
+          <div v-else class="col-12 d-flex flex-column align-items-center justify-content-center text-center">
+            <img src="@/assets/images/empty-box-agriculture.svg" alt="No products" class="mb-4"
+              style="max-width: 180px;" />
+
+            <h3 class="fw-bold text-secondary mb-2">
+              សូមទោស! មិនមានផលិតផលសម្រាប់ប្រភេទនេះទេ
+            </h3>
+            <p class="text-muted mb-4">
+              ការជ្រើសរើសនេះមិនមានទំនិញណាមួយ។ សូមព្យាយាមប្រភេទផ្សេង ឬស្វែងរកតាមឈ្មោះផលិតផល
+            </p>
+          </div>
+
         </div>
-        <paginate :page-count="pageCount" :click-handler="handlePageClick" prev-text="‹" next-text="›"
-          container-class="pagination" />
       </div>
     </div>
   </section>
@@ -226,7 +246,10 @@ const allProducts = ref([]);
 const toastFav = ref(null);
 const categories = ref([]);
 const totalProducts = ref([]);
-const selectedCategory = ref();
+
+const route = useRoute();
+// const selectedCategory = ref();
+const selectedCategory = ref(route.query.category_id || null);
 const itemsPerPage = 8;
 const currentPage = ref(1);
 const min_price = 0;
@@ -236,6 +259,8 @@ const router = useRouter();
 const cartToast = ref(null);
 const contactStore = useContactStore();
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+import { useRoute } from "vue-router";
+
 const GetAllProducts = () => {
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
 
@@ -347,8 +372,11 @@ const AddToCart = (id) => {
 };
 
 onMounted(() => {
-  GetAllProducts();
   GetAllCategories();
+  if (route.query.category_id) {
+    currentPage.value = 1;
+  }
+  GetAllProducts();
   toast();
   const cartToastElement = document.getElementById("cartToastElement");
   if (cartToastElement) {
@@ -367,6 +395,13 @@ const handleSearch = () => {
 };
 const handleCategory = () => {
   currentPage.value = 1;
+  router.push({
+    path: '/allproducts',
+    query: {
+      ...route.query,
+      category_id: selectedCategory.value
+    }
+  });
   GetAllProducts();
 };
 const pageCount = computed(() =>
@@ -388,6 +423,18 @@ const formatPrice = (value) => {
 const goToDetail = (id) => {
   router.push({ name: "detailproduct", query: { id } });
 };
+
+const resetFilters = () => {
+  selectedCategory.value = null;
+  search.value = "";
+  range.value = [min_price, max_price];
+  currentPage.value = 1;
+
+  router.push({ path: "/allproducts", query: {} });
+
+  GetAllProducts();
+};
+
 </script>
 
 <style scoped>
