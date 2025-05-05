@@ -17,7 +17,7 @@
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
                     tabindex="0">
                     <div class="row">
-                        <div class="col-12 col-md-4 col-lg-3 mb-3 h-100" v-for="product in allProduct.productArr"
+                        <div class="col-6 col-md-4 col-lg-3 mb-3 h-100" v-for="product in allProduct.productArr"
                             :key="product.id">
                             <div class="bg-white card card-product border-0 rounded position-relative"
                                 data-aos="fade-up" data-aos-delay="100">
@@ -70,7 +70,7 @@
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
                     tabindex="0">
                     <div class="row">
-                        <div class="col-12 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.productArr"
+                        <div class="col-6 col-md-4 col-lg-3 mb-3" v-for="product in allProduct.productArr"
                             :key="product.id">
                             <div class="bg-white card card-product border-0 rounded position-relative"
                                 data-aos="fade-up" data-aos-delay="100">
@@ -138,7 +138,7 @@
                     class="bi bi-collection-play fs-3 text-secondary"></i>
             </div>
             <div class="row pe-3">
-                <div class="col-3 video-wrapper" v-for="video in allVideos.videoArr" :key="video.id"
+                <div class="col-6 col-lg-3 video-wrapper" v-for="video in allVideos.videoArr" :key="video.id"
                     @click="goToDetailVideo(video.id)">
                     <RouterLink class="text-decoration-none" to="" data-aos="fade-up" data-aos-delay="100">
                         <div class="video" to="">

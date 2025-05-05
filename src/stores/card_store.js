@@ -75,23 +75,26 @@ export const useCardStore = defineStore("card_store", {
 
     onLoadCart() {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-
-      axios.get('api/cart', { headers: { Authorization: `Bearer ${token}` } })
-        .then((res) => {
-          this.cartLists = res.data.data;
-          this.cartLists.forEach(cartItem => {
-            this.cartCounts[cartItem.id] = parseInt(cartItem.qty, 10);
-          });
-        })
+      if (token) {
+        axios.get('api/cart', { headers: { Authorization: `Bearer ${token}` } })
+          .then((res) => {
+            this.cartLists = res.data.data;
+            this.cartLists.forEach(cartItem => {
+              this.cartCounts[cartItem.id] = parseInt(cartItem.qty, 10);
+            });
+          })
+      }
     }
     ,
     onLoadFav() {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
-      axios.get('api/favorites', { headers: { Authorization: `Bearer ${token}` } })
-        .then((res) => {
-          this.countFavItem = res.data.data.length;
-        })
+      if (token) {
+        axios.get('api/favorites', { headers: { Authorization: `Bearer ${token}` } })
+          .then((res) => {
+            this.countFavItem = res.data.data.length;
+          })
+      }
     }
     ,
 

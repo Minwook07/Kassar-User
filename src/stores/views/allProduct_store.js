@@ -6,6 +6,8 @@ export const useAllProducts = defineStore('views/allProduct', {
     state: () => ({
         mdl_term: null,
         productArr: null,
+        latestPro: null,
+        discountPro: null,
         products: [
             { id: 1, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 6', price: 100, img: new URL('@/assets/images/5.avif', import.meta.url).href, isFav: true },
             { id: 2, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 2', price: 200, img: new URL('@/assets/images/2.avif', import.meta.url).href, isFav: true },
@@ -29,6 +31,18 @@ export const useAllProducts = defineStore('views/allProduct', {
             axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
                 .then(response => {
                     this.productArr = response.data.data;
+                })
+        },
+        onloadLatestProduct(per_page, page, sdir = 'desc') {
+            axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
+                .then(response => {
+                    this.latestPro = response.data.data;
+                })
+        },
+        onloadDiscountProduct(per_page, page, sdir = 'desc') {
+            axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
+                .then(response => {
+                    this.discountPro = response.data.data;
                 })
         },
 
