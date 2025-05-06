@@ -7,9 +7,28 @@
                         <p class="fw-bold fs-5 text-white py-2 m-0">ប្រភេទផលិតផល</p>
                     </div>
                     <ul class="category-list list-unstyled">
-                        <li class="category-item" v-for="category in categoryStore.categories" :key="category.id">
-                            <RouterLink class="nav-link category-link" to="/allproducts">{{ category.name }}</RouterLink>
+                        <li class="category-item" v-for="category in categories" :key="category.id">
+                            <RouterLink class="nav-link category-link" to="/allproducts">{{ category.name }}
+                            </RouterLink>
                         </li>
+                        <!-- <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">បន្លែ</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">ផ្លែឈើ</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">អង្ករ</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">គ្រឿងទេស</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារគ្រៀម</RouterLink>
+                        </li>
+                        <li class="category-item">
+                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន់</RouterLink>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -157,10 +176,11 @@ import axios from 'axios';
 import { onMounted, ref, reactive } from 'vue';
 import { useAllVideos } from '@/stores/views/videoFeed_store';
 import { useAllProducts } from '@/stores/views/allProduct_store';
-import { useCategoryStore } from '@/stores/views/categories_store';
 
-const categoryStore = useCategoryStore();
+const categories = ref([]);
 const allVideos = useAllVideos();
+const allProduct = useAllProducts();
+const discount_pro = useAllProducts();
 
 const GetAllCategories = () => {
     axios
@@ -170,7 +190,7 @@ const GetAllCategories = () => {
         })
 };
 onMounted(() => {
-    categoryStore.GetAllCategories();
+    GetAllCategories();
     allProduct.onloadLatestProduct(4, 1, 'desc');
     discount_pro.onloadDiscountProduct(2, 1, 'asc');
     allVideos.onloadVideoFilter();
