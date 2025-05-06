@@ -94,7 +94,7 @@ const postComment = async () => {
     const currentUser = {
       id: userId.value,
       name: user.user?.name || 'User',
-      avatar: user.user?.avatar || ''
+      avatar: user.user?.avatar || '/src/assets/images/no_photo.jpg'
     };
     
     // Create temporary comment for immediate display
