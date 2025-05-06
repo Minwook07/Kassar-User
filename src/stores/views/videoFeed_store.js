@@ -92,7 +92,7 @@ export const useAllVideos = defineStore("views/videoFeed", {
       })
     },
     postComment(id, comment) {
-      const token = localStorage.getItem("token")
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       return axios
         .post(
           `api/comments/${id}`,
@@ -109,7 +109,7 @@ export const useAllVideos = defineStore("views/videoFeed", {
         })
     },
     deleteComment(id) {
-      const token = localStorage.getItem("token")
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       return axios
         .delete(`api/comments/${id}`, {
           headers: {

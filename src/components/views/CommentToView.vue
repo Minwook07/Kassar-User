@@ -2,7 +2,7 @@
   <div class="comment-section rounded-3 p-3 bg-white mt-3">
     <p class="m-0 fw-bold fs-5">មតិ (<span> {{ allComment.commentArr ? allComment.commentArr.length : 0 }}</span>)</p>
     <hr class="my-1 mb-3">
-    <div class="comments-container">
+    <div class="comments-container position-relative">
       <!-- Comments List with Scroll -->
       <div class="comments-scroll-container">
         <div class="comments-list">
@@ -20,7 +20,7 @@
                 <p class="m-0 timestamp">{{ comment.created_since }}</p>
               </div>
             </div>
-            <div class="dropdown" v-if="comment.user.id == userId">
+            <div class="dropdown" v-if="comment.user.id == userId && token">
               <button class="bg-transparent border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-three-dots"></i>
               </button>
@@ -35,16 +35,20 @@
 
       <!-- Comment Input -->
       <div class="comment-input-container">
-        <div class="comment-input-wrapper">
+        <div class="comment-input-wrapper" v-if="token">
           <input type="text" class="comment-input" placeholder="បញ្ជេញមតិ..." v-model="newComment"
             @keyup.enter="postComment" />
           <div class="comment-input-actions">
           </div>
         </div>
         <button class="post-btn" :class="{ 'active': newComment.length > 0 }" :disabled="newComment.length === 0"
-          @click="postComment">
+          @click="postComment" v-if="token">
           បញ្ជូន
         </button>
+        <div v-if="!token" class="d-flex align-items-center justify-content-center w-100">
+          <p class="m-0 text-secondary pe-3">សូមចូលគណនីដើម្បីបញ្ជេញមតិ</p>
+          <router-link to="/login" class="btn btn-primary">ចូលគណនី</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -61,7 +65,7 @@ const activeMenu = ref(null);
 const userId = ref(null);
 const user = useAuthStore();
 const isPosting = ref(false);
-
+const token = ref('');
 const props = defineProps({
   post_id: {
     type: [String, Number],
@@ -74,6 +78,8 @@ watchEffect(() => {
     allComment.onloadComment(props.post_id);
   }
   userId.value = localStorage.getItem('id');
+  token.value = localStorage.getItem('token') || sessionStorage.getItem('token');
+
 })
 
 
@@ -86,17 +92,17 @@ const deleteComment = async (id) => {
 
 const postComment = async () => {
   if (newComment.value.trim() === '' || isPosting.value) return;
-  
+
   try {
     isPosting.value = true;
-    
+
     // Get current user info for optimistic update
     const currentUser = {
       id: userId.value,
       name: user.user?.name || 'User',
       avatar: user.user?.avatar || '/src/assets/images/no_photo.jpg'
     };
-    
+
     // Create temporary comment for immediate display
     const tempComment = {
       id: 'temp-' + Date.now(),
@@ -104,22 +110,22 @@ const postComment = async () => {
       comment: newComment.value,
       created_since: 'Just now'
     };
-    
+
     // Add temporary comment to the UI immediately
     if (!allComment.commentArr) {
       allComment.commentArr = [];
     }
     allComment.commentArr.push(tempComment);
-    
+
     // Store the comment text before clearing input
     const commentText = newComment.value;
-    
+
     // Clear the input immediately for better UX
     newComment.value = '';
-    
+
     // Send to server
     await allComment.postComment(props.post_id, commentText);
-    
+
     // Reload the comments to get the proper server data
     await allComment.onloadComment(props.post_id);
   } catch (error) {
@@ -333,11 +339,12 @@ if (typeof window !== 'undefined') {
 
 /* Comment input */
 .comment-input-container {
-  position: fixed;
-  bottom: 0;
-  right: 0%;
-  width: 35%;
+  position: sticky;
+  /* width: 35%; */
+  bottom: -17px;
+  /* right: 0%; */
   /* max-width: 11  2%; */
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 12px 16px;
@@ -421,4 +428,3 @@ if (typeof window !== 'undefined') {
   }
 }
 </style>
-
