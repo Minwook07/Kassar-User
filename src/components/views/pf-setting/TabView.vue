@@ -28,13 +28,37 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link border-0 py-3 ps-4" href="/">
+      <a role="button" style="cursor: pointer;" class="nav-link border-0 py-3 ps-4" @click.prevent="logout">
         <i class="bi bi-box-arrow-right me-2"></i> ចាកចេញពីគណនី
       </a>
     </li>
   </ul>
 </div>
 </template>
+
+<script setup>
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+const logout = async () => {
+  try {
+    await axios.post('/api/auth/logout', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  } catch (e) {
+    // console.warn('Logout error:', e)
+  }
+  localStorage.removeItem('token')
+  sessionStorage.removeItem('token')
+  delete axios.defaults.headers.common['Authorization'];
+  router.push('/')
+}
+</script>
+
 <style scoped>
 
 .modal-backdrop {
