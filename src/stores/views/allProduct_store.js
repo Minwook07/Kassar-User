@@ -50,10 +50,11 @@ export const useAllProducts = defineStore('views/allProduct', {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             const toastStore = useToastStore();
 
-            if (!token) {
+            toastStore.showToast('សូមចូល​គណនី​មុន​បន្ថែម​ទំនិញ');
+            setTimeout(() => {
                 router.push({ name: 'login' });
-                return;
-            }
+            }, 2000);
+            return;
 
             const formData = new FormData();
             formData.append('product_id', id);
@@ -76,38 +77,41 @@ export const useAllProducts = defineStore('views/allProduct', {
         addToFavorite(id) {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             const toastStore = useToastStore();
-          
+
             if (!token) {
-              router.push({ name: 'login' });
-              return;
+                toastStore.showToast('សូម​ចូល​គណនី​ជាមុនសិន');
+                setTimeout(() => {
+                    router.push({ name: 'login' });
+                }, 2000);
+                return;
             }
-          
+
             axios.post(`/api/favorites/toggle?product_id=${id}`, null, {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-              }
-            })
-              .then(response => {
-                if (response.data && response.data.result) {
-                  const index = this.productArr.findIndex(product => product.id === id);
-                  if (index !== -1) {
-                    // Determine the message based on the current state
-                    const currentState = this.productArr[index].is_favorited;
-                    const message = currentState ? "ដកចេញរួចរាល់" : "ដាក់ចូលរួចរាល់";
-                    toastStore.showToast(message);
-              
-                    // Toggle the state
-                    this.productArr[index].is_favorited = !currentState;
-                  }
-                } else {
-                  toastStore.showToast("មានបញ្ហា! មិនអាចរក្សាទុកបានទេ។");
+                headers: {
+                    'Authorization': `Bearer ${token}`,
                 }
-              })
-              .catch(error => {
-                toastStore.showToast("បរាជ័យក្នុងការកំណត់ Favorites។");
-              });
-          }
-          
+            })
+                .then(response => {
+                    if (response.data && response.data.result) {
+                        const index = this.productArr.findIndex(product => product.id === id);
+                        if (index !== -1) {
+                            // Determine the message based on the current state
+                            const currentState = this.productArr[index].is_favorited;
+                            const message = currentState ? "ដកចេញរួចរាល់" : "ដាក់ចូលរួចរាល់";
+                            toastStore.showToast(message);
+
+                            // Toggle the state
+                            this.productArr[index].is_favorited = !currentState;
+                        }
+                    } else {
+                        toastStore.showToast("មានបញ្ហា! មិនអាចរក្សាទុកបានទេ។");
+                    }
+                })
+                .catch(error => {
+                    toastStore.showToast("បរាជ័យក្នុងការកំណត់ Favorites។");
+                });
+        }
+
     }
 
 })

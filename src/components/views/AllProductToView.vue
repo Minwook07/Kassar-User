@@ -269,13 +269,14 @@ import axios, { all } from "axios";
 import { useRouter } from "vue-router";
 import { Toast } from "bootstrap";
 import { useContactStore } from "@/stores/contact_store";
+import { useToastStore } from "@/stores/toast_store";
 const allProducts = ref([]);
 const toastFav = ref(null);
 const categories = ref([]);
 const totalProducts = ref([]);
 
 const route = useRoute();
-// const selectedCategory = ref();
+const toastStore = useToastStore();
 const selectedCategory = ref(route.query.category_id || null);
 const itemsPerPage = 8;
 const currentPage = ref(1);
@@ -329,6 +330,11 @@ const toggleFav = (FavProduct) => {
     localStorage.getItem("token") || sessionStorage.getItem("token");
 
   if (!token) {
+    toastStore.showToast('សូម​ចូល​គណនី​ជាមុនសិន');
+      setTimeout(() => {
+          router.push({ name: 'login' });
+      }, 2000);
+      return;
     return;
   }
 
@@ -353,7 +359,10 @@ const AddToCart = (id) => {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
   if (!token) {
-    router.push({ name: 'login' });
+    toastStore.showToast('សូមចូល​គណនី​មុន​បន្ថែម​ទំនិញ');
+      setTimeout(() => {
+          router.push({ name: 'login' });
+      }, 2000);
     return;
   }
 

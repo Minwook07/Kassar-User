@@ -8,27 +8,12 @@
                     </div>
                     <ul class="category-list list-unstyled">
                         <li class="category-item" v-for="category in categories" :key="category.id">
-                            <RouterLink class="nav-link category-link" to="/allproducts">{{ category.name }}
+                            <RouterLink class="nav-link category-link" :to="{
+                                path: '/allproducts',
+                                query: { category_id: category.id }
+                                }">{{ category.name }}
                             </RouterLink>
                         </li>
-                        <!-- <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">បន្លែ</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">ផ្លែឈើ</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">អង្ករ</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">គ្រឿងទេស</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារគ្រៀម</RouterLink>
-                        </li>
-                        <li class="category-item">
-                            <RouterLink class="nav-link category-link" to="/allproducts">អាហារសម្រន់</RouterLink>
-                        </li> -->
                     </ul>
                 </div>
             </div>

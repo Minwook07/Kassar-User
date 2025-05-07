@@ -185,27 +185,12 @@
         </li>
         <div class="collapse" id="categoryCollapse">
           <ul class="category-list list-unstyled">
-            <li>
-              <RouterLink class="category-item" to="/allproducts">ត្រី</RouterLink>
-            </li>
-            <li>
-              <RouterLink class="category-item" to="/allproducts">បន្លែ</RouterLink>
-            </li>
-            <li>
-              <RouterLink class="category-item" to="/allproducts">ផ្លែឈើ</RouterLink>
-            </li>
-            <li>
-              <RouterLink class="category-item" to="/allproducts">អង្ករ</RouterLink>
-            </li>
-            <li>
-              <RouterLink class="category-item" to="/allproducts">គ្រឿងទេស</RouterLink>
-            </li>
-            <li>
-              <RouterLink class="category-item" to="/allproducts">អាហារគ្រៀម</RouterLink>
-            </li>
-            <li>
-              <RouterLink class="category-item" to="/allproducts">អាហារសម្រន</RouterLink>
-            </li>
+            <li v-for="category in categoryStore.categories" :key="category.id">
+                <RouterLink class="dropdown-item" :to="{
+                  path: '/allproducts',
+                  query: { category_id: category.id }
+                }">{{ category.name }}</RouterLink>
+              </li>
           </ul>
         </div>
         <li class="nav-item">

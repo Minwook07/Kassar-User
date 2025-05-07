@@ -448,6 +448,7 @@ watch(
 const addToCart = () => {
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   if (!token) {
+    toastStore.showToast("សូមចូល​គណនី​មុន​បន្ថែម​ទំនិញ"); 
     return;
   }
   if (!detailProducts.value || !detailProducts.value.product) {
@@ -484,6 +485,7 @@ const toggleFav = (FavProduct) => {
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   if (!token) {
+    toastStore.showToast("សូមចូល​គណនីជា​មុនសិន"); 
     return;
   }
 

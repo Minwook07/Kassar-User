@@ -188,8 +188,8 @@
                 <p class="m-0 pe-1 text-secondary fw-semibold fs-3">វីដេអូ</p> <i
                     class="bi bi-collection-play fs-3 text-secondary"></i>
             </div>
-            <div class="row pe-3">
-                <div class="col-6 col-lg-3 video-wrapper" v-for="video in allVideos.videoArr" :key="video.id"
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg-3 video-wrapper" v-for="video in allVideos.videoArr" :key="video.id"
                     @click="goToDetailVideo(video.id)">
                     <RouterLink class="text-decoration-none" to="" data-aos="fade-up" data-aos-delay="100">
                         <div class="video" to="">
