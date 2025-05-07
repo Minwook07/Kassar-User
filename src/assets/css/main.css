@@ -1112,6 +1112,11 @@ body {
     -ms-overflow-style: none;
 }
 
+.video-feed .video-detail .product .thumbnail,
+.video-feed .video-detail .product h5{
+    cursor: pointer;
+}
+
 .video-feed .video-section .sidebar {
     z-index: 5;
 }

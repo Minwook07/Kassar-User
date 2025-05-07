@@ -207,7 +207,7 @@ function updateQueryId(newId) {
 }
 
 function goToProductDetail($id) {
-    router.push(`/product?id=${$id}`);
+    router.push(`/detailproduct?id=${$id}`);
 }
 function copyLink() {
     var copyText = document.getElementById("myInput");
