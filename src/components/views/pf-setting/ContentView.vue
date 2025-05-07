@@ -58,7 +58,7 @@
                 </div>
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                   <span class="text-muted">ភេទ</span>
-                  <p class="fw-medium"> {{ translateGender(profile.gender) }}</p>
+                  <p class="fw-medium"> {{ translateGender(normalizeGender((profile.gender))) }}</p>
                 </div>
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                   <span class="text-muted">គណនីអ៊ីមែល</span>
@@ -161,6 +161,7 @@
                     <div class="mb-3">
                       <label for="gender" class="form-label">ភេទ</label>
                       <select class="form-select" id="gender" v-model="editForm.gender">
+                        <option value="">មិនបញ្ជាក់</option>
                         <option value="Male">ប្រុស</option>
                         <option value="Female">ស្រី</option>
                       </select>
@@ -559,9 +560,18 @@ const translateRole = (roleName) => {
 };
 
 // Gender translations
-const translateGender = (gender) => {
-  return gender === 1 ? 'ប្រុស' : gender === 2 ? 'ស្រី' : 'មិនបញ្ជាក់';
+const normalizeGender = (gender) => {
+  // return gender === 1 ? 'ប្រុស' : gender === 2 ? 'ស្រី' : 'មិនបញ្ជាក់';
+  if (gender === 'Male' || gender === 'male' || gender === 1)   return 'Male';
+  if (gender === 'Female' || gender === 'female' || gender === 2) return 'Female';
+  return '';
 };
+
+const translateGender = (gender) => {
+  if (gender === 'Male')   return 'ប្រុស';
+  if (gender === 'Female') return 'ស្រី';
+  return 'មិនបញ្ជាក់';
+}
 
 // Helper functions
 const getToken = () => {
@@ -610,7 +620,7 @@ const prepareEditForm = () => {
     name: profile.value.name,
     email: profile.value.email,
     phone: profile.value.phone || '',
-    gender: profile.value.gender || '',
+    gender:  normalizeGender(profile.value.gender),
     history: profile.value.history || ''
   };
 };
@@ -618,6 +628,11 @@ const prepareEditForm = () => {
 const updateProfile = async () => {
   updating.value = true;
   try {
+    const payload = {
+      ...editForm.value,
+      gender: String(editForm.value.gender)
+    };
+    
     await axios.post('/api/profile', editForm.value, {
       headers: { Authorization: `Bearer ${getToken()}` }
     });

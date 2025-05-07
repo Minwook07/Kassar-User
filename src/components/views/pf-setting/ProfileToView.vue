@@ -48,7 +48,9 @@ const onLoadProfile = () => {
 }
 
 onMounted(() => {
-  onLoadProfile();
+  if(token){
+    onLoadProfile();
+  }
 })
 </script>
 <style scoped>

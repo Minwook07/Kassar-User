@@ -70,6 +70,7 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: SettingView,
+      meta: { requiredAuth:true }
     },
     {
       path: '/detailproduct',
@@ -90,26 +91,31 @@ const router = createRouter({
       path: '/cart',
       name: 'cart',
       component: AddCardView,
+      meta: { requiredAuth: true }
     },
     {
       path: '/waypay',
       name: 'waypay',
       component: WayOfPayView,
+      meta: { requiredAuth: true }
     },
     {
       path: '/success',
       name: 'success',
       component: PaySuccessView,
+      meta: { requiredAuth: true }
     },
     {
       path: '/wishlist',
       name: 'wishlist',
       component: WishListView,
+      meta: { requiredAuth: true }
     },
     {
       path: '/seller',
       name: 'seller',
       component: RequestSeller,
+      meta: { requiredAuth: true }
     },
     {
       path: '/termofuse',
@@ -162,6 +168,15 @@ const router = createRouter({
       component: PayWayTest,
     }
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+  if(to.meta.requiredAuth && !token){
+    next('/login')
+  }else{
+    next()
+  }
 })
 
 export default router
