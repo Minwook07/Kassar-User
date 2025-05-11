@@ -57,17 +57,17 @@
           </RouterLink>
           <div class="profile-wrapper position-relative">
             <button ref="btnClickProfile" class="rounded-circle user-pf" type="button">
-              <img :src="profile.avatar" alt="">
+              <img :src="profileStore.profile.avatar" alt="">
             </button>
             <ul class="dropdown-menu p-1" ref="profileDropdown">
               <li>
                 <RouterLink to="/profile" class="d-flex align-items-center text-decoration-none p-0">
                   <div class="rounded-circle user-pf">
-                    <img :src="profile.avatar" alt="">
+                    <img :src="profileStore.profile.avatar" alt="">
                   </div>
                   <div class="name ms-2">
-                    <h6 class="text-secondary m-0 fw-bold"><span>{{ profile.name }}</span></h6>
-                    <p class="text-muted m-0" style="font-size: 12px;">{{ profile.email }}</p>
+                    <h6 class="text-secondary m-0 fw-bold"><span>{{ profileStore.profile.name }}</span></h6>
+                    <p class="text-muted m-0" style="font-size: 12px;">{{ profileStore.profile.email }}</p>
                   </div>
                 </RouterLink>
               </li>
@@ -160,14 +160,14 @@
     </div>
     <div class="offcanvas-body p-2">
       <ul class="navbar-nav p-0 list-unstyled">
-        <li class="nav-item profile-wrapper mb-2">
+        <li class="nav-item profile-wrapper mb-2" v-if="token">
           <RouterLink to="/profile" class="d-flex align-items-center text-decoration-none p-0">
             <div class="rounded-circle user-pf">
-              <img :src="profile.avatar" alt="">
+              <img :src="profileStore.profile.avatar" alt="">
             </div>
             <div class="name ms-2">
-              <h5 class="text-primary m-0 fw-bold"><span>{{ profile.name }}</span></h5>
-              <p class="text-muted m-0" style="font-size: 12px;">{{ profile.email }}</p>
+              <h5 class="text-primary m-0 fw-bold"><span>{{ profileStore.profile.name }}</span></h5>
+              <p class="text-muted m-0" style="font-size: 12px;">{{ profileStore.profile.email }}</p>
             </div>
           </RouterLink>
         </li>
@@ -224,19 +224,11 @@ const allVideos = useAllVideos();
 const cartListStore = useCardStore();
 import { useRouter } from "vue-router";
 import { useCategoryStore } from "@/stores/views/categories_store";
+import { useProfileStore } from '@/stores/profile';
 
 const categoryStore = useCategoryStore();
+const profileStore = useProfileStore();
 
-onMounted(() => {
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  if (token) {
-    cartListStore.onLoadCart();
-    cartListStore.onLoadFav();
-  }
-  allVideos.onloadVideoFilter();
-  categoryStore.GetAllCategories();
-  return
-});
 const headerRef = ref(null);
 const toggleClass = "is-sticky";
 
@@ -279,11 +271,11 @@ const logout = async () => {
 
 
 // New reactive profile object to store API response data.
-const profile = ref({
-  name: "",
-  email: "",
-  avatar: ""
-});
+// const profile = ref({
+//   name: "",
+//   email: "",
+//   avatar: ""
+// });
 
 const btnClickProfile = ref(null);
 const profileDropdown = ref(null);
@@ -305,10 +297,10 @@ onMounted(async () => {
   if (token.value) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token.value}`;
     try {
-      const { data } = await axios.get("/api/profile");
-      if (data.result) {
-        profile.value = data.data;
-      }
+      // const { data } = await axios.get("/api/profile");
+      // if (data.result) {
+      //   profile.value = data.data;
+      // }
     } catch (error) {
     }
   }
@@ -370,4 +362,16 @@ const toggleCollapse = () => {
     collapseInstance.toggle();
   }
 };
+
+onMounted(() => {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  if (token) {
+    cartListStore.onLoadCart();
+    cartListStore.onLoadFav();
+    profileStore.fetchProfile(); // Fetch profile data
+  }
+  allVideos.onloadVideoFilter();
+  categoryStore.GetAllCategories();
+  return
+});
 </script>

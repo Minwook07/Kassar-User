@@ -1,62 +1,54 @@
 <template>
-            <div class="row">
-          <div class="col-lg-12 col-md-6 col-lg-4">
-            <div class="profile-card bg-white border rounded-2 p-4 mb-4" data-aos="zoom-in" data-aos-delay="200">
-              <div class="profile-img-container mb-4 d-flex justify-content-center">
-                <img :src="profile.avatar" alt="Profile Image" class="pf-user img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
-              </div>
-              <div class="profile-info text-center">
-                <h2 class="profile-name fs-4 mb-3">{{ profile.name }}</h2>
-                <div class="profile-social d-flex justify-content-center gap-3 mt-3">
-                  <a href="https://www.facebook.com/profile.php?id=100036610731530&mibextid=LQQJ4d" class="social-link fs-5 text-decoration-none">
-                    <i class="bi bi-facebook"></i>
-                  </a>
-                  <a href="#" class="social-link fs-5 text-decoration-none">
-                    <i class="bi bi-tiktok"></i>
-                  </a>
-                  <a href="https://www.instagram.com/thyyyyy_o?igsh=ZWVmMzIwd2R4Nmw3&utm_source=qr" class="social-link fs-5 text-decoration-none">
-                    <i class="bi bi-instagram"></i>
-                  </a>
-                  <a href="https://t.me/Chanthy_Sreoun7" class="social-link fs-5 text-decoration-none">
-                    <i class="bi bi-telegram"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-6 col-lg-4">
+      <div class="profile-card bg-white border rounded-2 p-4 mb-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="profile-img-container mb-4 d-flex justify-content-center">
+          <img :src="profileStore.profile.avatar" alt="Profile Image" class="pf-user img-fluid rounded-circle" 
+               style="width: 150px; height: 150px; object-fit: cover;" />
+        </div>
+        <div class="profile-info text-center">
+          <h2 class="profile-name fs-4 mb-3">{{ profileStore.profile.name }}</h2>
+          <div class="profile-social d-flex justify-content-center gap-3 mt-3">
+            <a href="https://www.facebook.com/" target="_blank" class="social-link fs-5 text-decoration-none">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a href="https://www.tiktok.com/" target="_blank" class="social-link fs-5 text-decoration-none">
+              <i class="bi bi-tiktok"></i>
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" class="social-link fs-5 text-decoration-none">
+              <i class="bi bi-instagram"></i>
+            </a>
+            <a href="https://t.me/Chanthy_Sreoun7" target="_blank" class="social-link fs-5 text-decoration-none">
+              <i class="bi bi-telegram"></i>
+            </a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
+import { useProfileStore } from '@/stores/profile';
+import { ref } from 'vue';
 
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
-
-const profile = ref({});
-
-const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-
-const onLoadProfile = () => {
-  axios.get('/api/profile', {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then((res) => {
-    profile.value = res.data.data;
-  })
-}
+// Use the profile store
+const profileStore = useProfileStore();
+const tokenExists = ref(false);
 
 onMounted(() => {
-  if(token){
-    onLoadProfile();
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  tokenExists.value = !!token; // Determine if token exists
+  if (token) {
+    profileStore.fetchProfile();
   }
-})
+});
 </script>
-<style scoped>
 
+<style scoped>
 .modal-backdrop {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }
 .tab-animation {
   opacity: 0;
@@ -243,5 +235,4 @@ onMounted(() => {
 #bio {
   resize: none;
 }
-
 </style>

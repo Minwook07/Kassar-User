@@ -16,18 +16,18 @@
                       style="width: 35px; height: 35px; background-color: var(--bs-primary); color: #fff; cursor: pointer;">
                       <i class="bi bi-pencil-square"></i>
                     </div>
-                    <img :src="profile.avatar" alt="Profile"
+                    <img :src="profileStore.profile.avatar" alt="Profile"
                       class="rounded-circle border border-3 border-primary-subtle dropdown-toggle"
                       style="width: 80px; height: 80px; object-fit: cover" id="avatarDropdown" aria-expanded="false" />
                     <ul class="dropdown-menu" aria-labelledby="avatarDropdown">
                       <li>
                         <a class="dropdown-item" href="#" @click.prevent="triggerFileInput">
-                          <i class="bi bi-pencil-fill me-2"></i>Change Photo
+                          <i class="bi bi-pencil-fill me-2"></i>ផ្លាស់ប្តូររូបភាព
                         </a>
                       </li>
-                      <li v-if="profile.avatar">
+                      <li v-if="profileStore.profile.avatar">
                         <a class="dropdown-item text-danger" href="#" @click.prevent="removeAvatar">
-                          <i class="bi bi-trash-fill me-2"></i>Remove Photo
+                          <i class="bi bi-trash-fill me-2"></i>លុបរូបភាព
                         </a>
                       </li>
                     </ul>
@@ -35,8 +35,8 @@
                   </div>
                 </div>
                 <div>
-                  <h5 class="fw-semibold mb-1">{{ profile.name }}</h5>
-                  <p class="text-muted mb-0">{{ profile.email }}</p>
+                  <h5 class="fw-semibold mb-1">{{ profileStore.profile.name }}</h5>
+                  <p class="text-muted mb-0">{{ profileStore.profile.email }}</p>
                 </div>
               </div>
             </div>
@@ -54,27 +54,27 @@
               <div class="list-group list-group-flush">
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                   <span class="text-muted">ឈ្មោះ</span>
-                  <span class="fw-medium">{{ profile.name }}</span>
+                  <span class="fw-medium">{{ profileStore.profile.name }}</span>
                 </div>
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                   <span class="text-muted">ភេទ</span>
-                  <p class="fw-medium"> {{ translateGender(normalizeGender((profile.gender))) }}</p>
+                  <p class="fw-medium"> {{ profileStore.translateGender(profileStore.normalizeGender((profileStore.profile.gender))) }}</p>
                 </div>
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                   <span class="text-muted">គណនីអ៊ីមែល</span>
-                  <span class="fw-medium">{{ profile.email }}</span>
+                  <span class="fw-medium">{{ profileStore.profile.email }}</span>
                 </div>
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                   <span class="text-muted">ប្រភេទអ្នកប្រើប្រាស់</span>
-                  <span class="fw-medium">{{ translateRole(profile.roles[0]?.name) || "អតិថិជន" }}</span>
+                  <span class="fw-medium">{{ profileStore.translateRole(profileStore.profile.roles[0]?.name) || "អតិថិជន" }}</span>
                 </div>
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                   <span class="text-muted">លេខទូរស័ព្ទ</span>
-                  <span class="fw-medium">{{ profile.phone || "មិនទាន់កំណត់" }}</span>
+                  <span class="fw-medium">{{ profileStore.profile.phone || "មិនទាន់កំណត់" }}</span>
                 </div>
                 <div class="list-group-item d-flex justify-content-between align-items-center py-3 mt-2">
                   <span class="text-muted">ជីវប្រវត្តិ</span>
-                  <span class="fw-medium">{{ profile.history || "មិនទាន់កំណត់" }}</span>
+                  <span class="fw-medium">{{ profileStore.profile.history || "មិនទាន់កំណត់" }}</span>
                 </div>
               </div>
             </div>
@@ -120,20 +120,20 @@
                     <div>
                       <button v-if="imgCrop.img_crop" class="btn btn-outline-danger" type="button"
                         @click="replaceImage">
-                        <i class="bi bi-upload me-1"></i> Replace
+                        <i class="bi bi-upload me-1"></i> ផ្លាស់ប្តូរ
                       </button>
                     </div>
                     <div>
                       <button class="btn btn-outline-secondary me-2" type="button" @click="closeCropModal">
-                        Cancel
+                        បោះបង់
                       </button>
                       <button class="btn btn-primary" type="button" @click="performCrop" :disabled="!imgCrop.img_crop">
                         <span v-if="!cropping">
-                          <i class="bi bi-check-circle me-1"></i> Save
+                          <i class="bi bi-check-circle me-1"></i> រក្សាទុក
                         </span>
                         <span v-else>
                           <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                          Saving...
+                          កំពុងរក្សាទុក...
                         </span>
                       </button>
                     </div>
@@ -168,7 +168,7 @@
                     </div>
                     <div class="mb-3">
                       <label for="email" class="form-label">គណនីអ៊ីមែល</label>
-                      <input type="email" class="form-control" id="email" v-model="editForm.email" />
+                      <input type="email" class="form-control" id="email" v-model="editForm.email" disabled/>
                     </div>
                     <div class="mb-3">
                       <label for="phone" class="form-label">លេខទូរស័ព្ទ</label>
@@ -211,7 +211,7 @@
           <div class="mb-4 tab-animation">
             <label class="form-label fw-semibold mb-2">គណនីអ៊ីមែល</label>
             <div class="input-group">
-              <input type="email" class="form-control form-control-lg rounded-start" v-model="profile.email" disabled />
+              <input type="email" class="form-control form-control-lg rounded-start" v-model="profileStore.profile.email" disabled />
             </div>
           </div>
 
@@ -287,7 +287,7 @@
 
             <div class="order-status text-md-end mt-2 mt-md-0">
 
-              <span class="status-badge bg-success text-white px-3 py-1 rounded-2 d-inline-block mb-2">Success</span>
+              <span class="status-badge bg-success text-white px-3 py-1 rounded-2 d-inline-block mb-2">ជោគជ័យ</span>
 
               <span class="order-date d-block text-muted">2023-01-15 17:30:33</span>
 
@@ -320,7 +320,7 @@
 
             <div class="order-status text-md-end mt-2 mt-md-0">
 
-              <span class="status-badge bg-success text-white px-3 py-1 rounded-2 d-inline-block mb-2">Success</span>
+              <span class="status-badge bg-success text-white px-3 py-1 rounded-2 d-inline-block mb-2">ជោគជ័យ</span>
 
               <span class="order-date d-block text-muted">2023-01-15 17:30:33</span>
 
@@ -353,7 +353,7 @@
 
             <div class="order-status text-md-end mt-2 mt-md-0">
 
-              <span class="status-badge bg-success text-white px-3 py-1 rounded-2 d-inline-block mb-2">Success</span>
+              <span class="status-badge bg-success text-white px-3 py-1 rounded-2 d-inline-block mb-2">ជោគជ័យ</span>
 
               <span class="order-date d-block text-muted">2023-01-15 17:30:33</span>
 
@@ -481,27 +481,18 @@
 import { ref, computed, onMounted } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
-import { Modal } from 'bootstrap';
-import axios from 'axios';
+import * as bootstrap from 'bootstrap';
+import { useProfileStore } from '@/stores/profile';
 
-// Profile data
-const profile = ref({
-  id: null,
-  name: '',
-  email: '',
-  gender: null,
-  phone: null,
-  avatar: '',
-  roles: [],
-  history: ''
-});
+// Use the profile store
+const profileStore = useProfileStore();
 
 // Forms
 const editForm = ref({
   name: '',
   email: '',
   phone: '',
-  gender: 1, // Default to male
+  gender: '',
   history: ''
 });
 
@@ -544,40 +535,7 @@ const showToast = (message, icon = 'bi bi-check-circle') => {
   toast.show();
 };
 
-// Computed properties
-const avatarUrl = computed(() => {
-  return profile.value.avatar || '/img/default.jpg';
-});
-
-// Role translations
-const translateRole = (roleName) => {
-  const translations = {
-    "Regular User": "អតិថិជន",
-    "Seller User": "អ្នកលក់",
-    "System Admin": "អ្នកគ្រប់គ្រង"
-  };
-  return translations[roleName] || roleName;
-};
-
-// Gender translations
-const normalizeGender = (gender) => {
-  // return gender === 1 ? 'ប្រុស' : gender === 2 ? 'ស្រី' : 'មិនបញ្ជាក់';
-  if (gender === 'Male' || gender === 'male' || gender === 1)   return 'Male';
-  if (gender === 'Female' || gender === 'female' || gender === 2) return 'Female';
-  return '';
-};
-
-const translateGender = (gender) => {
-  if (gender === 'Male')   return 'ប្រុស';
-  if (gender === 'Female') return 'ស្រី';
-  return 'មិនបញ្ជាក់';
-}
-
 // Helper functions
-const getToken = () => {
-  return localStorage.getItem("token") || sessionStorage.getItem("token");
-};
-
 const showSuccess = (message) => {
   showToast(`${message}`, 'bi bi-check-circle');
 };
@@ -602,41 +560,20 @@ const showError = (message, error = null) => {
   showToast(`កំហុស: ${errorMessage}`, 'bi bi-x-circle');
 };
 
-// Profile functions
-const fetchProfile = async () => {
-  try {
-    const response = await axios.get('/api/profile', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
-    profile.value = response.data.data;
-    prepareEditForm();
-  } catch (error) {
-    showError('បរាជ័យក្នុងការទាញយកប្រវត្តិរូប', error);
-  }
-};
-
 const prepareEditForm = () => {
   editForm.value = {
-    name: profile.value.name,
-    email: profile.value.email,
-    phone: profile.value.phone || '',
-    gender:  normalizeGender(profile.value.gender),
-    history: profile.value.history || ''
+    name: profileStore.profile.name,
+    email: profileStore.profile.email,
+    phone: profileStore.profile.phone || '',
+    gender: profileStore.normalizeGender(profileStore.profile.gender),
+    history: profileStore.profile.history || ''
   };
 };
 
 const updateProfile = async () => {
   updating.value = true;
   try {
-    const payload = {
-      ...editForm.value,
-      gender: String(editForm.value.gender)
-    };
-    
-    await axios.post('/api/profile', editForm.value, {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
-    await fetchProfile();
+    await profileStore.updateProfile(editForm.value);
     closeEditModal();
     showSuccess('ប្រវត្តិរូបបានកែប្រែបានជោគជ័យ');
   } catch (error) {
@@ -681,6 +618,10 @@ const handleFileSelect = async (e) => {
   reader.readAsDataURL(file);
 };
 
+const onCrop = () => {
+  // This function can be used if you need to do something when the crop area changes
+};
+
 const performCrop = async () => {
   if (!imgCrop.value.img_crop) return;
 
@@ -697,14 +638,7 @@ const performCrop = async () => {
     const formData = new FormData();
     formData.append('avatar', blob, 'profile.jpg');
 
-    const response = await axios.post('/api/profile/avatar', formData, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-        'Content-Type': 'multipart/form-data'
-      }
-    });
-
-    profile.value.avatar = response.data.avatar;
+    await profileStore.updateAvatar(formData);
     closeCropModal();
     showSuccess('ផ្លាស់ប្តូររូបភាពជោគជ័យ');
   } catch (error) {
@@ -729,10 +663,7 @@ const updatePassword = async () => {
   changingPassword.value = true;
 
   try {
-    const response = await axios.post('/api/profile/password', passwordForm.value, {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
-
+    await profileStore.updatePassword(passwordForm.value);
     passwordForm.value = {
       current_password: '',
       new_password: '',
@@ -750,12 +681,7 @@ const deleteAccount = async () => {
   deleting.value = true;
 
   try {
-    await axios.post('/api/profile/delete', {
-      password: deletePassword.value
-    }, {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
-
+    await profileStore.deleteAccount(deletePassword.value);
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
     window.location.href = '/login';
@@ -770,10 +696,7 @@ const removeAvatar = async () => {
   if (!confirm('តើអ្នកប្រាកដថាចង់លុបរូបភាព?')) return;
 
   try {
-    await axios.delete('/api/profiles/avatar', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
-    profile.value.avatar = '';
+    await profileStore.removeAvatar();
     showSuccess('រូបភាពលុបដោយជោគជ័យ');
   } catch (error) {
     showError('បរាជ័យក្នុងការលុបរូបភាព', error);
@@ -799,9 +722,9 @@ const closeEditModal = () => editModal.hide();
 
 // Initialize when component mounts
 onMounted(async () => {
-  await fetchProfile();
-  cropModal = new Modal(document.getElementById('avatar-crop-modal'));
-  editModal = new Modal(document.getElementById('editProfileModal'));
+  await profileStore.fetchProfile();
+  cropModal = new bootstrap.Modal(document.getElementById('avatar-crop-modal'));
+  editModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
 });
 </script>
 

@@ -9,7 +9,7 @@
     </li>
     <li class="nav-item">
       <a class="nav-link border-0 py-3 ps-4 tab-link" data-bs-toggle="tab" href="#usage-history">
-        <i class="bi bi-clock-history me-2"></i> ប្រវត្តិការប្រើប្រាស់
+        <i class="bi bi-clock-history me-2"></i> ប្រវត្តិការបញ្ជាទិញ
       </a>
     </li>
     <li class="nav-item">
