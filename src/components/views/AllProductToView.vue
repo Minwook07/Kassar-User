@@ -122,7 +122,15 @@
             </div>
           </div>
 
-          <div class="row g-4" v-if="allProducts.length > 0">
+          <!-- Skeleton Loader -->
+          <div v-if="isLoading" class="row g-4">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="n in 8" :key="n">
+              <ProductSkeleton />
+            </div>
+          </div>
+
+          <!-- Products grid -->
+          <div class="row g-4" v-else-if="allProducts.length > 0">
             <div 
               class="col-12 col-sm-6 col-md-4 col-lg-3" 
               data-aos="fade-up"
@@ -140,6 +148,7 @@
                     alt="" 
                     class="card-img-top rounded"
                     style="height: 180px; object-fit: cover;"
+                    loading="lazy"
                   />
                   <div 
                     v-for="promotion in product.promotions" 
@@ -201,6 +210,8 @@
             <paginate :page-count="pageCount" :click-handler="handlePageClick" prev-text="‹" next-text="›"
               container-class="pagination" />
           </div>
+          
+          <!-- No products message -->
           <div v-else class="col-12 d-flex flex-column align-items-center justify-content-center text-center">
             <img src="@/assets/images/empty-box-agriculture.svg" alt="No products" class="mb-4"
               style="max-width: 180px;" />
@@ -209,7 +220,7 @@
               សូមទោស! មិនមានផលិតផលសម្រាប់ប្រភេទនេះទេ
             </h3>
             <p class="text-muted mb-4">
-              ការជ្រើសរើសនេះមិនមានទំនិញណាមួយ។ សូមព្យាយាមប្រភេទផ្សេង ឬស្វែងរកតាមឈ្មោះផលិតផល
+              ការជ្រើសរើសនេះមិនមានទំនិញណាមួយទេ។ សូមព្យាយាមប្រភេទផ្សេង ឬស្វែងរកតាមឈ្មោះផលិតផល
             </p>
           </div>
 
@@ -262,22 +273,25 @@
 
 </template>
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Paginate from "vuejs-paginate-next";
-import { onMounted } from "vue";
-import axios, { all } from "axios";
+import axios from "axios";
 import { useRouter } from "vue-router";
 import { Toast } from "bootstrap";
 import { useContactStore } from "@/stores/contact_store";
 import { useToastStore } from "@/stores/toast_store";
+import { useRoute } from "vue-router";
+import ProductSkeleton from '@/components/views/ProductSkeleton.vue';
+
 const allProducts = ref([]);
 const toastFav = ref(null);
 const categories = ref([]);
 const totalProducts = ref([]);
+const isLoading = ref(true); // Add loading state
 
 const route = useRoute();
 const toastStore = useToastStore();
-const selectedCategory = ref(route.query.category_id || null);
+const selectedCategory = ref(null);
 const itemsPerPage = 8;
 const currentPage = ref(1);
 const min_price = 0;
@@ -287,9 +301,35 @@ const router = useRouter();
 const cartToast = ref(null);
 const contactStore = useContactStore();
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-import { useRoute } from "vue-router";
+const cartToastElement = ref(null);
+const liveToast = ref(null);
+const range = ref([min_price, max_price]);
+
+onMounted(() => {
+  selectedCategory.value = route.query.category_id || null;
+  // Initialize toasts first
+  const toastElement = document.getElementById("liveToast");
+    if (toastElement) {
+        liveToast.value = Toast.getOrCreateInstance(toastElement);
+        contactStore.toast_alert = liveToast.value;
+    }
+
+    cartToastElement.value = document.getElementById("cartToastElement");
+    if (cartToastElement.value) {
+        cartToast.value = new Toast(cartToastElement.value);
+    }
+  
+  // Then fetch data
+  GetAllCategories();
+  if (route.query.category_id) {
+    currentPage.value = 1;
+  }
+  GetAllProducts();
+});
 
 const GetAllProducts = () => {
+  isLoading.value = true; // Set loading to true before fetching data
+  
   let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
 
   if (search.value) {
@@ -313,8 +353,15 @@ const GetAllProducts = () => {
     .then((res) => {
       totalProducts.value = res.data.paginate.total;
       allProducts.value = res.data.data;
-
     })
+    .catch((error) => {
+      allProducts.value = [];
+    })
+    .finally(() => {
+      setTimeout(() => {
+        isLoading.value = false;
+      }, 300);
+    });
 };
 
 const GetAllCategories = () => {
@@ -323,6 +370,9 @@ const GetAllCategories = () => {
     .then((res) => {
       categories.value = res.data.data;
     })
+    .catch((error) => {
+      categories.value = [];
+    });
 };
 
 const toggleFav = (FavProduct) => {
@@ -335,7 +385,6 @@ const toggleFav = (FavProduct) => {
           router.push({ name: 'login' });
       }, 2000);
       return;
-    return;
   }
 
   axios
@@ -351,8 +400,11 @@ const toggleFav = (FavProduct) => {
 
       // change fav icon
       let index = allProducts.value.findIndex((p) => p.id == FavProduct.id);
-      allProducts.value[index].is_favorited = toastFav.value;;
+      allProducts.value[index].is_favorited = toastFav.value;
     })
+    .catch((error) => {
+      // console.error("Error toggling favorite:", error);
+    });
 };
 
 const AddToCart = (id) => {
@@ -407,28 +459,11 @@ const AddToCart = (id) => {
     });
 };
 
-onMounted(() => {
-  GetAllCategories();
-  if (route.query.category_id) {
-    currentPage.value = 1;
-  }
-  GetAllProducts();
-  toast();
-  const cartToastElement = document.getElementById("cartToastElement");
-  if (cartToastElement) {
-    cartToast.value = new Toast(cartToastElement);
-  }
-});
-const toast = () => {
-  const toastElement = document.getElementById("liveToast");
-  if (toastElement) {
-    contactStore.toast_alert = Toast.getOrCreateInstance(toastElement);
-  }
-};
 const handleSearch = () => {
   currentPage.value = 1;
   GetAllProducts();
 };
+
 const handleCategory = () => {
   currentPage.value = 1;
   router.push({
@@ -440,22 +475,26 @@ const handleCategory = () => {
   });
   GetAllProducts();
 };
+
 const pageCount = computed(() =>
   Math.max(1, Math.ceil(totalProducts.value / itemsPerPage))
 );
+
 const handlePageClick = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= pageCount.value) {
     currentPage.value = pageNumber;
     GetAllProducts();
   }
 };
-const range = ref([min_price, max_price]);
+
 const handleRangeInput = () => {
   GetAllProducts();
 };
+
 const formatPrice = (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
 const goToDetail = (id) => {
   router.push({ name: "detailproduct", query: { id } });
 };
@@ -498,5 +537,24 @@ const resetFilters = () => {
   100% {
     right: 100%;
   }
+}
+
+/* Product card hover effect */
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Limit description height */
+.product-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

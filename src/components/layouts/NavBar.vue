@@ -30,7 +30,6 @@
           </div>
         </div>
 
-
         <!-- Button for offcanvas -->
         <button class="btn btn-outline-primary pt-2 d-block d-lg-none" type="button" @click="showOffcanvas">
           <i class="bi bi-list fw-bold"></i>
@@ -217,7 +216,6 @@
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { Offcanvas, Collapse } from "bootstrap";
 import axios from "axios";
-// import { onBeforeRouteLeave } from "vue-router";
 import { useAllVideos } from '@/stores/views/videoFeed_store';
 import { useCardStore } from '@/stores/card_store';
 const allVideos = useAllVideos();
@@ -269,14 +267,6 @@ const logout = async () => {
   }
 };
 
-
-// New reactive profile object to store API response data.
-// const profile = ref({
-//   name: "",
-//   email: "",
-//   avatar: ""
-// });
-
 const btnClickProfile = ref(null);
 const profileDropdown = ref(null);
 const offcanvasInstance = ref(null);
@@ -316,8 +306,6 @@ onMounted(async () => {
     });
   }
 
-
-
   // Add a global click listener to detect outside clicks
   document.addEventListener("click", handleOutsideClick);
 
@@ -338,16 +326,9 @@ const handleOutsideClick = (event) => {
   }
 };
 
-
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
-
-// Instead of onBeforeRouteLeave, you might use a route watcher if NavBar is not within <router-view>
-// For demonstration, here it is commented out.
-// onBeforeRouteLeave(() => {
-//   hideOffcanvas();
-// });
 
 const showOffcanvas = () => {
   offcanvasInstance.value?.show();
@@ -368,7 +349,7 @@ onMounted(() => {
   if (token) {
     cartListStore.onLoadCart();
     cartListStore.onLoadFav();
-    profileStore.fetchProfile(); // Fetch profile data
+    profileStore.fetchProfile();
   }
   allVideos.onloadVideoFilter();
   categoryStore.GetAllCategories();
