@@ -50,11 +50,13 @@ export const useAllProducts = defineStore('views/allProduct', {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             const toastStore = useToastStore();
 
-            toastStore.showToast('សូមចូល​គណនី​មុន​បន្ថែម​ទំនិញ');
-            setTimeout(() => {
-                router.push({ name: 'login' });
-            }, 2000);
-            return;
+            if (!token) {
+                toastStore.showToast('សូមចូល​គណនី​មុន​បន្ថែម​ទំនិញ');
+                setTimeout(() => {
+                    router.push({ name: 'login' });
+                }, 2000);
+                return;
+            }
 
             const formData = new FormData();
             formData.append('product_id', id);
