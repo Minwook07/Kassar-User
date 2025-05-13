@@ -601,7 +601,7 @@ const handleFileSelect = async (e) => {
 
   // Validate file size (2MB max)
   if (file.size > 2 * 1024 * 1024) {
-    showError('រូបភាពត្រូវតែលតិចជាង 2MB');
+    showError('រូបភាពត្រូវតែតិចជាង 2MB');
     return;
   }
 
@@ -614,7 +614,7 @@ const handleFileSelect = async (e) => {
     };
     openCropModal();
   };
-  reader.onerror = () => showError('កំហុសក្នុងការអានឯកសាររូបភាព');
+  reader.onerror = () => showError('កំហុសឯកសាររូបភាព');
   reader.readAsDataURL(file);
 };
 

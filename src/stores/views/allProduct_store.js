@@ -8,16 +8,7 @@ export const useAllProducts = defineStore('views/allProduct', {
         productArr: null,
         latestPro: null,
         discountPro: null,
-        products: [
-            { id: 1, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 6', price: 100, img: new URL('@/assets/images/5.avif', import.meta.url).href, isFav: true },
-            { id: 2, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 2', price: 200, img: new URL('@/assets/images/2.avif', import.meta.url).href, isFav: true },
-            { id: 3, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 3', price: 300, img: new URL('@/assets/images/3.avif', import.meta.url).href, isFav: false },
-            { id: 4, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 4', price: 400, img: new URL('@/assets/images/4.avif', import.meta.url).href, isFav: false },
-            { id: 5, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 1', price: 100, img: new URL('@/assets/images/5.avif', import.meta.url).href, isFav: false },
-            { id: 6, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 2', price: 200, img: new URL('@/assets/images/2.avif', import.meta.url).href, isFav: false },
-            { id: 7, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 3', price: 300, img: new URL('@/assets/images/3.avif', import.meta.url).href, isFav: false },
-            { id: 8, name: 'ក្រូចខ្វិចបាត់ដំបងពូនី 4', price: 400, img: new URL('@/assets/images/4.avif', import.meta.url).href, isFav: false },
-        ]
+        products: []
     }),
     actions: {
         toggleFav(id) {
@@ -52,9 +43,6 @@ export const useAllProducts = defineStore('views/allProduct', {
 
             if (!token) {
                 toastStore.showToast('សូមចូល​គណនី​មុន​បន្ថែម​ទំនិញ');
-                setTimeout(() => {
-                    router.push({ name: 'login' });
-                }, 2000);
                 return;
             }
 
@@ -82,9 +70,6 @@ export const useAllProducts = defineStore('views/allProduct', {
 
             if (!token) {
                 toastStore.showToast('សូម​ចូល​គណនី​ជាមុនសិន');
-                setTimeout(() => {
-                    router.push({ name: 'login' });
-                }, 2000);
                 return;
             }
 
@@ -99,7 +84,7 @@ export const useAllProducts = defineStore('views/allProduct', {
                         if (index !== -1) {
                             // Determine the message based on the current state
                             const currentState = this.productArr[index].is_favorited;
-                            const message = currentState ? "ដកចេញរួចរាល់" : "ដាក់ចូលរួចរាល់";
+                            const message = currentState ? "ដកចេញពីបញ្ជីប្រាថ្នាជោគជ័យ" : "ដាក់ចូលបញ្ជីប្រាថ្នាជោគជ័យ";
                             toastStore.showToast(message);
 
                             // Toggle the state
@@ -109,9 +94,6 @@ export const useAllProducts = defineStore('views/allProduct', {
                         toastStore.showToast("មានបញ្ហា! មិនអាចរក្សាទុកបានទេ។");
                     }
                 })
-                .catch(error => {
-                    toastStore.showToast("បរាជ័យក្នុងការកំណត់ Favorites។");
-                });
         }
 
     }

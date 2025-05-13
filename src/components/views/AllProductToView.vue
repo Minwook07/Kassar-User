@@ -24,7 +24,7 @@
           </div>
           <div class="mb-3" data-aos="fade-up-right">
             <h5 class="fw-bold mb-3">ប្រភេទ</h5>
-            <div v-for="category in categories" :key="category.id">
+            <div v-for="category in categoryStore.categories" :key="category.id">
               <div class="mb-2 myform-check form-check">
                 <input @change="handleCategory" v-model="selectedCategory" type="radio" :value="category.id"
                   :id="'radio-' + category.id" class="form-check-input shadow-none" />
@@ -279,13 +279,16 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 import { Toast } from "bootstrap";
 import { useContactStore } from "@/stores/contact_store";
+import { useCategoryStore } from "@/stores/views/categories_store";
 import { useToastStore } from "@/stores/toast_store";
 import { useRoute } from "vue-router";
 import ProductSkeleton from '@/components/views/ProductSkeleton.vue';
+import { useCardStore } from "@/stores/card_store";
 
+const cartListStore = useCardStore();
 const allProducts = ref([]);
 const toastFav = ref(null);
-const categories = ref([]);
+const categoryStore = useCategoryStore();
 const totalProducts = ref([]);
 const isLoading = ref(true); // Add loading state
 
@@ -319,8 +322,7 @@ onMounted(() => {
         cartToast.value = new Toast(cartToastElement.value);
     }
   
-  // Then fetch data
-  GetAllCategories();
+  categoryStore.GetAllCategories();
   if (route.query.category_id) {
     currentPage.value = 1;
   }
@@ -364,17 +366,6 @@ const GetAllProducts = () => {
     });
 };
 
-const GetAllCategories = () => {
-  axios
-    .get("/api/categories")
-    .then((res) => {
-      categories.value = res.data.data;
-    })
-    .catch((error) => {
-      categories.value = [];
-    });
-};
-
 const toggleFav = (FavProduct) => {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -401,6 +392,9 @@ const toggleFav = (FavProduct) => {
       // change fav icon
       let index = allProducts.value.findIndex((p) => p.id == FavProduct.id);
       allProducts.value[index].is_favorited = toastFav.value;
+      
+      // update the favorites count in the store
+      cartListStore.onLoadFav();
     })
     .catch((error) => {
       // console.error("Error toggling favorite:", error);
@@ -438,6 +432,9 @@ const AddToCart = (id) => {
         if (cartToast.value) {
           cartToast.value.show();
         }
+        
+        // update the cart count in the store
+        cartListStore.onLoadCart();
       } else {
         const cartToastMessage = document.getElementById("cartToastMessage");
         if (cartToastMessage) {

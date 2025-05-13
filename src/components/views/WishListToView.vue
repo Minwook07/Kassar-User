@@ -137,15 +137,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 import { onMounted } from "vue";
 import { useContactStore } from "@/stores/contact_store";
+import { useCardStore } from "@/stores/card_store";
 import { Toast } from "bootstrap";
 import bgImage from '@/assets/images/background/bg-fav.png';
 const contactStore = useContactStore();
+const cartListStore = useCardStore();
 const FavProducts = ref();
-const selectedCategory = ref();
 const CountFav = ref();
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const GetAllFav = () => {
@@ -170,6 +171,8 @@ const clearWishlist = () => {
     })
     .then((res) => {
       GetAllFav();
+      // Update the global store state for navbar count
+      cartListStore.onLoadFav();
     })
 };
 const RemoveFav = (FavProduct) => {
@@ -193,6 +196,8 @@ const RemoveFav = (FavProduct) => {
         contactStore.toast_alert.show();
       }
       GetAllFav();
+      // Update the global store state for navbar count
+      cartListStore.onLoadFav();
     })
 };
 onMounted(() => {
@@ -229,6 +234,4 @@ const toast = () => {
 .bg-fav {
   background-image: url("~@/assets/images/background/bg-fav.png") !important;
 }
-
-
 </style>

@@ -85,7 +85,7 @@
                                     {{ product.product_units.name }}
                                 </p>
                                 </div>
-                                <button class="btn btn-success rounded-pill">
+                                <button class="btn btn-success rounded-pill" @click.stop="AddToCart(product.id)">
                                 <i class="bi bi-bag-fill me-1"></i>កន្ត្រក
                                 </button>
                             </div>
@@ -270,12 +270,14 @@
 import HeroBanner from '../layouts/HeroBanner.vue';
 import { useAllProducts } from '@/stores/views/allProduct_store';
 import ToastView from './ToastView.vue';
-import axios from 'axios';
 import { onMounted } from 'vue';
 import router from '@/router';
 import { useAllVideos } from '@/stores/views/videoFeed_store';
+import { useCardStore } from '@/stores/card_store';
 const allProduct = useAllProducts();
 const allVideos = useAllVideos();
+const cartListStore = useCardStore();
+
 onMounted(() => {
     allProduct.onloadProduct();
     allVideos.onloadVideoFilter();
@@ -287,6 +289,12 @@ const goToDetail = (id) => {
 
 function OnSavefav(id) {
     allProduct.addToFavorite(id);
+    cartListStore.onLoadFav();
+}
+
+const AddToCart = (id) => {
+    allProduct.addToCart(id);
+    cartListStore.onLoadCart();
 }
 
 function goToDetailVideo(id) {

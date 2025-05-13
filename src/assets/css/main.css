@@ -493,7 +493,7 @@ body {
     border: 1px solid var(--bs-primary) !important;
     box-shadow: none !important;
     border-radius: 20px;
-    color: white !important;
+    color: rgb(27, 2, 2) !important;
     background-color: #dfdfdf2b !important;
 }
 
@@ -552,9 +552,9 @@ body {
 }
 
 .navbar-bottom .navbar-nav .nav-item:hover .nav-link {
-    /* color: var(--bs-primary-hover); */
-    /* color: var(--bs-accent); */
-    color: #555;
+    color: var(--bs-accent);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    /* color: #555; */
 }
 
 
