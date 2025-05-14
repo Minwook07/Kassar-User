@@ -218,14 +218,14 @@ import { Offcanvas, Collapse } from "bootstrap";
 import axios from "axios";
 import { useAllVideos } from '@/stores/views/videoFeed_store';
 import { useCardStore } from '@/stores/card_store';
-const allVideos = useAllVideos();
-const cartListStore = useCardStore();
 import { useRouter } from "vue-router";
 import { useCategoryStore } from "@/stores/views/categories_store";
 import { useProfileStore } from '@/stores/profile';
 
 const categoryStore = useCategoryStore();
 const profileStore = useProfileStore();
+const cartListStore = useCardStore();
+const allVideos = useAllVideos();
 
 const headerRef = ref(null);
 const toggleClass = "is-sticky";
@@ -353,6 +353,8 @@ onMounted(() => {
   }
   allVideos.onloadVideoFilter();
   categoryStore.GetAllCategories();
+  cartListStore.onLoadFav();
+  cartListStore.onLoadCart();
   return
 });
 </script>

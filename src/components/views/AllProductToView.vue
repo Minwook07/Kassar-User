@@ -130,11 +130,11 @@
           </div>
 
           <!-- Products grid -->
-          <div class="row g-4" v-else-if="allProducts.length > 0">
+          <div class="row g-4" v-else-if="productArr.length > 0">
             <div 
               class="col-12 col-sm-6 col-md-4 col-lg-3" 
               data-aos="fade-up"
-              v-for="product in allProducts" 
+              v-for="product in allproducts.productArr" 
               :key="product.id"
             >
               <div 
@@ -160,7 +160,7 @@
                   <button 
                     class="position-absolute top-0 end-0 mt-3 me-3 btn btn-light rounded-circle p-1"
                     style="width: 35px; height: 35px;"
-                    @click.stop="toggleFav(product)"
+                    @click.stop="toggleFav(product.id)"
                   >
                     <i 
                       :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"
@@ -228,237 +228,66 @@
       </div>
     </div>
   </section>
-  <div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="liveToast" class="toast border-0 p-3 bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-content d-flex justify-content-center gap-3">
-        <div>
-          <i class="bi bi-check2-circle fs-5 text-white"></i>
-        </div>
-
-        <div class="message">
-          <span class="text text-white">{{
-            toastFav ? "ដាក់ចូលរួចរាល់" : "ដកចេញរួចរាល់"
-
-          }}</span>
-        </div>
-
-        <div>
-          <button type="button" class="btn btn-close border-0 ms-auto text-white p-0" data-bs-dismiss="toast"
-            aria-label="Close"></button>
-        </div>
-      </div>
-      <div class="progress active"></div>
-    </div>
-  </div>
-  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1060;">
-    <div id="cartToastElement" class="toast border-0 p-3 bg-success" role="alert" aria-live="assertive"
-      aria-atomic="true">
-      <div class="toast-content d-flex justify-content-center gap-3">
-        <div>
-          <i class="bi bi-check2-circle fs-5 text-white"></i>
-        </div>
-
-        <div class="message">
-          <span class="text text-white" id="cartToastMessage">ដាក់ចូលកន្ត្រកជោគជ័យ</span>
-        </div>
-
-        <div>
-          <button type="button" class="btn btn-close border-0 ms-auto text-white p-0" data-bs-dismiss="toast"
-            aria-label="Close"></button>
-        </div>
-      </div>
-      <div class="progress active"></div>
-    </div>
-  </div>
-
+  <ToastView />
 </template>
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import Paginate from "vuejs-paginate-next";
-import axios from "axios";
 import { useRouter } from "vue-router";
-import { Toast } from "bootstrap";
-import { useContactStore } from "@/stores/contact_store";
+import ToastView from "./ToastView.vue";
 import { useCategoryStore } from "@/stores/views/categories_store";
-import { useToastStore } from "@/stores/toast_store";
+import { useAllProducts } from "@/stores/views/allProduct_store";
 import { useRoute } from "vue-router";
 import ProductSkeleton from '@/components/views/ProductSkeleton.vue';
 import { useCardStore } from "@/stores/card_store";
+import { storeToRefs } from "pinia";
 
 const cartListStore = useCardStore();
-const allProducts = ref([]);
-const toastFav = ref(null);
 const categoryStore = useCategoryStore();
-const totalProducts = ref([]);
-const isLoading = ref(true); // Add loading state
+const allproducts = useAllProducts();
 
 const route = useRoute();
-const toastStore = useToastStore();
-const selectedCategory = ref(null);
-const itemsPerPage = 8;
-const currentPage = ref(1);
-const min_price = 0;
-const max_price = 100000;
-const search = ref("");
 const router = useRouter();
-const cartToast = ref(null);
-const contactStore = useContactStore();
-const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-const cartToastElement = ref(null);
-const liveToast = ref(null);
-const range = ref([min_price, max_price]);
+
+const {
+  productArr,
+  isLoading,
+  totalProducts,
+  itemsPerPage,
+  currentPage,
+  search,
+  selectedCategory,
+  min_price,
+  max_price,
+  range
+} = storeToRefs(allproducts)
 
 onMounted(() => {
   selectedCategory.value = route.query.category_id || null;
-  // Initialize toasts first
-  const toastElement = document.getElementById("liveToast");
-    if (toastElement) {
-        liveToast.value = Toast.getOrCreateInstance(toastElement);
-        contactStore.toast_alert = liveToast.value;
-    }
-
-    cartToastElement.value = document.getElementById("cartToastElement");
-    if (cartToastElement.value) {
-        cartToast.value = new Toast(cartToastElement.value);
-    }
-  
   categoryStore.GetAllCategories();
   if (route.query.category_id) {
     currentPage.value = 1;
   }
-  GetAllProducts();
+  allproducts.GetAllProducts()
 });
 
-const GetAllProducts = () => {
-  isLoading.value = true; // Set loading to true before fetching data
-  
-  let url = `/api/products?per_page=${itemsPerPage}&page=${currentPage.value}`;
-
-  if (search.value) {
-    url += `&search=${encodeURIComponent(search.value)}`;
+async function toggleFav(id) {
+  const result = await allproducts.addToFavorite(id);
+  if (result) {
+    cartListStore.onLoadFav();
   }
+}
 
-  if (selectedCategory.value) {
-    url += `&category_id=${selectedCategory.value}`;
-  }
-
-  if (range.value[0] !== undefined && range.value[1] !== undefined) {
-    url += `&min_price=${range.value[0]}&max_price=${range.value[1]}`;
-  }
-
-  axios
-    .get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => {
-      totalProducts.value = res.data.paginate.total;
-      allProducts.value = res.data.data;
-    })
-    .catch((error) => {
-      allProducts.value = [];
-    })
-    .finally(() => {
-      setTimeout(() => {
-        isLoading.value = false;
-      }, 300);
-    });
-};
-
-const toggleFav = (FavProduct) => {
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
-
-  if (!token) {
-    toastStore.showToast('សូម​ចូល​គណនី​ជាមុនសិន');
-      setTimeout(() => {
-          router.push({ name: 'login' });
-      }, 2000);
-      return;
-  }
-
-  axios
-    .post(`api/favorites/toggle?product_id=${FavProduct.id}`, null, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => {
-      // change message toast 
-      toastFav.value = !FavProduct.is_favorited;
-      contactStore.toast_alert.show();
-
-      // change fav icon
-      let index = allProducts.value.findIndex((p) => p.id == FavProduct.id);
-      allProducts.value[index].is_favorited = toastFav.value;
-      
-      // update the favorites count in the store
-      cartListStore.onLoadFav();
-    })
-    .catch((error) => {
-      // console.error("Error toggling favorite:", error);
-    });
-};
-
-const AddToCart = (id) => {
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
-  if (!token) {
-    toastStore.showToast('សូមចូល​គណនី​មុន​បន្ថែម​ទំនិញ');
-      setTimeout(() => {
-          router.push({ name: 'login' });
-      }, 2000);
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('product_id', id);
-  formData.append('qty', 1);
-
-  axios.post('/api/cart', formData, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data',
-    }
-  })
-    .then(response => {
-      if (response.data && response.data.result) {
-        // Use the new cart toast instead of toastStore
-        const cartToastMessage = document.getElementById("cartToastMessage");
-        if (cartToastMessage) {
-          cartToastMessage.textContent = 'ដាក់ចូលកន្ត្រកជោគជ័យ';
-        }
-        if (cartToast.value) {
-          cartToast.value.show();
-        }
-        
-        // update the cart count in the store
+async function AddToCart (id) {
+    const result = await allproducts.addToCart(id);
+    if(result){
         cartListStore.onLoadCart();
-      } else {
-        const cartToastMessage = document.getElementById("cartToastMessage");
-        if (cartToastMessage) {
-          cartToastMessage.textContent = 'មានបញ្ហា! មិនអាចដាក់ចូលកន្ត្រកបានទេ';
-        }
-        if (cartToast.value) {
-          cartToast.value.show();
-        }
-      }
-    })
-    .catch(error => {
-      const cartToastMessage = document.getElementById("cartToastMessage");
-      if (cartToastMessage) {
-        cartToastMessage.textContent = 'មានបញ្ហា! មិនអាចដាក់ចូលកន្ត្រកបានទេ';
-      }
-      if (cartToast.value) {
-        cartToast.value.show();
-      }
-    });
-};
+    }
+}
 
 const handleSearch = () => {
   currentPage.value = 1;
-  GetAllProducts();
+  allproducts.GetAllProducts();
 };
 
 const handleCategory = () => {
@@ -470,22 +299,22 @@ const handleCategory = () => {
       category_id: selectedCategory.value
     }
   });
-  GetAllProducts();
+  allproducts.GetAllProducts();
 };
 
 const pageCount = computed(() =>
-  Math.max(1, Math.ceil(totalProducts.value / itemsPerPage))
+  Math.max(1, Math.ceil(totalProducts.value / itemsPerPage.value))
 );
 
 const handlePageClick = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= pageCount.value) {
     currentPage.value = pageNumber;
-    GetAllProducts();
+    allproducts.GetAllProducts();
   }
 };
 
 const handleRangeInput = () => {
-  GetAllProducts();
+  allproducts.GetAllProducts();
 };
 
 const formatPrice = (value) => {
@@ -499,59 +328,9 @@ const goToDetail = (id) => {
 const resetFilters = () => {
   selectedCategory.value = null;
   search.value = "";
-  range.value = [min_price, max_price];
+  range.value = [min_price.value, max_price.value];
   currentPage.value = 1;
-
   router.push({ path: "/allproducts", query: {} });
-
-  GetAllProducts();
+  allproducts.GetAllProducts();
 };
-
 </script>
-
-<style scoped>
-.toast .progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  width: 100%;
-  background: transparent;
-}
-
-.toast .progress.active::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.4);
-  animation: progress 5s linear forwards;
-}
-
-@keyframes progress {
-  100% {
-    right: 100%;
-  }
-}
-
-/* Product card hover effect */
-.product-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Limit description height */
-.product-description {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>

@@ -1,16 +1,61 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import router from "@/router";
 import { useToastStore } from "../toast_store";
 export const useAllProducts = defineStore('views/allProduct', {
     state: () => ({
         mdl_term: null,
-        productArr: null,
+        productArr: [],
         latestPro: null,
         discountPro: null,
-        products: []
+        products: [],
+        
+        // filters & pagination
+        selectedCategory: null,
+        search: '',
+        itemsPerPage: 8,
+        currentPage: 1,
+        min_price: 0,
+        max_price: 100000,
+        range: [0, 100000],
+
+        // loading / totals
+        isLoading: false,
+        totalProducts: 0,
     }),
     actions: {
+        async GetAllProducts() {
+            this.isLoading = true;
+            // build URL using `this.`
+            let url = `/api/products?per_page=${this.itemsPerPage}&page=${this.currentPage}`;
+
+            if (this.search) {
+                url += `&search=${encodeURIComponent(this.search)}`;
+            }
+            if (this.selectedCategory) {
+                url += `&category_id=${this.selectedCategory}`;
+            }
+            // `range` is a plain array so use `this.range[0]`
+            if (
+                this.range[0] !== undefined &&
+                this.range[1] !== undefined
+            ) {
+                url += `&min_price=${this.range[0]}&max_price=${this.range[1]}`;
+            }
+
+            try {
+                const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+                const res = await axios.get(url, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                this.totalProducts = res.data.paginate.total;
+                this.productArr = res.data.data;
+            } catch (e) {
+                this.productArr = [];
+            } finally {
+                // small delay for loader UX
+                setTimeout(() => { this.isLoading = false }, 300);
+            }
+        },
         toggleFav(id) {
             const product = this.products.find(p => p.id === id);
             if (product) {
@@ -50,7 +95,7 @@ export const useAllProducts = defineStore('views/allProduct', {
             formData.append('product_id', id);
             formData.append('qty', 1);
 
-            axios.post('/api/cart', formData, {
+            return axios.post('/api/cart', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
@@ -62,6 +107,7 @@ export const useAllProducts = defineStore('views/allProduct', {
                     } else {
                         toastStore.showToast('មានបញ្ហា! មិនអាចដាក់ចូលកន្ត្រកបានទេ');
                     }
+                    return response.data.result;
                 })
         },
         addToFavorite(id) {
@@ -73,7 +119,7 @@ export const useAllProducts = defineStore('views/allProduct', {
                 return;
             }
 
-            axios.post(`/api/favorites/toggle?product_id=${id}`, null, {
+            return axios.post(`/api/favorites/toggle?product_id=${id}`, null, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -93,6 +139,7 @@ export const useAllProducts = defineStore('views/allProduct', {
                     } else {
                         toastStore.showToast("មានបញ្ហា! មិនអាចរក្សាទុកបានទេ។");
                     }
+                    return response.data.result;
                 })
         }
 

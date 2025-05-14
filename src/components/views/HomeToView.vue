@@ -287,14 +287,18 @@ const goToDetail = (id) => {
     router.push({ name: 'detailproduct', query: { id: id } });
 };
 
-function OnSavefav(id) {
-    allProduct.addToFavorite(id);
+async function OnSavefav(id) {
+  const result = await allProduct.addToFavorite(id);
+  if (result) {
     cartListStore.onLoadFav();
+  }
 }
 
-const AddToCart = (id) => {
-    allProduct.addToCart(id);
-    cartListStore.onLoadCart();
+async function AddToCart (id) {
+    const result = await allProduct.addToCart(id);
+    if(result){
+        cartListStore.onLoadCart();
+    }
 }
 
 function goToDetailVideo(id) {
