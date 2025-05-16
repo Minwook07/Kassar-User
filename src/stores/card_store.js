@@ -106,10 +106,37 @@ export const useCardStore = defineStore("card_store", {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
     },
 
-    // Update cart item quantity
-    updateQuantity(id, quantity) {
-      if (quantity < 1) return;  // Prevent setting quantity below 1
-      this.cartCounts[id] = quantity;
+    // Update cart item quantity'
+    // updateQuantity(id, quantity) {
+    //   if (quantity < 1) return;  
+    //   this.cartCounts[id] = quantity;
+    // },
+    async updateQuantity(id, quantity) {
+      if (quantity < 1) return;    // guard
+
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      try {
+        // Send both required fields: product_id and qty
+        // We read product_id from the existing cartList entry.
+        const existing = this.cartLists.find(item => item.id === id);
+        if (!existing) throw new Error('Cart item not found');
+
+        await axios.put(
+          `/api/cart/${id}`,
+          {
+            product_id: existing.product.id,
+            qty: quantity,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        // Only on success do we update local state:
+        this.cartCounts[id] = quantity;
+
+      } catch (err) {
+        // console.error('Could not update cart qty:', err);
+        // OPTIONAL: Show user a toast or modal
+      }
     },
 
     async onLoadProvince() {

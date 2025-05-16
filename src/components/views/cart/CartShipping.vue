@@ -32,80 +32,28 @@
     <hr class="hr">
 
     <!-- Payment Button -->
-    <button @click="showModal = true" class="mt-3 btn btn-primary btn-process w-100">
+    <button @click="openPaymentModal" class="mt-3 btn btn-primary btn-process w-100">
       ទូទាត់ <span>{{ formatPrice(totalPrice - totalDis) }} ៛</span>
     </button>
-
-    <!-- Modal -->
-    <div v-if="showModal" class="modal-overlay">
-      <div class="modal-content">
-        
-        <!-- If showQR is true => Show the separate QR modal style -->
-        <template v-if="showQR">
-          <div class="aba-qr-modal">
-            <div class="aba-qr-header">
-              <div class="aba-logo-container">
-                <img 
-                  src="/logo-ABA.png" 
-                  alt="ABA Logo" 
-                  class="aba-logo"
-                />
-                <span class="aba-pay-text">ABA PAY</span>
-              </div>
-              <div class="timer-container">
-                <span class="timer">{{ countdown }}:{{ timerSeconds < 10 ? '0' + timerSeconds : timerSeconds }}</span>
-                <button @click="closeModal" class="close-button">
-                  <i class="bi bi-x-lg"></i>
-                </button>
-              </div>
-            </div>
-            
-            <div class="amount-container">
-              <span class="amount">{{ formatPrice((totalPrice - totalDis).toFixed(2)) }}</span>
-              <span class="currency">រៀល</span>
-            </div>
-            
-            <div class="scan-text">Scan to pay</div>
-            
-            <div class="qr-container">
-              <div class="qr-corner top-left"></div>
-              <div class="qr-corner top-right"></div>
-              <div class="qr-corner bottom-left"></div>
-              <div class="qr-corner bottom-right"></div>
-              <img 
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ABA_PAY_{{ totalPrice - totalDis }}" 
-                alt="ABA QR Code" 
-                class="qr-code"
-              />
-            </div>
-          </div>
-        </template>
-        
-        <!-- Else => Show normal confirm payment content -->
-        <template v-else>
-          <div class="d-flex justify-content-around">
-            <p class="text-center ms-5">តើអ្នកប្រាកដជាចង់បង់ប្រាក់មែនទេ?</p>
-            <a @click="closeModal" class="text-danger pointer ms-5"> <i class="bi bi-x-circle"></i></a>
-          </div>
-          <RouterLink to="/waypay" class="btn btn-primary mb-3">បង់ប្រាក់តាម​ Credit Card</RouterLink>
-          <button @click="openQR" class="btn btn-danger">បង់ប្រាក់តាម ABA QR</button>
-        </template>
-
-      </div>
-    </div>
   </div>
 
+  <!-- Payment Modal Component -->
+  <CartModalPayment 
+    ref="paymentModalRef"
+    :totalAmount="totalPrice - totalDis"
+  />
+  
   <ToastView />
 </template>
 
 <script setup>
 import ToastView from '../ToastView.vue';
+import CartModalPayment from './CartModalPayment.vue';
 import { useCardStore } from '@/stores/card_store';
-import { useToastStore } from '@/stores/toast_store';
-import { computed, ref, onBeforeUnmount, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 
-const toastStore = useToastStore();
 const cartListStore = useCardStore();
+const paymentModalRef = ref(null);
 
 // format money
 const formatPrice = cartListStore.formatPrice;
@@ -114,62 +62,10 @@ const formatPrice = cartListStore.formatPrice;
 const totalPrice = computed(() => cartListStore.totalPrice);
 const totalDis = computed(() => cartListStore.totalDis);
 
-
-// Modal visibility state
-const showModal = ref(false);
-const showQR = ref(false);
-
-// Timer for the countdown
-const countdown = ref(0);
-const timerSeconds = ref(10);
-let countdownInterval = null;
-
-// format money
-// const formatPrice = (price) => {
-//   if (!price) return null;
-//   return Math.floor(price) // Remove decimals
-//     .toString()
-//     .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
-// };
-
-// Open QR modal and start countdown
-const openQR = () => {
-  showQR.value = true;
-  countdown.value = 0;  
-  timerSeconds.value = 10;
-  
-  countdownInterval = setInterval(() => {
-    timerSeconds.value--;
-    
-    if (timerSeconds.value < 0) {
-      timerSeconds.value = 59;
-      countdown.value--;
-    }
-    
-    // If total time is up (after 10 seconds)
-    if (countdown.value === 0 && timerSeconds.value === 0) {
-      clearInterval(countdownInterval);
-      toastStore.showToast("បង់ប្រាក់ជោគជ័យ")
-      closeModal();
-    }
-  }, 1000);
+// Open payment modal
+const openPaymentModal = () => {
+  paymentModalRef.value.showModal();
 };
-
-const closeModal = () => {
-  showModal.value = false;
-  showQR.value = false;
-  clearInterval(countdownInterval);
-
-  setTimeout(() => {
-    window.location.href = '/success';  // Fallback method to navigate
-  }, 50);
-};
-
-
-// Clean up interval when component is unmounted
-onBeforeUnmount(() => {
-  clearInterval(countdownInterval);
-});
 </script>
 
 <style scoped>

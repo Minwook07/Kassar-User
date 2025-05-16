@@ -144,7 +144,7 @@ export const useProfileStore = defineStore('profile', () => {
   const normalizeGender = (gender) => {
     if (gender === 'Male' || gender === 'male' || gender === 1) return 'Male';
     if (gender === 'Female' || gender === 'female' || gender === 2) return 'Female';
-    return '';
+    return 'Unkown';
   };
 
   const translateGender = (gender) => {

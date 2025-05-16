@@ -33,7 +33,7 @@
                     សូមរក្សាទុកលេខសម្គាល់ការទូរទាត់ KAssar-007<br>
                     ដើម្បីច្បាស់លាស់បន្ថែមសូមទាក់ទងតាមលេខក្នុងតម្រង
                 </div>
-                <a role="button" class="btn btn-primary">យល់ព្រម</a>
+                <RouterLink to="/profile" class="btn btn-primary">យល់ព្រម</RouterLink>
             </div>
         </div>
     </div>

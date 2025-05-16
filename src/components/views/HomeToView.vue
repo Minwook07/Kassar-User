@@ -257,7 +257,7 @@
                             <p class="m-0">ជាគេហទំព័រជួយដល់ទីផ្សារកសិកម្មនៅកម្ពុជា</p>
                         </li>
                     </ul>
-                    <RouterLink to="" type="button" class="btn-primary text-decoration-none px-3 py-2 rounded">
+                    <RouterLink to="/about" type="button" class="btn-primary text-decoration-none px-3 py-2 rounded">
                         អានបន្ថែម</RouterLink>
                 </div>
             </div>

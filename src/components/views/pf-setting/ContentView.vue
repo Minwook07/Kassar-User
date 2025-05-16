@@ -161,7 +161,7 @@
                     <div class="mb-3">
                       <label for="gender" class="form-label">ភេទ</label>
                       <select class="form-select" id="gender" v-model="editForm.gender">
-                        <option value="">មិនបញ្ជាក់</option>
+                        <option value="Unkown">មិនបញ្ជាក់</option>
                         <option value="Male">ប្រុស</option>
                         <option value="Female">ស្រី</option>
                       </select>
