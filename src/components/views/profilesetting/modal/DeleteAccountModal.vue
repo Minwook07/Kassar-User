@@ -15,12 +15,12 @@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">បញ្ជាក់ពាក្យសម្ងាត់</label>
                         <div class="input-group">
-                            <input :type="infoSettingStore.showDeletePassword ? 'text' : 'password'"
-                                class="form-control form-control-lg" v-model="infoSettingStore.del_frm.password"
+                            <input :type="infoProfileStore.showDeletePassword ? 'text' : 'password'"
+                                class="form-control form-control-lg" v-model="infoProfileStore.del_frm.password"
                                 placeholder="បញ្ចូលពាក្យសម្ងាត់ដើម្បីបញ្ជាក់" required>
                             <button type="button" class="btn btn-outline-secondary"
-                                @click="infoSettingStore.showDeletePassword = !infoSettingStore.showDeletePassword">
-                                <i :class="infoSettingStore.showDeletePassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                @click="infoProfileStore.showDeletePassword = !infoProfileStore.showDeletePassword">
+                                <i :class="infoProfileStore.showDeletePassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                             </button>
                         </div>
                     </div>
@@ -35,38 +35,38 @@
 </template>
 
 <script setup>
-import { useInfoSetting } from '@/stores/views/setting_store'
+import { useInfoProfile } from '@/stores/views/profile_store'
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-const infoSettingStore = useInfoSetting()
+const infoProfileStore = useInfoProfile()
 const router = useRouter()
 
 onMounted(() => {
-    infoSettingStore.mdl_delete = Modal.getOrCreateInstance(document.getElementById('mdl-delete'))
+    infoProfileStore.mdl_delete = Modal.getOrCreateInstance(document.getElementById('mdl-delete'))
 })
 
 const hideModal = () => {
-    if (infoSettingStore.mdl_delete) {
-        infoSettingStore.mdl_delete.hide()
+    if (infoProfileStore.mdl_delete) {
+        infoProfileStore.mdl_delete.hide()
     }
-    infoSettingStore.del_frm.password = ''
+    infoProfileStore.del_frm.password = ''
 }
 
 const onDelete = () => {
-    if (!infoSettingStore.del_frm.password.trim()) {
+    if (!infoProfileStore.del_frm.password.trim()) {
         alert('Please enter your password to confirm deletion.')
         return
     }
 
     axios.post('/api/profile/delete', {
-        password: infoSettingStore.del_frm.password
+        password: infoProfileStore.del_frm.password
     })
         .then((res) => {
-            infoSettingStore.mdl_delete.hide()
-            infoSettingStore.del_frm.password = ''
+            infoProfileStore.mdl_delete.hide()
+            infoProfileStore.del_frm.password = ''
             alert('គណនីលុបបានដោយជោគជ័យ')
             router.push('/')
         })

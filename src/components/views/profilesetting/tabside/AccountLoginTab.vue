@@ -23,7 +23,7 @@
                     <label class="form-label">
                         <i class="fas fa-envelope"></i>អ៊ីមែល
                     </label>
-                    <input type="email" class="form-control" :value="infoSettingStore.userInfo.email" readonly>
+                    <input type="email" class="form-control" :value="infoProfileStore.frm.email" readonly>
                 </div>
 
                 <div class="form-group">
@@ -110,10 +110,10 @@
 
 <script setup>
 import { reactive, ref, computed } from 'vue'
-import { useInfoSetting } from '@/stores/views/setting_store'
+import { useInfoProfile } from '@/stores/views/profile_store'
 import axios from 'axios'
 
-const infoSettingStore = useInfoSetting()
+const infoProfileStore = useInfoProfile()
 const errorMessage = ref('')
 const successMessage = ref('')
 const isLoading = ref(false)

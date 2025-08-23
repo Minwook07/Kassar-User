@@ -3,9 +3,9 @@ import { defineStore } from "pinia";
 
 const DEFAULT_AVATAR = '/images/default-avatar.png'
 
-export const useInfoSetting = defineStore('views/setting_store', {
+export const useInfoProfile = defineStore('views/profile_store', {
     state: () => ({
-        userInfo: {
+        frm: {
             id: null,
             name: '',
             email: '',
@@ -18,11 +18,22 @@ export const useInfoSetting = defineStore('views/setting_store', {
         del_frm: {
             password: ''
         },
-        showDeletePassword: false,
+        showEditModal: false,
+        mdl_edit: false,
         mdl_delete: null,
+        mdl_edit_confirm: {
+            show() {
+                const store = useInfoProfile();
+                store.mdl_edit = true;
+            },
+            hide() {
+                const store = useInfoProfile();
+                store.mdl_edit = false;
+            }
+        },
         mdl_delete_confirm: {
             show() {
-                const store = useInfoSetting();
+                const store = useInfoProfile();
                 if (store.mdl_delete) {
                     store.mdl_delete.show();
                 }
@@ -31,7 +42,7 @@ export const useInfoSetting = defineStore('views/setting_store', {
     }),
     getters: {
         // Always return avatar or fallback instantly
-        avatarUrl: (state) => state.userInfo.avatar || DEFAULT_AVATAR
+        avatarUrl: (state) => state.frm.avatar || DEFAULT_AVATAR
     },
     actions: {
         onLoadProfile() {
@@ -43,11 +54,34 @@ export const useInfoSetting = defineStore('views/setting_store', {
                 }
             }).
                 then((res) => {
-                    this.userInfo = res.data.data
+                    this.frm = res.data.data
                 }).
                 catch((err) => {
                     console.error('Failed to load profile:', err)
                 });
+        },
+        async onUpdateProfile(profileData) {
+            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+
+            try {
+                const res = await axios.post('/api/profile', profileData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (res.data?.data) {
+                    // Update the store with new data
+                    // this.frm = { ...this.frm, ...res.data.data };
+                    Object.assign(this.frm, res.data.data);
+                }
+
+                return res.data;
+            } catch (err) {
+                console.error('Failed to update profile:', err);
+                throw err;
+            }
         },
         async onUpdateAvatar(blob) {
             const token = sessionStorage.getItem('token') || localStorage.getItem('token');
@@ -62,7 +96,7 @@ export const useInfoSetting = defineStore('views/setting_store', {
                 });
 
                 if (res.data?.data?.avatar) {
-                    this.userInfo.avatar = res.data.data.avatar;
+                    this.frm.avatar = res.data.data.avatar;
                 }
 
                 return res.data;
@@ -80,7 +114,7 @@ export const useInfoSetting = defineStore('views/setting_store', {
                     }
                 });
 
-                this.userInfo.avatar = '';
+                this.frm.avatar = '';
 
                 return res.data;
             } catch (err) {

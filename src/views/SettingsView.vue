@@ -1,11 +1,9 @@
 <template>
     <div class="container-fluid py-4 bg-light min-vh-100">
         <div class="row g-4 max-w-7xl mx-auto">
-            <!-- Enhanced left sidebar with modern styling -->
             <div class="col-lg-3 col-md-4">
                 <SidebarProfile />
 
-                <!-- Modern navigation tabs with improved design -->
                 <div class="card shadow-sm border-0 overflow-hidden">
                     <div class="card-header bg-white border-0 p-3">
                         <h6 class="fw-bold text-primary mb-0">
@@ -64,9 +62,9 @@
             </div>
         </div>
 
-        <!-- Added ImageCropper modal component -->
         <ImageCropper :is-visible="showCropper" :image-src="cropperImageSrc" @close="handleCloseCropper"
             @save="handleSaveCroppedImage" />
+        <EditProfileModal />
         <DeleteAccountModal />
     </div>
 </template>
@@ -80,6 +78,7 @@ import ImageCropper from '@/components/views/profilesetting/modal/ImageCropper.v
 import HistoryTab from '@/components/views/profilesetting/tabside/HistoryTab.vue'
 import DeliveryTab from '@/components/views/profilesetting/tabside/DeliveryTab.vue'
 import DeleteAccountTab from '@/components/views/profilesetting/tabside/DeleteAccountTab.vue'
+import EditProfileModal from '@/components/views/profilesetting/modal/EditProfileModal.vue'
 import DeleteAccountModal from '@/components/views/profilesetting/modal/DeleteAccountModal.vue'
 
 // Reactive data

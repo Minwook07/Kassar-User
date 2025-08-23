@@ -41,9 +41,9 @@ import axios from 'axios'
 import { ref, defineProps, defineEmits } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
-import { useInfoSetting } from '@/stores/views/setting_store'
+import { useInfoProfile } from '@/stores/views/profile_store'
 
-const infoSettingStore = useInfoSetting()
+const infoProfileStore = useInfoProfile()
 const props = defineProps({
     isVisible: {
         type: Boolean,
@@ -69,7 +69,7 @@ const handleSave = () => {
         if (canvas) {
             canvas.toBlob(async (blob) => {
                 try {
-                    const data = await infoSettingStore.onUpdateAvatar(blob)
+                    const data = await infoProfileStore.onUpdateAvatar(blob)
                     console.log('Avatar updated successfully:', data)
                     emit('save', data)
                 } catch (err) {

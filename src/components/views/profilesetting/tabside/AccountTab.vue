@@ -7,10 +7,8 @@
             <div class="profile-section">
                 <div class="profile-info">
                     <div class="avatar-section">
-                        <img 
-                        :src="infoSettingStore.avatarUrl"
-                        :key="infoSettingStore.avatarUrl"
-                        alt="Profile" class="avatar-img">
+                        <img :src="infoProfileStore.avatarUrl" :key="infoProfileStore.avatarUrl" alt="Profile"
+                            class="avatar-img">
                         <button @click="toggleThumbnailOptions" class="edit-avatar-btn">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -25,8 +23,8 @@
                         </div>
                     </div>
                     <div class="user-details">
-                        <h3>{{ infoSettingStore.userInfo.name }}</h3>
-                        <p>{{ infoSettingStore.userInfo.email }}</p>
+                        <h3>{{ infoProfileStore.frm.name }}</h3>
+                        <p>{{ infoProfileStore.frm.email }}</p>
                     </div>
                 </div>
 
@@ -40,38 +38,39 @@
             <div class="info-grid">
                 <div class="info-item">
                     <label>ឈ្មោះ</label>
-                    <div class="info-value">{{ infoSettingStore.userInfo.name }}</div>
+                    <div class="info-value">{{ infoProfileStore.frm.name }}</div>
                 </div>
 
                 <div class="info-item">
                     <label>ភេទ</label>
-                    <div class="info-value">{{ infoSettingStore.userInfo.gender || 'មិនទាន់ជ្រើស' }}</div>
+                    <div class="info-value">{{ infoProfileStore.frm.gender || 'មិនទាន់ជ្រើស' }}</div>
                 </div>
 
                 <div class="info-item">
                     <label>អ៊ីមែល</label>
-                    <div class="info-value">{{ infoSettingStore.userInfo.email }}</div>
+                    <div class="info-value">{{ infoProfileStore.frm.email }}</div>
                 </div>
 
                 <div class="info-item">
                     <label>ប្រភេទគណនី</label>
-                    <div class="info-value">{{infoSettingStore.userInfo.roles.map(role => role.name).join(', ')}}
+                    <div class="info-value">{{infoProfileStore.frm.roles.map(role => role.name).join(', ')}}
                     </div>
                 </div>
 
                 <div class="info-item">
                     <label>លេខទូរស័ព្ទ</label>
-                    <div class="info-value">{{ infoSettingStore.userInfo.phone }}</div>
+                    <div class="info-value">{{ infoProfileStore.frm.phone }}</div>
                 </div>
 
                 <div class="info-item full-width">
                     <label>ជីវប្រវត្តិ</label>
-                    <p class="info-value">{{ infoSettingStore.userInfo.history }}</p>
+                    <p class="info-value">{{ infoProfileStore.frm.history }}</p>
                 </div>
             </div>
 
             <div class="action-section">
-                <button @click="showEditModal = true" class="btn-edit">
+                <!-- Fixed: Call the correct method -->
+                <button @click="showEditModal" class="btn-edit">
                     <i class="fas fa-edit"></i>កែប្រែព័ត៌មាន
                 </button>
             </div>
@@ -81,14 +80,17 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, defineEmits } from 'vue'
-import { useInfoSetting } from '@/stores/views/setting_store'
-import axios from 'axios'
+import { useInfoProfile } from '@/stores/views/profile_store'
 
 const emit = defineEmits(['open-cropper'])
 
-const infoSettingStore = useInfoSetting()
+const infoProfileStore = useInfoProfile()
 const showThumbnailOptions = ref(false)
-const showEditModal = ref(false)
+
+// Fixed: This should be a function, not a variable assignment
+const showEditModal = () => {
+    infoProfileStore.mdl_edit_confirm.show()
+}
 
 const toggleThumbnailOptions = () => {
     showThumbnailOptions.value = !showThumbnailOptions.value
@@ -114,7 +116,7 @@ const handleUpload = () => {
 
 const handleRemove = async () => {
     try {
-        await infoSettingStore.onRemoveAvatar()
+        await infoProfileStore.onRemoveAvatar()
         console.log('Success remove avatar')
     } catch (err) {
         console.error('Remove fail', err)
@@ -134,8 +136,6 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener('click', closeDropdown)
 })
-
-// Ensure all hooks are called at the top level
 </script>
 
 <style scoped>

@@ -25,13 +25,13 @@
 </template>
 
 <script setup>
-import { useInfoSetting } from '@/stores/views/setting_store'
+import { useInfoProfile } from '@/stores/views/profile_store'
 
-const infoSettingStore = useInfoSetting()
+const infoProfileStore = useInfoProfile()
 
 const deleteAccount = () => {
     // Fixed: Remove password check since password input will be in the modal
     // Call the show method directly
-    infoSettingStore.mdl_delete_confirm.show()
+    infoProfileStore.mdl_delete_confirm.show()
 }
 </script>

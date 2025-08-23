@@ -3,14 +3,14 @@
         <div class="profile-card">
             <div class="card-body">
                 <div class="profile-avatar">
-                    <img :src="infoSettingStore.avatarUrl" alt="Profile" class="avatar-image">
+                    <img :src="infoProfileStore.avatarUrl" alt="Profile" class="avatar-image">
                     <div class="status-badge">
                         <i class="fas fa-check"></i>
                     </div>
                 </div>
 
-                <h5 class="profile-name">{{ infoSettingStore.userInfo.name }}</h5>
-                <p class="profile-type">{{ infoSettingStore.userInfo.typeofuser }}</p>
+                <h5 class="profile-name">{{ infoProfileStore.frm.name }}</h5>
+                <p class="profile-type">{{ infoProfileStore.frm.typeofuser }}</p>
 
                 <div class="profile-stats">
                     <div class="stat-item">
@@ -55,13 +55,13 @@
 </template>
 
 <script setup>
-import { useInfoSetting } from '@/stores/views/setting_store'
+import { useInfoProfile } from '@/stores/views/profile_store'
 import { onMounted } from 'vue'
 
-const infoSettingStore = useInfoSetting()
+const infoProfileStore = useInfoProfile()
 
 onMounted(() => {
-    infoSettingStore.onLoadProfile()
+    infoProfileStore.onLoadProfile()
 })
 </script>
 
