@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-import HomeToView from '@/components/views/HomeToView.vue';
+import HomeToView from '@/components/views/landing/HomeToView.vue';
 </script>

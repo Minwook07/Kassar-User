@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import CreditModal from '@/components/views/wayOfPay/PayCreditModal.vue';
-import PayOptions from '@/components/views/wayOfPay/PayOptions.vue';
-import Shipping from '@/components/views/wayOfPay/PayShipping.vue';
+import CreditModal from '@/components/views/payway/PayCreditModal.vue';
+import PayOptions from '@/components/views/payway/PayOptions.vue';
+import Shipping from '@/components/views/payway/PayShipping.vue';
 </script>

@@ -4,5 +4,5 @@
     </main>
 </template>
 <script setup>
-    import WishListToView from '@/components/views/WishListToView.vue';
+    import WishListToView from '@/components/views/wishlist/WishListToView.vue';
 </script>

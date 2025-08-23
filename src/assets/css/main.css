@@ -1529,6 +1529,10 @@ body {
     transition: 0.2s;
 }
 
+.card {
+    cursor: default!important;
+}
+
 .card-product {
     /* height: 400px; */
     transition: 0.2s;
@@ -1615,6 +1619,43 @@ body {
 
 
 /* profile setting */
+.content-view-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 40px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+}
+
+.form-label i {
+    color: #32CA83;
+}
+
+.form-control {
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: #32CA83;
+    box-shadow: none;
+}
+
 .profile {
     padding: 20px;
     border-radius: 15px;
@@ -2234,3 +2275,5 @@ body {
 
 /* Small devices - sm (phones, up to 576px) */
 @media (max-width: 576px) {}
+
+

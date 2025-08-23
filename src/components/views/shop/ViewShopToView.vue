@@ -228,7 +228,7 @@
 import { useRouter } from "vue-router";
 import { onMounted, ref, watch } from "vue";
 import { useSellerStore } from "@/stores/seller_store";
-import ToastView from "./ToastView.vue";
+import ToastView from "../toast/ToastView.vue";
 import { useToastStore } from "@/stores/toast_store";
 import { Toast } from "bootstrap";
 import axios from "axios";

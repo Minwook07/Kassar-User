@@ -1,0 +1,82 @@
+<template>
+    <div class="modal fade" id="mdl-delete" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-danger">បញ្ជាក់ការលុបគណនី</h5>
+                    <button type="button" class="btn-close" @click="hideModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-exclamation-triangle text-danger fa-3x mb-3"></i>
+                        <p class="mb-3">សូមបញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្នសម្រាប់បញ្ជាក់ការលុបគណនី.</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">បញ្ជាក់ពាក្យសម្ងាត់</label>
+                        <div class="input-group">
+                            <input :type="infoSettingStore.showDeletePassword ? 'text' : 'password'"
+                                class="form-control form-control-lg" v-model="infoSettingStore.del_frm.password"
+                                placeholder="បញ្ចូលពាក្យសម្ងាត់ដើម្បីបញ្ជាក់" required>
+                            <button type="button" class="btn btn-outline-secondary"
+                                @click="infoSettingStore.showDeletePassword = !infoSettingStore.showDeletePassword">
+                                <i :class="infoSettingStore.showDeletePassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" @click="hideModal">បោះបង់</button>
+                    <button type="button" class="btn btn-danger" @click="onDelete()">លុបគណនី</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { useInfoSetting } from '@/stores/views/setting_store'
+import axios from 'axios';
+import { Modal } from 'bootstrap';
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const infoSettingStore = useInfoSetting()
+const router = useRouter()
+
+onMounted(() => {
+    infoSettingStore.mdl_delete = Modal.getOrCreateInstance(document.getElementById('mdl-delete'))
+})
+
+const hideModal = () => {
+    if (infoSettingStore.mdl_delete) {
+        infoSettingStore.mdl_delete.hide()
+    }
+    infoSettingStore.del_frm.password = ''
+}
+
+const onDelete = () => {
+    if (!infoSettingStore.del_frm.password.trim()) {
+        alert('Please enter your password to confirm deletion.')
+        return
+    }
+
+    axios.post('/api/profile/delete', {
+        password: infoSettingStore.del_frm.password
+    })
+        .then((res) => {
+            infoSettingStore.mdl_delete.hide()
+            infoSettingStore.del_frm.password = ''
+            alert('គណនីលុបបានដោយជោគជ័យ')
+            router.push('/')
+        })
+        .catch((err) => {
+            console.error('Delete account error:', err)
+            if (err.response?.data?.message) {
+                alert(err.response.data.message)
+            } else {
+                alert('បរាជ័យក្នុងការលុបគណនី! សូមព្យាយាមម្តងទៀត.')
+            }
+        });
+}
+</script>

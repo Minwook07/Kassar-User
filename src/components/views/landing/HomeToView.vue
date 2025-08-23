@@ -267,9 +267,9 @@
 </template>
 
 <script setup>
-import HeroBanner from '../layouts/HeroBanner.vue';
+import HeroBanner from '@/components/layouts/HeroBanner.vue';
 import { useAllProducts } from '@/stores/views/allProduct_store';
-import ToastView from './ToastView.vue';
+import ToastView from '../toast/ToastView.vue';
 import { onMounted } from 'vue';
 import router from '@/router';
 import { useAllVideos } from '@/stores/views/videoFeed_store';

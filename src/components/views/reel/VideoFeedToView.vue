@@ -102,10 +102,10 @@ import { useAllVideos } from '@/stores/views/videoFeed_store.js';
 import axios from 'axios';
 import { ref, onMounted, watch, watchEffect } from 'vue';
 import router from '@/router';
-import CommentToView from '@/components/views/CommentToView.vue';
+import CommentToView from '@/components/views/reel/CommentToView.vue';
 import { useRoute } from 'vue-router';
 import { useToastStore } from '@/stores/toast_store';
-import ToastView from './ToastView.vue';
+import ToastView from '../toast/ToastView.vue';
 const toastStore = useToastStore();
 
 const video = ref(null);

@@ -402,7 +402,7 @@
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import ToastView from "./ToastView.vue";
+import ToastView from "../toast/ToastView.vue";
 import { useToastStore } from "@/stores/toast_store";
 
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");

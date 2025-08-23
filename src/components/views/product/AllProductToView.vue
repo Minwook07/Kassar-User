@@ -234,11 +234,11 @@
 import { computed, onMounted } from "vue";
 import Paginate from "vuejs-paginate-next";
 import { useRouter } from "vue-router";
-import ToastView from "./ToastView.vue";
+import ToastView from "../toast/ToastView.vue";
 import { useCategoryStore } from "@/stores/views/categories_store";
 import { useAllProducts } from "@/stores/views/allProduct_store";
 import { useRoute } from "vue-router";
-import ProductSkeleton from '@/components/views/ProductSkeleton.vue';
+import ProductSkeleton from '@/components/views/product/ProductSkeleton.vue';
 import { useCardStore } from "@/stores/card_store";
 import { storeToRefs } from "pinia";
 

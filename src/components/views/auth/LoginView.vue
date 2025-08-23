@@ -2,23 +2,18 @@
   <div class="frm-auth">
     <div class="row rounded-4 shadow-lg overflow-hidden">
       <!-- Left Section -->
-      <div class="col-md-6 left-section text-white d-none d-md-flex flex-column align-items-center justify-content-center p-5"
-           data-aos="fade-right" 
-           data-aos-duration="1000">
+      <div
+        class="col-md-6 left-section text-white d-none d-md-flex flex-column align-items-center justify-content-center p-5"
+        data-aos="fade-right" data-aos-duration="1000">
         <h1 class="text-center fw-bold mb-4" data-aos="fade-up" data-aos-delay="200">
           Kassar នាំលោកអ្នក ទៅកាន់អាជីវកម្ម កសិកម្មបែបទំនើប
         </h1>
-        <img src="@/assets/images/Auth.png" 
-             alt="auth" 
-             class="img-fluid auth-img" 
-             data-aos="zoom-in" 
-             data-aos-delay="400" />
+        <img src="@/assets/images/Auth.png" alt="auth" class="img-fluid auth-img" data-aos="zoom-in"
+          data-aos-delay="400" />
       </div>
 
       <!-- Right Section -->
-      <div class="col-md-6 right-section bg-white p-5" 
-           data-aos="fade-left" 
-           data-aos-duration="1000">
+      <div class="col-md-6 right-section bg-white p-5" data-aos="fade-left" data-aos-duration="1000">
         <div class="text-center mb-4" data-aos="fade-up" data-aos-delay="300">
           <router-link to="/" class="img-fluid mb-3" data-aos="zoom-in" data-aos-delay="500">
             <img src="@/assets/images/kassar_text.png" alt="Kassar Logo" class="img-fluid logo-img mb-3" />
@@ -30,12 +25,8 @@
         <form @submit.prevent="onSaveLogin" data-aos="fade-up" data-aos-delay="600">
           <!-- Email Field -->
           <div class="mb-3" data-aos="fade-up" data-aos-delay="700">
-            <input type="email" 
-                   id="email" 
-                   v-model="form.email" 
-                   class="form-control modern-input" 
-                   placeholder="បញ្ចូលអ៊ីមែល" 
-                   :class="{ 'is-invalid': $v.form.email.$dirty && $v.form.email.$error }" />
+            <input type="email" id="email" v-model="form.email" class="form-control modern-input"
+              placeholder="បញ្ចូលអ៊ីមែល" :class="{ 'is-invalid': $v.form.email.$dirty && $v.form.email.$error }" />
             <div class="invalid-feedback" v-if="$v.form.email.$dirty && $v.form.email.$error">
               {{ $v.form.email.$errors[0]?.$message }}
             </div>
@@ -43,38 +34,30 @@
 
           <!-- Password Field -->
           <div class="mb-3 position-relative" data-aos="fade-up" data-aos-delay="800">
-            <input :type="showPassword ? 'text' : 'password'" 
-                   id="password" 
-                   v-model="form.password"
-                   class="form-control password-input" 
-                   placeholder="បញ្ចូលលេខសម្ងាត់"
-                   :class="{ 'is-invalid': $v.form.password.$dirty && $v.form.password.$error }" />
+            <input :type="showPassword ? 'text' : 'password'" id="password" v-model="form.password"
+              class="form-control password-input" placeholder="បញ្ចូលលេខសម្ងាត់"
+              :class="{ 'is-invalid': $v.form.password.$dirty && $v.form.password.$error }" />
             <i @click="togglePasswordVisibility"
-               :class="['bi', showPassword ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'password-toggle']"></i>
+              :class="['bi', showPassword ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'password-toggle']"></i>
             <div class="invalid-feedback" v-if="$v.form.password.$dirty && $v.form.password.$error">
               {{ $v.form.password.$errors[0]?.$message }}
             </div>
           </div>
-          
+
           <div class="d-flex justify-content-between ">
             <!-- Remember Me -->
             <div class="form-check mb-3" data-aos="fade-up" data-aos-delay="900">
-              <input type="checkbox" 
-                     id="remember" 
-                     v-model="form.remember" 
-                     class="form-check-input" />
+              <input type="checkbox" id="remember" v-model="form.remember" class="form-check-input" />
               <label for="remember" class="form-check-label">ចងចាំខ្ញុំ</label>
             </div>
             <!-- Forgot Password -->
-            <router-link to="/forgot-password" class="text-success fw-bold text-decoration-none">ភ្លេចពាក្យសម្ងាត់?</router-link>
+            <router-link to="/forgot-password"
+              class="text-success fw-bold text-decoration-none">ភ្លេចពាក្យសម្ងាត់?</router-link>
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" 
-                  class="btn btn-login w-100" 
-                  :disabled="loading" 
-                  data-aos="fade-up" 
-                  data-aos-delay="1000">
+          <button type="submit" class="btn btn-login w-100" :disabled="loading" data-aos="fade-up"
+            data-aos-delay="1000">
             <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             {{ loading ? 'កំពុងចូល...' : 'ចូលគណនី' }}
           </button>
@@ -82,7 +65,8 @@
 
         <!-- Signup Link -->
         <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="1100">
-          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup" class="text-success fw-bold text-decoration-none">បង្កើតគណនី</router-link></p>
+          <p>មិនទាន់មានគណនីមែនទេ? <router-link to="/signup"
+              class="text-success fw-bold text-decoration-none">បង្កើតគណនី</router-link></p>
         </div>
       </div>
     </div>
@@ -98,7 +82,8 @@
             <span class="text text-1">{{ toastMessage }}</span>
           </div>
           <div>
-            <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button" class="btn btn-close border-0 ms-auto p-0" data-bs-dismiss="toast"
+              aria-label="Close"></button>
           </div>
         </div>
         <div class="progress active"></div>
@@ -163,58 +148,55 @@ function togglePasswordVisibility() {
 }
 
 async function onSaveLogin() {
-  loading.value = true; // Set loading to true
+  loading.value = true;
   $v.value.$touch();
 
   if ($v.value.$invalid) {
-    AOS.refresh();
-    loading.value = false; // Reset loading if invalid
+    loading.value = false;
     return;
   }
 
   try {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append("email", form.email);
     formData.append("password", form.password);
 
     const response = await axios.post("/api/auth/login", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "Accept": "application/json"
-      }
+        Accept: "application/json",
+      },
     });
 
-    if (response.data && response.data.token) {
-      const storage = form.remember ? localStorage : sessionStorage;
-      storage.setItem('token', response.data.token);
-      storage.setItem('token', response.data.token);
-      storage.setItem('id', response.data.data.id);
-      storage.setItem('user', JSON.stringify(response.data.user));
+    const token = response.data.data.token;
 
-      // Show success toast
-      if (toastInstance) {
-        toastMessage.value = 'ចូលគណនីជោគជ័យ';
-        toastIcon.value = 'bi bi-check2-circle fs-5 text-success';
-        toastInstance.show();
+    // Save token depending on "Remember Me"
+    const storage = form.remember ? localStorage : sessionStorage;
+    storage.setItem("token", token);
 
-        setTimeout(() => {
-          router.push('/');
-        }, 2000);
-      }
-    } else {
-      throw new Error("Invalid credentials"); 
+    // Attach token globally for future requests
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+    // Success toast
+    if (toastInstance) {
+      toastMessage.value = "Login successful!";
+      toastIcon.value = "bi bi-check2-circle fs-5 text-success";
+      toastInstance.show();
+
+      setTimeout(() => router.push("/"), 2000);
     }
   } catch (err) {
     if (toastInstance) {
-      const errorMessage = err.response?.data?.message || 'អុីម៊ែលពាក្យសម្ងាត់មិនត្រឹមត្រូវ';
-      toastMessage.value = errorMessage;
-      toastIcon.value = 'bi bi-x-circle fs-5 text-danger';
+      toastMessage.value = err.response?.data?.message || "Invalid credentials";
+      toastIcon.value = "bi bi-x-circle fs-5 text-danger";
       toastInstance.show();
     }
   } finally {
-    loading.value = false; // Reset loading after operation
+    loading.value = false;
   }
+
 }
+
 </script>
 
 <style scoped>
@@ -233,14 +215,14 @@ async function onSaveLogin() {
   color: #212529;
 }
 
-.is-invalid + .password-toggle {
+.is-invalid+.password-toggle {
   top: 35%;
   right: 40px;
 }
 
 .form-control:focus {
-  outline: #2ecc71!important;
-  border-color: #2ecc71!important;
+  outline: #2ecc71 !important;
+  border-color: #2ecc71 !important;
   box-shadow: none;
 }
 </style>

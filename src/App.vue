@@ -10,7 +10,7 @@ import { RouterLink, RouterView } from 'vue-router';
 import { useRoute } from 'vue-router';
 import NavBar from '@/components/layouts/NavBar.vue';
 import FooterView from '@/components/layouts/FooterView.vue';
-import ToastView from './components/views/ToastView.vue';
+import ToastView from './components/views/toast/ToastView.vue';
 const route = useRoute();
 // new Vue({  render: (h) => h(App),  mounted() {    AOS.init()  },}).$mount('#app')
 </script>

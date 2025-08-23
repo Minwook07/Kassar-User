@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import ToastView from '../ToastView.vue';
+import ToastView from '../toast/ToastView.vue';
 import CartModalPayment from './CartModalPayment.vue';
 import { useCardStore } from '@/stores/card_store';
 import { computed, ref } from 'vue';

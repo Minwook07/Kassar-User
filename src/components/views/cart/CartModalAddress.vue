@@ -149,11 +149,11 @@
             </div>
         </div>
     </div>
-    <Toast />
+    <ToastView />
 </template>
 
 <script setup>
-import Toast from '../ToastView.vue';
+import ToastView from '../toast/ToastView.vue';
 import { computed, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { useCardStore } from '@/stores/card_store';

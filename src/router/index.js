@@ -11,7 +11,6 @@ import ViewShopView from '@/views/ViewShopView.vue'
 import SettingView from '@/views/SettingView.vue'
 import AllProductView from '@/views/AllProductView.vue'
 import AddCardView from '@/views/AddCartView.vue'
-import WayOfPayView from '@/views/WayOfPayView.vue'
 import PaySuccessView from '@/views/PaySuccessView.vue'
 import WishListView from '@/views/WishListView.vue'
 import RequestSeller from '@/views/RequestSeller.vue'
@@ -25,6 +24,7 @@ import TermPageView from '@/views/TermPageView.vue'
 import PrivacyView from '@/views/PrivacyView.vue'
 import AuthLoader from '@/components/views/loader/AuthLoader.vue'
 import PayWayTest from '@/components/views/PayWayTest.vue'
+import SettingsView from '@/views/SettingsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -88,15 +88,14 @@ const router = createRouter({
       component: AllProductView,
     },
     {
+      path: '/sett',
+      name: 'sett',
+      component: SettingsView,
+    },
+    {
       path: '/cart',
       name: 'cart',
       component: AddCardView,
-      meta: { requiredAuth: true }
-    },
-    {
-      path: '/waypay',
-      name: 'waypay',
-      component: WayOfPayView,
       meta: { requiredAuth: true }
     },
     {

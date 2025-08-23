@@ -56,9 +56,9 @@
 </template>
 
 <script setup>
-import ProfileToView from '@/components/views/pf-setting/ProfileToView.vue';
-import TabView from '@/components/views/pf-setting/TabView.vue';
-import ContentView from '@/components/views/pf-setting/ContentView.vue';
+import ProfileToView from '@/components/views/profilesetting/ProfileToView.vue';
+import TabView from '@/components/views/profilesetting/TabView.vue';
+import ContentView from '@/components/views/profilesetting/ContentView.vue';
 </script>
 
 

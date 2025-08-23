@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-  import ViideoFeedToView from '@/components/views/VideoFeedToView.vue';
+  import ViideoFeedToView from '@/components/views/reel/VideoFeedToView.vue';
 </script>

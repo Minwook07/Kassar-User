@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-import AboutToView from '@/components/views/AboutToView.vue';
+import AboutToView from '@/components/views/about/AboutToView.vue';
 </script>
