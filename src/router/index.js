@@ -8,7 +8,6 @@ import VerifyOtpView from '@/components/views/auth/VerifyOtpView.vue'
 import ResetPasswordView from '@/components/views/auth/ResetPassView.vue'
 import DetailProductsView from '@/views/DetailProductsView.vue';
 import ViewShopView from '@/views/ViewShopView.vue'
-import SettingView from '@/views/SettingView.vue'
 import AllProductView from '@/views/AllProductView.vue'
 import AddCardView from '@/views/AddCartView.vue'
 import PaySuccessView from '@/views/PaySuccessView.vue'
@@ -59,17 +58,15 @@ const router = createRouter({
       name: 'VerifyOTP',
       component: VerifyOtpView,
     },
-
     {
       path: '/reset-password',
       name: 'ResetPassword', 
       component: ResetPasswordView,
     },
-
     {
       path: '/profile',
       name: 'profile',
-      component: SettingView,
+      component: SettingsView,
       meta: { requiredAuth:true }
     },
     {
@@ -86,11 +83,6 @@ const router = createRouter({
       path: '/allproducts',
       name: 'allproducts',
       component: AllProductView,
-    },
-    {
-      path: '/sett',
-      name: 'sett',
-      component: SettingsView,
     },
     {
       path: '/cart',

@@ -37,13 +37,15 @@
 </template>
 
 <script setup>
-import axios from 'axios'
 import { ref, defineProps, defineEmits } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
 import { useInfoProfile } from '@/stores/views/profile_store'
+import { useToastStore } from '@/stores/toast_store'
 
 const infoProfileStore = useInfoProfile()
+const toastStore = useToastStore();
+
 const props = defineProps({
     isVisible: {
         type: Boolean,
@@ -70,10 +72,10 @@ const handleSave = () => {
             canvas.toBlob(async (blob) => {
                 try {
                     const data = await infoProfileStore.onUpdateAvatar(blob)
-                    console.log('Avatar updated successfully:', data)
+                    toastStore.showToast('បានកែប្រែរូបភាពដោយជោគជ័យ');
                     emit('save', data)
                 } catch (err) {
-                    console.error('Upload failed:', err)
+                    toastStore.showToast('បរាជ័យក្នុងការផ្ទុករូបភាព');
                 }
             }, 'image/jpeg', 0.8)
         }

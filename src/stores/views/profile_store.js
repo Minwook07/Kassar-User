@@ -141,7 +141,13 @@ export const useInfoProfile = defineStore('views/profile_store', {
             if (gender === 'Male') return 'ប្រុស';
             if (gender === 'Female') return 'ស្រី';
             return 'មិនបញ្ជាក់';
-        }
+        },
+        translateRole(roles) {
 
+            if (roles === 'Regular User') return 'គណនីធម្មតា';
+            if (roles === 'Seller User') return 'អ្នកលក់';
+            if (roles === 'System Admin') return 'អ្នកគ្រប់គ្រង';
+            return 'គណនីធម្មតា';
+        }
     }
 })

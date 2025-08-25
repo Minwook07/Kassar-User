@@ -46,9 +46,11 @@
 <script setup>
 import { ref, reactive, computed } from 'vue';
 import { useInfoProfile } from '@/stores/views/profile_store';
+import { useToastStore } from '@/stores/toast_store';
 
-const infoProfileStore = useInfoProfile();
 const isLoading = ref(false);
+const infoProfileStore = useInfoProfile();
+const toastStore = useToastStore();
 
 const formData = reactive({
     get name() { return this._name !== undefined ? this._name : (infoProfileStore.frm.name || ''); },
@@ -92,17 +94,16 @@ const onSave = async () => {
             history: formData.history.trim()
         });
 
-        // Show success message
-        alert('បានកែប្រែព័ត៌មានដោយជោគជ័យ');
+        toastStore.showToast('បានកែប្រែព័ត៌មានដោយជោគជ័យ');
 
         hideModal();
 
     } catch (error) {
         console.error('Update profile error:', error);
         if (error.response?.data?.message) {
-            alert(`កំហុស: ${error.response.data.message}`);
+            toastStore.showToast(`កំហុស: ${error.response.data.message}`);
         } else {
-            alert('មានកំហុសក្នុងការកែប្រែព័ត៌មាន សូមព្យាយាមម្តងទៀត');
+            toastStore.showToast('មានកំហុសក្នុងការកែប្រែព័ត៌មាន សូមព្យាយាមម្តងទៀត');
         }
     } finally {
         isLoading.value = false;

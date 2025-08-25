@@ -17,7 +17,7 @@
                             <button @click="handleUpload" class="option-btn upload-btn">
                                 <i class="fas fa-upload"></i> ផ្ទុកឡើង
                             </button>
-                            <button @click="handleRemove" class="option-btn remove-btn">
+                            <button @click="handleRemove" class="option-btn remove-btn text-danger">
                                 <i class="fas fa-trash"></i> លុបចោល
                             </button>
                         </div>
@@ -56,7 +56,9 @@
 
                 <div class="info-item">
                     <label>ប្រភេទគណនី</label>
-                    <div class="info-value">{{infoProfileStore.frm.roles.map(role => role.name).join(', ')}}
+                    <div class="info-value">
+                        {{infoProfileStore.frm.roles.map(role => infoProfileStore.translateRole(role.name)).join(', ')
+                        }}
                     </div>
                 </div>
 
@@ -84,10 +86,12 @@
 <script setup>
 import { ref, onMounted, onUnmounted, defineEmits } from 'vue'
 import { useInfoProfile } from '@/stores/views/profile_store'
+import { useToastStore } from '@/stores/toast_store'
 
 const emit = defineEmits(['open-cropper'])
 
 const infoProfileStore = useInfoProfile()
+const toastStore = useToastStore()
 const showThumbnailOptions = ref(false)
 
 // Fixed: This should be a function, not a variable assignment
@@ -124,7 +128,7 @@ const handleUpload = () => {
 const handleRemove = async () => {
     try {
         await infoProfileStore.onRemoveAvatar()
-        console.log('Success remove avatar')
+        toastStore.showToast('បានលុបរូបភាពជោគជ័យ');
     } catch (err) {
         console.error('Remove fail', err)
     }

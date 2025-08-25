@@ -30,8 +30,6 @@ import { useInfoProfile } from '@/stores/views/profile_store'
 const infoProfileStore = useInfoProfile()
 
 const deleteAccount = () => {
-    // Fixed: Remove password check since password input will be in the modal
-    // Call the show method directly
     infoProfileStore.mdl_delete_confirm.show()
 }
 </script>

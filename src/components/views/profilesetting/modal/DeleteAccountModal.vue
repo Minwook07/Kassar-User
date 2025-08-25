@@ -35,11 +35,11 @@
 </template>
 
 <script setup>
-import { useInfoProfile } from '@/stores/views/profile_store'
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useInfoProfile } from '@/stores/views/profile_store'
 
 const infoProfileStore = useInfoProfile()
 const router = useRouter()
@@ -67,6 +67,12 @@ const onDelete = () => {
         .then((res) => {
             infoProfileStore.mdl_delete.hide()
             infoProfileStore.del_frm.password = ''
+
+            localStorage.removeItem('token')
+            sessionStorage.removeItem('token')
+
+            infoProfileStore.frm = {}
+            infoProfileStore.roles = []
             alert('គណនីលុបបានដោយជោគជ័យ')
             router.push('/')
         })
