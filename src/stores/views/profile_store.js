@@ -1,7 +1,11 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
 const DEFAULT_AVATAR = '/images/default-avatar.png'
+const token = () => {
+    return localStorage.getItem("token") || sessionStorage.getItem("token");
+};
 
 export const useInfoProfile = defineStore('views/profile_store', {
     state: () => ({
@@ -15,6 +19,8 @@ export const useInfoProfile = defineStore('views/profile_store', {
             roles: [],
             history: ''
         },
+        isLoading: false,
+        error: null,
         del_frm: {
             password: ''
         },
@@ -41,86 +47,101 @@ export const useInfoProfile = defineStore('views/profile_store', {
         },
     }),
     getters: {
-        // Always return avatar or fallback instantly
         avatarUrl: (state) => state.frm.avatar || DEFAULT_AVATAR
     },
     actions: {
-        onLoadProfile() {
-            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+        async onLoadProfile() {
+            this.isLoading = true;
+            this.error = null;
 
-            axios.get('/api/profile', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).
-                then((res) => {
-                    this.frm = res.data.data
-                }).
-                catch((err) => {
-                    console.error('Failed to load profile:', err)
+            try {
+                const res = await axios.get('/api/profile', {
+                    headers: {
+                        Authorization: `Bearer ${token()}`
+                    }
                 });
+                this.frm = { ...res.data.data };
+                if (this.frm.gender) {
+                    this.frm.gender = this.normalizeGender(this.frm.gender);
+                }
+                return res.data.data;
+            } catch (err) {
+                this.error = err.response?.data?.message || 'បរាជ័យក្នុងការទាញយកប្រវត្តិរូប';
+                throw err;
+            } finally {
+                this.isLoading = false;
+            }
         },
+
         async onUpdateProfile(profileData) {
-            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+            this.isLoading = true;
+            this.error = null;
 
             try {
                 const res = await axios.post('/api/profile', profileData, {
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                        Authorization: `Bearer ${token()}`
                     }
                 });
 
-                if (res.data?.data) {
-                    // Update the store with new data
-                    // this.frm = { ...this.frm, ...res.data.data };
-                    Object.assign(this.frm, res.data.data);
-                }
-
+                // refresh local data after update
+                await this.onLoadProfile();
                 return res.data;
             } catch (err) {
-                console.error('Failed to update profile:', err);
+                this.error = err.response?.data?.message || 'បរាជ័យក្នុងការកែប្រែប្រវត្តិរូប';
                 throw err;
+            } finally {
+                this.isLoading = false;
             }
         },
+
         async onUpdateAvatar(blob) {
-            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
             const formData = new FormData();
             formData.append('avatar', blob, 'avatar.jpg');
 
             try {
                 const res = await axios.post('/api/profile/avatar', formData, {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${token()}`
                     }
                 });
 
                 if (res.data?.data?.avatar) {
                     this.frm.avatar = res.data.data.avatar;
                 }
-
                 return res.data;
             } catch (err) {
                 console.error('Failed to update avatar:', err);
                 throw err;
             }
         },
+
         async onRemoveAvatar() {
-            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
             try {
-                const res = await axios.delete('/api/profiles/avatar', {
+                const res = await axios.delete('/api/profile/avatar', {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token()}`
                     }
                 });
 
                 this.frm.avatar = '';
-
                 return res.data;
             } catch (err) {
                 console.error('Failed to remove avatar:', err);
                 throw err;
             }
+        },
+        normalizeGender(gender) {
+            if (gender === 'Male' || gender === 'male' || gender === 1) return 'Male';
+            if (gender === 'Female' || gender === 'female' || gender === 2) return 'Female';
+            return 'Unknown';
+        },
+
+        translateGender(gender) {
+            if (gender === 'Male') return 'ប្រុស';
+            if (gender === 'Female') return 'ស្រី';
+            return 'មិនបញ្ជាក់';
         }
+
     }
 })

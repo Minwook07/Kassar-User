@@ -15,7 +15,7 @@
                     <div class="mb-3">
                         <label class="form-label">ភេទ</label>
                         <select v-model="formData.gender" class="form-select">
-                            <option value="Unkown">មិនទាន់ជ្រើស</option>
+                            <option value="Unknown">មិនទាន់ជ្រើស</option>
                             <option value="Male">ប្រុស</option>
                             <option value="Female">ស្រី</option>
                         </select>
@@ -50,18 +50,17 @@ import { useInfoProfile } from '@/stores/views/profile_store';
 const infoProfileStore = useInfoProfile();
 const isLoading = ref(false);
 
-// Create a reactive form data object that directly uses store data
 const formData = reactive({
-    get name() { return infoProfileStore.frm.name || ''; },
+    get name() { return this._name !== undefined ? this._name : (infoProfileStore.frm.name || ''); },
     set name(value) { this._name = value; },
-    get gender() { return this._gender !== undefined ? this._gender : (infoProfileStore.frm.gender || 'Unkown'); },
+    get gender() { return this._gender !== undefined ? this._gender : (infoProfileStore.frm.gender || 'Unknown'); },
     set gender(value) { this._gender = value; },
     get phone() { return this._phone !== undefined ? this._phone : (infoProfileStore.frm.phone || ''); },
     set phone(value) { this._phone = value; },
     get history() { return this._history !== undefined ? this._history : (infoProfileStore.frm.history || ''); },
     set history(value) { this._history = value; },
     _name: undefined,
-    _gender: 'Unkown',
+    _gender: undefined,
     _phone: undefined,
     _history: undefined
 });
@@ -96,7 +95,6 @@ const onSave = async () => {
         // Show success message
         alert('បានកែប្រែព័ត៌មានដោយជោគជ័យ');
 
-        // Hide modal
         hideModal();
 
     } catch (error) {

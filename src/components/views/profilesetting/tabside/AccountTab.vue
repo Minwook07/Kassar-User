@@ -43,8 +43,11 @@
 
                 <div class="info-item">
                     <label>ភេទ</label>
-                    <div class="info-value">{{ infoProfileStore.frm.gender || 'មិនទាន់ជ្រើស' }}</div>
+                    <div class="info-value">
+                        {{ infoProfileStore.translateGender(infoProfileStore.frm.gender) }}
+                    </div>
                 </div>
+
 
                 <div class="info-item">
                     <label>អ៊ីមែល</label>
@@ -90,6 +93,10 @@ const showThumbnailOptions = ref(false)
 // Fixed: This should be a function, not a variable assignment
 const showEditModal = () => {
     infoProfileStore.mdl_edit_confirm.show()
+    infoProfileStore.frm.name || ''
+    infoProfileStore.frm.gender || 'Unknown'
+    infoProfileStore.frm.phone || ''
+    infoProfileStore.frm.history || ''
 }
 
 const toggleThumbnailOptions = () => {
@@ -129,8 +136,14 @@ const closeDropdown = (e) => {
     }
 }
 
-onMounted(() => {
+onMounted(async () => {
     document.addEventListener('click', closeDropdown)
+
+    try {
+        await infoProfileStore.onLoadProfile();
+    } catch (error) {
+        console.error('Failed to load profile:', error);
+    }
 })
 
 onUnmounted(() => {
