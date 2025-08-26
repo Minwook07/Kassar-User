@@ -1,164 +1,251 @@
 <template>
-  <section class="product-detail">
+  <section class="product-detail bg-light min-vh-100">
     <div class="container py-5">
       <div v-if="detailProducts" class="row g-4">
         <!-- Product Images Section -->
-        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-down-right">
-          <div class="mb-3 rounded overflow-hidden shadow-sm" style="height: 400px">
-            <img class="w-100 h-100 object-fit-cover"
-              :src="selectedImageUrl || detailProducts.product.product_thumbnail" alt="Product Image" />
-          </div>
-          <div class="d-flex gap-2 overflow-auto pb-2" style="flex-wrap: nowrap; overflow-x: auto;">
-            <div
-              v-for="product_img in [detailProducts.product.product_thumbnail, ...detailProducts.product.product_images]"
-              :key="product_img.id || 'main'" class="rounded overflow-hidden"
-              style="width: 80px; height: 80px; flex-shrink: 0;"
-              @click="onChangeImage(product_img.id || 'main', typeof product_img === 'string' ? product_img : product_img.image_url)">
-              <img class="w-100 h-100 object-fit-cover"
-                :class="{ 'border border-success border-3 p-1': activeImage === (product_img.id || 'main') }"
-                :src="typeof product_img === 'string' ? product_img : product_img.image_url" alt="Product Image" />
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Product Info Section -->
-        <div class="col-12 col-md-6 col-lg-4 ps-md-4" data-aos="fade-down">
-          <h1 class="fw-bold mb-3">
-            {{ detailProducts.product.name }}
-          </h1>
-
-          <div class="d-flex gap-3 align-items-center mb-4" data-aos="zoom-in-up">
-            <div class="d-flex text-warning">
-              <i class="bi bi-star-fill me-1"></i>
-              <i class="bi bi-star-fill me-1"></i>
-              <i class="bi bi-star-fill me-1"></i>
-              <i class="bi bi-star-fill me-1"></i>
-              <i class="bi bi-star-fill"></i>
-            </div>
-            <p class="mb-0 text-secondary">(99 វាយតម្លៃ)</p>
-          </div>
-
-          <div class="mb-4">
-            <div v-if="detailProducts.product.price && detailProducts.product.price.has_discount !== false">
-              <p class="text-success fw-bold fs-4 mb-0">
-                {{ detailProducts.product.price.discounted_price }} /
-                {{ detailProducts.product.product_units.name }}
-              </p>
-              <span class="text-decoration-line-through text-secondary">
-                {{ detailProducts.product.price.original }}
-              </span>
-            </div>
-            <p class="text-success fw-bold fs-4 mb-0" v-else>
-              {{ detailProducts.product.price.original }} /
-              {{ detailProducts.product.product_units.name }}
-            </p>
-            <h5 class="mt-2 mb-4" data-aos="fade-up">
-              ប្រភេទ​ ៖ {{ detailProducts.product.category.name }}
-            </h5>
-          </div>
-
-          <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <div class="bg-light rounded-pill d-flex align-items-center p-1" data-aos="fade-right"
-              style="width: fit-content">
-              <button class="btn btn-white rounded-circle d-flex justify-content-center align-items-center"
-                style="width: 40px; height: 40px;" @click="count > 0 && count--" :disabled="count <= 0">
-                <i class="bi bi-dash-lg text-success"></i>
-              </button>
-              <span class="px-3 fw-bold">{{ count }}</span>
-              <button class="btn btn-white rounded-circle d-flex justify-content-center align-items-center"
-                style="width: 40px; height: 40px;" @click="count < detailProducts.product.qty_in_stock && count++"
-                :disabled="count >= detailProducts.product.qty_in_stock">
-                <i class="bi bi-plus-lg text-success"></i>
-              </button>
-            </div>
-
-            <button class="btn btn-success rounded-pill px-4 py-2" data-aos="fade-left" @click="addToCart"
-              :disabled="count < 1">
-              <i class="bi bi-cart3 me-2"></i>
-              <span>ដាក់ចូលកន្ត្រក</span>
-            </button>
-          </div>
-
-          <div class="mb-4">
-            <button v-if="detailProducts.product.stock_status === 'low_stock'"
-              class="btn btn-warning text-white rounded-pill px-3 py-1">
-              ស្តុកតិច
-            </button>
-            <button v-if="detailProducts.product.stock_status === 'in_stock'"
-              class="btn btn-success rounded-pill px-3 py-1">
-              មានស្តុក
-            </button>
-            <button v-else-if="detailProducts.product.stock_status === 'out_of_stock'"
-              class="btn btn-secondary rounded-pill px-3 py-1">
-              អស់ស្តុក
-            </button>
-          </div>
-
-          <div class="d-flex align-items-center mb-4 cursor-pointer" data-aos="fade-down"
-            @click="toggleFav(detailProducts.product)" style="cursor: pointer;">
-            <p class="mb-0 text-danger me-2">
-              <i :class="detailProducts.product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'" class="fs-5"></i>
-            </p>
-            <p class="mb-0">បានដាក់ទៅបញ្ជីប្រាថ្នា</p>
-          </div>
-
-          <div class="mb-4">
-            <h5 class="fw-bold mb-3">ធានាការទូរទាត់ប្រាក់ប្រកបដោយសុវត្ថិភាព</h5>
-            <div class="d-flex gap-2 align-items-center">
-              <div class="p-2 border rounded">
-                <img src="@/assets/images/cart-img/icon/visa.svg" alt="Visa" height="20" />
+        <div class="col-12 col-lg-5" data-aos="fade-right">
+          <div class="product-gallery">
+            <!-- Main Image -->
+            <div class="main-image-container mb-3">
+              <div class="main-image-wrapper">
+                <img :src="selectedImageUrl || detailProducts.product.product_thumbnail" alt="Product Image"
+                  class="main-product-image" />
+                <div class="image-overlay">
+                  <button class="btn btn-light btn-sm rounded-circle zoom-btn">
+                    <i class="bi bi-zoom-in"></i>
+                  </button>
+                </div>
               </div>
-              <div class="p-2 border rounded">
-                <img src="@/assets/images/cart-img/icon/mastercard (1).svg" alt="Mastercard" height="20" />
-              </div>
-              <div class="p-2 border rounded">
-                <img src="@/assets/images/cart-img/icon/unionpay.svg" alt="UnionPay" height="20" />
-              </div>
-              <div class="p-2 border rounded">
-                <img src="@/assets/images/cart-img/icon/jcb.svg" alt="JCB" height="20" />
+            </div>
+
+            <!-- Thumbnail Gallery -->
+            <div class="thumbnail-gallery">
+              <div class="thumbnail-scroll">
+                <div
+                  v-for="(product_img, index) in [detailProducts.product.product_thumbnail, ...detailProducts.product.product_images]"
+                  :key="product_img.id || `main-${index}`" class="thumbnail-item"
+                  :class="{ 'active': activeImage === (product_img.id || 'main') }"
+                  @click="onChangeImage(product_img.id || 'main', typeof product_img === 'string' ? product_img : product_img.image_url)">
+                  <img :src="typeof product_img === 'string' ? product_img : product_img.image_url"
+                    alt="Product Thumbnail" class="thumbnail-image" />
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Shop and Related Products Section -->
-        <div class="col-12 col-lg-4">
-          <div class="d-flex justify-content-end mb-3">
-            <button class="btn btn-success" data-aos="fade-up" @click="goToshop(detailProducts.product.id)">
-              <i class="bi bi-shop me-2"></i>
-              <span>ចូលមើលហាង</span>
-            </button>
-          </div>
+        <!-- Product Info Section -->
+        <div class="col-12 col-xl-4">
+          <!-- Modernized product info section with better spacing and semantic tokens -->
+          <div class="product-info">
 
-          <div class="card border-0 shadow-sm mb-4" data-aos="fade-down-left">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-4">
-                <div class="d-flex align-items-center me-2">
-                  <div class="bg-success rounded-pill me-2" style="width: 15px; height: 3px;"></div>
-                  <div class="bg-success rounded-circle" style="width: 6px; height: 6px;"></div>
-                </div>
-                <h5 class="mb-0 fw-bold">ផលិតផលវាយតម្លៃខ្ពស់</h5>
+            <!-- Product Header -->
+            <div class="product-header mb-4">
+              <div class="category-badge mb-3">
+                <span class="badge bg-primary/10 text-primary border border-primary rounded-pill px-3 py-2 fw-medium">
+                  <i class="bi bi-tag me-1"></i>{{ detailProducts.product?.category?.name || '' }}
+                </span>
               </div>
 
-              <div v-for="topRatedPro in topRatedPros.slice(0, 3)" :key="topRatedPro.id"
-                class="row mb-3 p-2 rounded align-items-center top-rated-item" @click="goToDetail(topRatedPro.id)"
-                style="cursor: pointer;">
-                <div class="col-4">
-                  <img :src="topRatedPro.product_thumbnail" alt="" class="img-fluid rounded" />
+              <h1 class="product-title display-6 fw-bold text-foreground mb-3 lh-sm">
+                {{ detailProducts.product?.name || '' }}
+              </h1>
+
+              <div class="rating-section d-flex align-items-center gap-3 mb-4 pb-3 border-bottom border-border">
+                <div class="stars d-flex gap-1">
+                  <i v-for="n in 5" :key="n" class="bi bi-star-fill text-warning fs-5"></i>
                 </div>
-                <div class="col-8">
-                  <div class="d-flex text-warning mb-1">
-                    <i class="bi bi-star-fill me-1"></i>
-                    <i class="bi bi-star-fill me-1"></i>
-                    <i class="bi bi-star-fill me-1"></i>
-                    <i class="bi bi-star-fill me-1"></i>
-                    <i class="bi bi-star-fill"></i>
+                <span class="rating-text text-muted-foreground fw-medium">(99 វាយតម្លៃ)</span>
+                <span class="divider text-muted-foreground">•</span>
+                <span class="sold-count text-muted-foreground fw-medium">លក់ 1.2k+</span>
+              </div>
+            </div>
+
+            <!-- Price Section -->
+            <div class="price-section mb-4 p-4 bg-card rounded-4 shadow-sm border border-border">
+              <div v-if="detailProducts.product?.price && detailProducts.product.price.has_discount !== false"
+                class="price-with-discount">
+                <div class="d-flex align-items-baseline gap-3 mb-2">
+                  <span class="current-price text-primary fw-bold" style="font-size: 2.5rem;">
+                    {{ detailProducts.product.price.discounted_price }}
+                  </span>
+                  <span class="currency text-primary fw-bold fs-4">៛</span>
+                  <span class="original-price text-decoration-line-through text-muted-foreground fs-5">
+                    {{ detailProducts.product.price.original }}៛
+                  </span>
+                </div>
+                <div class="discount-info">
+                  <span class="badge bg-destructive text-destructive-foreground rounded-pill px-3 py-2">
+                    <i class="bi bi-lightning-fill me-1"></i>សន្សំ 25%
+                  </span>
+                </div>
+              </div>
+              <div v-else class="price-regular">
+                <div class="d-flex align-items-baseline gap-2">
+                  <span class="current-price text-primary fw-bold" style="font-size: 2.5rem;">
+                    {{ detailProducts.product?.price?.original || '' }}
+                  </span>
+                  <span class="currency text-primary fw-bold fs-4">៛</span>
+                </div>
+              </div>
+              <div class="unit-info mt-2">
+                <small class="text-muted-foreground">ក្នុង {{ detailProducts.product?.product_units?.name || ''
+                  }}</small>
+              </div>
+            </div>
+
+            <!-- Stock Status -->
+            <div class="stock-section mb-4">
+              <div class="d-flex align-items-center gap-3">
+                <span class="fw-semibold text-foreground">ស្ថានភាព:</span>
+                <span v-if="detailProducts.product?.stock_status === 'low_stock'"
+                  class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-medium">
+                  <i class="bi bi-exclamation-triangle me-2"></i>ស្តុកតិច
+                </span>
+                <span v-else-if="detailProducts.product?.stock_status === 'in_stock'"
+                  class="badge bg-primary text-primary-foreground px-3 py-2 rounded-pill fw-medium">
+                  <i class="bi bi-check-circle me-2"></i>មានស្តុក
+                </span>
+                <span v-else-if="detailProducts.product?.stock_status === 'out_of_stock'"
+                  class="badge bg-secondary text-secondary-foreground px-3 py-2 rounded-pill fw-medium">
+                  <i class="bi bi-x-circle me-2"></i>អស់ស្តុក
+                </span>
+              </div>
+            </div>
+
+            <!-- Quantity & Purchase Actions -->
+            <div class="purchase-section mb-4 p-4 bg-card rounded-4 shadow-sm border border-border">
+              <div class="quantity-section mb-4">
+                <label class="form-label fw-semibold text-foreground mb-3">បរិមាណ:</label>
+                <div class="quantity-controls d-flex align-items-center gap-3">
+                  <button
+                    class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 45px; height: 45px;" @click="count > 0 && count--" :disabled="count <= 0">
+                    <i class="bi bi-dash fs-5"></i>
+                  </button>
+                  <div class="quantity-display bg-muted rounded-3 px-4 py-2 fw-bold text-center border border-border"
+                    style="min-width: 80px;">
+                    {{ count }}
                   </div>
-                  <p class="mb-1 product-name">{{ topRatedPro.name }}</p>
-                  <h5 class="text-success fw-bold mb-0 product-price">
-                    {{ topRatedPro.price.discounted_price }}<sup>៛</sup> / {{ topRatedPro.product_units.name }}
-                  </h5>
+                  <button
+                    class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 45px; height: 45px;"
+                    @click="count < (detailProducts.product?.qty_in_stock || 0) && count++"
+                    :disabled="count >= (detailProducts.product?.qty_in_stock || 0)">
+                    <i class="bi bi-plus fs-5"></i>
+                  </button>
+                </div>
+                <small class="text-muted-foreground mt-2 d-block">មានស្តុក {{ detailProducts.product?.qty_in_stock || 0
+                  }} ដុំ</small>
+              </div>
+
+              <div class="action-buttons d-flex gap-3">
+                <button class="btn btn-primary flex-fill py-3 rounded-pill fw-semibold fs-5 shadow-sm"
+                  @click="addToCart" :disabled="count < 1" style="transition: all 0.3s ease;">
+                  <i class="bi bi-cart-plus me-2"></i>ដាក់ចូលកន្ត្រក
+                </button>
+                <button
+                  class="btn btn-outline-destructive rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                  style="width: 60px; height: 60px; flex-shrink: 0;" @click="toggleFav(detailProducts.product)">
+                  <i :class="detailProducts.product?.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"
+                    class="fs-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Payment Security -->
+            <div class="payment-section p-4 bg-card rounded-4 shadow-sm border border-border">
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-shield-check text-primary fs-4 me-3"></i>
+                <div>
+                  <h6 class="fw-semibold mb-1 text-foreground">ការទូរទាត់ប្រាក់ប្រកបដោយសុវត្ថិភាព</h6>
+                  <small class="text-muted-foreground">ការពារ 100% សម្រាប់ការទិញរបស់អ្នក</small>
+                </div>
+              </div>
+              <div class="payment-methods d-flex gap-2 flex-wrap">
+                <div class="payment-method bg-muted rounded-3 p-2 border border-border">
+                  <img src="@/assets/images/cart-img/icon/visa.svg" alt="Visa" style="height: 24px;" />
+                </div>
+                <div class="payment-method bg-muted rounded-3 p-2 border border-border">
+                  <img src="@/assets/images/cart-img/icon/mastercard (1).svg" alt="Mastercard" style="height: 24px;" />
+                </div>
+                <div class="payment-method bg-muted rounded-3 p-2 border border-border">
+                  <img src="@/assets/images/cart-img/icon/unionpay.svg" alt="UnionPay" style="height: 24px;" />
+                </div>
+                <div class="payment-method bg-muted rounded-3 p-2 border border-border">
+                  <img src="@/assets/images/cart-img/icon/jcb.svg" alt="JCB" style="height: 24px;" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shop Info & Top Rated Products -->
+        <div class="col-12 col-lg-3" data-aos="fade-left">
+          <div class="sidebar-content">
+            <!-- Shop Button -->
+            <div class="shop-section mb-4">
+              <div class="shop-card bg-card rounded-4 shadow-sm border border-border p-4">
+                <div class="shop-info mb-3">
+                  <div class="d-flex align-items-center gap-3 mb-3">
+                    <div
+                      class="shop-avatar bg-primary/10 rounded-circle d-flex align-items-center justify-content-center"
+                      style="width: 50px; height: 50px;">
+                      <i class="bi bi-shop text-primary fs-4"></i>
+                    </div>
+                    <div>
+                      <h6 class="fw-bold mb-1 text-foreground">ហាងផ្លូវការ</h6>
+                      <small class="text-muted-foreground">ទំនុកចិត្ត 99.8%</small>
+                    </div>
+                  </div>
+                  <div class="shop-stats d-flex justify-content-between text-center">
+                    <div>
+                      <div class="fw-bold text-primary">4.9</div>
+                      <small class="text-muted-foreground">ការវាយតម្លៃ</small>
+                    </div>
+                    <div>
+                      <div class="fw-bold text-primary">1.2k+</div>
+                      <small class="text-muted-foreground">ផលិតផល</small>
+                    </div>
+                    <div>
+                      <div class="fw-bold text-primary">5k+</div>
+                      <small class="text-muted-foreground">អតិថិជន</small>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-outline-primary w-100 py-3 rounded-pill fw-semibold"
+                  @click="goToshop(detailProducts.product?.id)">
+                  <i class="bi bi-shop me-2"></i>ចូលមើលហាង
+                </button>
+              </div>
+            </div>
+
+            <!-- Top Rated Products -->
+            <div class="top-rated-card">
+              <div class="card-header bg-success text-white rounded-top">
+                <h6 class="mb-0 fw-semibold">
+                  <i class="bi bi-star-fill me-2"></i>ផលិតផលវាយតម្លៃខ្ពស់
+                </h6>
+              </div>
+              <div class="card-body p-3">
+                <div v-for="topRatedPro in topRatedPros.slice(0, 3)" :key="topRatedPro.id"
+                  class="top-rated-item mb-3 p-2 rounded cursor-pointer" @click="goToDetail(topRatedPro.id)">
+                  <div class="row g-2 align-items-center">
+                    <div class="col-4">
+                      <div class="product-thumb">
+                        <img :src="topRatedPro.product_thumbnail" alt="Product" class="img-fluid rounded" />
+                      </div>
+                    </div>
+                    <div class="col-8">
+                      <div class="stars d-flex mb-1">
+                        <i v-for="n in 5" :key="n" class="bi bi-star-fill text-warning small"></i>
+                      </div>
+                      <p class="product-name mb-1 small fw-semibold">{{ topRatedPro.name }}</p>
+                      <div class="product-price text-success fw-bold small">
+                        {{ topRatedPro.price.discounted_price }}<sup>៛</sup>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -166,57 +253,49 @@
         </div>
 
         <!-- Product Details Tabs -->
-        <div class="col-12 col-lg-8 mb-4">
-          <ul class="nav nav-tabs mb-3" id="productTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description"
-                type="button" role="tab" aria-controls="description" aria-selected="true"
-                @click="activeTab = 'description'">
-                ព័ណ៌នា
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button"
-                role="tab" aria-controls="reviews" aria-selected="false" @click="activeTab = 'reviews'">
-                វាយតម្លៃ
-              </button>
-            </li>
-          </ul>
+        <div class="col-12 col-lg-8">
+          <div class="product-tabs-section">
+            <ul class="nav nav-pills nav-fill mb-4" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill px-4 py-3 fw-semibold"
+                  :class="{ active: activeTab === 'description' }" @click="activeTab = 'description'">
+                  <i class="bi bi-file-text me-2"></i>ព័ណ៌នា
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill px-4 py-3 fw-semibold" :class="{ active: activeTab === 'reviews' }"
+                  @click="activeTab = 'reviews'">
+                  <i class="bi bi-chat-dots me-2"></i>វាយតម្លៃ
+                </button>
+              </li>
+            </ul>
 
-          <div class="tab-content" id="productTabsContent">
-            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab"
-              v-if="activeTab === 'description'" data-aos="fade-right">
-              <p class="text-secondary">{{ detailProducts.product.description }}</p>
-            </div>
+            <div class="tab-content">
+              <div v-if="activeTab === 'description'" class="tab-pane active">
+                <div class="description-content p-4 bg-white rounded-3 shadow-sm">
+                  <p class="text-muted lh-lg">{{ detailProducts.product.description }}</p>
+                </div>
+              </div>
 
-            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab"
-              v-if="activeTab === 'reviews'">
-              <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                  <div class="d-flex gap-3">
-                    <div class="flex-shrink-0">
-                      <img src="@/assets/images/1.jpg" alt="Reviewer" class="rounded-circle" width="60" height="60"
-                        style="object-fit: cover;" />
-                    </div>
-                    <div class="flex-grow-1" data-aos="fade-right">
-                      <div class="d-flex justify-content-between mb-2">
-                        <h5 class="fw-bold mb-0">មីងកា​ បាត់ដំបង</h5>
-                        <div class="d-flex text-warning">
-                          <i class="bi bi-star-fill me-1"></i>
-                          <i class="bi bi-star-fill me-1"></i>
-                          <i class="bi bi-star-fill me-1"></i>
-                          <i class="bi bi-star-fill me-1"></i>
-                          <i class="bi bi-star-fill"></i>
-                        </div>
+              <div v-if="activeTab === 'reviews'" class="tab-pane active">
+                <div class="reviews-content">
+                  <div class="review-item bg-white p-4 rounded-3 shadow-sm">
+                    <div class="d-flex gap-3">
+                      <div class="reviewer-avatar">
+                        <img src="@/assets/images/1.jpg" alt="Reviewer" class="rounded-circle" width="60" height="60" />
                       </div>
-                      <p class="mb-0 text-secondary">
-                        <i class="bi bi-quote text-success me-1"></i>
-                        ក្រូចខ្វិចឆ្ញាញ់ណាស់​ ក្រូចខ្វិចឆ្ញាញ់ណាស់
-                        ក្រូចខ្វិចឆ្ញាញ់ណាស់ ក្រូចខ្វិចឆ្ញាញ់ណាស់
-                        ក្រូចខ្វិចឆ្ញាញ់ណាស់ ក្រូចខ្វិចឆ្ញាញ់ណាស់
-                        <i class="bi bi-quote text-success ms-1"
-                          style="display: inline-block; transform: scaleX(-1)"></i>
-                      </p>
+                      <div class="review-content flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <h6 class="fw-bold mb-0">មីងកា​ បាត់ដំបង</h6>
+                          <div class="stars d-flex">
+                            <i v-for="n in 5" :key="n" class="bi bi-star-fill text-warning"></i>
+                          </div>
+                        </div>
+                        <p class="text-muted mb-0 lh-lg">
+                          ក្រូចខ្វិចឆ្ញាញ់ណាស់​ ក្រូចខ្វិចឆ្ញាញ់ណាស់ ក្រូចខ្វិចឆ្ញាញ់ណាស់
+                          ក្រូចខ្វិចឆ្ញាញ់ណាស់ ក្រូចខ្វិចឆ្ញាញ់ណាស់ ក្រូចខ្វិចឆ្ញាញ់ណាស់
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -225,68 +304,76 @@
           </div>
         </div>
 
-        <!-- Advertisement Banner -->
-        <div class="col-12 col-lg-4 mb-4">
-          <img data-aos="fade-left" src="@/assets/images/posterDetail.gif" alt="Advertisement"
-            class="img-fluid rounded" />
+        <!-- Advertisement -->
+        <div class="col-12 col-lg-4">
+          <div class="ad-section">
+            <img src="@/assets/images/posterDetail.gif" alt="Advertisement" class="img-fluid rounded-3 shadow-sm" />
+          </div>
         </div>
 
         <!-- Similar Products Section -->
-        <div class="col-12 mb-4">
-          <h4 class="fw-bold mb-4" data-aos="fade-up-right">ផលិតផលស្រដៀង</h4>
-          <div class="row g-4">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3" data-aos="fade-up"
-              v-for="related_product in detailProducts.related_products" :key="related_product.id">
-              <div class="card h-100 border-0 shadow-sm product-card" @click="goToDetail(related_product.id)"
-                style="cursor: pointer;">
-                <div class="position-relative p-3">
-                  <img :src="related_product.product_thumbnail" alt="" class="card-img-top rounded"
-                    style="height: 180px; object-fit: cover;" />
-                  <div v-for="promotion in related_product.promotions" :key="promotion.id"
-                    class="position-absolute top-0 start-0 mt-3 ms-3 bg-success text-white px-2 py-1 rounded-pill">
-                    {{ promotion.promotions.discount_rate }} %
-                  </div>
-                  <button class="position-absolute top-0 end-0 mt-3 me-3 btn btn-light rounded-circle p-1"
-                    style="width: 35px; height: 35px;" @click.stop="toggleFav(related_product)">
-                    <i :class="related_product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"
-                      class="text-danger"></i>
-                  </button>
-                </div>
+        <div class="col-12">
+          <div class="similar-products-section">
+            <h4 class="section-title fw-bold mb-4">
+              <i class="bi bi-grid me-2 text-success"></i>ផលិតផលស្រដៀង
+            </h4>
+            <div class="row g-4">
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="related_product in detailProducts.related_products"
+                :key="related_product.id">
+                <div class="product-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                  <div class="product-image-container position-relative">
+                    <img :src="related_product.product_thumbnail" alt="Product" class="product-image"
+                      @click="goToDetail(related_product.id)" />
 
-                <div class="card-body">
-                  <div class="d-flex justify-content-between mb-2">
-                    <p class="text-success mb-0">
-                      {{ related_product.category.name }}
-                    </p>
-                    <p class="mb-0">
-                      <i class="bi bi-star-fill text-warning me-1"></i>4.9
-                    </p>
-                  </div>
-
-                  <h5 class="fw-bold mb-2">{{ related_product.name }}</h5>
-                  <p class="text-secondary mb-3 small product-description">
-                    {{ related_product.description }}
-                  </p>
-
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <div v-if="related_product.price && related_product.price.has_discount !== false">
-                        <p class="text-success fw-bold mb-0">
-                          {{ related_product.price.discounted_price }}<sup>៛</sup> /
-                          {{ related_product.product_units.name }}
-                        </p>
-                        <span class="text-decoration-line-through text-secondary small">
-                          {{ related_product.price.original }}<sup>៛</sup>
-                        </span>
-                      </div>
-                      <p class="text-success fw-bold mb-0" v-else>
-                        {{ related_product.price.original }}<sup>៛</sup> /
-                        {{ related_product.product_units.name }}
-                      </p>
+                    <!-- Discount Badge -->
+                    <div v-for="promotion in related_product.promotions" :key="promotion.id"
+                      class="discount-badge position-absolute top-0 start-0 m-2">
+                      {{ promotion.promotions.discount_rate }}%
                     </div>
-                    <button class="btn btn-success rounded-pill">
-                      <i class="bi bi-bag-fill me-1"></i>កន្ត្រក
+
+                    <!-- Favorite Button -->
+                    <button class="favorite-overlay position-absolute top-0 end-0 m-2"
+                      @click.stop="toggleFav(related_product)">
+                      <i :class="related_product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"
+                        class="text-danger"></i>
                     </button>
+                  </div>
+
+                  <div class="card-body p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="category-tag">{{ related_product.category.name }}</span>
+                      <div class="rating-small">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <span class="small">4.9</span>
+                      </div>
+                    </div>
+
+                    <h6 class="product-name fw-semibold mb-2" @click="goToDetail(related_product.id)">
+                      {{ related_product.name }}
+                    </h6>
+
+                    <p class="product-description text-muted small mb-3">
+                      {{ related_product.description }}
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="price-info">
+                        <div v-if="related_product.price && related_product.price.has_discount !== false">
+                          <div class="current-price text-success fw-bold">
+                            {{ related_product.price.discounted_price }}<sup>៛</sup>
+                          </div>
+                          <div class="original-price text-decoration-line-through text-muted small">
+                            {{ related_product.price.original }}<sup>៛</sup>
+                          </div>
+                        </div>
+                        <div v-else class="current-price text-success fw-bold">
+                          {{ related_product.price.original }}<sup>៛</sup>
+                        </div>
+                      </div>
+                      <button class="btn btn-success btn-sm rounded-pill px-3">
+                        <i class="bi bi-cart-plus"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -356,10 +443,9 @@ const addToCart = () => {
     return;
   }
 
-  // Prepare data with product_id and qty only.
   const data = {
     product_id: detailProducts.value.product.id,
-    qty: count.value || 1, // default to 1 if count is 0
+    qty: count.value || 1,
   };
 
   axios
@@ -411,7 +497,6 @@ const toggleFav = (FavProduct) => {
         related_products.value[index].is_favorited = toastFav.value;
       }
 
-      // Update main product if it's the same one
       if (detailProducts.value && detailProducts.value.product &&
         detailProducts.value.product.id === FavProduct.id) {
         detailProducts.value.product.is_favorited = toastFav.value;
@@ -445,25 +530,387 @@ const goToDetail = (id) => {
 </script>
 
 <style scoped>
-/* Bootstrap enhancements */
-.top-rated-item:hover {
-  background-color: #32CA83;
+/* Product Gallery Styles */
+.product-gallery {
+  position: sticky;
+  top: 2rem;
+}
+
+.main-image-container {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.main-image-wrapper {
+  position: relative;
+  aspect-ratio: 1;
+  background: #f8f9fa;
+}
+
+.main-product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.main-image-wrapper:hover .image-overlay {
+  opacity: 1;
+}
+
+.main-image-wrapper:hover .main-product-image {
+  transform: scale(1.05);
+}
+
+.zoom-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Thumbnail Gallery */
+.thumbnail-gallery {
+  margin-top: 1rem;
+}
+
+.thumbnail-scroll {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.thumbnail-item {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
   transition: all 0.3s ease;
 }
 
-.top-rated-item:hover .product-name,
-.top-rated-item:hover .product-price {
-  color: white !important;
+.thumbnail-item:hover {
+  border-color: var(--bs-success);
+  transform: translateY(-2px);
 }
 
-/* Fix for Bootstrap tabs */
-.nav-tabs .nav-link.active {
-  color: #32CA83;
-  border-color: #dee2e6 #dee2e6 #fff;
-  border-bottom: 2px solid #32CA83;
+.thumbnail-item.active {
+  border-color: var(--bs-success);
+  box-shadow: 0 4px 12px rgba(50, 202, 131, 0.3);
 }
 
-.nav-tabs .nav-link:hover {
-  border-color: #e9ecef #e9ecef #dee2e6;
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Product Info Styles */
+.product-info {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+}
+
+.product-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2d3748;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.rating-section {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.stars i {
+  font-size: 1.1rem;
+}
+
+.category-badge .badge {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+
+.price-section {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.current-price {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.stock-section .badge {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Quantity Controls */
+.quantity-controls {
+  background: #f8f9fa;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  width: fit-content;
+}
+
+.quantity-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bs-success);
+}
+
+.quantity-display {
+  min-width: 60px;
+  font-size: 1.1rem;
+}
+
+.action-buttons .btn {
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.favorite-btn {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Payment Methods */
+.payment-methods {
+  gap: 0.75rem;
+}
+
+.payment-method {
+  width: 50px;
+  height: 35px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+}
+
+.payment-method img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Sidebar Styles */
+.sidebar-content {
+  position: sticky;
+  top: 2rem;
+}
+
+.top-rated-card {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.top-rated-item {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.top-rated-item:hover {
+  background-color: #f0f9f4;
+  transform: translateX(4px);
+}
+
+.product-thumb {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+/* Product Tabs */
+.product-tabs-section {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.nav-pills .nav-link {
+  color: #64748b;
+  background: #f1f5f9;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+  background: var(--bs-success);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(50, 202, 131, 0.3);
+}
+
+.nav-pills .nav-link:hover:not(.active) {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+/* Similar Products */
+.similar-products-section {
+  margin-top: 3rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: #2d3748;
+}
+
+.product-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+  border-color: var(--bs-success);
+}
+
+.product-image-container {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.1);
+}
+
+.discount-badge {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.favorite-overlay {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.favorite-overlay:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.category-tag {
+  background: #f0f9f4;
+  color: var(--bs-success);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.product-name {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.product-name:hover {
+  color: var(--bs-success);
+}
+
+.product-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-info {
+    padding: 1.5rem;
+  }
+
+  .product-title {
+    font-size: 1.5rem;
+  }
+
+  .current-price {
+    font-size: 1.75rem;
+  }
+
+  .product-tabs-section {
+    padding: 1.5rem;
+  }
+
+  .sidebar-content {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .favorite-btn {
+    width: 100%;
+    height: 50px;
+  }
+
+  .quantity-controls {
+    justify-content: center;
+    width: 100%;
+  }
 }
 </style>

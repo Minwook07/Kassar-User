@@ -72,7 +72,7 @@
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                             <p class="m-0 name">{{ product.name }}</p>
-                                            <span>៛{{ product.price.discounted_price }}</span>
+                                            <span class="text-primary">{{ product.price.discounted_price }} រៀល</span>
                                         </div>
                                     </div>
 
@@ -111,7 +111,7 @@
                                                 </div>
                                                 <div class="price">
                                                     <p class="text-secondary fw-bolder fs-4" v-if="video.product">
-                                                        {{ video.product?.price.discounted_price }} ៛ / <span
+                                                        {{ video.product?.price.discounted_price }} រៀល / <span
                                                             class="fs-5">{{ video.product?.product_units.name }}</span>
                                                     </p>
                                                 </div>
@@ -137,7 +137,7 @@
                                 </div>
                                 <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                     <p class="m-0 name">{{ product.name }}</p>
-                                    <span>៛{{ product.price.discounted_price }}</span>
+                                    <span>{{ product.price.discounted_price }} រៀល</span>
                                 </div>
                             </div>
                         </div>
