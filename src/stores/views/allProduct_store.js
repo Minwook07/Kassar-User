@@ -5,10 +5,10 @@ export const useAllProducts = defineStore('views/allProduct', {
     state: () => ({
         mdl_term: null,
         productArr: [],
-        latestPro: null,
-        discountPro: null,
+        latestPro: [],
+        discountPro: [],
         products: [],
-        
+
         // filters & pagination
         selectedCategory: null,
         search: '',
@@ -69,17 +69,36 @@ export const useAllProducts = defineStore('views/allProduct', {
                     this.productArr = response.data.data;
                 })
         },
+
         onloadLatestProduct(per_page, page, sdir = 'desc') {
             axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
                 .then(response => {
                     this.latestPro = response.data.data;
                 })
         },
+
         onloadDiscountProduct(per_page, page, sdir = 'desc') {
             axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
                 .then(response => {
-                    this.discountPro = response.data.data;
+                    this.discountPro = response.data.data.filter(p => p.promotions && p.promotions.length > 0);
                 })
+        },
+
+        async onLoadBestSellers({ period = 'month', limit = 10, category_id = null } = {}) {
+            this.loading = true;
+            this.error = null;
+            try {
+                const response = await axios.get('/api/products-best-sellers', {
+                    params: { period, limit, category_id },
+                });
+                if (response.data.result) {
+                    this.products = response.data.data;
+                }
+            } catch (err) {
+                this.error = err.response?.data?.message || err.message;
+            } finally {
+                this.loading = false;
+            }
         },
 
         addToCart(id) {

@@ -61,10 +61,10 @@
                             <div class="latest_products">
                                 <div class="title d-flex align-items-center">
                                     <p class="m-0 fw-semibold text-secondary">ផលិតផលថ្មីៗ</p>
-                                    <span class="badge rounded-2 text-bg-success ms-1">Lastest Products</span>
+                                    <span class="badge rounded-2 text-bg-success ms-1">ផលិតផលចុងក្រោយបំផុត</span>
                                 </div>
                                 <div class="products-wrapper row align-items-center pt-3 ">
-                                    <div class="product col-4 col-md-3" v-for="product in allProduct.latestPro"
+                                    <div class="product col-4 col-md-3" v-for="product in allProduct.latestPro.slice(0, 4)"
                                         :key="product.id" @click="goToDetail(product.id)">
                                         <div class="latest_product_img">
                                             <img class="latest_product_img" :src="product.product_thumbnail" alt="">
@@ -126,11 +126,11 @@
                         <div class="hero-discount product-hero d-flex">
                             <div class="product w-50 rounded-3 shadow-sm py-2 px-3 h-100
                             d-flex flex-column justify-content-between align-items-center "
-                                v-for="product in discount_pro.discountPro" :key="product.id"
+                                v-for="product in allProduct.discountPro.slice(0,2)" :key="product.id"
                                 @click="goToDetail(product.id)">
                                 <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
                                     <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
-                                    <span class="badge rounded-2 ms-1">DISCOUNT</span>
+                                    <span class="badge rounded-2 ms-1">ជារៀងរាល់ថ្ងៃ​</span>
                                 </div>
                                 <div class="discount_product_img">
                                     <img :src="product.product_thumbnail" alt="">
@@ -162,15 +162,13 @@ import { useCategoryStore } from '@/stores/views/categories_store';
 
 const allVideos = useAllVideos();
 const allProduct = useAllProducts();
-const discount_pro = useAllProducts();
 const categoryStore = useCategoryStore();
 
 onMounted(() => {
     categoryStore.GetAllCategories();
     allProduct.onloadLatestProduct(4, 1, 'desc');
-    discount_pro.onloadDiscountProduct(2, 1, 'asc');
+    allProduct.onloadDiscountProduct(2, 1, 'asc');
     allVideos.onloadVideoFilter();
-    // console.log(allProduct.productArr);
 
 })
 

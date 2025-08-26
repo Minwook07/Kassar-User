@@ -1,28 +1,18 @@
 <template>
   <div class="toast-container position-fixed top-0 end-0 p-3">
     <Transition name="toast-slide">
-      <div
-        v-if="toastStore.toastMessage"
-        id="liveToast"
-        class="toast border-0 shadow-lg bg-primary show"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-      >
+      <div v-if="toastStore.toastMessage" id="liveToast" class="toast border-0 shadow-lg show" :class="toastBgClass"
+        role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-content d-flex align-items-center gap-3 p-3">
           <div class="toast-icon">
-            <i class="bi bi-check2-circle fs-5 text-white"></i>
+            <i :class="toastIconClass"></i>
           </div>
           <div class="message flex-grow-1">
             <span class="text text-white fw-medium">{{ toastStore.toastMessage }}</span>
           </div>
           <div>
-            <button
-              type="button"
-              class="btn-close btn-close-white border-0 p-0"
-              @click="hideToast"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close btn-close-white border-0 p-0" @click="hideToast"
+              aria-label="Close"></button>
           </div>
         </div>
       </div>
@@ -32,32 +22,46 @@
 
 <script setup>
 import { useToastStore } from "@/stores/toast_store";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 
 const toastStore = useToastStore();
 const autoHideTimer = ref(null);
 
-// Function to hide toast
 const hideToast = () => {
-  toastStore.toastMessage = ''; // Clear the message to hide toast
+  toastStore.clearToast();
   clearTimeout(autoHideTimer.value);
 };
 
-// Watch for toast message changes to set auto-hide timer
+const toastBgClass = computed(() => {
+  switch (toastStore.toastType) {
+    case "success": return "bg-success text-white";
+    case "error": return "bg-danger text-white";
+    case "warning": return "bg-warning text-dark";
+    case "info": return "bg-info text-white";
+    default: return "bg-primary text-white";
+  }
+});
+
+const toastIconClass = computed(() => {
+  switch (toastStore.toastType) {
+    case "success": return "bi bi-check2-circle fs-5 text-white";
+    case "error": return "bi bi-x-circle fs-5 text-white";
+    case "warning": return "bi bi-exclamation-triangle fs-5 text-dark";
+    case "info": return "bi bi-info-circle fs-5 text-white";
+    default: return "bi bi-bell fs-5 text-white";
+  }
+});
+
 watch(() => toastStore.toastMessage, (newVal) => {
   if (newVal) {
-    // Clear any existing timer
-    if (autoHideTimer.value) {
-      clearTimeout(autoHideTimer.value);
-    }
-    
-    // hide in 3 seconds
+    if (autoHideTimer.value) clearTimeout(autoHideTimer.value);
     autoHideTimer.value = setTimeout(() => {
       hideToast();
     }, 3000);
   }
 });
 </script>
+
 
 <style scoped>
 .toast-container {
@@ -86,6 +90,7 @@ watch(() => toastStore.toastMessage, (newVal) => {
     opacity: 0;
     transform: translateX(100%);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -97,6 +102,7 @@ watch(() => toastStore.toastMessage, (newVal) => {
     opacity: 1;
     transform: translateX(0);
   }
+
   100% {
     opacity: 0;
     transform: translateX(100%);

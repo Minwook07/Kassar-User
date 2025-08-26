@@ -155,7 +155,7 @@
                     :key="promotion.id"
                     class="position-absolute top-0 start-0 mt-3 ms-3 bg-success text-white px-2 py-1 rounded-pill"
                   >
-                    {{ promotion.promotions.discount_rate }} %
+                    {{ promotion.promotions?.discount_rate }} %
                   </div>
                   <button 
                     class="position-absolute top-0 end-0 mt-3 me-3 btn btn-light rounded-circle p-1"

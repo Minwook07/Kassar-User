@@ -248,12 +248,13 @@ const onSaveSeller = () => {
   axios.post('/api/seller_requests', frmData, {
     headers: {
       'Authorization': `Bearer ${token}`,
-      'Accept': 'application/json',  // Ensure the server expects JSON response
+      'Accept': 'application/json',  
       'Content-Type': 'multipart/form-data'
     }
   })
     .then((res) => {
       sellerStore.onLoadSeller();
+      onClear()
       if (sellerStore.toast_alert) {
         sellerStore.toast_alert.show();
       }

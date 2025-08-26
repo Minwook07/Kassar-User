@@ -72,10 +72,10 @@ const handleSave = () => {
             canvas.toBlob(async (blob) => {
                 try {
                     const data = await infoProfileStore.onUpdateAvatar(blob)
-                    toastStore.showToast('បានកែប្រែរូបភាពដោយជោគជ័យ');
+                    toastStore.showToast('បានកែប្រែរូបភាពដោយជោគជ័យ', 'success');
                     emit('save', data)
                 } catch (err) {
-                    toastStore.showToast('បរាជ័យក្នុងការផ្ទុករូបភាព');
+                    toastStore.showToast('បរាជ័យក្នុងការផ្ទុករូបភាព', 'error');
                 }
             }, 'image/jpeg', 0.8)
         }

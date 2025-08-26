@@ -4,7 +4,7 @@
             <h4 class="fw-semibold">ការកំណត់គណនី</h4>
         </div>
         <div class="tab-body">
-            <div class="profile-section">
+            <div class="profile-section d-block d-lg-flex justify-content-between align-items-center">
                 <div class="profile-info">
                     <div class="avatar-section">
                         <img :src="infoProfileStore.avatarUrl" :key="infoProfileStore.avatarUrl" alt="Profile"
@@ -28,10 +28,10 @@
                     </div>
                 </div>
 
-                <div class="seller-section">
-                    <button class="btn-seller">
+                <div class="seller-section mt-4 mt-lg-0">
+                    <RouterLink to="/seller" class="btn-seller text-decoration-none">
                         <i class="fas fa-store"></i>ចុះឈ្មោះជាអ្នកលក់
-                    </button>
+                    </RouterLink>
                 </div>
             </div>
 
@@ -94,7 +94,6 @@ const infoProfileStore = useInfoProfile()
 const toastStore = useToastStore()
 const showThumbnailOptions = ref(false)
 
-// Fixed: This should be a function, not a variable assignment
 const showEditModal = () => {
     infoProfileStore.mdl_edit_confirm.show()
     infoProfileStore.frm.name || ''
@@ -128,7 +127,7 @@ const handleUpload = () => {
 const handleRemove = async () => {
     try {
         await infoProfileStore.onRemoveAvatar()
-        toastStore.showToast('បានលុបរូបភាពជោគជ័យ');
+        toastStore.showToast('បានលុបរូបភាពជោគជ័យ', 'success');
     } catch (err) {
         console.error('Remove fail', err)
     }
@@ -157,9 +156,6 @@ onUnmounted(() => {
 
 <style scoped>
 .profile-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid #e5e7eb;

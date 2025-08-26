@@ -5,7 +5,7 @@ import router from "@/router"
 export const useAllVideos = defineStore("views/videoFeed", {
   state: () => ({
     mdl_term: null,
-    videoArr: null,
+    videoArr: [],
     lastVideoId: null,
     fiestVideoId: null,
     lastIndexVideoArr: null,
@@ -19,25 +19,34 @@ export const useAllVideos = defineStore("views/videoFeed", {
       }
     },
 
-    onloadVideoFilter(per_page = 8, page = 1) {
-      axios.get(`/api/posts?per_page=${per_page}&page=${page}`).then((response) => {
-        this.videoArr = response.data.data
-      })
-    },
-    onloadVideo() {
-      axios.get(`/api/posts?sdir=desc`).then((response) => {
-        this.lastIndexVideoArr = response.data.data.length - 1
-        this.videoArr = response.data.data
-          this.lastVideoId = this.videoArr[0].id
-        //   console.log(this.videoArr);
-          
-      })
+    async onloadVideoFilter(per_page = 8, page = 1) {
+      try {
+        const response = await axios.get(`/api/posts?per_page=${per_page}&page=${page}`);
+        this.videoArr = response.data?.data || [];
+      } catch (error) {
+        this.videoArr = []; // fallback so template still renders
+      }
     },
 
-    onloadVideoFilterId(id) {
-      axios.get(`/api/posts/${id}`).then((response) => {
-        this.videoArr = response.data.data
-      })
+    async onloadVideo() {
+      try {
+        const response = await axios.get(`/api/posts?sdir=desc`);
+        this.videoArr = response.data.data || [];
+        this.lastIndexVideoArr = this.videoArr.length - 1;
+        this.lastVideoId = this.videoArr.length ? this.videoArr[0].id : null;
+      } catch (error) {
+        this.videoArr = [];
+        this.lastVideoId = null;
+      }
+    },
+
+    async onloadVideoFilterId(id) {
+      try {
+        const response = await axios.get(`/api/posts/${id}`);
+        this.videoArr = response.data.data || [];
+      } catch (error) {
+        this.videoArr = [];
+      }
     },
 
     addToCart(id) {
@@ -92,7 +101,7 @@ export const useAllVideos = defineStore("views/videoFeed", {
       })
     },
     postComment(id, comment) {
-            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       return axios
         .post(
           `api/comments/${id}`,
@@ -109,7 +118,7 @@ export const useAllVideos = defineStore("views/videoFeed", {
         })
     },
     deleteComment(id) {
-            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       return axios
         .delete(`api/comments/${id}`, {
           headers: {

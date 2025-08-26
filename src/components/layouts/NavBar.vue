@@ -114,6 +114,11 @@
               <h6 class="m-0">ទំព័រដើម</h6>
             </RouterLink>
           </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link d-flex align-items-center" to="/allproducts">
+              <h6 class="m-0">ផលិតផល</h6>
+            </RouterLink>
+          </li>
           <li class="nav-item position-relative category-dropdown">
             <RouterLink class="nav-link btn-dropdown d-flex align-items-center" to="" type="button">
               <h6 class="m-0">ប្រភេទផលិតផល</h6>
@@ -127,11 +132,6 @@
                 }">{{ category.name }}</RouterLink>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link d-flex align-items-center" to="/allproducts">
-              <h6 class="m-0">ផលិតផល</h6>
-            </RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link d-flex align-items-center" to="/about">
@@ -177,6 +177,9 @@
           <RouterLink to="">វីដេអូ</RouterLink>
         </li>
         <li class="nav-item">
+          <RouterLink to="/allproducts">ផលិតផល</RouterLink>
+        </li>
+        <li class="nav-item">
           <a class="bg-transparent w-100 d-flex justify-content-between align-items-center" @click="toggleCollapse">
             <span>ប្រភេទផលិតផល</span>
             <i class="bi bi-chevron-down ms-1 fs-6 pt-1"></i>
@@ -185,16 +188,13 @@
         <div class="collapse" id="categoryCollapse">
           <ul class="category-list list-unstyled">
             <li v-for="category in categoryStore.categories" :key="category.id">
-                <RouterLink class="dropdown-item" :to="{
-                  path: '/allproducts',
-                  query: { category_id: category.id }
-                }">{{ category.name }}</RouterLink>
-              </li>
+              <RouterLink class="dropdown-item" :to="{
+                path: '/allproducts',
+                query: { category_id: category.id }
+              }">{{ category.name }}</RouterLink>
+            </li>
           </ul>
         </div>
-        <li class="nav-item">
-          <RouterLink to="/allproducts">ផលិតផល</RouterLink>
-        </li>
         <li class="nav-item">
           <RouterLink to="/cart">កន្ត្រក</RouterLink>
         </li>

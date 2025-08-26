@@ -7,6 +7,21 @@
                     <button type="button" class="btn-close" @click="hideModal"></button>
                 </div>
                 <div class="modal-body">
+                    <div v-if="errorMessage" class="alert alert-danger d-flex justify-content-between">
+                        <div>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ errorMessage }}
+                        </div>
+                        <button type="button" class="btn-close" @click="errorMessage = ''"></button>
+                    </div>
+
+                    <div v-if="successMessage" class="alert alert-success d-flex justify-content-between">
+                        <div>
+                            <i class="fas fa-check-circle"></i>
+                            {{ successMessage }}
+                        </div>
+                        <button type="button" class="btn-close" @click="successMessage = ''"></button>
+                    </div>
                     <div class="text-center mb-4">
                         <i class="fas fa-exclamation-triangle text-danger fa-3x mb-3"></i>
                         <p class="mb-3">សូមបញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្នសម្រាប់បញ្ជាក់ការលុបគណនី.</p>
@@ -37,12 +52,19 @@
 <script setup>
 import axios from 'axios';
 import { Modal } from 'bootstrap';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useInfoProfile } from '@/stores/views/profile_store'
+import { useToastStore } from '@/stores/toast_store';
+import { useAuthStore } from '@/stores/auth_store';
 
-const infoProfileStore = useInfoProfile()
 const router = useRouter()
+const errorMessage = ref('')
+const successMessage = ref('')
+const infoProfileStore = useInfoProfile()
+const toastStore = useToastStore()
+const authStore = useAuthStore()
+
 
 onMounted(() => {
     infoProfileStore.mdl_delete = Modal.getOrCreateInstance(document.getElementById('mdl-delete'))
@@ -53,35 +75,36 @@ const hideModal = () => {
         infoProfileStore.mdl_delete.hide()
     }
     infoProfileStore.del_frm.password = ''
+    errorMessage.value = ''
+    successMessage.value = ''
 }
 
 const onDelete = () => {
     if (!infoProfileStore.del_frm.password.trim()) {
-        alert('Please enter your password to confirm deletion.')
+        errorMessage.value = 'សូមបញ្ចូលពាក្យសម្ងាត់!'
         return
     }
 
     axios.post('/api/profile/delete', {
         password: infoProfileStore.del_frm.password
     })
-        .then((res) => {
+        .then(() => {
             infoProfileStore.mdl_delete.hide()
             infoProfileStore.del_frm.password = ''
 
-            localStorage.removeItem('token')
-            sessionStorage.removeItem('token')
+            authStore.logout()
 
             infoProfileStore.frm = {}
             infoProfileStore.roles = []
-            alert('គណនីលុបបានដោយជោគជ័យ')
+
+            toastStore.showToast('គណនីត្រូវបានលុបដោយជោគជ័យ!')
             router.push('/')
         })
         .catch((err) => {
-            console.error('Delete account error:', err)
             if (err.response?.data?.message) {
-                alert(err.response.data.message)
+                errorMessage.value = 'ពាក្យសម្ងាត់មិនត្រឹមត្រូវ! សូមព្យាយាមម្តងទៀត.'
             } else {
-                alert('បរាជ័យក្នុងការលុបគណនី! សូមព្យាយាមម្តងទៀត.')
+                errorMessage.value = 'បរាជ័យក្នុងការលុបគណនី! សូមព្យាយាមម្តងទៀត.'
             }
         });
 }

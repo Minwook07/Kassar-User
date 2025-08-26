@@ -206,7 +206,6 @@ const updatePassword = async () => {
 </script>
 
 <style scoped>
-
 .input-group {
     display: flex;
 }
