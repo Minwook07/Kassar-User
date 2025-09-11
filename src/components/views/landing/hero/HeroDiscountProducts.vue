@@ -28,6 +28,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const allProduct = useAllProducts();
+
 onMounted(() => {
     allProduct.onloadDiscountProduct(2, 1, 'asc');
 
