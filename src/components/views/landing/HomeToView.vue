@@ -44,4 +44,12 @@ import BlogView from './BlogView.vue';
 import VideoReel from './VideoReel.vue';
 import LatestProducts from './LatestProducts.vue';
 import BestSellProducts from './BestSellProducts.vue';
+import { useAllProducts } from '@/stores/views/allProduct_store';
+import { onMounted } from 'vue';
+
+const allProduct = useAllProducts()
+
+onMounted(() => {
+    allProduct.onloadProduct()
+})
 </script>
