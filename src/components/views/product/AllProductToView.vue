@@ -26,11 +26,11 @@
             <h5 class="fw-bold mb-3">ប្រភេទ</h5>
             <div v-for="category in categoryStore.categories" :key="category.id">
               <div class="mb-2 myform-check form-check">
-                <input @change="handleCategory" v-model="selectedCategory" type="radio" :value="category.id"
-                  :id="'radio-' + category.id" class="form-check-input shadow-none" />
-                <label class="form-check-label" :for="'radio-' + category.id">{{
-                  category.name
-                }}</label>
+                <input @change="() => selectCategory(category.id)" v-model="selectedCategory" type="radio"
+                  :value="category.id" :id="'radio-' + category.id" class="form-check-input shadow-none" />
+                <label class="form-check-label" :for="'radio-' + category.id">
+                  {{ t('categories.' + category.name) }}
+                </label>
               </div>
             </div>
             <hr />
@@ -131,65 +131,44 @@
 
           <!-- Products grid -->
           <div class="row g-4" v-else-if="productArr.length > 0">
-            <div 
-              class="col-12 col-sm-6 col-md-4 col-lg-3" 
-              data-aos="fade-up"
-              v-for="product in allproducts.productArr" 
-              :key="product.id"
-            >
-              <div 
-                class="card h-100 border-0 shadow-sm product-card"
-                @click="goToDetail(product.id)"
-                style="cursor: pointer;"
-              >
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" data-aos="fade-up" v-for="product in productArr || []"
+              :key="product.id">
+              <div class="card h-100 border-0 shadow-sm product-card" @click="goToDetail(product.id)"
+                style="cursor: pointer;">
                 <div class="position-relative p-3">
-                  <img 
-                    :src="product.product_thumbnail" 
-                    alt="" 
-                    class="card-img-top rounded"
-                    style="height: 180px; object-fit: cover;"
-                    loading="lazy"
-                  />
-                  <div 
-                    v-for="promotion in product.promotions" 
-                    :key="promotion.id"
-                    class="position-absolute top-0 start-0 mt-3 ms-3 bg-success text-white px-2 py-1 rounded-pill"
-                  >
+                  <img :src="product.product_thumbnail" alt="" class="card-img-top rounded"
+                    style="height: 180px; object-fit: cover;" loading="lazy" />
+                  <div v-for="promotion in product.promotions" :key="promotion.id"
+                    class="position-absolute top-0 start-0 mt-3 ms-3 bg-success text-white px-2 py-1 rounded-pill">
                     {{ promotion.promotions?.discount_rate }} %
                   </div>
-                  <button 
-                    class="position-absolute top-0 end-0 mt-3 me-3 btn btn-light rounded-circle p-1"
-                    style="width: 35px; height: 35px;"
-                    @click.stop="toggleFav(product.id)"
-                  >
-                    <i 
-                      :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"
-                      class="text-danger"
-                    ></i>
+                  <button class="position-absolute top-0 end-0 mt-3 me-3 btn btn-light rounded-circle p-1"
+                    style="width: 35px; height: 35px;" @click.stop="toggleFav(product.id)">
+                    <i :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'" class="text-danger"></i>
                   </button>
                 </div>
-                
+
                 <div class="card-body">
                   <div class="d-flex justify-content-between mb-2">
                     <p class="text-success mb-0">
-                      {{ product.category.name }}
+                      {{ t('categories.' + product.category.name) }}
                     </p>
                     <p class="mb-0">
                       <i class="bi bi-star-fill text-warning me-1"></i>{{ product.rating.average }}
                     </p>
                   </div>
-                  
+
                   <h5 class="fw-bold mb-2">{{ product.name }}</h5>
                   <p class="text-secondary mb-3 small product-description">
                     {{ product.description }}
                   </p>
-                  
+
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
                       <div v-if="product.price && product.price.has_discount !== false">
                         <p class="text-success fw-bold mb-0">
                           {{ product.price.discounted_price }}<sup>៛</sup> /
-                          {{ product.product_units.name }}
+                          {{ t('product_units.' + product.product_units.name) }}
                         </p>
                         <span class="text-decoration-line-through text-secondary small">
                           {{ product.price.original }}<sup>៛</sup>
@@ -197,7 +176,7 @@
                       </div>
                       <p class="text-success fw-bold mb-0" v-else>
                         {{ product.price.original }}<sup>៛</sup> /
-                        {{ product.product_units.name }}
+                        {{ t('product_units.' + product.product_units.name) }}
                       </p>
                     </div>
                     <button class="btn btn-success rounded-pill" @click.stop="AddToCart(product.id)">
@@ -210,7 +189,7 @@
             <paginate :page-count="pageCount" :click-handler="handlePageClick" prev-text="‹" next-text="›"
               container-class="pagination" />
           </div>
-          
+
           <!-- No products message -->
           <div v-else class="col-12 d-flex flex-column align-items-center justify-content-center text-center">
             <img src="@/assets/images/empty-box-agriculture.svg" alt="No products" class="mb-4"
@@ -233,6 +212,7 @@
 
 <script setup>
 import { computed, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 import Paginate from "vuejs-paginate-next";
 import { useRouter } from "vue-router";
 import ToastView from "../toast/ToastView.vue";
@@ -242,6 +222,8 @@ import { useRoute } from "vue-router";
 import ProductSkeleton from '@/components/views/product/ProductSkeleton.vue';
 import { useCardStore } from "@/stores/card_store";
 import { storeToRefs } from "pinia";
+
+const { t } = useI18n()
 
 const cartListStore = useCardStore();
 const categoryStore = useCategoryStore();
@@ -279,11 +261,11 @@ async function toggleFav(id) {
   }
 }
 
-async function AddToCart (id) {
-    const result = await allproducts.addToCart(id);
-    if(result){
-        cartListStore.onLoadCart();
-    }
+async function AddToCart(id) {
+  const result = await allproducts.addToCart(id);
+  if (result) {
+    cartListStore.onLoadCart();
+  }
 }
 
 const handleSearch = () => {
@@ -291,17 +273,15 @@ const handleSearch = () => {
   allproducts.GetAllProducts();
 };
 
-const handleCategory = () => {
-  currentPage.value = 1;
+const selectCategory = async (categoryId) => {
+  selectedCategory.value = categoryId;
   router.push({
     path: '/allproducts',
-    query: {
-      ...route.query,
-      category_id: selectedCategory.value
-    }
+    query: { ...route.query, category_id: categoryId }
   });
-  allproducts.GetAllProducts();
+  await allproducts.GetAllProducts();
 };
+
 
 const pageCount = computed(() =>
   Math.max(1, Math.ceil(totalProducts.value / itemsPerPage.value))
