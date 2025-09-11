@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 
 export const useCardStore = defineStore("card_store", {
   state: () => ({
+    token: localStorage.getItem("token") || sessionStorage.getItem("token"),
     frm_add: {
       province: '',
       district: '',
@@ -49,24 +50,34 @@ export const useCardStore = defineStore("card_store", {
   },
 
   actions: {
+    setToken(token) {
+      this.token = token;
+      localStorage.setItem("token", token);
+    },
+
+    clearToken() {
+      this.token = null;
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
+    },
 
     async onLoadAddress() {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    
+      if (!this.token) return;
+
       try {
 
         // Make API request
         const response = await axios.get(`/api/address?t=${new Date().getTime()}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${this.token}`,
           },
         });
-    
+
         const addresses = response.data.addresses;
-    
+
         if (Array.isArray(addresses) && addresses.length > 0) {
           const lastAddress = addresses[addresses.length - 1];
-    
+
           this.cartAddresses = [lastAddress];
         }
       } catch (error) {
@@ -74,27 +85,28 @@ export const useCardStore = defineStore("card_store", {
     },
 
     onLoadCart() {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-      if (token) {
-        axios.get('api/cart', { headers: { Authorization: `Bearer ${token}` } })
-          .then((res) => {
-            this.cartLists = res.data.data;
-            this.cartLists.forEach(cartItem => {
-              this.cartCounts[cartItem.id] = parseInt(cartItem.qty, 10);
-            });
-          })
-      }
+      if (!this.token) return;
+
+      axios.get('api/cart', {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      })
+        .then((res) => {
+          this.cartLists = res.data.data;
+          this.cartLists.forEach(cartItem => {
+            this.cartCounts[cartItem.id] = parseInt(cartItem.qty, 10);
+          });
+        })
     }
     ,
     onLoadFav() {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      if (!this.token) return;
 
-      if (token) {
-        axios.get('api/favorites', { headers: { Authorization: `Bearer ${token}` } })
-          .then((res) => {
-            this.countFavItem = res.data.data.length;
-          })
-      }
+      axios.get('api/favorites', { headers: { Authorization: `Bearer ${this.token}` } })
+        .then((res) => {
+          this.countFavItem = res.data.data.length;
+        })
     }
     ,
 
@@ -106,15 +118,9 @@ export const useCardStore = defineStore("card_store", {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
     },
 
-    // Update cart item quantity'
-    // updateQuantity(id, quantity) {
-    //   if (quantity < 1) return;  
-    //   this.cartCounts[id] = quantity;
-    // },
     async updateQuantity(id, quantity) {
-      if (quantity < 1) return;    // guard
+      if (quantity < 1 || !this.token) return;    // guard
 
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       try {
         // Send both required fields: product_id and qty
         // We read product_id from the existing cartList entry.
@@ -127,7 +133,7 @@ export const useCardStore = defineStore("card_store", {
             product_id: existing.product.id,
             qty: quantity,
           },
-          { headers: { Authorization: `Bearer ${token}` } }
+          { headers: { Authorization: `Bearer ${this.token}` } }
         );
 
         // Only on success do we update local state:

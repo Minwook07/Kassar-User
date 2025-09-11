@@ -32,8 +32,8 @@ export const useProfileStore = defineStore('profile', () => {
       const response = await axios.get('/api/profile', {
         headers: { Authorization: `Bearer ${getToken()}` }
       });
-      profile.value = response.data.data;
-      return response.data.data;
+      profile.value = response.data.data.user;
+      return response.data.data.user;
     } catch (err) {
       error.value = err.response?.data?.message || 'បរាជ័យក្នុងការទាញយកប្រវត្តិរូប';
       throw err;

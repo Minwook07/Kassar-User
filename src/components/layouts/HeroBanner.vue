@@ -11,7 +11,7 @@
                             <RouterLink class="nav-link category-link" :to="{
                                 path: '/allproducts',
                                 query: { category_id: category.id }
-                                }">{{ category.name }}
+                            }">{{ t('categories.' + category.name) }}
                             </RouterLink>
                         </li>
                     </ul>
@@ -64,15 +64,16 @@
                                     <span class="badge rounded-2 text-bg-success ms-1">ផលិតផលចុងក្រោយបំផុត</span>
                                 </div>
                                 <div class="products-wrapper row align-items-center pt-3 ">
-                                    <div class="product col-4 col-md-3" v-for="product in allProduct.latestPro.slice(0, 4)"
-                                        :key="product.id" @click="goToDetail(product.id)">
+                                    <div class="product col-4 col-md-3"
+                                        v-for="product in allProduct.latestPro.slice(0, 4)" :key="product.id"
+                                        @click="goToDetail(product.id)">
                                         <div class="latest_product_img">
                                             <img class="latest_product_img" :src="product.product_thumbnail" alt="">
                                         </div>
                                         <div
                                             class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                             <p class="m-0 name">{{ product.name }}</p>
-                                            <span class="text-primary">{{ product.price.discounted_price }} រៀល</span>
+                                            <span class="text-primary">{{ product.price?.discounted_price }} រៀល</span>
                                         </div>
                                     </div>
 
@@ -87,12 +88,10 @@
                                     class="bi bi-collection-play-fill fs-5 text-primary"></i>
                             </div>
                             <div class="hero-video-wrapper">
-                                <swiper :modules="[Pagination, Autoplay]" :grab-cursor="true" :loop="true" :pagination="{
-                                    clickable: true,
-                                }" class="mySwiper" :autoplay="{
-                                    delay: 4500,
-                                    disableOnInteraction: false,
-                                }" :direction="'vertical'">
+                                <swiper :loop="allVideos.videoArr.length > 2" :modules="[Pagination, Autoplay]"
+                                    :grab-cursor="true" :pagination="{ clickable: true }"
+                                    :autoplay="{ delay: 4500, disableOnInteraction: false }" direction="vertical">
+
                                     <swiper-slide v-for="video in allVideos.videoArr" :key="video.id">
                                         <div class="d-flex" @click="goToVideoDetail(video.id)">
                                             <RouterLink class="video w-50 rounded-3 overflow-hidden" to="">
@@ -111,8 +110,8 @@
                                                 </div>
                                                 <div class="price">
                                                     <p class="text-secondary fw-bolder fs-4" v-if="video.product">
-                                                        {{ video.product?.price.discounted_price }} រៀល / <span
-                                                            class="fs-5">{{ video.product?.product_units.name }}</span>
+                                                        {{ video.product?.price?.discounted_price }} រៀល / <span
+                                                            class="fs-5">{{ video.product?.product_units?.name }}</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -126,7 +125,7 @@
                         <div class="hero-discount product-hero d-flex">
                             <div class="product w-50 rounded-3 shadow-sm py-2 px-3 h-100
                             d-flex flex-column justify-content-between align-items-center "
-                                v-for="product in allProduct.discountPro.slice(0,2)" :key="product.id"
+                                v-for="product in allProduct.discountPro.slice(0, 2)" :key="product.id"
                                 @click="goToDetail(product.id)">
                                 <div class="title w-100 d-flex align-items-center justify-content-start mb-2">
                                     <p class="m-0 fw-semibold text-secondary">បញ្ចុះតម្លៃ</p>
@@ -137,7 +136,9 @@
                                 </div>
                                 <div class="detail d-flex flex-column justify-content-center align-items-center pt-2">
                                     <p class="m-0 name">{{ product.name }}</p>
-                                    <span>{{ product.price.discounted_price }} រៀល</span>
+                                    <span>{{ product.price?.discounted_price }} រៀល</span>
+                                    <span class="text-decoration-line-through text-danger small">{{
+                                        product.price?.original }} រៀល</span>
                                 </div>
                             </div>
                         </div>
@@ -152,6 +153,7 @@
 import 'bootstrap/dist/js/bootstrap.bundle'
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { useI18n } from 'vue-i18n';
 import "swiper/css";
 import "swiper/css/pagination";
 import router from '@/router';
@@ -160,6 +162,7 @@ import { useAllVideos } from '@/stores/views/videoFeed_store';
 import { useAllProducts } from '@/stores/views/allProduct_store';
 import { useCategoryStore } from '@/stores/views/categories_store';
 
+const { t } = useI18n()
 const allVideos = useAllVideos();
 const allProduct = useAllProducts();
 const categoryStore = useCategoryStore();

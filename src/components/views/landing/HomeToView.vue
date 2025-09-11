@@ -57,7 +57,7 @@
                                             <div v-if="product.price && product.price.has_discount !== false">
                                                 <p class="text-success fw-bold mb-0">
                                                     {{ product.price.discounted_price }} រៀល /
-                                                    {{ product.product_units.name }}
+                                                    {{ t('product_units.' + (product.product_units?.name || '')) }}
                                                 </p>
                                                 <span class="text-decoration-line-through text-danger small">
                                                     {{ product.price.original }} រៀល
@@ -65,7 +65,7 @@
                                             </div>
                                             <p class="text-success fw-bold mb-0" v-else>
                                                 {{ product.price.original }} រៀល /
-                                                {{ product.product_units.name }}
+                                                {{ t('product_units.' + (product.product_units?.name || '')) }}
                                             </p>
                                         </div>
                                         <button class="btn btn-success rounded-pill"
@@ -121,7 +121,7 @@
                                             <div v-if="product.price && product.price.has_discount !== false">
                                                 <p class="text-success fw-bold mb-0">
                                                     {{ product.price.discounted_price }}<sup>៛</sup> /
-                                                    {{ product.product_units.name }}
+                                                    {{ t('product_units.' + (product.product_units?.name || '')) }}
                                                 </p>
                                                 <span class="text-decoration-line-through text-secondary small">
                                                     {{ product.price.original }}<sup>៛</sup>
@@ -129,7 +129,7 @@
                                             </div>
                                             <p class="text-success fw-bold mb-0" v-else>
                                                 {{ product.price.original }}<sup>៛</sup> /
-                                                {{ product.product_units.name }}
+                                                {{ t('product_units.' + (product.product_units?.name || '')) }}
                                             </p>
                                         </div>
                                         <button class="btn btn-success rounded-pill">
@@ -240,11 +240,14 @@
 <script setup>
 import HeroBanner from '@/components/layouts/HeroBanner.vue';
 import { useAllProducts } from '@/stores/views/allProduct_store';
+import { useI18n } from 'vue-i18n';
 import ToastView from '../toast/ToastView.vue';
 import { onMounted } from 'vue';
 import router from '@/router';
 import { useAllVideos } from '@/stores/views/videoFeed_store';
 import { useCardStore } from '@/stores/card_store';
+
+const { t } = useI18n()
 const allProduct = useAllProducts();
 const allVideos = useAllVideos();
 const cartListStore = useCardStore();

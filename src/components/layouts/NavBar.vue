@@ -65,7 +65,14 @@
                     <img :src="profileStore.profile.avatar" alt="">
                   </div>
                   <div class="name ms-2">
-                    <h6 class="text-secondary m-0 fw-bold"><span>{{ profileStore.profile.name }}</span></h6>
+                    <h6 class="text-secondary m-0 fw-bold"><span>
+                        {{
+                          profileStore.profile?.roles?.length &&
+                            profileStore.profile.roles[0].name === 'role_seller_user'
+                            ? profileStore.profile.shop_name
+                        : profileStore.profile?.name
+                        }}
+                      </span></h6>
                     <p class="text-muted m-0" style="font-size: 12px;">{{ profileStore.profile.email }}</p>
                   </div>
                 </RouterLink>
@@ -129,7 +136,7 @@
                 <RouterLink class="dropdown-item" :to="{
                   path: '/allproducts',
                   query: { category_id: category.id }
-                }">{{ category.name }}</RouterLink>
+                }">{{ t('categories.' + category.name) }}</RouterLink>
               </li>
             </ul>
           </li>
@@ -191,7 +198,7 @@
               <RouterLink class="dropdown-item" :to="{
                 path: '/allproducts',
                 query: { category_id: category.id }
-              }">{{ category.name }}</RouterLink>
+              }">{{ t('categories.' + category.name) }}</RouterLink>
             </li>
           </ul>
         </div>
@@ -214,6 +221,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import { useI18n } from "vue-i18n";
 import { Offcanvas, Collapse } from "bootstrap";
 import axios from "axios";
 import { useAllVideos } from '@/stores/views/videoFeed_store';
@@ -222,6 +230,7 @@ import { useRouter } from "vue-router";
 import { useCategoryStore } from "@/stores/views/categories_store";
 import { useProfileStore } from '@/stores/profile';
 
+const { t } = useI18n()
 const categoryStore = useCategoryStore();
 const profileStore = useProfileStore();
 const cartListStore = useCardStore();
@@ -345,16 +354,13 @@ const toggleCollapse = () => {
 };
 
 onMounted(() => {
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  if (token) {
+  if (token.value) {
     cartListStore.onLoadCart();
     cartListStore.onLoadFav();
     profileStore.fetchProfile();
   }
   allVideos.onloadVideoFilter();
   categoryStore.GetAllCategories();
-  cartListStore.onLoadFav();
-  cartListStore.onLoadCart();
   return
 });
 </script>

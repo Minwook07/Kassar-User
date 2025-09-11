@@ -230,6 +230,7 @@
   </section>
   <ToastView />
 </template>
+
 <script setup>
 import { computed, onMounted } from "vue";
 import Paginate from "vuejs-paginate-next";
