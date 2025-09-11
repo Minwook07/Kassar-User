@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <div class="seller-section mt-4 mt-lg-0">
+                <div v-if="!infoProfileStore.frm.roles?.some(role => role.name === 'role_seller_user')" class="seller-section mt-4 mt-lg-0">
                     <RouterLink to="/seller" class="btn-seller text-decoration-none">
                         <i class="fas fa-store"></i>ចុះឈ្មោះជាអ្នកលក់
                     </RouterLink>
@@ -55,10 +55,12 @@
                 </div>
 
                 <div class="info-item">
-                    <label>ប្រភេទគណនី</label>
+                    <label>ប្រភេទគណនី</label>                    
                     <div class="info-value">
-                        {{infoProfileStore.frm.roles.map(role => infoProfileStore.translateRole(role.name)).join(', ')
-                        }}
+                        {{infoProfileStore.frm.roles?.length
+                        ? infoProfileStore.frm.roles.map(role => t('roles.' + role.name)).join(', ')
+                        : t('roles.role_regular_user')
+                    }}
                     </div>
                 </div>
 
@@ -87,6 +89,9 @@
 import { ref, onMounted, onUnmounted, defineEmits } from 'vue'
 import { useInfoProfile } from '@/stores/views/profile_store'
 import { useToastStore } from '@/stores/toast_store'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const emit = defineEmits(['open-cropper'])
 

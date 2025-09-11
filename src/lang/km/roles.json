@@ -1,5 +1,5 @@
 {
-  "admin": "អ្នកគ្រប់គ្រង",
-  "user": "អ្នកប្រើប្រាស់",
-  "guest": "ធម្មតា"
+  "role_regular_user": "ធម្មតា",
+  "role_seller_user": "អ្នកលក់",
+  "role_system_admin": "អ្នកគ្រប់គ្រង"
 }
