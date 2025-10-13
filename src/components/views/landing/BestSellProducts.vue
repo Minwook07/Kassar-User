@@ -3,7 +3,7 @@
         <div v-if="allProduct.products.length > 0" class="col-12 col-sm-6 col-md-4 col-lg-3" data-aos="fade-up"
             v-for="product in allProduct.products" :key="product.id">
             <div class="card h-100 border-0 shadow-sm product-card" @click="goToDetail(product.id)"
-                style="cursor: pointer;">
+                style="cursor: pointer!important;">
                 <div class="position-relative p-3">
                     <img :src="product.product_thumbnail" alt="" class="card-img-top rounded"
                         style="height: 180px; object-fit: cover;" />

@@ -131,7 +131,7 @@
 
           <!-- Products grid -->
           <div class="row g-4" v-else-if="productArr.length > 0">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3" data-aos="fade-up" v-for="product in productArr || []"
+            <div class="col-12 col-sm-6 col-md-4" data-aos="fade-up" v-for="product in productArr || []"
               :key="product.id">
               <div class="card h-100 border-0 shadow-sm product-card" @click="goToDetail(product.id)"
                 style="cursor: pointer;">

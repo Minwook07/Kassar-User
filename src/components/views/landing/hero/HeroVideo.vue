@@ -41,10 +41,12 @@
 <script setup>
 import { onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { useRouter } from 'vue-router';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { useAllVideos } from '@/stores/views/videoFeed_store';
 
 const allVideos = useAllVideos();
+const router = useRouter()
 
 onMounted(() => {
     allVideos.onloadVideoFilter();

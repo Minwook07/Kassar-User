@@ -43,7 +43,7 @@
             <div class="product-header mb-4">
               <div class="category-badge mb-3">
                 <span class="badge bg-primary/10 text-primary border border-primary rounded-pill px-3 py-2 fw-medium">
-                  <i class="bi bi-tag me-1"></i>{{ detailProducts.product?.category?.name || '' }}
+                  <i class="bi bi-tag me-1"></i>{{ t('categories.' + (detailProducts.product?.category?.name)) }}
                 </span>
               </div>
 
@@ -89,8 +89,8 @@
                 </div>
               </div>
               <div class="unit-info mt-2">
-                <small class="text-muted-foreground">ក្នុង {{ detailProducts.product?.product_units?.name || ''
-                  }}</small>
+                <small class="text-muted-foreground">ក្នុង 1 {{ t('product_units.' +
+                  (detailProducts.product?.product_units?.name)) }}</small>
               </div>
             </div>
 
@@ -136,7 +136,7 @@
                   </button>
                 </div>
                 <small class="text-muted-foreground mt-2 d-block">មានស្តុក {{ detailProducts.product?.qty_in_stock || 0
-                  }} ដុំ</small>
+                }} {{ t('product_units.' + (detailProducts.product?.product_units?.name)) }}</small>
               </div>
 
               <div class="action-buttons d-flex gap-3">
@@ -194,7 +194,7 @@
                       <i class="bi bi-shop text-primary fs-4"></i>
                     </div>
                     <div>
-                      <h6 class="fw-bold mb-1 text-foreground">ហាងផ្លូវការ</h6>
+                      <h6 class="fw-bold mb-1 text-foreground">{{ shops_store.shops.shop_name }}</h6>
                       <small class="text-muted-foreground">ទំនុកចិត្ត 99.8%</small>
                     </div>
                   </div>
@@ -204,7 +204,7 @@
                       <small class="text-muted-foreground">ការវាយតម្លៃ</small>
                     </div>
                     <div>
-                      <div class="fw-bold text-primary">1.2k+</div>
+                      <div class="fw-bold text-primary">{{ shops_store.shops.total_products }}+</div>
                       <small class="text-muted-foreground">ផលិតផល</small>
                     </div>
                     <div>
@@ -328,7 +328,7 @@
                     <!-- Discount Badge -->
                     <div v-for="promotion in related_product.promotions" :key="promotion.id"
                       class="discount-badge position-absolute top-0 start-0 m-2">
-                      {{ promotion.promotions.discount_rate }}%
+                      {{ promotion.discount_rate }}%
                     </div>
 
                     <!-- Favorite Button -->
@@ -341,7 +341,7 @@
 
                   <div class="card-body p-3">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                      <span class="category-tag">{{ related_product.category.name }}</span>
+                      <span class="category-tag">{{ t('categories.' + (related_product.category.name)) }}</span>
                       <div class="rating-small">
                         <i class="bi bi-star-fill text-warning"></i>
                         <span class="small">4.9</span>
@@ -357,21 +357,38 @@
                     </p>
 
                     <div class="d-flex justify-content-between align-items-center">
-                      <div class="price-info">
+                      <div>
+                        <div v-if="related_product.price && related_product.price.has_discount !== false">
+                          <p class="text-success fw-bold mb-0">
+                            {{ related_product.price.discounted_price }} រៀល /
+                            {{ t('product_units.' + (related_product.product_units?.name || '')) }}
+                          </p>
+                          <span class="text-decoration-line-through text-danger small">
+                            {{ related_product.price.original }} រៀល
+                          </span>
+                        </div>
+                        <p class="text-success fw-bold mb-0" v-else>
+                          {{ related_product.price.original }} រៀល /
+                          {{ t('product_units.' + (related_product.product_units?.name || '')) }}
+                        </p>
+                      </div>
+
+                      <!-- <div class="price-info">
                         <div v-if="related_product.price && related_product.price.has_discount !== false">
                           <div class="current-price text-success fw-bold">
-                            {{ related_product.price.discounted_price }}<sup>៛</sup>
+                            {{ related_product.price.discounted_price }} រៀល
                           </div>
                           <div class="original-price text-decoration-line-through text-muted small">
-                            {{ related_product.price.original }}<sup>៛</sup>
+                            {{ related_product.price.original }} រៀល
                           </div>
                         </div>
                         <div v-else class="current-price text-success fw-bold">
-                          {{ related_product.price.original }}<sup>៛</sup>
+                          {{ related_product.price.original }} រៀល
                         </div>
-                      </div>
+                      </div> -->
                       <button class="btn btn-success btn-sm rounded-pill px-3">
-                        <i class="bi bi-cart-plus"></i>
+                        <!-- <i class="bi bi-cart-plus"></i> -->
+                        <i class="bi bi-bag-fill me-1"></i>កន្ត្រក
                       </button>
                     </div>
                   </div>
@@ -389,9 +406,13 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
+import { useI18n } from 'vue-i18n'
 import { useRouter } from "vue-router";
 import ToastView from "../toast/ToastView.vue";
 import { useToastStore } from "@/stores/toast_store";
+import { useShopStore } from "@/stores/views/shops_store";
+
+const { t } = useI18n()
 
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const detailProducts = ref(null);
@@ -404,6 +425,7 @@ const toastStore = useToastStore();
 const activeImage = ref(null);
 const selectedImageUrl = ref("");
 const activeTab = ref('description');
+const shops_store = useShopStore()
 
 const id = ref(null);
 
@@ -505,9 +527,9 @@ const toggleFav = (FavProduct) => {
 };
 
 onMounted(() => {
+  shops_store.onlaodShop(1);
   topRatedPro();
 });
-
 const onChangeImage = (imgId, imageUrl) => {
   activeImage.value = imgId;
   selectedImageUrl.value = imageUrl;

@@ -16,7 +16,6 @@
                         <span class="text-primary">{{ product.price?.discounted_price }} រៀល</span>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -24,19 +23,19 @@
 
 <script setup>
 import { useAllProducts } from '@/stores/views/allProduct_store';
+import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 import "swiper/css";
 import "swiper/css/pagination";
 
+const router = useRouter()
 const allProduct = useAllProducts();
 onMounted(() => {
     allProduct.onloadLatestProduct(4, 1, 'desc');
-
 })
 
 const goToDetail = (id) => {
     router.push({ name: 'detailproduct', query: { id: id } });
     console.log(id);
-
 };
 </script>

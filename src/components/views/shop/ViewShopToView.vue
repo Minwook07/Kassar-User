@@ -6,7 +6,7 @@
           <div class="row col-10 col-md-8 gap-5">
             <div data-aos="fade-up-right"
               class="col-12 col-lg-6 pf-seller-main d-flex justify-content-center align-content-center bg-secondary-subtle rounded-4 position-relative">
-              <img :src="detailShop.image" alt="" class="pf-seller-avatar" />
+              <img :src="detailShop.avatar" alt="" class="pf-seller-avatar" />
               <p class="mb-0 bg-primary py-1 px-2 text-white position-absolute verify-status rounded">
                 បានផ្ទៀងផ្ទាត់
               </p>
@@ -86,7 +86,7 @@
                 <button class="nav-link" :id="`pills-${category.name}-tab`" data-bs-toggle="pill"
                   :data-bs-target="`#pills-${category.name}`" type="button" role="tab"
                   :aria-controls="`pills-${category.name}`" :aria-selected="false">
-                  {{ category.name }}
+                  {{ t('categories.' + (category.name)) }}
                 </button>
               </li>
             </ul>
@@ -104,7 +104,7 @@
                       <div class="p-3 card-body">
                         <div class="d-flex justify-content-between">
                           <p class="text-primary mb-1">
-                            {{ product.category.name }}
+                            {{ t('categories.' + (product.category.name)) }}
                           </p>
                           <p class="mb-1">
                             <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>{{
@@ -116,7 +116,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                           <p class="text-primary mb-0 fw-bold">
                             {{ product.price.original }} ៛ /{{
-                              product.product_units.name
+                              t('product_units.' + (product.product_units.name))
                             }}
                           </p>
                           <button @click.stop="AddToCart(product.id)" class="btn btn-primary rounded-pill"><i
@@ -157,7 +157,7 @@
                       <div class="p-3 card-body">
                         <div class="d-flex justify-content-between">
                           <p class="text-primary mb-1">
-                            {{ product.category.name }}
+                            {{ t('categories.' + (product.category.name)) }}
                           </p>
                           <p class="mb-1">
                             <span class="text-warning me-2"><i class="bi bi-star-fill"></i></span>
@@ -169,7 +169,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                           <p class="text-primary mb-0 fw-bold">
                             {{ product.price.original }} ៛ /{{
-                              product.product_units.name
+                              t('product_units.' + (product.product_units.name))
                             }}
                           </p>
                           <button @click.stop="AddToCart(product.id)" class="btn btn-primary rounded-pill"><i
@@ -232,6 +232,9 @@ import ToastView from "../toast/ToastView.vue";
 import { useToastStore } from "@/stores/toast_store";
 import { Toast } from "bootstrap";
 import axios from "axios";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n()
 const allProducts = ref([]);
 const detailShop = ref([]);
 const toastFav = ref(null);
@@ -257,7 +260,7 @@ const filteredProducts = (category) => {
 };
 const GetShopDetail = () => {
   const id = router.currentRoute.value.query.id;
-  axios.get(`/api/products/${id}/shop`).then((res) => {
+  axios.get(`/api/shops/${id}`).then((res) => {
     detailShop.value = res.data.data;
     if (detailShop.value) {
       getCountFollower(detailShop.value.id);
