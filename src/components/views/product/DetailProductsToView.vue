@@ -312,91 +312,7 @@
         </div>
 
         <!-- Similar Products Section -->
-        <div class="col-12">
-          <div class="similar-products-section">
-            <h4 class="section-title fw-bold mb-4">
-              <i class="bi bi-grid me-2 text-success"></i>ផលិតផលស្រដៀង
-            </h4>
-            <div class="row g-4">
-              <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="related_product in detailProducts.related_products"
-                :key="related_product.id">
-                <div class="product-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
-                  <div class="product-image-container position-relative">
-                    <img :src="related_product.product_thumbnail" alt="Product" class="product-image"
-                      @click="goToDetail(related_product.id)" />
-
-                    <!-- Discount Badge -->
-                    <div v-for="promotion in related_product.promotions" :key="promotion.id"
-                      class="discount-badge position-absolute top-0 start-0 m-2">
-                      {{ promotion.discount_rate }}%
-                    </div>
-
-                    <!-- Favorite Button -->
-                    <button class="favorite-overlay position-absolute top-0 end-0 m-2"
-                      @click.stop="toggleFav(related_product)">
-                      <i :class="related_product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"
-                        class="text-danger"></i>
-                    </button>
-                  </div>
-
-                  <div class="card-body p-3">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                      <span class="category-tag">{{ t('categories.' + (related_product.category.name)) }}</span>
-                      <div class="rating-small">
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <span class="small">4.9</span>
-                      </div>
-                    </div>
-
-                    <h6 class="product-name fw-semibold mb-2" @click="goToDetail(related_product.id)">
-                      {{ related_product.name }}
-                    </h6>
-
-                    <p class="product-description text-muted small mb-3">
-                      {{ related_product.description }}
-                    </p>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <div v-if="related_product.price && related_product.price.has_discount !== false">
-                          <p class="text-success fw-bold mb-0">
-                            {{ related_product.price.discounted_price }} រៀល /
-                            {{ t('product_units.' + (related_product.product_units?.name || '')) }}
-                          </p>
-                          <span class="text-decoration-line-through text-danger small">
-                            {{ related_product.price.original }} រៀល
-                          </span>
-                        </div>
-                        <p class="text-success fw-bold mb-0" v-else>
-                          {{ related_product.price.original }} រៀល /
-                          {{ t('product_units.' + (related_product.product_units?.name || '')) }}
-                        </p>
-                      </div>
-
-                      <!-- <div class="price-info">
-                        <div v-if="related_product.price && related_product.price.has_discount !== false">
-                          <div class="current-price text-success fw-bold">
-                            {{ related_product.price.discounted_price }} រៀល
-                          </div>
-                          <div class="original-price text-decoration-line-through text-muted small">
-                            {{ related_product.price.original }} រៀល
-                          </div>
-                        </div>
-                        <div v-else class="current-price text-success fw-bold">
-                          {{ related_product.price.original }} រៀល
-                        </div>
-                      </div> -->
-                      <button class="btn btn-success btn-sm rounded-pill px-3">
-                        <!-- <i class="bi bi-cart-plus"></i> -->
-                        <i class="bi bi-bag-fill me-1"></i>កន្ត្រក
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <SimilarProductToView />
       </div>
     </div>
   </section>
@@ -411,6 +327,8 @@ import { useRouter } from "vue-router";
 import ToastView from "../toast/ToastView.vue";
 import { useToastStore } from "@/stores/toast_store";
 import { useShopStore } from "@/stores/views/shops_store";
+import SimilarProductToView from "./SimilarProductToView.vue";
+import { useRelatedProduct } from "@/stores/views/relatedProduct_store";
 
 const { t } = useI18n()
 
@@ -426,6 +344,7 @@ const activeImage = ref(null);
 const selectedImageUrl = ref("");
 const activeTab = ref('description');
 const shops_store = useShopStore()
+const relatedProductStore = useRelatedProduct()
 
 const id = ref(null);
 
@@ -439,7 +358,7 @@ const getDetail = () => {
     })
     .then((res) => {
       detailProducts.value = res.data.data;
-      related_products.value = res.data.data.related_products;
+      relatedProductStore.onLoadRelatedProduct(id.value);
     })
 };
 
@@ -529,6 +448,8 @@ const toggleFav = (FavProduct) => {
 onMounted(() => {
   shops_store.onlaodShop(1);
   topRatedPro();
+  id.value = router.currentRoute.value.query.id;
+  getDetail();
 });
 const onChangeImage = (imgId, imageUrl) => {
   activeImage.value = imgId;
