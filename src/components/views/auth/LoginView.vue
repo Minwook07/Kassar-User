@@ -179,7 +179,7 @@ async function onSaveLogin() {
 
     // Success toast
     if (toastInstance) {
-      toastMessage.value = "Login successful!";
+      toastMessage.value = "ចូលគណនីជោគជ័យ!";
       toastIcon.value = "bi bi-check2-circle fs-5 text-success";
       toastInstance.show();
 

@@ -1,6 +1,6 @@
 <template>
-    <div class="row g-4">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3" data-aos="fade-up" v-for="product in allProduct.productArr"
+    <div class="row g-4" v-if="allProduct.newArrivals && allProduct.newArrivals.length > 0">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" data-aos="fade-up" v-for="product in allProduct.newArrivals"
             :key="product.id">
             <div class="product-card h-100" @click="goToDetail(product.id)">
                 <!-- Image Container -->
@@ -53,7 +53,7 @@
                                     <span class="original-price">{{ product.price.original }} រៀល</span>
                                     <span class="unit-separator">•</span>
                                     <span class="unit">{{ t('product_units.' + (product.product_units?.name || ''))
-                                        }}</span>
+                                    }}</span>
                                 </div>
                             </div>
                             <div v-else>
@@ -74,6 +74,29 @@
             </div>
         </div>
     </div>
+    <!-- Pagination -->
+    <div class="pagination-wrapper mt-5 d-flex justify-content-center align-items-center gap-2">
+        <button class="btn btn-outline-success" @click="allProduct.prevNewArrivalsPage()"
+            :disabled="allProduct.newArrivalsCurrentPage === 1">
+            <i class="bi bi-chevron-left"></i> មុន
+        </button>
+
+        <button v-for="page in allProduct.newArrivalsTotalPages" :key="page" class="btn"
+            :class="page === allProduct.newArrivalsCurrentPage ? 'btn-success' : 'btn-outline-success'"
+            @click="allProduct.goToNewArrivalsPage(page)">
+            {{ page }}
+        </button>
+
+        <button class="btn btn-outline-success" @click="allProduct.nextNewArrivalsPage()"
+            :disabled="allProduct.newArrivalsCurrentPage === allProduct.newArrivalsTotalPages">
+            បន្ទាប់ <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Pagination Info -->
+    <div class="text-center mt-3 text-muted">
+        បង្ហាញ {{ allProduct.newArrivals.length }} ក្នុងចំណោម {{ allProduct.newArrivalsTotalItems }} ផលិតផល
+    </div>
 </template>
 
 <script setup>
@@ -90,7 +113,7 @@ const allProduct = useAllProducts()
 const cartListStore = useCardStore();
 
 onMounted(() => {
-    allProduct.onloadProduct();
+    allProduct.onloadNewArrivals(1, 8);
 })
 
 const goToDetail = (id) => {

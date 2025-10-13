@@ -26,8 +26,7 @@
                             </div>
                             <div class="price">
                                 <p class="text-secondary fw-bolder fs-4" v-if="video.product">
-                                    {{ video.product?.price?.discounted_price }} រៀល / <span class="fs-5">{{
-                                        video.product?.product_units?.name }}</span>
+                                    {{ video.product?.price?.discounted_price }} រៀល
                                 </p>
                             </div>
                         </div>

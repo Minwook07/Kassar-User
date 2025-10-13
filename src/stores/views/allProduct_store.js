@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { useToastStore } from "../toast_store";
+
 export const useAllProducts = defineStore('views/allProduct', {
     state: () => ({
         mdl_term: null,
@@ -8,6 +9,13 @@ export const useAllProducts = defineStore('views/allProduct', {
         latestPro: [],
         discountPro: [],
         products: [],
+
+        // New Arrivals Pagination
+        newArrivals: [],
+        newArrivalsCurrentPage: 1,
+        newArrivalsPerPage: 8,
+        newArrivalsTotalPages: 0,
+        newArrivalsTotalItems: 0,
 
         // filters & pagination
         selectedCategory: null,
@@ -25,8 +33,7 @@ export const useAllProducts = defineStore('views/allProduct', {
     actions: {
         async GetAllProducts() {
             this.isLoading = true;
-            // build URL using `this.`
-            let url = `/api/products?per_page=${this.itemsPerPage}&page=${this.currentPage}`;
+            let url = `/api/products?size=${this.itemsPerPage}&page=${this.currentPage}`;
 
             if (this.search) {
                 url += `&search=${encodeURIComponent(this.search)}`;
@@ -34,11 +41,7 @@ export const useAllProducts = defineStore('views/allProduct', {
             if (this.selectedCategory) {
                 url += `&category_id=${this.selectedCategory}`;
             }
-            // `range` is a plain array so use `this.range[0]`
-            if (
-                this.range[0] !== undefined &&
-                this.range[1] !== undefined
-            ) {
+            if (this.range[0] !== undefined && this.range[1] !== undefined) {
                 url += `&min_price=${this.range[0]}&max_price=${this.range[1]}`;
             }
 
@@ -52,10 +55,55 @@ export const useAllProducts = defineStore('views/allProduct', {
             } catch (e) {
                 this.productArr = [];
             } finally {
-                // small delay for loader UX
                 setTimeout(() => { this.isLoading = false }, 300);
             }
         },
+
+        // New Arrivals with Pagination
+        async onloadNewArrivals(page = 1, size = 8) {
+            this.isLoading = true;
+            try {
+                const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+                const res = await axios.get(`/api/products-new-arrivals?size=${size}&page=${page}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (res.data.result) {
+                    this.newArrivals = res.data.data;
+                    this.newArrivalsCurrentPage = res.data.paginate.current_page;
+                    this.newArrivalsPerPage = res.data.paginate.size;
+                    this.newArrivalsTotalPages = res.data.paginate.last_page;
+                    this.newArrivalsTotalItems = res.data.paginate.total;
+                }
+            } catch (error) {
+                console.error('Failed to load new arrivals:', error);
+                this.newArrivals = [];
+            } finally {
+                setTimeout(() => { this.isLoading = false }, 300);
+            }
+        },
+
+        // Go to specific page
+        goToNewArrivalsPage(page) {
+            if (page >= 1 && page <= this.newArrivalsTotalPages) {
+                this.onloadNewArrivals(page, this.newArrivalsPerPage);
+            }
+        },
+
+        // Next page
+        nextNewArrivalsPage() {
+            if (this.newArrivalsCurrentPage < this.newArrivalsTotalPages) {
+                this.onloadNewArrivals(this.newArrivalsCurrentPage + 1, this.newArrivalsPerPage);
+            }
+        },
+
+        // Previous page
+        prevNewArrivalsPage() {
+            if (this.newArrivalsCurrentPage > 1) {
+                this.onloadNewArrivals(this.newArrivalsCurrentPage - 1, this.newArrivalsPerPage);
+            }
+        },
+
         toggleFav(id) {
             const product = this.products.find(p => p.id === id);
             if (product) {
@@ -63,22 +111,22 @@ export const useAllProducts = defineStore('views/allProduct', {
             }
         },
 
-        onloadProduct(per_page = 8, page = 1, sdir = 'desc') {
-            axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
+        onloadProduct(size = 8, page = 1, sdir = 'desc') {
+            axios.get(`/api/products?size=${size}&page=${page}&sdir=${sdir}`)
                 .then(response => {
                     this.productArr = response.data.data;
                 })
         },
 
-        onloadLatestProduct(per_page, page, sdir = 'desc') {
-            axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
+        onloadLatestProduct(size, page, sdir = 'desc') {
+            axios.get(`/api/products?size=${size}&page=${page}&sdir=${sdir}`)
                 .then(response => {
                     this.latestPro = response.data.data;
                 })
         },
 
-        onloadDiscountProduct(per_page, page, sdir = 'desc') {
-            axios.get(`/api/products?per_page=${per_page}&page=${page}&sdir=${sdir}`)
+        onloadDiscountProduct(size, page, sdir = 'desc') {
+            axios.get(`/api/products?size=${size}&page=${page}&sdir=${sdir}`)
                 .then(response => {
                     this.discountPro = response.data.data.filter(p => p.promotions && p.promotions.length > 0);
                 })
@@ -129,6 +177,7 @@ export const useAllProducts = defineStore('views/allProduct', {
                     return response.data.result;
                 })
         },
+
         addToFavorite(id) {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             const toastStore = useToastStore();
@@ -139,29 +188,29 @@ export const useAllProducts = defineStore('views/allProduct', {
             }
 
             return axios.post(`/api/favorites/toggle?product_id=${id}`, null, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             })
                 .then(response => {
                     if (response.data && response.data.result) {
-                        const index = this.productArr.findIndex(product => product.id === id);
-                        if (index !== -1) {
-                            // Determine the message based on the current state
-                            const currentState = this.productArr[index].is_favorited;
-                            const message = currentState ? "ដកចេញពីបញ្ជីប្រាថ្នាជោគជ័យ" : "ដាក់ចូលបញ្ជីប្រាថ្នាជោគជ័យ";
-                            toastStore.showToast(message);
+                        // Update in all arrays
+                        const updateFavorite = (arr) => {
+                            const index = arr.findIndex(product => product.id === id);
+                            if (index !== -1) {
+                                const currentState = arr[index].is_favorited;
+                                arr[index].is_favorited = !currentState;
+                                toastStore.showToast(currentState ? "ដកចេញពីបញ្ជីប្រាថ្នាជោគជ័យ" : "ដាក់ចូលបញ្ជីប្រាថ្នាជោគជ័យ");
+                            }
+                        };
 
-                            // Toggle the state
-                            this.productArr[index].is_favorited = !currentState;
-                        }
+                        updateFavorite(this.productArr);
+                        updateFavorite(this.newArrivals);
+                        updateFavorite(this.latestPro);
+                        updateFavorite(this.discountPro);
                     } else {
                         toastStore.showToast("មានបញ្ហា! មិនអាចរក្សាទុកបានទេ។");
                     }
                     return response.data.result;
                 })
         }
-
     }
-
-})
+});
