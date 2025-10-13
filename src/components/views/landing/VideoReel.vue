@@ -37,11 +37,12 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useAllVideos } from '@/stores/views/videoFeed_store';
+import { useRouter } from 'vue-router';
 
 const allVideos = useAllVideos();
+const router = useRouter()
 
 onMounted(() => {
-
     allVideos.onloadVideoFilter();
 })
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12">
+    <div class="col-12" v-if="relatedProductStore.related_products && relatedProductStore.related_products.length > 0">
         <div class="similar-products-section">
             <h4 class="section-title fw-bold mb-4">
                 <i class="bi bi-grid me-2 text-success"></i>ផលិតផលស្រដៀង

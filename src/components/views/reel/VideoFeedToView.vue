@@ -2,11 +2,10 @@
     <div class="video-feed d-flex overflow-hidden">
         <div class="video-section d-flex justify-content-center position-relative">
             <img v-if="!video" src="/kassar.png" alt="" class="w-100 position-absolute">
-            <img v-if="video" :src="video ? video.thumbnail : '/kassar.png'" alt="" class="w-100 position-absolute">
+            <img v-if="video?.thumbnail" :src="video.thumbnail" alt="" class="w-100 position-absolute">
             <div
-                class="top-bar p-3 w-100 d-flex  align-items-center justify-content-between position-absolute top-0 start-0">
-                <RouterLink to="/allproducts" class="btn-dark text-decoration-none
-           d-flex align-items-center">
+                class="top-bar p-3 w-100 d-flex align-items-center justify-content-between position-absolute top-0 start-0">
+                <RouterLink to="/" class="btn-dark text-decoration-none d-flex align-items-center">
                     <img src="/kassar.png" alt="" style="width: 40px;">
                     <h6 class="m-0 px-2 text-white">ទំព័រផលិតផល</h6>
                 </RouterLink>
@@ -14,8 +13,8 @@
                     <input class="form-control me-2" type="search" placeholder="ស្វែងរកផលិតផល" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">ស្វែងរក</button>
                 </form>
-                <a href="https://adm.kassar.publicvm.com/upload-video" class="btn-dark go-create-video text-decoration-none
-           d-flex align-items-center">
+                <a href="https://adm.kassar.publicvm.com/upload-video"
+                    class="btn-dark go-create-video text-decoration-none d-flex align-items-center">
                     <i class="fa-solid fa-plus fs-3 p-2 text-white"></i>
                     <h6 class="m-0 pe-2 text-white">បង្ហោះវីដេអូ</h6>
                 </a>
@@ -30,72 +29,71 @@
                     </button>
                 </div>
             </div>
-            <div class="video-link d-flex align-items-center justify-content-center h-100 ">
-                <div class=" h-100 overflow-hidden">
-                    <video ref="videoPlayer" class="video-display" autoplay playsinline controls v-if="video"
+            <div class="video-link d-flex align-items-center justify-content-center h-100">
+                <div class="h-100 overflow-hidden">
+                    <video ref="videoPlayer" class="video-display" autoplay playsinline controls v-if="video?.video_url"
                         :src="video.video_url"></video>
                 </div>
             </div>
         </div>
         <div class="video-detail p-3 position-relative">
-            <div class="shop-profile rounded-3 p-3  bg-white">
+            <div class="shop-profile rounded-3 p-3 bg-white">
                 <div class="d-flex align-items-start justify-content-between">
                     <div class="d-flex">
-                        <RouterLink :to="video ? `/viewshop?id=` + video.user.id : ''" class="shop-avatar border">
-                            <img v-if="video" :src="video.shop.image" alt="">
+                        <RouterLink :to="video?.user?.id ? `/viewshop?id=${video.user.id}` : '#'"
+                            class="shop-avatar border">
+                            <img v-if="video?.shop?.image" :src="video.shop.image" alt="">
                         </RouterLink>
                         <div class="owner-detail ps-2">
-                            <RouterLink :to="video ? `/viewshop?id=` + video.user.id : ''"
-                                class="name text-decoration-none ">
-                                <h5 class="m-0 fw-bold" v-if="video">{{ video.shop.name }}</h5>
+                            <RouterLink :to="video?.user?.id ? `/viewshop?id=${video.user.id}` : '#'"
+                                class="name text-decoration-none">
+                                <h5 class="m-0 fw-bold" v-if="video?.shop?.name">{{ video.shop.name }}</h5>
                             </RouterLink>
                             <div class="rating d-flex align-items-center mt-1">
-
-                                <!-- <span class="px-2 fw-bold fs-5 text-black-50"></span> -->
-                                <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video">{{ video.created_since }}</h6>
+                                <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video?.created_since">{{
+                                    video.created_since }}</h6>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="btn btn-primary">
-                        <span class="d-none d-md-inline-block" v-if="video">តាមដាន</span>
-                    </div> -->
                 </div>
                 <div class="shop-post-title mt-3">
-                    <p v-if="video">{{ video.description }}</p>
+                    <p v-if="video?.description">{{ video.description }}</p>
                 </div>
             </div>
-            <div v-if="video.product" class="product rounded-3 p-3 bg-white mt-3 d-flex align-items-start">
-                <div class="thumbnail" v-if="video.product" @click="goToProductDetail(video.product.id)">
-                    <img v-if="video.product" :src="video.product.product_thumbnail" alt="" class="object-fit-cover">
+            <div v-if="video?.product" class="product rounded-3 p-3 bg-white mt-3 d-flex align-items-start">
+                <div class="thumbnail" @click="goToProductDetail(video.product.id)">
+                    <img :src="video.product.product_thumbnail" alt="" class="object-fit-cover">
                 </div>
                 <div class="detail ms-3">
-                    <h5 class="fw-bold text-semidark" v-if="video.product" @click="goToProductDetail(video.product.id)">
-                        {{ video.product.name }}</h5>
-                    <p class="m-0" v-if="video.product">1 <span>{{ video.product.product_units.name }} </span></p>
-                    <p class="fw-bold fs-3 text-secondary m-0" v-if="video">{{ video.product.price.discounted_price }} ៛
-                    </p>
-                    <div v-if="video.product" @click="addToCart(video.product.id)" class="btn btn-outline-primary rounded-2 ms-auto"><i
-                            class="bi bi-bag-fill me-1"></i>កន្រ្តក</div>
+                    <h5 class="fw-bold text-semidark" @click="goToProductDetail(video.product.id)">
+                        {{ video.product.name }}
+                    </h5>
+                    <p class="m-0">1 <span>{{ video.product.product_units?.name }}</span></p>
+                    <p class="fw-bold fs-3 text-secondary m-0">{{ video.product.price?.discounted_price }} ៛</p>
+                    <div @click="addToCart(video.product.id)" class="btn btn-outline-primary rounded-2 ms-auto">
+                        <i class="bi bi-bag-fill me-1"></i>កន្រ្តក
+                    </div>
                 </div>
                 <div class="d-flex flex-column align-content-between">
-                    <span class="category-pill ms-auto" v-if="video.product">{{ video.product.category.name }}</span>
+                    <span class="category-pill ms-auto">{{ video.product.category?.name }}</span>
                     <div class="d-flex mt-2">
-                        <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video.product">{{ video.product.rating.average }}</h6>
-                        <i v-if="video.product" class="fa fa-star text-warning fs-6"></i>
+                        <h6 class="m-0 fw-bold pe-1 text-black-50">{{ video.product.rating?.average }}</h6>
+                        <i class="fa fa-star text-warning fs-6"></i>
                     </div>
                 </div>
             </div>
             <div class="share-action rounded-3 bg-white mt-3 d-flex">
-                <input type="text" :value="video ? 'https://usr.kassar.publicvm.com/video?id=' + video.id : ''"
-                    id="myInput" class="w-100 ">
-                <button class="btn btn-share" @click="copyLink()"><i class="bi bi-share"></i>
+                <input type="text" :value="video?.id ? `https://usr.kassar.publicvm.com/video?id=${video.id}` : ''"
+                    id="myInput" class="w-100">
+                <button class="btn btn-share" @click="copyLink()">
+                    <i class="bi bi-share"></i>
                 </button>
             </div>
-            
-            <CommentToView :post_id="video ? video.id : ''" />
+
+            <CommentToView :post_id="video?.id || ''" />
         </div>
     </div>
-    <ToastView/>
+    <ToastView />
 </template>
 <script setup>
 import { useAllVideos } from '@/stores/views/videoFeed_store.js';
@@ -115,7 +113,7 @@ let lastIndex = ref(0);
 const route = useRoute();
 
 onMounted(async () => {
-    await allVideos.onloadVideo(); 
+    await allVideos.onloadVideo();
 
     if (allVideos.videoArr && allVideos.videoArr.length > 0) {
         if (route.query.id) {
@@ -151,7 +149,7 @@ const updateLatestVideo = () => {
     }
 
     lastIndex.value = allVideos.lastIndexVideoArr ?? (allVideos.videoArr.length - 1);
-    
+
     if (lastIndex.value < 0 || lastIndex.value >= allVideos.videoArr.length) {
         lastIndex.value = 0;
     }
@@ -185,7 +183,7 @@ function prevVideo() {
         lastIndex.value = lastIndex.value - 1;
         video.value = allVideos.videoArr[lastIndex.value];
     }
-    updateQueryId(allVideos.videoArr[lastIndex.value].id); 
+    updateQueryId(allVideos.videoArr[lastIndex.value].id);
 
 }
 function nextVideo() {
@@ -195,15 +193,15 @@ function nextVideo() {
         lastIndex.value = 0; // Loop back to the first video
     }
     video.value = allVideos.videoArr[lastIndex.value];
-    updateQueryId(allVideos.videoArr[lastIndex.value].id); 
+    updateQueryId(allVideos.videoArr[lastIndex.value].id);
 }
 function updateQueryId(newId) {
-  router.push({
-    query: {
-      ...route.query, 
-      id: newId
-    }
-  });
+    router.push({
+        query: {
+            ...route.query,
+            id: newId
+        }
+    });
 }
 
 function goToProductDetail($id) {

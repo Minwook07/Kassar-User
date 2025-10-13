@@ -221,34 +221,7 @@
             </div>
 
             <!-- Top Rated Products -->
-            <div class="top-rated-card">
-              <div class="card-header bg-success text-white rounded-top">
-                <h6 class="mb-0 fw-semibold">
-                  <i class="bi bi-star-fill me-2"></i>ផលិតផលវាយតម្លៃខ្ពស់
-                </h6>
-              </div>
-              <div class="card-body p-3">
-                <div v-for="topRatedPro in topRatedPros.slice(0, 3)" :key="topRatedPro.id"
-                  class="top-rated-item mb-3 p-2 rounded cursor-pointer" @click="goToDetail(topRatedPro.id)">
-                  <div class="row g-2 align-items-center">
-                    <div class="col-4">
-                      <div class="product-thumb">
-                        <img :src="topRatedPro.product_thumbnail" alt="Product" class="img-fluid rounded" />
-                      </div>
-                    </div>
-                    <div class="col-8">
-                      <div class="stars d-flex mb-1">
-                        <i v-for="n in 5" :key="n" class="bi bi-star-fill text-warning small"></i>
-                      </div>
-                      <p class="product-name mb-1 small fw-semibold">{{ topRatedPro.name }}</p>
-                      <div class="product-price text-success fw-bold small">
-                        {{ topRatedPro.price.discounted_price }}<sup>៛</sup>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <TopRatedProductsToView />
           </div>
         </div>
 
@@ -329,13 +302,14 @@ import { useToastStore } from "@/stores/toast_store";
 import { useShopStore } from "@/stores/views/shops_store";
 import SimilarProductToView from "./SimilarProductToView.vue";
 import { useRelatedProduct } from "@/stores/views/relatedProduct_store";
+import TopRatedProductsToView from "./TopRatedProductsToView.vue";
+import { useTopRatedProduct } from "@/stores/views/topRatedProduct_store";
 
 const { t } = useI18n()
 
 const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 const detailProducts = ref(null);
 const toastFav = ref(null);
-const topRatedPros = ref([]);
 const related_products = ref([]);
 const count = ref(0);
 const router = useRouter();
@@ -361,18 +335,6 @@ const getDetail = () => {
       relatedProductStore.onLoadRelatedProduct(id.value);
     })
 };
-
-watch(
-  () => router.currentRoute.value.query.id,
-  (newId) => {
-    id.value = newId;
-    count.value = 0;
-    activeImage.value = null;
-    selectedImageUrl.value = "";
-    getDetail();
-  },
-  { immediate: true }
-);
 
 const addToCart = () => {
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -401,13 +363,6 @@ const addToCart = () => {
       }
     })
 };
-
-const topRatedPro = () => {
-  axios.get("api/products?rating=5")
-    .then((res) => {
-      topRatedPros.value = res.data.data;
-    })
-}
 
 const toggleFav = (FavProduct) => {
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -447,7 +402,6 @@ const toggleFav = (FavProduct) => {
 
 onMounted(() => {
   shops_store.onlaodShop(1);
-  topRatedPro();
   id.value = router.currentRoute.value.query.id;
   getDetail();
 });
