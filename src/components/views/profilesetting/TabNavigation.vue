@@ -1,4 +1,3 @@
-<!-- components/TabNavigation.vue -->
 <template>
     <div class="card shadow-sm">
         <ul class="nav flex-column nav-pills">

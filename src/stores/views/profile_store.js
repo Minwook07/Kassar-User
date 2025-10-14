@@ -1,14 +1,15 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { ref } from "vue";
 
-const DEFAULT_AVATAR = '/images/default-avatar.png'
-const token = () => {
+const DEFAULT_AVATAR = '/images/default-avatar.png';
+
+const getToken = () => {
     return localStorage.getItem("token") || sessionStorage.getItem("token");
 };
 
 export const useInfoProfile = defineStore('views/profile_store', {
     state: () => ({
+        token: getToken(),
         frm: {
             id: null,
             name: '',
@@ -17,7 +18,8 @@ export const useInfoProfile = defineStore('views/profile_store', {
             phone: null,
             avatar: '',
             roles: [],
-            history: ''
+            history: '',
+            shop_name: ''
         },
         isLoading: false,
         error: null,
@@ -47,9 +49,37 @@ export const useInfoProfile = defineStore('views/profile_store', {
         },
     }),
     getters: {
-        avatarUrl: (state) => state.frm.avatar || DEFAULT_AVATAR
+        avatarUrl: (state) => state.frm.avatar || DEFAULT_AVATAR,
+        isAuthenticated: (state) => !!state.token,
+        displayName: (state) => {
+            if (state.frm?.roles?.length && state.frm.roles[0].name === 'role_seller_user') {
+                return state.frm.shop_name || state.frm.name;
+            }
+            return state.frm?.name || '';
+        }
     },
     actions: {
+        initializeToken() {
+            this.token = getToken();
+            if (this.token) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+            }
+        },
+
+        setToken(token, remember = false) {
+            this.token = token;
+            const storage = remember ? localStorage : sessionStorage;
+            storage.setItem('token', token);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        },
+
+        clearToken() {
+            this.token = null;
+            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
+        },
+
         async onLoadProfile() {
             this.isLoading = true;
             this.error = null;
@@ -57,7 +87,7 @@ export const useInfoProfile = defineStore('views/profile_store', {
             try {
                 const res = await axios.get('/api/profile', {
                     headers: {
-                        Authorization: `Bearer ${token()}`
+                        Authorization: `Bearer ${this.token}`
                     }
                 });
                 this.frm = { ...res.data.data.user };
@@ -80,11 +110,10 @@ export const useInfoProfile = defineStore('views/profile_store', {
             try {
                 const res = await axios.post('/api/profile', profileData, {
                     headers: {
-                        Authorization: `Bearer ${token()}`
+                        Authorization: `Bearer ${this.token}`
                     }
                 });
 
-                // refresh local data after update
                 await this.onLoadProfile();
                 return res.data;
             } catch (err) {
@@ -102,7 +131,7 @@ export const useInfoProfile = defineStore('views/profile_store', {
             try {
                 const res = await axios.post('/api/profile/avatar', formData, {
                     headers: {
-                        Authorization: `Bearer ${token()}`
+                        Authorization: `Bearer ${this.token}`
                     }
                 });
 
@@ -120,7 +149,7 @@ export const useInfoProfile = defineStore('views/profile_store', {
             try {
                 const res = await axios.delete('/api/profile/avatar', {
                     headers: {
-                        Authorization: `Bearer ${token()}`
+                        Authorization: `Bearer ${this.token}`
                     }
                 });
 
@@ -131,6 +160,32 @@ export const useInfoProfile = defineStore('views/profile_store', {
                 throw err;
             }
         },
+
+        async logout() {
+            if (!this.token) {
+                return;
+            }
+
+            try {
+                await axios.post('/api/auth/logout', {}, {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                // Clear token and reset state
+                this.clearToken();
+                this.$reset();
+            }
+        },
+
+        async fetchProfile() {
+            return await this.onLoadProfile();
+        },
+
         normalizeGender(gender) {
             if (gender === 'Male' || gender === 'male' || gender === 1) return 'Male';
             if (gender === 'Female' || gender === 'female' || gender === 2) return 'Female';
@@ -142,12 +197,12 @@ export const useInfoProfile = defineStore('views/profile_store', {
             if (gender === 'Female') return 'ស្រី';
             return 'មិនបញ្ជាក់';
         },
-        translateRole(roles) {
 
+        translateRole(roles) {
             if (roles === 'Regular User') return 'គណនីធម្មតា';
             if (roles === 'Seller User') return 'អ្នកលក់';
             if (roles === 'System Admin') return 'អ្នកគ្រប់គ្រង';
             return 'គណនីធម្មតា';
         }
     }
-})
+});
