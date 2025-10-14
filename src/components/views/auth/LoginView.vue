@@ -38,7 +38,7 @@
 							class="form-control password-input" placeholder="បញ្ចូលលេខសម្ងាត់"
 							:class="{ 'is-invalid': $v.form.password.$dirty && $v.form.password.$error }" />
 						<i @click="togglePasswordVisibility"
-							:class="['bi', showPassword ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'password-toggle']"></i>
+							:class="['password-toggle', showPassword ? 'fas fa-eye-slash' : 'fas fa-eye']"></i>
 						<div class="invalid-feedback" v-if="$v.form.password.$dirty && $v.form.password.$error">
 							{{ $v.form.password.$errors[0]?.$message }}
 						</div>
@@ -190,6 +190,10 @@ async function onSaveLogin() {
 </script>
 
 <style scoped>
+.password-input {
+	padding-right: 45px;
+}
+
 .password-toggle {
 	position: absolute;
 	right: 15px;
@@ -205,9 +209,8 @@ async function onSaveLogin() {
 	color: #212529;
 }
 
-.is-invalid+.password-toggle {
+.is-invalid ~ .password-toggle {
 	top: 35%;
-	right: 40px;
 }
 
 .form-control:focus {

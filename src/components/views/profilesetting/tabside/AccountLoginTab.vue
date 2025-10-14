@@ -30,13 +30,11 @@
                     <label class="form-label">
                         <i class="fas fa-lock"></i>ពាក្យសម្ងាត់បច្ចុប្បន្ន
                     </label>
-                    <div class="input-group">
+                    <div class="position-relative">
                         <input :type="showCurrentPassword ? 'text' : 'password'" v-model="passwordForm.current_password"
-                            placeholder="សូមបញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្ន" class="form-control" required>
-                        <button class="btn btn-outline-secondary" type="button"
-                            @click="showCurrentPassword = !showCurrentPassword">
-                            <i :class="showCurrentPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                        </button>
+                            placeholder="សូមបញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្ន" class="form-control password-input" required>
+                        <i @click="showCurrentPassword = !showCurrentPassword"
+                            :class="['password-toggle', showCurrentPassword ? 'fas fa-eye-slash' : 'fas fa-eye']"></i>
                     </div>
                 </div>
 
@@ -44,14 +42,12 @@
                     <label class="form-label">
                         <i class="fas fa-key"></i>ពាក្យសម្ងាត់ថ្មី
                     </label>
-                    <div class="input-group">
+                    <div class="position-relative">
                         <input :type="showNewPassword ? 'text' : 'password'" v-model="passwordForm.new_password"
-                            placeholder="សូមបញ្ចូលពាក្យសម្ងាត់ថ្មី" class="form-control" required
+                            placeholder="សូមបញ្ចូលពាក្យសម្ងាត់ថ្មី" class="form-control password-input" required
                             @input="checkPasswordStrength">
-                        <button class="btn btn-outline-secondary" type="button"
-                            @click="showNewPassword = !showNewPassword">
-                            <i :class="showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                        </button>
+                        <i @click="showNewPassword = !showNewPassword"
+                            :class="['password-toggle', showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye']"></i>
                     </div>
                     <div v-if="passwordForm.new_password" class="password-strength">
                         <div class="strength-indicator">
@@ -69,19 +65,17 @@
                     <label class="form-label">
                         <i class="fas fa-check-double"></i>បញ្ជាក់ពាក្យសម្ងាត់ថ្មី
                     </label>
-                    <div class="input-group">
+                    <div class="position-relative">
                         <input :type="showConfirmPassword ? 'text' : 'password'"
                             v-model="passwordForm.new_password_confirmation" placeholder="បញ្ជាក់ពាក្យសម្ងាត់ថ្មី"
-                            class="form-control"
+                            class="form-control password-input"
                             :class="{ 'is-invalid': passwordForm.new_password_confirmation && !passwordsMatch }"
                             required>
-                        <button class="btn btn-outline-secondary" type="button"
-                            @click="showConfirmPassword = !showConfirmPassword">
-                            <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                        </button>
-                    </div>
-                    <div v-if="passwordForm.new_password_confirmation && !passwordsMatch" class="invalid-feedback">
-                        ពាក្យសម្ងាត់មិនត្រូវគ្នាទេ
+                        <i @click="showConfirmPassword = !showConfirmPassword"
+                            :class="['password-toggle', showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye', { 'toggle-invalid': passwordForm.new_password_confirmation && !passwordsMatch }]"></i>
+                        <div v-if="passwordForm.new_password_confirmation && !passwordsMatch" class="invalid-feedback">
+                            ពាក្យសម្ងាត់មិនត្រូវគ្នាទេ
+                        </div>
                     </div>
                 </div>
 
@@ -174,7 +168,7 @@ const updatePassword = async () => {
         return
     }
 
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = infoProfileStore.token
     errorMessage.value = ''
     successMessage.value = ''
     isLoading.value = true
@@ -206,19 +200,23 @@ const updatePassword = async () => {
 </script>
 
 <style scoped>
-.input-group {
-    display: flex;
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 10;
 }
 
-.input-group .form-control {
-    border-right: none;
-    border-radius: 6px 0 0 6px;
+.password-toggle:hover {
+    color: #212529;
 }
 
-.input-group .btn {
-    border-left: none;
-    border-radius: 0 6px 6px 0;
-    border: 2px solid #e5e7eb;
+.toggle-invalid {
+    top: 35%;
 }
 
 .password-strength {
@@ -325,6 +323,7 @@ const updatePassword = async () => {
     color: #dc2626;
     font-size: 0.875rem;
     margin-top: 0.25rem;
+    display: block;
 }
 
 .is-invalid {
@@ -334,5 +333,11 @@ const updatePassword = async () => {
 .spinner-border-sm {
     width: 1rem;
     height: 1rem;
+}
+
+.form-control:focus {
+    outline: #32CA83 !important;
+    border-color: #32CA83 !important;
+    box-shadow: none;
 }
 </style>
