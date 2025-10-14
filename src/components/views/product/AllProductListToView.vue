@@ -1,5 +1,7 @@
 <template>
-    <div class="row g-4">
+    <!-- Show products or empty state (not when loading) -->
+    <div v-if="!allproducts.isLoading" class="row g-4">
+        <!-- Products Grid -->
         <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="product in allproducts.productArr"
             v-if="allproducts.productArr.length > 0" :key="product.id">
             <div class="product-card h-100" @click="goToDetail(product.id)">
@@ -53,7 +55,7 @@
                                     <span class="original-price">{{ product.price.original }} រៀល</span>
                                     <span class="unit-separator">•</span>
                                     <span class="unit">{{ t('product_units.' + (product.product_units?.name || ''))
-                                    }}</span>
+                                        }}</span>
                                 </div>
                             </div>
                             <div v-else>
@@ -73,8 +75,9 @@
                 </div>
             </div>
         </div>
-        <!-- No products message -->
-        <div v-else class="col-12 d-flex flex-column align-items-center justify-content-center text-center">
+
+        <div v-if="allproducts.productArr.length === 0"
+            class="col-12 d-flex flex-column align-items-center justify-content-center text-center py-5">
             <img src="@/assets/images/empty-box-agriculture.svg" alt="No products" class="mb-4"
                 style="max-width: 180px;" />
 
@@ -86,9 +89,37 @@
             </p>
         </div>
     </div>
+
+    <div v-if="!allproducts.isLoading && allproducts.productArr.length > 0"
+        class="pagination-wrapper mt-5 d-flex justify-content-center align-items-center gap-2">
+        <!-- Previous Button -->
+        <button class="btn btn-outline-success" @click="goToPage(allproducts.currentPage - 1)"
+            :disabled="allproducts.currentPage === 1">
+            <i class="bi bi-chevron-left"></i> មុន
+        </button>
+
+        <!-- Page Numbers -->
+        <button v-for="page in totalPages" :key="page" class="btn"
+            :class="page === allproducts.currentPage ? 'btn-success' : 'btn-outline-success'" @click="goToPage(page)">
+            {{ page }}
+        </button>
+
+        <!-- Next Button -->
+        <button class="btn btn-outline-success" @click="goToPage(allproducts.currentPage + 1)"
+            :disabled="allproducts.currentPage === totalPages">
+            បន្ទាប់ <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Pagination Info -->
+    <div v-if="!allproducts.isLoading && allproducts.productArr.length > 0" class="text-center mt-3 text-muted">
+        បង្ហាញ {{ allproducts.productArr.length }} ក្នុងចំណោម {{ allproducts.totalProducts }} ផលិតផល
+        (ទំព័រ {{ allproducts.currentPage }} / {{ totalPages }})
+    </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAllProducts } from '@/stores/views/allProduct_store';
@@ -99,6 +130,17 @@ const router = useRouter()
 
 const allproducts = useAllProducts()
 const cartListStore = useCardStore()
+
+const totalPages = computed(() => {
+    return Math.ceil(allproducts.totalProducts / allproducts.itemsPerPage) || 1;
+});
+
+const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+        allproducts.currentPage = page;
+        allproducts.GetAllProducts();
+    }
+};
 
 async function OnSavefav(id) {
     const result = await allproducts.addToFavorite(id);
@@ -118,3 +160,18 @@ const goToDetail = (id) => {
     router.push({ name: "detailproduct", query: { id } });
 };
 </script>
+
+<style scoped>
+.pagination-wrapper .btn {
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-wrapper .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>

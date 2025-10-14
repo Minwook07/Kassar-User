@@ -174,9 +174,26 @@ export const useInfoProfile = defineStore('views/profile_store', {
             } catch (error) {
                 console.error('Logout error:', error);
             } finally {
-                // Clear token and reset state
                 this.clearToken();
                 this.$reset();
+                
+                try {
+                    const { useCardStore } = await import('@/stores/card_store');
+                    const { useAllProducts } = await import('@/stores/views/allProduct_store');
+                    
+                    const cardStore = useCardStore();
+                    const productStore = useAllProducts();
+                    
+                    cardStore.cartLists = [];
+                    cardStore.favItems = [];
+                    
+                    if (productStore.onloadNewArrivals) {
+                        productStore.onloadNewArrivals(1, 8);
+                    }
+                    
+                } catch (err) {
+                    console.error('Error clearing stores:', err);
+                }
             }
         },
 

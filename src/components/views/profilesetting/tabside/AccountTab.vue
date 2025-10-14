@@ -86,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, defineEmits } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useInfoProfile } from '@/stores/views/profile_store'
 import { useToastStore } from '@/stores/toast_store'
 import { useI18n } from 'vue-i18n'
