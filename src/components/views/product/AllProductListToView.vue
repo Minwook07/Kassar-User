@@ -92,10 +92,13 @@
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAllProducts } from '@/stores/views/allProduct_store';
+import { useCardStore } from '@/stores/card_store';
 
-const allproducts = useAllProducts()
 const { t } = useI18n()
 const router = useRouter()
+
+const allproducts = useAllProducts()
+const cartListStore = useCardStore()
 
 async function OnSavefav(id) {
     const result = await allproducts.addToFavorite(id);

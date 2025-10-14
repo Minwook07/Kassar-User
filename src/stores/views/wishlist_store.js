@@ -49,7 +49,7 @@ export const useWishListStore = defineStore('views/wishlist_store', {
             });
 
             if (res.data.result) {
-                toastStore.showToast('ដកចេញទាំអស់ពីបញ្ជីប្រាថ្នាជោគជ័យ');
+                toastStore.showToast('ដកចេញទាំងអស់ពីបញ្ជីប្រាថ្នាជោគជ័យ');
                 this.FavProducts = [];
                 this.CountFav = 0;
             }

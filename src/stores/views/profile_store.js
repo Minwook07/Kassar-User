@@ -140,7 +140,6 @@ export const useInfoProfile = defineStore('views/profile_store', {
                 }
                 return res.data;
             } catch (err) {
-                console.error('Failed to update avatar:', err);
                 throw err;
             }
         },
@@ -156,7 +155,6 @@ export const useInfoProfile = defineStore('views/profile_store', {
                 this.frm.avatar = '';
                 return res.data;
             } catch (err) {
-                console.error('Failed to remove avatar:', err);
                 throw err;
             }
         },

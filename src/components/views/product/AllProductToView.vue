@@ -140,13 +140,10 @@
 <script setup>
 import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
 import ToastView from "../toast/ToastView.vue";
 import { useCategoryStore } from "@/stores/views/categories_store";
 import { useAllProducts } from "@/stores/views/allProduct_store";
-import { useRoute } from "vue-router";
 import ProductSkeleton from '@/components/views/product/ProductSkeleton.vue';
-import { storeToRefs } from "pinia";
 import AllProductListToView from "./AllProductListToView.vue";
 
 const { t } = useI18n()

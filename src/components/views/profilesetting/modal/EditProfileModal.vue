@@ -99,12 +99,30 @@ const onSave = async () => {
         hideModal();
 
     } catch (error) {
-        console.error('Update profile error:', error);
-        if (error.response?.data?.message) {
-            toastStore.showToast(`កំហុស: ${error.response.data.message}`);
-        } else {
-            toastStore.showToast('មានកំហុសក្នុងការកែប្រែព័ត៌មាន សូមព្យាយាមម្តងទៀត');
+
+        if (error.response?.status === 422 && error.response.data?.data) {
+            const validationErrors = error.response.data.data;
+
+            if (validationErrors.phone) {
+                toastStore.showToast('លេខទូរស័ព្ទនេះមានអ្នកប្រើរួចហើយ');
+                return;
+            }
+            if (validationErrors.name) {
+                toastStore.showToast('ឈ្មោះមិនត្រឹមត្រូវ');
+                return;
+            }
+            if (validationErrors.gender) {
+                toastStore.showToast('ភេទមិនត្រឹមត្រូវ');
+                return;
+            }
+            if (validationErrors.history) {
+                toastStore.showToast('ជីវប្រវត្តិមិនត្រឹមត្រូវ');
+                return;
+            }
         }
+
+        const msg = error.response?.data?.message || 'មានកំហុសក្នុងការកែប្រែព័ត៌មាន សូមព្យាយាមម្តងទៀត';
+        toastStore.showToast(`កំហុស: ${msg}`);
     } finally {
         isLoading.value = false;
     }

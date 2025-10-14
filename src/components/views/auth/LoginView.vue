@@ -103,10 +103,10 @@ import axios from "axios";
 import { useRouter } from 'vue-router';
 import { Toast } from 'bootstrap';
 import { useInfoProfile } from "@/stores/views/profile_store";
+import { useCardStore } from "@/stores/card_store";
 
 const router = useRouter();
 const profileStore = useInfoProfile();
-
 const toastMessage = ref('');
 const toastIcon = ref('bi bi-check2-circle fs-5 text-success');
 let toastInstance = null;
@@ -169,6 +169,11 @@ async function onSaveLogin() {
 		profileStore.setToken(token, form.remember);
 
 		await profileStore.onLoadProfile();
+
+		const cartStore = useCardStore();
+		cartStore.setToken(token);
+		cartStore.onLoadCart();
+		cartStore.onLoadFav();
 
 		if (toastInstance) {
 			toastMessage.value = "ចូលគណនីជោគជ័យ!";
