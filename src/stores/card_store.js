@@ -53,7 +53,7 @@ export const useCardStore = defineStore("card_store", {
     actions: {
         setToken(token) {
             this.token = token;
-            localStorage.setItem("token", token);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         },
 
         clearToken() {
@@ -109,7 +109,7 @@ export const useCardStore = defineStore("card_store", {
                     this.countFavItem = res.data.data.length;
                 })
         },
-        
+
         formatPrice(price) {
             if (!price) return '0';
             return Math.floor(price)

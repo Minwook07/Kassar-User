@@ -125,7 +125,7 @@
 						<div
 							class="col-12 col-lg-6 bg-search rounded d-flex justify-content-between align-items-center">
 							<input v-model="allproducts.search" @input="handleSearch" type="text"
-								placeholder="ស្វែងរកតាមរយៈឈ្មោះផលិតផល,ប្រភេទ ..." class="form-control search" />
+								placeholder="ស្វែងរកតាមរយៈឈ្មោះផលិតផល, ប្រភេទផលិតផល ..." class="form-control search" />
 							<div class="pe-3">
 								<i class="bi bi-search text-primary"></i>
 							</div>

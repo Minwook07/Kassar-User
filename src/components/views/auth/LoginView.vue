@@ -143,6 +143,21 @@ function togglePasswordVisibility() {
 	showPassword.value = !showPassword.value;
 }
 
+function saveToken(token, remember) {
+	localStorage.removeItem("token");
+	sessionStorage.removeItem("token");
+
+	if (remember) {
+		localStorage.setItem("token", token);
+	} else {
+		sessionStorage.setItem("token", token);
+	}
+
+	profileStore.setToken(token);
+
+	axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
+
 async function onSaveLogin() {
 	loading.value = true;
 	$v.value.$touch();
@@ -166,7 +181,7 @@ async function onSaveLogin() {
 
 		const token = response.data.data.token;
 
-		profileStore.setToken(token, form.remember);
+		saveToken(token, form.remember);
 
 		await profileStore.onLoadProfile();
 
@@ -214,7 +229,7 @@ async function onSaveLogin() {
 	color: #212529;
 }
 
-.is-invalid ~ .password-toggle {
+.is-invalid~.password-toggle {
 	top: 35%;
 }
 

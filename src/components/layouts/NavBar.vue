@@ -21,16 +21,16 @@
 					</div>
 				</form>
 
-				<div v-if="!profileStore.token" class="d-flex">
+				<div v-if="!profileStore.token" class="d-flex align-items-center gap-2">
 					<div class="ms-auto d-none d-lg-inline">
 						<RouterLink class="btn btn-outline-primary rounded-5 px-4 me-1 d-flex align-items-center"
 							to="/signup">
 							<i class="bi bi-person-plus me-2"></i>
-							<span class="d-none d-lg-inline">បង្កើតគណនី</span>
+							<span class="d-none d-lg-inline">ចុះឈ្មោះ</span>
 						</RouterLink>
 					</div>
 					<div class="ms-auto">
-						<RouterLink class="btn btn-primary rounded-5 px-2 px-lg-4 d-flex align-items-center"
+						<RouterLink class="btn btn-primary rounded-5 px-2 px-lg-4 py-2 d-flex align-items-center"
 							to="/login">
 							<i class="bi bi-box-arrow-in-right me-2"></i>
 							<span class="d-none d-lg-inline">ចូលគណនី</span>

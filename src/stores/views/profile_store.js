@@ -66,10 +66,8 @@ export const useInfoProfile = defineStore('views/profile_store', {
             }
         },
 
-        setToken(token, remember = false) {
+        setToken(token) {
             this.token = token;
-            const storage = remember ? localStorage : sessionStorage;
-            storage.setItem('token', token);
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         },
 
@@ -176,21 +174,21 @@ export const useInfoProfile = defineStore('views/profile_store', {
             } finally {
                 this.clearToken();
                 this.$reset();
-                
+
                 try {
                     const { useCardStore } = await import('@/stores/card_store');
                     const { useAllProducts } = await import('@/stores/views/allProduct_store');
-                    
+
                     const cardStore = useCardStore();
                     const productStore = useAllProducts();
-                    
+
                     cardStore.cartLists = [];
                     cardStore.favItems = [];
-                    
+
                     if (productStore.onloadNewArrivals) {
                         productStore.onloadNewArrivals(1, 8);
                     }
-                    
+
                 } catch (err) {
                     console.error('Error clearing stores:', err);
                 }
