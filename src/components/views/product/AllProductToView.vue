@@ -50,12 +50,18 @@
 									'--left-position': `${(allproducts.range[0] / allproducts.max_price) * 100}%`,
 									'--right-position': `${100 - (allproducts.range[1] / allproducts.max_price) * 100}%`,
 								}"></div>
-								<input type="range" class="range-input" v-model.number="allproducts.range[0]"
-									:min="allproducts.min_price" :max="allproducts.range[1]"
-									@input="handleRangeInput" />
-								<input type="range" class="range-input" v-model.number="allproducts.range[1]"
-									:min="allproducts.range[0]" :max="allproducts.max_price"
-									@input="handleRangeInput" />
+								<input type="range"
+									class="range-input"
+									v-model.number="allproducts.range[0]"
+									:min="allproducts.min_price"
+									:max="allproducts.range[1]"
+									@input="applyPriceFilter" />
+								<input type="range"
+									class="range-input"
+									v-model.number="allproducts.range[1]"
+									:min="allproducts.range[0]"
+									:max="allproducts.max_price"
+									@input="applyPriceFilter" />
 							</div>
 						</div>
 					</div>
@@ -128,7 +134,7 @@
 
 					<!-- Skeleton Loader -->
 					<div v-if="allproducts.isLoading" class="row g-4">
-						<div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="n in 8" :key="n">
+						<div class="col-12 col-sm-6 col-md-4" v-for="n in 6" :key="n">
 							<ProductSkeleton />
 						</div>
 					</div>
@@ -150,28 +156,79 @@ import { useCategoryStore } from "@/stores/views/categories_store";
 import { useAllProducts } from "@/stores/views/allProduct_store";
 import ProductSkeleton from '@/components/views/product/ProductSkeleton.vue';
 import AllProductListToView from "./AllProductListToView.vue";
+import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 
 const { t } = useI18n()
 
 const categoryStore = useCategoryStore();
 const allproducts = useAllProducts();
-
-onMounted(() => {
-	allproducts.GetAllProducts();
-});
+const route = useRoute()
+const router = useRouter()
 
 const handleSearch = () => {
 	allproducts.currentPage = 1;
+
+	if (!allproducts.search.trim()) {
+		router.replace({ name: "allproducts" });
+		allproducts.GetAllProducts();
+		return;
+	}
+
+	router.replace({
+		name: "allproducts",
+		query: { q: allproducts.search.trim() }
+	});
+
 	allproducts.GetAllProducts();
 };
+
+onMounted(() => {
+	if(route.query.q){
+		allproducts.search = route.query.q;
+		allproducts.currentPage = 1;
+		allproducts.GetAllProducts();
+	}
+	else{
+		allproducts.itemsPerPage = 6;
+	allproducts.GetAllProducts();
+	}
+});
+
+onBeforeRouteUpdate((to, from, next) => {
+	allproducts.search = to.query.q || "";
+	allproducts.currentPage = 1;
+	allproducts.GetAllProducts();
+
+	next();
+})
 
 const selectCategory = async (categoryId) => {
 	allproducts.selectedCategory = categoryId;
 	allproducts.currentPage = 1;
+
+	const query = {
+		q: allproducts.search || undefined,
+		category: categoryId || undefined,
+		min_price: (allproducts.range[0] !== allproducts.min_price) ? allproducts.range[0] : undefined,
+		max_price: (allproducts.range[1] !== allproducts.max_price) ? allproducts.range[1] : undefined,
+	}
+
+	router.replace({ name: "allproducts", query })
+
 	await allproducts.GetAllProducts();
 };
 
-const handleRangeInput = () => {
+const applyPriceFilter = () => {
+	allproducts.currentPage = 1;
+
+	const query = {
+		q: allproducts.search || undefined,
+		category: allproducts.selectedCategory || undefined,
+		min_price: allproducts.range[0],
+		max_price: allproducts.range[1]
+	};
+
+	router.replace({ name: "allproducts", query });
 	allproducts.GetAllProducts();
 };
 
@@ -180,6 +237,8 @@ const resetFilters = () => {
 	allproducts.search = "";
 	allproducts.range = [allproducts.min_price, allproducts.max_price];
 	allproducts.currentPage = 1;
+
+	router.replace({ name:"allproducts" });
 	allproducts.GetAllProducts();
 };
 

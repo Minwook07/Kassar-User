@@ -5,9 +5,14 @@
 				<RouterLink class="navbar-brand" to="/">
 					<img src="/kassar_text.png" alt="" style="width: 150px;">
 				</RouterLink>
-				<form class="d-flex search-input-wrapper align-items-center">
+				<form @submit.prevent="goToSearch" class="d-flex search-input-wrapper align-items-center">
 					<div class="position-relative w-100">
-						<input class="form-control me-2" type="search" placeholder="ស្វែងរកផលិតផល" aria-label="Search">
+						<input
+						v-model="searchQuery"
+						class="form-control me-2"
+						type="search"
+						placeholder="ស្វែងរកផលិតផល"
+						aria-label="Search">
 						<button
 							class="btn btn-outline-success position-absolute top-50 end-0 translate-middle-y border-0"
 							type="submit">
@@ -234,6 +239,7 @@ import { useInfoProfile } from "@/stores/views/profile_store";
 
 const { t } = useI18n();
 const router = useRouter();
+const searchQuery = ref("")
 
 const categoryStore = useCategoryStore();
 const profileStore = useInfoProfile();
@@ -255,6 +261,16 @@ const displayName = computed(() => {
 	}
 	return profileStore.frm?.name || '';
 });
+
+const goToSearch = () => {
+	if (searchQuery.value.trim()) {
+		router.push({
+			name: "allproducts",
+			query: { q: searchQuery.value.trim() }
+		});
+		searchQuery.value = "";
+	}
+};
 
 const handleScroll = () => {
 	if (window.scrollY > 250) {

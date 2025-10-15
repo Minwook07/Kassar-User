@@ -23,11 +23,13 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useAllProducts } from '@/stores/views/allProduct_store';
+import { useRouter } from 'vue-router';
 
 import "swiper/css";
 import "swiper/css/pagination";
 
 const allProduct = useAllProducts();
+const router = useRouter()
 
 onMounted(() => {
     allProduct.onloadDiscountProduct(2, 1, 'asc');

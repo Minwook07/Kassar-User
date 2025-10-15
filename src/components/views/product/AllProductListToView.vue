@@ -1,31 +1,24 @@
 <template>
-    <!-- Show products or empty state (not when loading) -->
     <div v-if="!allproducts.isLoading" class="row g-4">
-        <!-- Products Grid -->
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="product in allproducts.productArr"
+        <div class="col-12 col-sm-6 col-md-4" v-for="product in allproducts.productArr"
             v-if="allproducts.productArr.length > 0" :key="product.id">
             <div class="product-card h-100" @click="goToDetail(product.id)">
-                <!-- Image Container -->
                 <div class="product-image-wrapper">
                     <div class="image-container">
                         <img :src="product.product_thumbnail" :alt="product.name" class="product-image" />
                     </div>
 
-                    <!-- Discount Badge -->
                     <div v-for="promotion in product.promotions || []" :key="promotion.id" class="discount-badge">
                         <span class="discount-percentage">-{{ promotion?.discount_rate }}%</span>
                     </div>
 
-                    <!-- Favorite Button -->
                     <button class="favorite-btn" @click.stop="OnSavefav(product.id)"
                         :class="{ active: product.is_favorited }">
                         <i :class="product.is_favorited ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
                     </button>
                 </div>
 
-                <!-- Card Body -->
                 <div class="card-body">
-                    <!-- Category & Rating -->
                     <div class="card-header-info">
                         <span class="category-tag">
                             {{ t('categories.' + product.category.name) }}
@@ -36,15 +29,12 @@
                         </div>
                     </div>
 
-                    <!-- Product Title -->
                     <h5 class="product-title">{{ product.name }}</h5>
 
-                    <!-- Product Description -->
                     <p class="product-description">
                         {{ product.description }}
                     </p>
 
-                    <!-- Price & Cart Button -->
                     <div class="card-footer-content">
                         <div class="price-container">
                             <div v-if="product.price && product.price.has_discount !== false">
@@ -114,7 +104,6 @@
     <!-- Pagination Info -->
     <div v-if="!allproducts.isLoading && allproducts.productArr.length > 0" class="text-center mt-3 text-muted">
         បង្ហាញ {{ allproducts.productArr.length }} ក្នុងចំណោម {{ allproducts.totalProducts }} ផលិតផល
-        (ទំព័រ {{ allproducts.currentPage }} / {{ totalPages }})
     </div>
 </template>
 

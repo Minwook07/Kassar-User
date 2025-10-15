@@ -3,14 +3,16 @@ import axios from "axios";
 export const useShopStore = defineStore('views/shops_store', {
     state: () => ({
         selected_id: 0,
-        shops: null
+        shops: null,
+        products: []
     }),
     actions: {
-        async onlaodShop(id) {
+        async onloadShop(id) {
             try {
                 const res = await axios.get(`/api/shops/${id}`)
                 if (res.data.result) {
                     this.shops = res.data.data;
+                    this.products = res.data.data.products;
                 }
             }
             catch (error) {
