@@ -92,13 +92,15 @@ const onDelete = () => {
             infoProfileStore.mdl_delete.hide()
             infoProfileStore.del_frm.password = ''
 
-            authStore.logout()
-
+            infoProfileStore.token = null
             infoProfileStore.frm = {}
             infoProfileStore.roles = []
+            
+            authStore.logout()
 
             toastStore.showToast('គណនីត្រូវបានលុបដោយជោគជ័យ!')
-            router.push('/')
+            
+            router.replace('/')
         })
         .catch((err) => {
             if (err.response?.data?.message) {
