@@ -7,7 +7,8 @@
                         <div class="item-foot">
                             <div class="logo-foot">
                                 <RouterLink to="/">
-                                    <img src="@/assets/images/kassar_text_white.png" alt="" style=" height: 50px; object-fit: cover;">
+                                    <img src="@/assets/images/kassar_text_white.png" alt=""
+                                        style=" height: 50px; object-fit: cover;">
                                 </RouterLink>
                             </div>
                             <div class="text-foot py-3">
@@ -33,7 +34,7 @@
                     <div class="col-lg-2 col-md-6 mt-lg-0 mt-4">
                         <div class="item-foot">
                             <p class="fw-semibold">ក្រុមហ៊ុន</p>
-                            <div class="border-foot"></div> 
+                            <div class="border-foot"></div>
                             <ul class="link_foot d-flex flex-column gap-3 pt-2">
                                 <li>
                                     <RouterLink class="link-a" to="/about">អំពីពួកយើង</RouterLink>
@@ -42,7 +43,7 @@
                                     <RouterLink class="link-a" to="/contact">ទំនាក់ទំនង</RouterLink>
                                 </li>
                                 <li>
-                                    <RouterLink class="link-a" to="/video">វិឌីអូ</RouterLink>
+                                    <RouterLink class="link-a" to="/video">វិដេអូ</RouterLink>
                                 </li>
                             </ul>
                         </div>
@@ -50,7 +51,7 @@
                     <div class="col-lg-2 col-md-6 mt-lg-0 mt-4">
                         <div class="item-foot">
                             <p class="fw-semibold">សេវាកម្ម</p>
-                            <div class="border-foot"></div> 
+                            <div class="border-foot"></div>
                             <ul class="link_foot d-flex flex-column gap-3 pt-2">
                                 <li>
                                     <RouterLink class="link-a" to="/profile">គណនីខ្ញុំ</RouterLink>
@@ -66,8 +67,8 @@
                     </div>
                     <div class="col-lg-2 col-md-6 mt-lg-0 mt-4">
                         <div class="item-foot">
-                            <p class="fw-semibold">ព័ត៌មានលំអិត</p>
-                            <div class="border-foot"></div> 
+                            <p class="fw-semibold">គោលការណ៍</p>
+                            <div class="border-foot"></div>
                             <ul class="link_foot d-flex flex-column gap-3 pt-2">
                                 <li>
                                     <RouterLink class="link-a" to="/privacy">គោលការណ៍ឯកជនភាព</RouterLink>
@@ -84,10 +85,10 @@
                     <div class="col-lg-2 col-md-6 mt-lg-0 mt-4">
                         <div class="item-foot">
                             <p class="fw-semibold">ព័ត៌មានទំនាក់ទំនង</p>
-                            <div class="border-foot"></div> 
-                            <ul class="link_foot d-flex flex-column gap-3 pt-2"> 
+                            <div class="border-foot"></div>
+                            <ul class="link_foot d-flex flex-column gap-3 pt-2">
                                 <li>
-                                    <RouterLink class="link-a"  to="#"> +855 978 654 345</RouterLink>
+                                    <RouterLink class="link-a" to="#"> +855 978 654 345</RouterLink>
                                 </li>
                                 <li>
                                     <RouterLink class="link-a" to="">kassar@gmail.com</RouterLink>
@@ -101,9 +102,25 @@
                 </div>
             </div>
             <div class="text-center mt-5">
-                <hr class="pt-2"> 
-                <p class="text-foot">Copyright &copy; 2025 <RouterLink to="/" class="text-danger text-decoration-none link-website">Kassar Website Design</RouterLink>. All right reserved.</p>
+                <hr class="pt-2">
+                <p class="text-foot">
+                    Copyright &copy; {{ displayYear }}
+                    <RouterLink to="/" class="text-danger text-decoration-none link-website">
+                        {{ teamName }}
+                    </RouterLink>.
+                    All rights reserved.
+                </p>
             </div>
         </div>
     </main>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+const startYear = 2025;
+const currentYear = new Date().getFullYear();
+const displayYear = startYear === currentYear ? `${currentYear}` : `${startYear}-${currentYear}`;
+
+const teamName = ref("Kassar Team");
+</script>

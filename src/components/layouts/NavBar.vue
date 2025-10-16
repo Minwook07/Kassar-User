@@ -7,12 +7,8 @@
 				</RouterLink>
 				<form @submit.prevent="goToSearch" class="d-flex search-input-wrapper align-items-center">
 					<div class="position-relative w-100">
-						<input
-						v-model="searchQuery"
-						class="form-control me-2"
-						type="search"
-						placeholder="ស្វែងរកផលិតផល"
-						aria-label="Search">
+						<input v-model="searchQuery" class="form-control me-2" type="search" placeholder="ស្វែងរកផលិតផល"
+							aria-label="Search">
 						<button
 							class="btn btn-outline-success position-absolute top-50 end-0 translate-middle-y border-0"
 							type="submit">
@@ -76,7 +72,8 @@
 										<h6 class="text-secondary m-0 fw-bold">
 											<span>{{ profileStore.displayName }}</span>
 										</h6>
-										<p class="text-muted m-0" style="font-size: 12px;">{{ profileStore.frm.email }}</p>
+										<p class="text-muted m-0" style="font-size: 12px;">{{ profileStore.frm.email }}
+										</p>
 									</div>
 								</RouterLink>
 							</li>
@@ -138,10 +135,9 @@
 						</RouterLink>
 						<ul class="dropdown-menu">
 							<li v-for="category in categoryStore.categories" :key="category.id">
-								<RouterLink class="dropdown-item" :to="{
-									path: '/allproducts',
-									query: { category_id: category.id }
-								}">{{ t('categories.' + category.name) }}</RouterLink>
+								<button class="dropdown-item" @click="selectCategory(category.id)">
+									{{ t('categories.' + category.name) }}
+								</button>
 							</li>
 						</ul>
 					</li>
@@ -236,6 +232,7 @@ import { useAllVideos } from '@/stores/views/videoFeed_store';
 import { useCardStore } from '@/stores/card_store';
 import { useCategoryStore } from "@/stores/views/categories_store";
 import { useInfoProfile } from "@/stores/views/profile_store";
+import { useAllProducts } from "@/stores/views/allProduct_store";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -245,6 +242,7 @@ const categoryStore = useCategoryStore();
 const profileStore = useInfoProfile();
 const cartListStore = useCardStore();
 const allVideos = useAllVideos();
+const allProduct = useAllProducts()
 
 const headerRef = ref(null);
 const btnClickProfile = ref(null);
@@ -255,8 +253,8 @@ let collapseInstance = null;
 const toggleClass = "is-sticky";
 
 const displayName = computed(() => {
-	if (profileStore.frm?.roles?.length && 
-	    profileStore.frm.roles[0].name === 'role_seller_user') {
+	if (profileStore.frm?.roles?.length &&
+		profileStore.frm.roles[0].name === 'role_seller_user') {
 		return profileStore.frm.shop_name;
 	}
 	return profileStore.frm?.name || '';
@@ -281,9 +279,9 @@ const handleScroll = () => {
 };
 
 const handleOutsideClick = (event) => {
-	if (profileDropdown.value && 
-	    !profileDropdown.value.contains(event.target) &&
-		btnClickProfile.value && 
+	if (profileDropdown.value &&
+		!profileDropdown.value.contains(event.target) &&
+		btnClickProfile.value &&
 		!btnClickProfile.value.contains(event.target)) {
 		profileDropdown.value.classList.remove("active");
 	}
@@ -307,13 +305,19 @@ const toggleCollapse = () => {
 	collapseInstance?.toggle();
 };
 
+const selectCategory = async (categoryId) => {
+    allProduct.selectedCategory = categoryId
+    await allProduct.GetAllProducts()
+    router.push({ path: '/allproducts', query: { category_id: categoryId } })
+}
+
 // Lifecycle hooks
 onMounted(async () => {
 	window.addEventListener("scroll", handleScroll);
 	document.addEventListener("click", handleOutsideClick);
 
 	await nextTick();
-	
+
 	if (btnClickProfile.value) {
 		btnClickProfile.value.addEventListener("click", (event) => {
 			event.stopPropagation();

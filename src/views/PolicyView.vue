@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid py-5">
         <div class="py-5 bg-white">
             <div class="policy px-4">
                 <h4 class="fs-4 title-policy text-decoration-underline fw-bold text-center">បង្វិលប្រាក់វិញ ឬប្រាក់ត្រឡប់</h4>
