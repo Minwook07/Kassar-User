@@ -53,6 +53,6 @@ onMounted(() => {
 })
 
 function goToVideoDetail(id) {
-    router.push({ name: 'video', params: { id } });
+    router.push({ name: 'video', query: { id } });
 }
 </script>

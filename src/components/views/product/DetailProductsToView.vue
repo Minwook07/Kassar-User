@@ -214,7 +214,7 @@
 											<small class="text-muted-foreground">ការវាយតម្លៃ</small>
 										</div>
 										<div>
-											<div class="fw-bold text-primary">{{ shops_store.shops.total_products }}+
+											<div class="fw-bold text-primary">{{ shops_store.shops?.total_products }}+
 											</div>
 											<small class="text-muted-foreground">ផលិតផល</small>
 										</div>
@@ -225,7 +225,7 @@
 									</div>
 								</div>
 								<button class="btn btn-outline-primary w-100 py-3 rounded-pill fw-semibold"
-									@click="goToshop(detailProducts.product?.id)">
+									@click="goToshop(detailProducts.product)">
 									<i class="bi bi-shop me-2"></i>ចូលមើលហាង
 								</button>
 							</div>
@@ -307,7 +307,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useI18n } from 'vue-i18n'
 import { useRouter } from "vue-router";
@@ -424,8 +424,31 @@ const onChangeImage = (imgId, imageUrl) => {
 	selectedImageUrl.value = imageUrl;
 };
 
-const goToshop = (id) => {
-	router.push({ name: "viewshop", query: { id } });
+const goToshop = () => {
+	let shopId = detailProducts.value?.product?.shop_id;
+	
+	if (!shopId && shops_store.shops?.id) {
+		shopId = shops_store.shops.id;
+	}
+	
+	if (!shopId && detailProducts.value?.shop?.id) {
+		shopId = detailProducts.value.shop.id;
+	}
+	
+	if (!shopId) {
+		console.error("Shop ID not found", {
+			productData: detailProducts.value?.product,
+			shopsStore: shops_store.shops,
+			detailData: detailProducts.value
+		});
+		toastStore.showToast("មិនអាចរកឃើញហាងបានទេ");
+		return;
+	}
+	
+	router.push({ 
+		name: "viewshop", 
+		query: { id: shopId } 
+	});
 };
 
 const goToDetail = (id) => {
