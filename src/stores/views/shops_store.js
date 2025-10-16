@@ -8,6 +8,7 @@ export const useShopStore = defineStore('views/shops_store', {
         selected_id: 0,
         shops: null,
         products: [],
+        categories: [],
 
         follow: {
             is_following: false
@@ -39,6 +40,9 @@ export const useShopStore = defineStore('views/shops_store', {
                 if (res.data.result) {
                     this.shops = res.data.data;
                     this.products = res.data.data.products || [];
+
+                    this.categories = [...new Map(this.products.map(p => [p.category.id, p.category])).values()];
+
                     return true;
                 }
 
@@ -49,6 +53,70 @@ export const useShopStore = defineStore('views/shops_store', {
             } finally {
                 this.loading = false;
             }
+        },
+
+        addToCart(id) {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            const toastStore = useToastStore();
+
+            if (!token) {
+                toastStore.showToast('សូមចូល​គណនី​មុន​បន្ថែម​ទំនិញ');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('product_id', id);
+            formData.append('qty', 1);
+
+            return axios.post('/api/cart', formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                }
+            })
+                .then(response => {
+                    if (response.data && response.data.result) {
+                        toastStore.showToast('ដាក់ចូលកន្ត្រកជោគជ័យ');
+                    } else {
+                        toastStore.showToast('មានបញ្ហា! មិនអាចដាក់ចូលកន្ត្រកបានទេ');
+                    }
+                    return response.data.result;
+                })
+        },
+
+        addToFavorite(id) {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            const toastStore = useToastStore();
+
+            if (!token) {
+                toastStore.showToast('សូម​ចូល​គណនី​ជាមុនសិន');
+                return;
+            }
+
+            return axios.post(`/api/favorites/toggle?product_id=${id}`, null, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+                .then(response => {
+                    if (response.data && response.data.result) {
+                        // Update in all arrays
+                        const updateFavorite = (arr) => {
+                            const index = arr.findIndex(product => product.id === id);
+                            if (index !== -1) {
+                                const currentState = arr[index].is_favorited;
+                                arr[index].is_favorited = !currentState;
+                                toastStore.showToast(currentState ? "ដកចេញពីបញ្ជីប្រាថ្នាជោគជ័យ" : "ដាក់ចូលបញ្ជីប្រាថ្នាជោគជ័យ");
+                            }
+                        };
+
+                        updateFavorite(this.productArr);
+                        updateFavorite(this.newArrivals);
+                        updateFavorite(this.latestPro);
+                        updateFavorite(this.discountPro);
+                    } else {
+                        toastStore.showToast("មានបញ្ហា! មិនអាចរក្សាទុកបានទេ។");
+                    }
+                    return response.data.result;
+                })
         },
 
         async getCountFollower(id) {
@@ -172,7 +240,7 @@ export const useShopStore = defineStore('views/shops_store', {
                     toastStore.showToast("មិនអាចចែករំលែកបានទេ", "danger");
                 }
             }
-        },        
+        },
 
         clearShopData() {
             this.shops = null;

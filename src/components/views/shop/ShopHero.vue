@@ -64,13 +64,12 @@ const shops_store = useShopStore()
 const route = useRoute()
 
 const onShare = () => {
-  if (shops_store.mdl_share) {
-    shops_store.mdl_share.show();
-  } else {
-    console.warn("Modal not initialized yet");
-  }
+    if (shops_store.mdl_share) {
+        shops_store.mdl_share.show();
+    } else {
+        console.warn("Modal not initialized yet");
+    }
 }
-
 
 onMounted(async () => {
     const loaded = await shops_store.onloadShop(route.query.id);
