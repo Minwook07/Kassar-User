@@ -83,7 +83,6 @@ import { useRelatedProduct } from '@/stores/views/relatedProduct_store';
 import { useToastStore } from '@/stores/toast_store';
 import { useCardStore } from '@/stores/card_store';
 import axios from 'axios';
-import { onMounted } from 'vue';
 
 const router = useRouter();
 const { t } = useI18n();

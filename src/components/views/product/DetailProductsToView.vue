@@ -347,6 +347,11 @@ const getDetail = () => {
 		.then((res) => {
 			detailProducts.value = res.data.data;
 			relatedProductStore.onLoadRelatedProduct(id.value);
+
+			activeImage.value = null;
+			selectedImageUrl.value = "";
+
+			count.value = 0;
 		})
 };
 
@@ -415,8 +420,13 @@ const toggleFav = (FavProduct) => {
 };
 
 onMounted(() => {
-	shops_store.onloadShop(1);
-	id.value = router.currentRoute.value.query.id;
+	const shopId = router.currentRoute.value.query.id;
+
+	id.value = shopId;
+
+	if (shopId) {
+		shops_store.onloadShop(shopId);
+	}
 	getDetail();
 });
 const onChangeImage = (imgId, imageUrl) => {
@@ -426,15 +436,15 @@ const onChangeImage = (imgId, imageUrl) => {
 
 const goToshop = () => {
 	let shopId = detailProducts.value?.product?.shop_id;
-	
+
 	if (!shopId && shops_store.shops?.id) {
 		shopId = shops_store.shops.id;
 	}
-	
+
 	if (!shopId && detailProducts.value?.shop?.id) {
 		shopId = detailProducts.value.shop.id;
 	}
-	
+
 	if (!shopId) {
 		console.error("Shop ID not found", {
 			productData: detailProducts.value?.product,
@@ -444,10 +454,10 @@ const goToshop = () => {
 		toastStore.showToast("មិនអាចរកឃើញហាងបានទេ");
 		return;
 	}
-	
-	router.push({ 
-		name: "viewshop", 
-		query: { id: shopId } 
+
+	router.push({
+		name: "viewshop",
+		query: { id: shopId }
 	});
 };
 

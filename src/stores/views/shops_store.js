@@ -1,12 +1,14 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { useToastStore } from "../toast_store";
 
 export const useShopStore = defineStore('views/shops_store', {
     state: () => ({
+        mdl_share: null,
         selected_id: 0,
         shops: null,
         products: [],
-        
+
         follow: {
             is_following: false
         },
@@ -16,7 +18,7 @@ export const useShopStore = defineStore('views/shops_store', {
 
         loading: false,
         followLoading: false,
-        
+
         error: null
     }),
 
@@ -33,13 +35,13 @@ export const useShopStore = defineStore('views/shops_store', {
 
             try {
                 const res = await axios.get(`/api/shops/${id}`);
-                
+
                 if (res.data.result) {
                     this.shops = res.data.data;
                     this.products = res.data.data.products || [];
                     return true;
                 }
-                
+
                 throw new Error(res.data.message || "Failed to load shop");
             } catch (error) {
                 console.error('Failed to load shop:', error);
@@ -57,12 +59,12 @@ export const useShopStore = defineStore('views/shops_store', {
 
             try {
                 const res = await axios.get(`/api/shops/${id}/followers`);
-                
+
                 if (res.data.result) {
                     this.count_follows.total = res.data.paginate?.total || 0;
                     return true;
                 }
-                
+
                 return false;
             } catch (error) {
                 console.error('Failed to get follower count:', error);
@@ -78,9 +80,10 @@ export const useShopStore = defineStore('views/shops_store', {
             }
 
             const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-            
+            const toastStore = useToastStore();
+
             if (!token) {
-                console.error("Authentication token is required");
+                toastStore.showToast('សូមចូល​គណនី​ជាមុន');
                 return false;
             }
 
@@ -89,23 +92,24 @@ export const useShopStore = defineStore('views/shops_store', {
 
             try {
                 const res = await axios.post(
-                    `/api/shops/${id}/toggle-follow`, 
-                    null, 
+                    `/api/shops/${id}/toggle-follow`,
+                    null,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     }
                 );
-                
+
                 if (res.data.result) {
-                    this.follow = res.data.data;
-                    
+                    // this.follow = res.data.data;
+                    this.follow.is_following = res.data.data?.is_following ?? false;
+
                     await this.getCountFollower(id);
-                    
+
                     return true;
                 }
-                
+
                 throw new Error(res.data.message || "Failed to toggle follow");
             } catch (error) {
                 console.error('Failed to toggle follow:', error);
@@ -120,27 +124,55 @@ export const useShopStore = defineStore('views/shops_store', {
             if (!id) return false;
 
             const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-            
+
             if (!token) return false;
 
             try {
-                const res = await axios.get(`/api/shops/${id}/follow-status`, {
+                const res = await axios.get(`/api/shops/${id}/followers`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                
+
                 if (res.data.result) {
-                    this.follow = res.data.data;
+                    // this.follow = res.data.data;
+                    this.follow.is_following = res.data.data?.is_following ?? false;
                     return true;
                 }
-                
+
                 return false;
             } catch (error) {
                 console.error('Failed to check follow status:', error);
                 return false;
             }
         },
+
+        async onShare() {
+            if (!this.shops) return; // Use this.shops instead of detailShop
+
+            const toastStore = useToastStore();
+
+            const shareData = {
+                title: this.shops.shop_name,
+                text: this.shops.comment,
+                url: window.location.href,
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                    toastStore.showToast("បានចែករំលែក");
+                } else {
+                    await navigator.clipboard.writeText(window.location.href);
+                    toastStore.showToast("បានចម្លងតំណភ្ជាប់");
+                }
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error("Error sharing:", error);
+                    toastStore.showToast("មិនអាចចែករំលែកបានទេ", "danger");
+                }
+            }
+        },        
 
         clearShopData() {
             this.shops = null;
