@@ -26,14 +26,19 @@ export const useAllProducts = defineStore('views/allProduct', {
         max_price: 100000,
         range: [0, 100000],
 
-        // loading / totals
+        sortColumn: 'id',
+        sortDirection: 'desc',
+        currentSortLabel: 'ថ្មីបំផុត',
+
+        viewMode: 'grid',
+
         isLoading: false,
         totalProducts: 0,
     }),
     actions: {
         async GetAllProducts() {
             this.isLoading = true;
-            let url = `/api/products?size=${this.itemsPerPage}&page=${this.currentPage}`;
+            let url = `/api/products?size=${this.itemsPerPage}&page=${this.currentPage}&scol=${this.sortColumn}&sdir=${this.sortDirection}`;
 
             if (this.search) {
                 url += `&search=${encodeURIComponent(this.search)}`;
@@ -57,6 +62,51 @@ export const useAllProducts = defineStore('views/allProduct', {
             } finally {
                 setTimeout(() => { this.isLoading = false }, 300);
             }
+        },
+
+        setSorting(sortType) {
+            switch (sortType) {
+                case 'newest':
+                    this.sortColumn = 'id';
+                    this.sortDirection = 'desc';
+                    this.currentSortLabel = 'ថ្មីបំផុត';
+                    break;
+                case 'oldest':
+                    this.sortColumn = 'id';
+                    this.sortDirection = 'asc';
+                    this.currentSortLabel = 'ចាស់បំផុត';
+                    break;
+                case 'price-low-high':
+                    this.sortColumn = 'price';
+                    this.sortDirection = 'asc';
+                    this.currentSortLabel = 'តម្លៃ: ទាបទៅខ្ពស់';
+                    break;
+                case 'price-high-low':
+                    this.sortColumn = 'price';
+                    this.sortDirection = 'desc';
+                    this.currentSortLabel = 'តម្លៃ: ខ្ពស់ទៅទាប';
+                    break;
+                case 'name-a-z':
+                    this.sortColumn = 'name';
+                    this.sortDirection = 'asc';
+                    this.currentSortLabel = 'ឈ្មោះ: ក-អ';
+                    break;
+                case 'name-z-a':
+                    this.sortColumn = 'name';
+                    this.sortDirection = 'desc';
+                    this.currentSortLabel = 'ឈ្មោះ: អ-ក';
+                    break;
+                default:
+                    this.sortColumn = 'id';
+                    this.sortDirection = 'desc';
+                    this.currentSortLabel = 'ថ្មីបំផុត';
+            }
+            this.currentPage = 1;
+            this.GetAllProducts();
+        },
+
+        setViewMode(mode) {
+            this.viewMode = mode;
         },
 
         // New Arrivals with Pagination

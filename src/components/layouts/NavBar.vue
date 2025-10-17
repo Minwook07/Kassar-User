@@ -19,7 +19,7 @@
 
 				<div v-if="!profileStore.token" class="d-flex align-items-center gap-2">
 					<div class="ms-auto d-none d-lg-inline">
-						<RouterLink class="btn btn-outline-primary rounded-5 px-4 me-1 d-flex align-items-center"
+						<RouterLink class="btn btn-outline-primary rounded-5 px-2 px-lg-4 py-2 me-1 d-flex align-items-center"
 							to="/signup">
 							<i class="bi bi-person-plus me-2"></i>
 							<span class="d-none d-lg-inline">ចុះឈ្មោះ</span>
