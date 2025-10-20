@@ -21,14 +21,14 @@
 					<div class="ms-auto d-none d-lg-inline">
 						<RouterLink class="btn btn-outline-primary rounded-5 px-2 px-lg-4 py-2 me-1 d-flex align-items-center"
 							to="/signup">
-							<i class="bi bi-person-plus me-2"></i>
+							 <i class="fa-solid fa-user-plus me-2"></i>
 							<span class="d-none d-lg-inline">ចុះឈ្មោះ</span>
 						</RouterLink>
 					</div>
 					<div class="ms-auto">
 						<RouterLink class="btn btn-primary rounded-5 px-2 px-lg-4 py-2 d-flex align-items-center"
 							to="/login">
-							<i class="bi bi-box-arrow-in-right me-2"></i>
+							<i class="fa-solid fa-right-to-bracket me-2"></i>
 							<span class="d-none d-lg-inline">ចូលគណនី</span>
 						</RouterLink>
 					</div>

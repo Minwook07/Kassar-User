@@ -71,10 +71,10 @@
 									<span class="current-price text-primary fw-bold" style="font-size: 2.5rem;">
 										{{ detailProducts.product.price.discounted_price }}
 									</span>
-									<span class="currency text-primary fw-bold fs-4">៛</span>
+									<span class="currency text-primary fw-bold fs-4">រៀល</span>
 									<span
 										class="original-price text-decoration-line-through text-muted-foreground fs-5">
-										{{ detailProducts.product.price.original }}៛
+										{{ detailProducts.product.price.original }}រៀល
 									</span>
 								</div>
 								<div class="discount-info">
@@ -89,7 +89,7 @@
 									<span class="current-price text-primary fw-bold" style="font-size: 2.5rem;">
 										{{ detailProducts.product?.price?.original || '' }}
 									</span>
-									<span class="currency text-primary fw-bold fs-4">៛</span>
+									<span class="currency text-primary fw-bold fs-4">រៀល</span>
 								</div>
 							</div>
 							<div class="unit-info mt-2">

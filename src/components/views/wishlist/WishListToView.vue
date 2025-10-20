@@ -52,7 +52,7 @@
 									<div>
 										<span class="h5 text-success mb-0">${{ FavProduct.product.price }}</span>
 										<span class="text-muted small">/ {{
-											FavProduct.product.product_unit.name }}</span>
+											t('product_units.' + (FavProduct.product.product_unit.name)) }}</span>
 									</div>
 								</div>
 								<div class="d-grid">
@@ -82,6 +82,7 @@
 
 <script setup>
 import { onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 import { useContactStore } from "@/stores/contact_store";
 import { useCardStore } from "@/stores/card_store";
 import bgImage from '@/assets/images/background/bg-fav.png';
@@ -89,6 +90,7 @@ import { useWishListStore } from "@/stores/views/wishlist_store";
 import { Heart, ShoppingCart, Star } from "lucide-vue-next";
 import ToastView from "../toast/ToastView.vue";
 
+const { t } = useI18n()
 const contactStore = useContactStore();
 const cartListStore = useCardStore();
 const wishlist_store = useWishListStore()

@@ -30,7 +30,7 @@
 						<div class="flex-grow-1">
 							<h5 class="mb-2 mt-1 fw-bold">{{ cartList.product.name }}</h5>
 							<p class="mb-1 text-muted">
-								{{ formatPrice(cartList.product.price) }} ៛ /{{ cartList.product.product_unit.name }} |
+								{{ formatPrice(cartList.product.price) }} ៛ /{{ t('product_units.' + (cartList.product.product_unit.name)) }} |
 								<span class="text-success">
 									{{ cartList.product.stock_status }}</span> | <span class="text-danger">
 									{{ cartList.product.discount_rate }}% </span>
@@ -87,9 +87,11 @@
 <script setup>
 import { useCardStore } from '@/stores/card_store';
 import { onMounted, ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const cartListStore = useCardStore();
 const selectAllChecked = ref(false); // Ensure it's false by default
+const { t } = useI18n()
 
 // format money
 const formatPrice = cartListStore.formatPrice;
