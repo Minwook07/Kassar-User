@@ -42,7 +42,7 @@
                     <div class="d-flex">
                         <RouterLink :to="video?.user?.id ? `/viewshop?id=${video.user.id}` : '#'"
                             class="shop-avatar border">
-                            <img v-if="video?.shop?.image" :src="video.shop.image" alt="">
+                            <img v-if="video?.shop?.avatar" :src="video.shop.avatar" alt="">
                         </RouterLink>
                         <div class="owner-detail ps-2">
                             <RouterLink :to="video?.user?.id ? `/viewshop?id=${video.user.id}` : '#'"

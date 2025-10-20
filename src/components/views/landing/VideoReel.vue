@@ -15,7 +15,7 @@
                             <div class="user_info">
                                 <p class="video-desc text-white m-0">{{ video.description }}</p>
                                 <div class="d-flex align-items-center mb-2">
-                                    <img :src="video.shop?.image" alt="">
+                                    <img :src="video.shop?.avatar" alt="">
                                     <p class="username m-0 ps-1 text-white">{{ video.shop?.name }}</p>
                                 </div>
                             </div>

@@ -35,7 +35,7 @@ export const useShopStore = defineStore('views/shops_store', {
             this.selected_id = id;
 
             try {
-                const res = await axios.get(`/api/shops/${id}`);
+                const res = await axios.get(`/api/shop-products/${id}`);
 
                 if (res.data.result) {
                     this.shops = res.data.data;

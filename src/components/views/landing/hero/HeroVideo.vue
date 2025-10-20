@@ -17,7 +17,7 @@
                         </RouterLink>
                         <div class="detail w-50 ps-3">
                             <div class="user_info d-flex align-items-center">
-                                <img :src="video.shop.image" alt="" class="rounded-circle me-1">
+                                <img :src="video.shop.avatar" alt="" class="rounded-circle me-1">
                                 <p class="username m-0 fw-bold ps-1">{{ video.shop.name }}</p>
                             </div>
                             <div class="caption pt-2">
