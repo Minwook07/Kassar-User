@@ -92,7 +92,6 @@
 		</div>
 	</div>
 </template>
-
 <script setup>
 import { reactive, ref, onMounted } from "vue";
 import useVuelidate from "@vuelidate/core";
@@ -211,14 +210,14 @@ async function onSaveLogin() {
 
 <style scoped>
 .password-input {
-	padding-right: 45px;
+	padding-right: 50px;
 }
 
 .password-toggle {
 	position: absolute;
 	right: 15px;
-	top: 50%;
-	transform: translateY(-50%);
+	top: 55%;
+	transform: translateY(-60%);
 	color: #6c757d;
 	cursor: pointer;
 	transition: color 0.2s ease;
@@ -231,6 +230,11 @@ async function onSaveLogin() {
 
 .is-invalid~.password-toggle {
 	top: 35%;
+}
+
+input.is-invalid+.password-toggle,
+input.is-invalid~.password-toggle {
+	right: 30px;
 }
 
 .form-control:focus {

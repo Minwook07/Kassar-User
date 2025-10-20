@@ -234,8 +234,13 @@ body {
 
 .frm-auth {
     max-width: 900px;
-    margin: 60px auto;
+    margin: 0 auto; /* remove vertical margin */
     padding: 30px;
+
+    display: flex;
+    align-items: center;       /* vertical centering */
+    justify-content: center;   /* horizontal centering */
+    min-height: 100vh;         /* full viewport height */
 }
 
 .frm-auth .left-section {

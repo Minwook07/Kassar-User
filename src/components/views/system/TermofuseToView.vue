@@ -1,6 +1,6 @@
 <template>
 	<!-- Modal -->
-	<div class="modal d-block" id="termofuse" aria-labelledby="exampleModalLabel" aria-modal="true" role="dialog">
+	<div class="modal" id="termofuse" aria-labelledby="exampleModalLabel" aria-modal="true" role="dialog">
 		<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header py-4 px-3">
@@ -104,7 +104,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" @click="close" data-bs-dismiss="modal">
+					<button type="button" class="btn btn-primary" @click="agreeTerm" data-bs-dismiss="modal">
 						យល់ព្រម
 					</button>
 				</div>
@@ -112,11 +112,20 @@
 		</div>
 	</div>
 </template>
+
 <script setup>
-import { Modal } from 'bootstrap/dist/js/bootstrap.min';
-import { useAllProducts } from '@/stores/views/allProduct_store';
-const allProduct = useAllProducts();
-const close = () => {
-	allProduct.mdl_term = Modal.getOrCreateInstance(document.getElementById('termofuse')).hide
-}
+import { Modal } from 'bootstrap';
+import { useAuthStore } from '@/stores/auth_store';
+import { onMounted } from 'vue';
+
+const authStore = useAuthStore();
+
+const agreeTerm = () => {
+	authStore.acceptTerms();
+};
+
+onMounted(() => {
+	const modalElement = Modal.getOrCreateInstance(document.getElementById('termofuse'));
+	authStore.initTermModal(modalElement);
+});
 </script>
