@@ -1,7 +1,7 @@
 <template>
 	<header ref="headerRef" class="page-header bg-body-tertiary">
 		<div class="container-fluid p-0">
-			<div class="d-flex align-items-center justify-content-between w-100 p-2 navbar-top ">
+			<div class="d-flex align-items-center justify-content-between w-100 p-2 navbar-top">
 				<RouterLink class="navbar-brand" to="/">
 					<img src="/kassar_text.png" alt="" style="width: 150px;">
 				</RouterLink>
@@ -142,6 +142,11 @@
 						</ul>
 					</li>
 					<li class="nav-item">
+						<RouterLink class="nav-link d-flex align-items-center" to="/allshops">
+							<h6 class="m-0">ហាងទាំងអស់</h6>
+						</RouterLink>
+					</li>
+					<li class="nav-item">
 						<RouterLink class="nav-link d-flex align-items-center" to="/about">
 							<h6 class="m-0">អំពីពួកយើង</h6>
 						</RouterLink>
@@ -206,6 +211,11 @@
 						</li>
 					</ul>
 				</div>
+				<li class="nav-item">
+						<RouterLink class="nav-link d-flex align-items-center" to="/allshops">
+							<h6 class="m-0">ហាងទាំងអស់</h6>
+						</RouterLink>
+					</li>
 				<li class="nav-item">
 					<RouterLink to="/cart">កន្ត្រក</RouterLink>
 				</li>

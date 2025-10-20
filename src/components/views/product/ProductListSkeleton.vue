@@ -1,5 +1,5 @@
 <template>
-	<div class="product-list-skeleton mb-3">
+	<div class="product-list-skeleton mb-3pp">
 		<div class="row g-0">
 			<!-- Image Column -->
 			<div class="col-12 col-md-3 col-lg-2">
