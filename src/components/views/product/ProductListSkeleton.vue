@@ -1,37 +1,40 @@
 <template>
-	<div class="product-list-skeleton mb-3pp">
-		<div class="row g-0">
-			<!-- Image Column -->
-			<div class="col-12 col-md-3 col-lg-2">
-				<div class="skeleton-list-image-wrapper">
-					<div class="skeleton-list-image rounded"></div>
-					<div class="skeleton-list-badge rounded-pill"></div>
-				</div>
-			</div>
-
-			<!-- Content Column -->
-			<div class="col-12 col-md-9 col-lg-10">
-				<div class="skeleton-list-card-body">
-					<!-- Header Info -->
-					<div class="d-flex align-items-center gap-3 mb-2">
-						<div class="skeleton-text-sm"></div>
-						<div class="skeleton-text-sm"></div>
+	<div class="product-list-skeleton mb-3">
+		<div class="skeleton-card">
+			<div class="row g-0">
+				<!-- Image Column -->
+				<div class="col-12 col-md-3 col-lg-2">
+					<div class="skeleton-list-image-wrapper">
+						<div class="skeleton-list-image rounded"></div>
+						<div class="skeleton-list-badge rounded-pill"></div>
 					</div>
-
-					<!-- Product Title -->
-					<div class="skeleton-text-lg mb-2"></div>
-
-					<!-- Shop Name -->
-					<div class="skeleton-text-sm mb-2"></div>
-
-					<!-- Description -->
-					<div class="skeleton-text-sm mb-1"></div>
-					<div class="skeleton-text-sm mb-1"></div>
-
-					<!-- Price & Actions Row -->
-					<div class="d-flex justify-content-between align-items-center mt-3 gap-2">
-						<div class="skeleton-text-md"></div>
-						<div class="skeleton-button rounded-pill"></div>
+				</div>
+				<!-- Content Column -->
+				<div class="col-12 col-md-9 col-lg-10">
+					<div class="skeleton-list-card-body">
+						<!-- Header Info -->
+						<div class="d-flex align-items-center gap-3 mb-2">
+							<div class="skeleton-button rounded-pill"></div>
+							<div class="skeleton-text-sm"></div>
+						</div>
+						<!-- Product Title -->
+						<div class="skeleton-text-lg mb-2"></div>
+						<!-- Shop Name -->
+						<div class="skeleton-text-sm mb-2"></div>
+						<!-- Description -->
+						<div class="skeleton-text-sm mb-1 w-75"></div>
+						<div class="skeleton-text-sm mb-1 w-75"></div>
+						<!-- Price & Actions Row -->
+						<div class="d-flex justify-content-between align-items-center mt-3 gap-2">
+							<div>
+								<div class="skeleton-text-md mb-2"></div>
+								<div class="skeleton-text-md"></div>
+							</div>
+							<div class="d-flex align-items-center gap-3">
+								<div class="skeleton-button rounded-pill"></div>
+								<div class="skeleton-button rounded-pill"></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -44,11 +47,26 @@
 </script>
 
 <style scoped>
+/* Add card container styling */
+.skeleton-card {
+	background: white;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.product-list-skeleton {
+	margin-bottom: 1rem;
+	/* Space between cards */
+}
+
 .skeleton-list-image-wrapper {
 	position: relative;
 	width: 100%;
-	min-height: 180px;
+	min-height: 200px;
 	overflow: hidden;
+	background: #f8f9fa;
+	/* Light background for image area */
 }
 
 .skeleton-list-image {
@@ -73,6 +91,8 @@
 
 .skeleton-list-card-body {
 	padding: 1.5rem;
+	background: white;
+	/* Ensure white background */
 }
 
 .skeleton-text-sm {
@@ -119,6 +139,23 @@
 
 	100% {
 		background-position: -200% 0;
+	}
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.skeleton-list-image-wrapper {
+		min-height: 200px;
+	}
+
+	.skeleton-list-card-body {
+		padding: 1rem;
+	}
+}
+
+@media (max-width: 576px) {
+	.skeleton-list-image-wrapper {
+		min-height: 180px;
 	}
 }
 </style>
