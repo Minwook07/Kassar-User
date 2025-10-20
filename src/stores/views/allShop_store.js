@@ -4,6 +4,7 @@ import axios from 'axios'
 export const useAllShopStore = defineStore('views/allshop', {
     state: () => ({
         shops: [],
+        shop_detail: null,
         loading: false,
         error: null,
         totalShop: 0,
@@ -18,7 +19,7 @@ export const useAllShopStore = defineStore('views/allshop', {
             this.loading = true
             this.error = null
             try {
-                const res = await axios.get(`http://kassar-api.test/api/shops?page=${page}&size=${size}&scol=${scol}&sdir=${sdir}`)
+                const res = await axios.get(`/api/shops?page=${page}&size=${size}&scol=${scol}&sdir=${sdir}`)
                 if (res.data.result) {
                     this.shops = res.data.data
                     this.pagination = res.data.paginate
@@ -29,5 +30,19 @@ export const useAllShopStore = defineStore('views/allshop', {
                 this.loading = false
             }
         },
+        async getShopDetail(id) {
+            this.loading = true
+            this.error = null
+            try {
+                const res = await axios.get(`/api/shops/${id}`)
+                if (res.data.result) {
+                    this.shop_detail = res.data.data
+                }
+            } catch (err) {
+                this.error = err.message
+            } finally {
+                this.loading = false
+            }
+        }
     },
 })

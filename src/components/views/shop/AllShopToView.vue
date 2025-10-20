@@ -43,7 +43,8 @@
                             <a :href="`tel:${shop.phone}`" class="text-decoration-none text-success small">
                                 <i class="fa-solid fa-phone me-1"></i> ខលទូរសព្ទ
                             </a>
-                            <button class="btn btn-success btn-sm px-3 rounded-pill fw-medium">
+                            <button class="btn btn-success btn-sm px-3 rounded-pill fw-medium"
+                                @click="getToShop(shop.id)">
                                 មើលហាង
                             </button>
                         </div>
@@ -85,8 +86,10 @@
 <script setup>
 import { useAllShopStore } from '@/stores/views/allShop_store'
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const shopStore = useAllShopStore()
+const router = useRouter()
 
 onMounted(() => {
     shopStore.getShopLoad()
@@ -96,6 +99,15 @@ const goToPage = (page) => {
     // Prevent invalid pages
     if (page < 1 || page > shopStore.totalPages) return
     shopStore.getShopLoad(page)
+}
+
+const getToShop = (shopId) => {
+    shopStore.getShopDetail(shopId)
+
+    router.push({
+        name: "viewshop",
+        query: { id: shopId }
+    });
 }
 </script>
 
