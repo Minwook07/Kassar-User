@@ -128,7 +128,7 @@
 <script setup>
 import { onMounted, watch } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { helpers, email, minLength } from "@vuelidate/validators";
+import { helpers, email, minLength, required } from "@vuelidate/validators";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useRouter } from 'vue-router';
@@ -152,6 +152,15 @@ watch(() => authStore.form.acceptTerms, (newValue) => {
 	}
 });
 
+const passwordComplexity = helpers.withMessage(
+	"ពាក្យសម្ងាត់ត្រូវមានអក្សរធំ, អក្សរតូច, លេខ និងតួអក្សរពិសេស",
+	(value) =>
+		/[A-Z]/.test(value) &&
+		/[a-z]/.test(value) && 
+		/[0-9]/.test(value) &&
+		/[\W_]/.test(value)
+);
+
 const rules = {
 	authStore: {
 		form: {
@@ -164,8 +173,9 @@ const rules = {
 				email: helpers.withMessage("សូមបញ្ចូលទម្រង់អ៊ីមែលឱ្យបានត្រឹមត្រូវ", email),
 			},
 			password: {
-				required: helpers.withMessage("សូមបញ្ចូលពាក្យសម្ងាត់", helpers.req),
-				minLength: helpers.withMessage("ពាក្យសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ 8 តួអក្សរ", minLength(8)),
+				required: helpers.withMessage("សូមបញ្ចូលពាក្យសម្ងាត់", required),
+				minLength: helpers.withMessage("ពាក្យសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ 6 តួអក្សរ", minLength(6)),
+				passwordComplexity
 			},
 			confirmPassword: {
 				required: helpers.withMessage("សូមបញ្ជាក់ពាក្យសម្ងាត់", helpers.req),
@@ -202,6 +212,12 @@ async function onSaveRegister() {
 </script>
 
 <style scoped>
+.toast {
+	width: auto !important;
+	max-width: 500px !important;
+	min-width: 200px;
+}
+
 .password-input {
 	padding-right: 50px;
 }

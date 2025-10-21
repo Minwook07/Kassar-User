@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 export const useCardStore = defineStore("card_store", {
     state: () => ({
         token: localStorage.getItem("token") || sessionStorage.getItem("token"),
+        selectedAddressId: null,
         frm_add: {
             province: '',
             district: '',
@@ -47,6 +48,9 @@ export const useCardStore = defineStore("card_store", {
                 const quantity = state.cartCounts[cartItem.id] || 1;
                 return totald + (cartItem.product.price * quantity * cartItem.product.discount_rate) / 100;
             }, 0);
+        },
+        selectedAddress(state) {
+            return state.cartAddresses.find(a => a.id === state.selectedAddressId) || null;
         }
     },
 
@@ -62,26 +66,63 @@ export const useCardStore = defineStore("card_store", {
             sessionStorage.removeItem("token");
         },
 
+        formatPhone(phone) {
+            if (!phone) return 'N/A';
+            const digits = phone.replace(/\D/g, '');
+
+            if (digits.length === 8) return digits.replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4');
+            if (digits.length === 9) return digits.replace(/(\d{3})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4');
+            if (digits.length === 10) return digits.replace(/(\d{3})(\d{2})(\d{2})(\d{3})/, '$1 $2 $3 $4');
+            return phone;
+        },
+
         async onLoadAddress() {
             if (!this.token) return;
 
             try {
-
-                // Make API request
-                const response = await axios.get(`/api/address?t=${new Date().getTime()}`, {
-                    headers: {
-                        Authorization: `Bearer ${this.token}`,
-                    },
+                const response = await axios.get('/api/addresses', {
+                    headers: { Authorization: `Bearer ${this.token}` },
                 });
 
-                const addresses = response.data.addresses;
+                // Adjust to your API response
+                const addresses = response.data; // or response.data.data if nested
 
                 if (Array.isArray(addresses) && addresses.length > 0) {
-                    const lastAddress = addresses[addresses.length - 1];
 
-                    this.cartAddresses = [lastAddress];
+                    // Format phones
+                    this.cartAddresses = addresses.map(addr => ({
+                        ...addr,
+                        phone: this.formatPhone(addr.phone),
+                    }));
+
+                    // Load last selected address from localStorage
+                    const lastSelected = localStorage.getItem('selectedAddressId');
+                    if (lastSelected && this.cartAddresses.find(a => a.id == lastSelected)) {
+                        this.selectedAddressId = parseInt(lastSelected);
+                    } else {
+                        // Default: last address in the list
+                        this.selectedAddressId = this.cartAddresses[this.cartAddresses.length - 1].id;
+                        localStorage.setItem('selectedAddressId', this.selectedAddressId);
+                    }
+
+                    this.isAddress = true;
+                } else {
+                    this.cartAddresses = [];
+                    this.selectedAddressId = null;
+                    this.isAddress = false;
                 }
             } catch (error) {
+                console.error(error);
+                this.cartAddresses = [];
+                this.selectedAddressId = null;
+                this.isAddress = false;
+            }
+        },
+
+        selectAddress(addressId) {
+            if (this.cartAddresses.find(a => a.id == addressId)) {
+                this.selectedAddressId = addressId;
+                localStorage.setItem('selectedAddressId', addressId);
             }
         },
 
@@ -175,6 +216,50 @@ export const useCardStore = defineStore("card_store", {
             } catch (error) {
             }
         },
+
+        async onSaveAddress() {
+            if (!this.token) return;
+
+            const formData = new FormData();
+            formData.append('province_id', this.frm_add.province);
+            formData.append('district_id', this.frm_add.district);
+            formData.append('commune_id', this.frm_add.commune);
+            formData.append('village_id', this.frm_add.village);
+            formData.append('house_number', this.frm_add.houseNumber);
+            formData.append('street_number', this.frm_add.streetNumber);
+            formData.append('phone', this.frm_add.phone);
+            formData.append('name', this.frm_add.name);
+
+            try {
+                const res = await axios.post('/api/addresses', formData, {
+                    headers: {
+                        'Authorization': `Bearer ${this.token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                // Add new address to state immediately
+                this.cartAddresses.push(res.data);
+                this.selectedAddressId = res.data.id;
+
+                // Reset form
+                this.frm_add = {
+                    province: '',
+                    district: '',
+                    commune: '',
+                    village: '',
+                    houseNumber: '',
+                    streetNumber: '',
+                    phone: '',
+                    name: ''
+                };
+
+                if (this.mdl_address) this.mdl_address.hide();
+
+            } catch (err) {
+                console.error("Failed to save address:", err);
+            }
+        }
 
     }
 });

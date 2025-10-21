@@ -117,22 +117,12 @@
                                 <div class="col-3 mb-3">
                                     <label class="form-label">ផ្ទះលេខ</label>
                                     <input type="text" class="form-control shadow-none"
-                                        :class="{ 'is-invalid': cardStore.vv.houseNumber.$error }"
                                         v-model="cardStore.frm_add.houseNumber">
-                                    <div class="invalid-feedback" v-if="cardStore.vv.houseNumber.$error">
-                                        {{ cardStore.vv.houseNumber.$errors[0].$message }}
-                                        <!-- Please enter gender -->
-                                    </div>
                                 </div>
                                 <div class="col-3 mb-3">
                                     <label class="form-label">ផ្លូវលេខ</label>
                                     <input type="text" class="form-control shadow-none"
-                                        :class="{ 'is-invalid': cardStore.vv.streetNumber.$error }"
                                         v-model="cardStore.frm_add.streetNumber">
-                                    <div class="invalid-feedback" v-if="cardStore.vv.streetNumber.$error">
-                                        {{ cardStore.vv.streetNumber.$errors[0].$message }}
-                                        <!-- Please enter gender -->
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -182,14 +172,8 @@ const rules = computed(() => ({
         required: helpers.withMessage(() => "សូមបញ្ចូលឈ្មោះអ្នកទទួល", required)
     },
     phone: {
-        required: helpers.withMessage(() => "សូមបញ្ចូលលេខទូរស័ព្ទចាប់ពី 8 ខ្ទង់", required)
+        required: helpers.withMessage(() => "សូមបញ្ចូលលេខទូរស័ព្ទ", required)
     },
-    streetNumber: {
-        required: helpers.withMessage(() => "សូមបញ្ចូលលេខផ្លូវ", required)
-    },
-    houseNumber: {
-        required: helpers.withMessage(() => "សូមបញ្ចូលលេខផ្ទះ", required)
-    }
 }))
 cardStore.vv = useVuelidate(rules, cardStore.frm_add)
 

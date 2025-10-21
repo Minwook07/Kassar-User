@@ -95,7 +95,7 @@
 <script setup>
 import { reactive, ref, onMounted } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { helpers, email } from "@vuelidate/validators";
+import { helpers, email, minLength, required } from "@vuelidate/validators";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from "axios";
@@ -103,6 +103,7 @@ import { useRouter } from 'vue-router';
 import { Toast } from 'bootstrap';
 import { useInfoProfile } from "@/stores/views/profile_store";
 import { useCardStore } from "@/stores/card_store";
+import { translateServerMessage } from "@/utils/responseHelper";
 
 const router = useRouter();
 const profileStore = useInfoProfile();
@@ -123,6 +124,15 @@ const form = reactive({
 
 const loading = ref(false);
 
+const passwordComplexity = helpers.withMessage(
+	"ពាក្យសម្ងាត់ត្រូវមានអក្សរធំ, អក្សរតូច, លេខ និងតួអក្សរពិសេស",
+	(value) =>
+		/[A-Z]/.test(value) &&
+		/[a-z]/.test(value) &&
+		/[0-9]/.test(value) &&
+		/[\W_]/.test(value)
+);
+
 const rules = {
 	form: {
 		email: {
@@ -130,7 +140,9 @@ const rules = {
 			email: helpers.withMessage("សូមបញ្ចូលទម្រង់អ៊ីមែលឲ្យបានត្រឹមត្រូវ", email),
 		},
 		password: {
-			required: helpers.withMessage("សូមបញ្ចូលពាក្យសម្ងាត់", helpers.req),
+			required: helpers.withMessage("សូមបញ្ចូលពាក្យសម្ងាត់", required),
+			minLength: helpers.withMessage("ពាក្យសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ 6 តួអក្សរ", minLength(6)),
+			passwordComplexity
 		},
 	},
 };
@@ -198,7 +210,7 @@ async function onSaveLogin() {
 		}
 	} catch (err) {
 		if (toastInstance) {
-			toastMessage.value = err.response?.data?.message || "Invalid credentials";
+			toastMessage.value = translateServerMessage(err.response?.data?.message);
 			toastIcon.value = "bi bi-x-circle fs-5 text-danger";
 			toastInstance.show();
 		}
@@ -209,6 +221,12 @@ async function onSaveLogin() {
 </script>
 
 <style scoped>
+.toast {
+	width: auto !important;
+	max-width: 500px !important;
+	min-width: 200px;
+}
+
 .password-input {
 	padding-right: 50px;
 }
