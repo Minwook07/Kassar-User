@@ -18,32 +18,26 @@
                         class="icon-address fs-1 text-light bg-success text-center rounded-circle d-flex align-items-center justify-content-center">
                         <i class="bi bi-geo-alt-fill"></i>
                     </div>
-                    
-                    <div v-if="cardStore.isAddress">
-                        <div v-if="cardStore.selectedAddress">
-                            <h5 class="fw-bold">
-                                ផ្ទះលេខ {{ cardStore.selectedAddress.house_number || 'N/A' }}
-                                ផ្លូវលេខ {{ cardStore.selectedAddress.street_number || 'N/A' }},
-                                សង្កាត់ {{ cardStore.selectedAddress.commune?.local_name || 'N/A' }},
-                                ខណ្ឌ {{ cardStore.selectedAddress.district?.local_name || 'N/A' }},
-                                រាជធានី/ខេត្ត {{ cardStore.selectedAddress.province?.local_name || 'N/A' }}
-                            </h5>
-                            <span>{{ cardStore.selectedAddress.name || 'N/A' }}</span>
-                            <p>{{ cardStore.selectedAddress.phone || 'N/A' }}</p>
-                        </div>
+                    <div v-if="cardStore.selectedAddress" class="ms-3">
+                        <h5 class="fw-bold">
+                            ផ្ទះលេខ {{ cardStore.selectedAddress.house_number || 'N/A' }}
+                            ផ្លូវលេខ {{ cardStore.selectedAddress.street_number || 'N/A' }},
+                            សង្កាត់ {{ cardStore.selectedAddress.commune?.local_name || 'N/A' }},
+                            ខណ្ឌ {{ cardStore.selectedAddress.district?.local_name || 'N/A' }},
+                            រាជធានី/ខេត្ត {{ cardStore.selectedAddress.province?.local_name || 'N/A' }}
+                        </h5>
+                        <span>{{ cardStore.selectedAddress.name || 'N/A' }}</span>
+                        <p>{{ cardStore.selectedAddress.phone || 'N/A' }}</p>
                     </div>
-
-                    <div v-else>
+                    <div v-else class="ms-3">
                         <p class="text-muted">មិនមានអាសយដ្ឋាននៅលើផែនទី</p>
                     </div>
-
                 </div>
             </form>
         </div>
-
         <!-- Floating Button -->
         <button class="floating-button border-0 shadow-lg" @click="onOpenAddAddress()">
-            <i class="bi bi-plus"></i>
+            <i class="fa-solid" :class="cardStore.isAddress ? 'fa-pen-to-square' : 'fa-plus'"></i>
         </button>
     </div>
 </template>
@@ -58,34 +52,25 @@ onMounted(async () => {
     await cardStore.onLoadAddress();
 });
 
-const formatPhone = (phone) => {
-    if (!phone) return 'N/A';
-
-    let digits = phone.replace(/\D/g, '');
-
-    if (digits.length < 8) return phone;
-
-    // For 8 digits: XX XX XX XX
-    if (digits.length === 8) {
-        return digits.replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4');
-    }
-
-    // For 9 digits: XXX XX XX XX
-    if (digits.length === 9) {
-        return digits.replace(/(\d{3})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4');
-    }
-
-    // For 10 digits: XXX XXX XX XX
-    if (digits.length === 10) {
-        return digits.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
-    }
-
-    return phone;
-};
-
-
 const onOpenAddAddress = () => {
     if (cardStore.mdl_address) {
+        if (cardStore.isAddress && cardStore.selectedAddressId) {
+            // EDIT MODE: Load the selected address data
+            cardStore.loadAddressForEdit(cardStore.selectedAddressId);
+        } else {
+            // CREATE MODE: Reset form
+            cardStore.selected_id = 0;
+            cardStore.frm_add = {
+                province: '',
+                district: '',
+                commune: '',
+                village: '',
+                houseNumber: '',
+                streetNumber: '',
+                phone: '',
+                name: ''
+            };
+        }
         cardStore.mdl_address.show();
     }
 };

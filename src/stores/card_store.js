@@ -29,9 +29,9 @@ export const useCardStore = defineStore("card_store", {
         communes: [],
         villages: [],
 
-        cartCounts: {},  // Store quantities for each product
-        cartLists: [],   // Store the list of products in the cart
-        cartAddresses: [],  // Store user addresses
+        cartCounts: {},
+        cartLists: [],
+        cartAddresses: [],
     }),
 
     getters: {
@@ -84,16 +84,19 @@ export const useCardStore = defineStore("card_store", {
                     headers: { Authorization: `Bearer ${this.token}` },
                 });
 
-                // Adjust to your API response
-                const addresses = response.data; // or response.data.data if nested
+                console.log('API Response:', response.data);
+
+                // FIX: Access response.data.data instead of response.data
+                const addresses = response.data.data; // Changed this line!
 
                 if (Array.isArray(addresses) && addresses.length > 0) {
-
                     // Format phones
                     this.cartAddresses = addresses.map(addr => ({
                         ...addr,
                         phone: this.formatPhone(addr.phone),
                     }));
+
+                    console.log('Formatted addresses:', this.cartAddresses);
 
                     // Load last selected address from localStorage
                     const lastSelected = localStorage.getItem('selectedAddressId');
@@ -112,7 +115,7 @@ export const useCardStore = defineStore("card_store", {
                     this.isAddress = false;
                 }
             } catch (error) {
-                console.error(error);
+                console.error('Load address error:', error);
                 this.cartAddresses = [];
                 this.selectedAddressId = null;
                 this.isAddress = false;
@@ -155,15 +158,13 @@ export const useCardStore = defineStore("card_store", {
             if (!price) return '0';
             return Math.floor(price)
                 .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         },
 
         async updateQuantity(id, quantity) {
-            if (quantity < 1 || !this.token) return;    // guard
+            if (quantity < 1 || !this.token) return;
 
             try {
-                // Send both required fields: product_id and qty
-                // We read product_id from the existing cartList entry.
                 const existing = this.cartLists.find(item => item.id === id);
                 if (!existing) throw new Error('Cart item not found');
 
@@ -231,18 +232,33 @@ export const useCardStore = defineStore("card_store", {
             formData.append('name', this.frm_add.name);
 
             try {
-                const res = await axios.post('/api/addresses', formData, {
-                    headers: {
-                        'Authorization': `Bearer ${this.token}`,
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                let res;
 
-                // Add new address to state immediately
-                this.cartAddresses.push(res.data);
-                this.selectedAddressId = res.data.id;
+                if (this.selected_id && this.selected_id > 0) {
+                    res = await axios.put(`/api/address/${this.selected_id}`, formData, {
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    console.log('Updated address:', res.data);
+                } else {
+                    res = await axios.post('/api/addresses', formData, {
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    console.log('Created address:', res.data);
+                }
 
-                // Reset form
+                await this.onLoadAddress();
+
+                console.log('After reload - addresses:', this.cartAddresses);
+                console.log('Selected ID:', this.selectedAddressId);
+                console.log('isAddress:', this.isAddress);
+
+                // Reset form and selected_id
                 this.frm_add = {
                     province: '',
                     district: '',
@@ -253,11 +269,48 @@ export const useCardStore = defineStore("card_store", {
                     phone: '',
                     name: ''
                 };
+                this.selected_id = 0; // Reset
+
+                // Reset validation
+                if (this.vv) {
+                    this.vv.$reset();
+                }
 
                 if (this.mdl_address) this.mdl_address.hide();
 
+                return true;
+
             } catch (err) {
                 console.error("Failed to save address:", err);
+                throw err;
+            }
+        },
+
+        loadAddressForEdit(addressId) {
+            const address = this.cartAddresses.find(a => a.id === addressId);
+            if (address) {
+                this.selected_id = address.id;
+                this.frm_add = {
+                    province: address.province_id || address.province?.id || '',
+                    district: address.district_id || address.district?.id || '',
+                    commune: address.commune_id || address.commune?.id || '',
+                    village: address.village_id || address.village?.id || '',
+                    houseNumber: address.house_number || '',
+                    streetNumber: address.street_number || '',
+                    phone: address.phone || '',
+                    name: address.name || ''
+                };
+
+                // Load cascading dropdowns
+                if (this.frm_add.province) {
+                    this.onLoadDistrict(this.frm_add.province);
+                }
+                if (this.frm_add.district) {
+                    this.onLoadCommune(this.frm_add.district);
+                }
+                if (this.frm_add.commune) {
+                    this.onLoadVillage(this.frm_add.commune);
+                }
             }
         }
 
