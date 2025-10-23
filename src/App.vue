@@ -1,19 +1,17 @@
 <template>
-  <NavBar v-if="!['login', 'signup', 'forgotpass', 'VerifyOTP', 'ResetPassword', 'video', 'load1'].includes(route.name)" />
-  <RouterView />
-  <FooterView v-if="!['login', 'signup', 'forgotpass', 'VerifyOTP', 'ResetPassword', 'video', 'load1'].includes(route.name)" />
-  <ToastView />
+	<NavBar
+		v-if="!['login', 'signup', 'forgotpass', 'VerifyOTP', 'ResetPassword', 'video', 'load1'].includes(route.name)" />
+	<RouterView />
+	<FooterView
+		v-if="!['login', 'signup', 'forgotpass', 'VerifyOTP', 'ResetPassword', 'video', 'load1'].includes(route.name)" />
+	<ToastView />
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
 import { useRoute } from 'vue-router';
 import NavBar from '@/components/layouts/NavBar.vue';
 import FooterView from '@/components/layouts/FooterView.vue';
 import ToastView from './components/views/toast/ToastView.vue';
 const route = useRoute();
-// new Vue({  render: (h) => h(App),  mounted() {    AOS.init()  },}).$mount('#app')
 </script>
-
-
-

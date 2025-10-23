@@ -1,4 +1,4 @@
-# final-project
+# kassar-ecommerce-project
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -27,3 +27,6 @@ npm run dev
 ```sh
 npm run build
 ```
+## Api Guide
+
+To change endpoint all of file, you can go to file .env

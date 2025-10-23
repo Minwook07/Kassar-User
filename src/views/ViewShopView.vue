@@ -1,5 +1,5 @@
 <template>
-    <ViewShopToView></ViewShopToView>
+    <ViewShopToView />
     <ShareLinkModalToView />
 </template>
 <script setup>
