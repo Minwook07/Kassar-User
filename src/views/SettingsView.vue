@@ -70,7 +70,8 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { useRoute } from 'vue-router'
 import SidebarProfile from '@/components/views/profilesetting/profileside/SidebarProfile.vue'
 import AccountTab from '@/components/views/profilesetting/tabside/AccountTab.vue'
 import AccountLoginTab from '@/components/views/profilesetting/tabside/AccountLoginTab.vue'
@@ -81,8 +82,37 @@ import DeleteAccountTab from '@/components/views/profilesetting/tabside/DeleteAc
 import EditProfileModal from '@/components/views/profilesetting/modal/EditProfileModal.vue'
 import DeleteAccountModal from '@/components/views/profilesetting/modal/DeleteAccountModal.vue'
 
-// Reactive data
+const route = useRoute()
+
 const activeTab = ref('account')
+
+onMounted(() => {
+    if (route.query.tab) {
+        activeTab.value = route.query.tab
+        sessionStorage.setItem('profileActiveTab', route.query.tab)
+    } else if (route.path === '/profile') {
+        // Only load saved tab if navigating within the profile page (refresh)
+        const isPageRefresh = performance.getEntriesByType('navigation')[0]?.type === 'reload'
+
+        if (isPageRefresh) {
+            const savedTab = sessionStorage.getItem('profileActiveTab')
+            if (savedTab) {
+                activeTab.value = savedTab
+            }
+        } else {
+            activeTab.value = 'account'
+            sessionStorage.setItem('profileActiveTab', 'account')
+        }
+    } else {
+        sessionStorage.removeItem('profileActiveTab')
+    }
+})
+
+onUnmounted(() => {
+    if (route.path !== '/profile') {
+        sessionStorage.removeItem('profileActiveTab')
+    }
+})
 
 // Navigation tabs
 const tabs = ref([
@@ -94,12 +124,6 @@ const tabs = ref([
     { id: 'logout', name: 'ចាកចេញពីគណនី', icon: 'fas fa-sign-out-alt' }
 ])
 
-// Delivery information
-const deliveryInfo = reactive({
-    address: '123 Main Street, Apt 4B, New York, NY 10001',
-    desc: 'Please ring doorbell twice. Leave packages with doorman if not home.'
-})
-
 // Handle tab clicks
 const handleTabClick = (tabId) => {
     if (tabId === 'logout') {
@@ -109,6 +133,7 @@ const handleTabClick = (tabId) => {
         return
     }
     activeTab.value = tabId
+    sessionStorage.setItem('profileActiveTab', tabId)
 }
 
 const showCropper = ref(false)

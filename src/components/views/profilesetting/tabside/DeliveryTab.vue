@@ -4,17 +4,26 @@
             <h4 class="fw-semibold">ការដឹកជញ្ជូន</h4>
             <p class="m-0">គ្រប់គ្រងអាសយដ្ឋានដឹកជញ្ជូនរបស់អ្នក</p>
         </div>
-        
+
         <div class="card-body p-0">
             <div class="row g-4">
                 <div class="col-12">
-                    <div class="p-4 bg-light rounded-3 border-start border-primary border-4">
+                    <div v-if="cardStore" class="p-4 bg-light rounded-3 border-start border-primary border-4">
                         <h6 class="fw-bold text-primary mb-3">
                             <i class="fas fa-map-marker-alt me-2"></i>អាសយដ្ឋានបច្ចុប្បន្ន
                         </h6>
-                        <p class="mb-2">{{ deliveryInfo.address }}</p>
-                        <p class="text-muted small mb-0">{{ deliveryInfo.desc }}</p>
+                        <h5 class="fw-bold">
+                            ផ្ទះលេខ {{ cardStore.house_number }}
+                            ផ្លូវលេខ {{ cardStore.street_number }},
+                            សង្កាត់ {{ cardStore.commune?.local_name }},
+                            ខណ្ឌ {{ cardStore.district?.local_name }},
+                            រាជធានី/ខេត្ត {{ cardStore.province?.local_name }}
+                        </h5>
                     </div>
+                    <div v-else class="p-4 bg-light rounded-3 border-start border-primary border-4 text-center">
+                        <p>មិនមានអាសយដ្ឋានសម្រាប់បង្ហាញ</p>
+                    </div>
+
                 </div>
 
                 <div class="col-12 mb-4">
@@ -40,10 +49,12 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { useCardStore } from '@/stores/card_store';
+import { onMounted } from 'vue';
 
-const deliveryInfo = reactive({
-    address: '123 Main Street, Apt 4B, New York, NY 10001',
-    desc: 'Please ring doorbell twice. Leave packages with doorman if not home.'
-})
+const cardStore = useCardStore()
+
+onMounted(async () => {
+    await cardStore.onLoadAddress();
+});
 </script>
