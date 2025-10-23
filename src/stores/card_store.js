@@ -221,44 +221,76 @@ export const useCardStore = defineStore("card_store", {
         async onSaveAddress() {
             if (!this.token) return;
 
-            const formData = new FormData();
-            formData.append('province_id', this.frm_add.province);
-            formData.append('district_id', this.frm_add.district);
-            formData.append('commune_id', this.frm_add.commune);
-            formData.append('village_id', this.frm_add.village);
-            formData.append('house_number', this.frm_add.houseNumber);
-            formData.append('street_number', this.frm_add.streetNumber);
-            formData.append('phone', this.frm_add.phone);
-            formData.append('name', this.frm_add.name);
+            // Validate form first (using vee-validate or similar)
+            if (this.vv) {
+                await this.vv.$validate();
+                if (this.vv.$error) {
+                    console.log('Validation errors:', this.vv.$errors);
+                    return;
+                }
+            }
+
+            // Remove spaces from phone before sending
+            const cleanPhone = this.frm_add.phone.replace(/\s+/g, '');
+
+            // Check if this exact address already exists
+            const exists = this.cartAddresses.some(addr =>
+                addr.province_id == this.frm_add.province &&
+                addr.district_id == this.frm_add.district &&
+                addr.commune_id == this.frm_add.commune &&
+                addr.village_id == this.frm_add.village &&
+                addr.house_number == this.frm_add.houseNumber &&
+                addr.street_number == this.frm_add.streetNumber &&
+                addr.phone.replace(/\s+/g, '') == cleanPhone &&
+                addr.name == this.frm_add.name &&
+                addr.id != this.selected_id // ignore if updating the same address
+            );
+
+            if (exists) {
+                if (this.$toast) this.$toast.error("This address already exists.");
+                else alert("This address already exists.");
+                return;
+            }
+
+            // Prepare payload
+            const payload = {
+                province_id: parseInt(this.frm_add.province) || null,
+                district_id: parseInt(this.frm_add.district) || null,
+                commune_id: parseInt(this.frm_add.commune) || null,
+                village_id: parseInt(this.frm_add.village) || null,
+                house_number: this.frm_add.houseNumber || '',
+                street_number: this.frm_add.streetNumber || '',
+                phone: cleanPhone,
+                name: this.frm_add.name || ''
+            };
 
             try {
                 let res;
 
                 if (this.selected_id && this.selected_id > 0) {
-                    res = await axios.put(`/api/address/${this.selected_id}`, formData, {
+                    // UPDATE existing address
+                    res = await axios.put(`/api/address/${this.selected_id}`, payload, {
                         headers: {
-                            'Authorization': `Bearer ${this.token}`,
-                            'Content-Type': 'multipart/form-data'
+                            Authorization: `Bearer ${this.token}`,
+                            'Content-Type': 'application/json'
                         }
                     });
                     console.log('Updated address:', res.data);
                 } else {
-                    res = await axios.post('/api/addresses', formData, {
+                    // CREATE new address
+                    res = await axios.post('/api/addresses', payload, {
                         headers: {
-                            'Authorization': `Bearer ${this.token}`,
-                            'Content-Type': 'multipart/form-data'
+                            Authorization: `Bearer ${this.token}`,
+                            'Content-Type': 'application/json'
                         }
                     });
                     console.log('Created address:', res.data);
                 }
 
+                // Reload addresses from backend
                 await this.onLoadAddress();
 
-                console.log('After reload - addresses:', this.cartAddresses);
-                console.log('Selected ID:', this.selectedAddressId);
-                console.log('isAddress:', this.isAddress);
-
-                // Reset form and selected_id
+                // Reset form
                 this.frm_add = {
                     province: '',
                     district: '',
@@ -269,19 +301,37 @@ export const useCardStore = defineStore("card_store", {
                     phone: '',
                     name: ''
                 };
-                this.selected_id = 0; // Reset
+                this.selected_id = 0;
 
                 // Reset validation
-                if (this.vv) {
-                    this.vv.$reset();
-                }
+                if (this.vv) this.vv.$reset();
 
+                // Hide modal if exists
                 if (this.mdl_address) this.mdl_address.hide();
 
                 return true;
 
             } catch (err) {
                 console.error("Failed to save address:", err);
+
+                // Show validation / error messages
+                if (err.response && err.response.data) {
+                    const resp = err.response.data;
+                    let msg = resp.message || "Failed to save address.";
+
+                    if (resp.data) {
+                        const firstField = Object.keys(resp.data)[0];
+                        const firstError = resp.data[firstField][0];
+                        msg += ` ${firstError}`;
+                    }
+
+                    if (this.$toast) this.$toast.error(msg);
+                    else alert(msg);
+                } else {
+                    if (this.$toast) this.$toast.error("Failed to save address.");
+                    else alert("Failed to save address.");
+                }
+
                 throw err;
             }
         },
@@ -297,7 +347,7 @@ export const useCardStore = defineStore("card_store", {
                     village: address.village_id || address.village?.id || '',
                     houseNumber: address.house_number || '',
                     streetNumber: address.street_number || '',
-                    phone: address.phone || '',
+                    phone: address.phone.replace(/\s+/g, ''),
                     name: address.name || ''
                 };
 

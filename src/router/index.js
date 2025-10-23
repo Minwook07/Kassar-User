@@ -9,7 +9,7 @@ import ResetPasswordView from '@/components/views/auth/ResetPassView.vue'
 import DetailProductsView from '@/views/DetailProductsView.vue';
 import ViewShopView from '@/views/ViewShopView.vue'
 import AllProductView from '@/views/AllProductView.vue'
-import AddCardView from '@/views/AddCartView.vue'
+import CartView from '@/views/CartView.vue'
 import PaySuccessView from '@/views/PaySuccessView.vue'
 import WishListView from '@/views/WishListView.vue'
 import RequestSeller from '@/views/RequestSeller.vue'
@@ -94,7 +94,7 @@ const router = createRouter({
 		{
 			path: '/cart',
 			name: 'cart',
-			component: AddCardView,
+			component: CartView,
 			meta: { requiredAuth: true }
 		},
 		{

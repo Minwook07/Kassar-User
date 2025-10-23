@@ -22,8 +22,9 @@
                         <h5 class="fw-bold">
                             ផ្ទះលេខ {{ cardStore.selectedAddress.house_number || 'N/A' }}
                             ផ្លូវលេខ {{ cardStore.selectedAddress.street_number || 'N/A' }},
-                            សង្កាត់ {{ cardStore.selectedAddress.commune?.local_name || 'N/A' }},
-                            ខណ្ឌ {{ cardStore.selectedAddress.district?.local_name || 'N/A' }},
+                            ភូមិ {{ cardStore.selectedAddress.village?.local_name || 'N/A' }},
+                            ស្រុក/ខណ្ឌ {{ cardStore.selectedAddress.district?.local_name || 'N/A' }},
+                            ស្រុក/ខណ្ឌ {{ cardStore.selectedAddress.district?.local_name || 'N/A' }},
                             រាជធានី/ខេត្ត {{ cardStore.selectedAddress.province?.local_name || 'N/A' }}
                         </h5>
                         <span>{{ cardStore.selectedAddress.name || 'N/A' }}</span>
