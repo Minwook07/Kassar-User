@@ -1,13 +1,13 @@
 <template>
-    <div class="modal fade" id="mdl-credit" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="card-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content py-5 px-4">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h5 class="modal-title fw-bold pb-1">វិធីសាស្ត្រទូរទាត់</h5>
-                        <p>សុវត្ថិភាព និង ការ encrpted ជាមួយ ABA Pay</p>
+                        <h5 class="modal-title fw-bold pb-1">វិធីសាស្ត្រទូទាត់</h5>
+                        <p>សុវត្ថិភាព និង ការ encrypted ជាមួយ ABA Pay</p>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" @click="clearCard()" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="mt-3 way-pay-cart">
                     <div class="row">
@@ -25,7 +25,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control shadow-none" v-model="sellerStore.frm.card_number" id="code" placeholder="លេខកាត">
+                                <input type="text" class="form-control shadow-none" id="code" placeholder="លេខកាត">
                             </div>
                         </div>
                         <div class="col-12 mt-4">
@@ -38,12 +38,11 @@
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label for="cvv" class="form-label">CVV</label>
-                                    <input type="text" class="form-control shadow-none" id="cvv" placeholder="0000" v-model="sellerStore.frm.card_cvv">
+                                    <input type="text" class="form-control shadow-none" id="cvv" placeholder="123">
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="mt-4 btn-wayPay ">
                     <button class="btn btn-success" type="button" @click="onSaveCart()">
@@ -56,36 +55,35 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { onMounted } from 'vue';
 import { Modal } from 'bootstrap';
-import { useSellerStore } from "@/stores/seller_store";
+import { onMounted, ref } from 'vue'
+import { usePaymentMethodStore } from '@/stores/views/paymentMethodStore';
+import { useRouter } from 'vue-router';
 
-// const expiryDate = ref("");
-const sellerStore = useSellerStore()
+const router = useRouter()
+const paymentMethodStore = usePaymentMethodStore()
 
+const expiryDate = ref("");
 
 onMounted(() => {
-    sellerStore.mdl_credit = Modal.getOrCreateInstance(document.getElementById('mdl-credit'))
+    paymentMethodStore.mdl_card = Modal.getOrCreateInstance(document.getElementById('card-modal'))
 })
 
-
-const onSaveCart = () => {  // use for save data
-    sellerStore.mdl_credit.hide()
+const clearCard = async () => {
+    await router.replace({ query: {} })
 }
 
 const formatExpiryDate = (event) => {
-    let value = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-    if (value.length > 4) {
-        value = value.slice(0, 4); // Restrict length to 4 digits
+    let input = event.target
+    let value = input.value.replace(/\D/g, '')
+
+    if (value.length > 4) value = value.slice(0, 4)
+
+    if (value.length > 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2)
     }
 
-    if (value.length >= 2) {
-        value = value.slice(0, 2) + "/" + value.slice(2); // Add slash after MM
-    }
-
-    expiryDate.value = value;
-};
-
+    expiryDate.value = value
+}
 
 </script>

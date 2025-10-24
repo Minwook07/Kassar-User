@@ -28,9 +28,9 @@
                         <i class="bi bi-check2"></i>
                     </div>
                 </div>
-                <div class="success-message">ទូរទាត់បានជោគជ័យ</div>
+                <div class="success-message">ទូទាត់បានជោគជ័យ</div>
                 <div class="success-detail">
-                    សូមរក្សាទុកលេខសម្គាល់ការទូរទាត់ KAssar-007<br>
+                    សូមរក្សាទុកលេខសម្គាល់ការទូទាត់ KAssar-007<br>
                     ដើម្បីច្បាស់លាស់បន្ថែមសូមទាក់ទងតាមលេខក្នុងតម្រង
                 </div>
                 <RouterLink to="/profile" class="btn btn-primary">យល់ព្រម</RouterLink>

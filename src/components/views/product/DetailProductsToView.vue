@@ -165,7 +165,7 @@
 							<div class="d-flex align-items-center mb-3">
 								<i class="bi bi-shield-check text-primary fs-4 me-3"></i>
 								<div>
-									<h6 class="fw-semibold mb-1 text-foreground">ការទូរទាត់ប្រាក់ប្រកបដោយសុវត្ថិភាព</h6>
+									<h6 class="fw-semibold mb-1 text-foreground">ការទូទាត់ប្រាក់ប្រកបដោយសុវត្ថិភាព</h6>
 									<small class="text-muted-foreground">ការពារ 100% សម្រាប់ការទិញរបស់អ្នក</small>
 								</div>
 							</div>

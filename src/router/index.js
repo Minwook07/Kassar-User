@@ -25,7 +25,7 @@ import AuthLoader from '@/components/views/loader/AuthLoader.vue'
 import PayWayTest from '@/components/views/PayWayTest.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import AllShopToView from '@/components/views/shop/AllShopToView.vue'
-import PayCreditModal from '@/components/views/payway/PayCreditModal.vue'
+import PaymentMethod from '@/components/views/payway/PaymentMethod.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -161,15 +161,15 @@ const router = createRouter({
 			component: AuthLoader,
 		},
 		{
+			path: '/payment-method',
+			name: 'payment-method',
+			component: PaymentMethod,
+		},
+		{
 			path: '/payway-test',
 			name: 'payway-test',
 			component: PayWayTest,
 		},
-		{
-			path: '/waypay',
-			name: 'waypay',
-			component: PayCreditModal,
-		}
 	],
 })
 
