@@ -4,24 +4,11 @@
             <div class="card-body">
                 <div class="profile-avatar">
                     <img :src="infoProfileStore.avatarUrl" alt="Profile" class="avatar-image">
-                    <div class="status-badge">
-                        <i class="fas fa-check"></i>
-                    </div>
+                    <div class="status-badge"></div>
                 </div>
 
                 <h5 class="profile-name">{{ infoProfileStore.frm.name }}</h5>
-                <p class="profile-type">{{ infoProfileStore.frm.typeofuser }}</p>
-
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <div class="stat-label">គណនី</div>
-                        <div class="stat-value">សកម្ម</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">ស្ថានភាព</div>
-                        <div class="stat-value verified">បានផ្ទៀងផ្ទាត់</div>
-                    </div>
-                </div>
+                <p class="profile-type">{{ infoProfileStore.frm.history }}</p>
 
                 <div class="social-links">
                     <a href="#" class="social-btn facebook">
@@ -36,18 +23,6 @@
                     <a href="#" class="social-btn linkedin">
                         <i class="fa-brands fa-linkedin-in"></i>
                     </a>
-                </div>
-            </div>
-
-            <div class="card-footer">
-                <div class="footer-content">
-                    <small class="last-seen">
-                        <i class="fas fa-clock"></i>
-                        ចុងក្រោយ: ថ្ងៃនេះ
-                    </small>
-                    <button class="btn-edit-profile">
-                        <i class="fas fa-edit"></i>កែប្រែ
-                    </button>
                 </div>
             </div>
         </div>
@@ -94,18 +69,20 @@ onMounted(() => {
     top: 0;
     left: 0;
     right: 0;
-    height: 50%;
+    height: 100%;
     background: linear-gradient(135deg, #32CA83, #ec4899);
     opacity: 0.1;
 }
 
 .profile-avatar {
     position: relative;
-    display: inline-block;
-    margin-bottom: 1rem;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 1rem;
 }
 
 .avatar-image {
+    position: relative;
     width: 90px;
     height: 90px;
     border-radius: 50%;
@@ -160,36 +137,6 @@ onMounted(() => {
     margin: 0 0 1rem 0;
     color: #6b7280;
     font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.profile-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.stat-item {
-    background: #f9fafb;
-    padding: 0.75rem;
-    border-radius: 8px;
-}
-
-.stat-label {
-    font-weight: bold;
-    color: #32CA83;
-    font-size: 0.75rem;
-    margin-bottom: 0.25rem;
-}
-
-.stat-value {
-    font-size: 0.75rem;
-    color: #6b7280;
-}
-
-.stat-value.verified {
-    color: #16a34a;
     font-weight: 500;
 }
 
@@ -254,44 +201,6 @@ onMounted(() => {
 
 .linkedin:hover {
     background: #0077b5;
-    color: white;
-}
-
-.card-footer {
-    background: #f9fafb;
-    padding: 1rem;
-    border-top: 1px solid #e5e7eb;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.last-seen {
-    color: #6b7280;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.btn-edit-profile {
-    background: none;
-    border: 1px solid #32CA83;
-    color: #32CA83;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    transition: all 0.3s ease;
-}
-
-.btn-edit-profile:hover {
-    background: #32CA83;
     color: white;
 }
 </style>
