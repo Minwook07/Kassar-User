@@ -1,5 +1,6 @@
 <template>
-    <div class="modal fade" id="qr-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="qr-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+        data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content py-5 px-4">
                 <div class="d-flex justify-content-between">
@@ -36,6 +37,7 @@ import { computed, onMounted } from 'vue';
 import { useCardStore } from '@/stores/card_store';
 import { usePaymentMethodStore } from '@/stores/views/paymentMethodStore';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const router = useRouter()
 const cartListStore = useCardStore()
@@ -48,6 +50,11 @@ const showTotalPrice = computed(() => totalPrice.value - totalDis.value)
 const clearQr = async () => {
     await router.replace({ query: {} })
 }
+
+const onSaveCart = async () => {
+    paymentMethodStore.mdl_qr.hide()
+    router.push('/payment-success')
+};
 
 onMounted(() => {
     paymentMethodStore.mdl_qr = Modal.getOrCreateInstance(document.getElementById('qr-modal'));

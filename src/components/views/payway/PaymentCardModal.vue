@@ -73,6 +73,11 @@ const clearCard = async () => {
     await router.replace({ query: {} })
 }
 
+const onSaveCart = async () => {
+    paymentMethodStore.mdl_card.hide()
+    router.push('/payment-success')
+}
+
 const formatExpiryDate = (event) => {
     let input = event.target
     let value = input.value.replace(/\D/g, '')

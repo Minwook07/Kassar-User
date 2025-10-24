@@ -45,25 +45,48 @@
 import { useRouter } from 'vue-router';
 import ToastView from '../toast/ToastView.vue';
 import { useCardStore } from '@/stores/card_store';
+import { useOrderProductStore } from '@/stores/views/orderProducts_store';
 import { computed } from 'vue';
 
+const orderStore = useOrderProductStore()
 const cartListStore = useCardStore();
 const router = useRouter()
 
 // format money
 const formatPrice = cartListStore.formatPrice;
 
-// Reactive state for total price and discount
 const totalPrice = computed(() => cartListStore.totalPrice);
 const totalDis = computed(() => cartListStore.totalDis);
-function goToPaymentMethod() {
-	router.push({
-		path: '/payment-method',
-		// query: {
-		// 	total: totalPrice.value - totalDis.value
-		// }
-	})
-}
+const goToPaymentMethod = async () => {
+    if (!cartListStore.cartLists || cartListStore.cartLists.length === 0) {
+        console.error("Cart is empty!");
+        return;
+    }
+
+    const items = cartListStore.cartLists.map(item => ({
+        product_id: item.product.id,
+        quantity: cartListStore.cartCounts[item.id] || 1
+    }));
+
+    const payload = {
+        address_id: cartListStore.selectedAddressId,
+        items
+    };
+
+    const createdOrder = await orderStore.createOrder(payload);
+    if (createdOrder) {
+        router.push({
+            path: '/payment-method',
+            query: { 
+                total: createdOrder.grand_total, 
+                tran_id: createdOrder.transaction_id 
+            }
+        });
+    } else {
+        console.error(orderStore.error);
+    }
+};
+
 
 </script>
 

@@ -28,6 +28,7 @@ export const useCardStore = defineStore("card_store", {
         districts: [],
         communes: [],
         villages: [],
+        items: [],
 
         cartCounts: {},
         cartLists: [],
