@@ -21,7 +21,7 @@ export const useAllVideos = defineStore("views/videoFeed", {
 
     async onloadVideoFilter(per_page = 8, page = 1) {
       try {
-        const response = await axios.get(`/api/posts?per_page=${per_page}&page=${page}`);
+        const response = await axios.get(`/api/videos?per_page=${per_page}&page=${page}`);
         this.videoArr = response.data?.data || [];
       } catch (error) {
         this.videoArr = []; // fallback so template still renders
@@ -30,7 +30,7 @@ export const useAllVideos = defineStore("views/videoFeed", {
 
     async onloadVideo() {
       try {
-        const response = await axios.get(`/api/posts?sdir=desc`);
+        const response = await axios.get(`/api/videos?sdir=desc`);
         this.videoArr = response.data.data || [];
         this.lastIndexVideoArr = this.videoArr.length - 1;
         this.lastVideoId = this.videoArr.length ? this.videoArr[0].id : null;
@@ -42,7 +42,7 @@ export const useAllVideos = defineStore("views/videoFeed", {
 
     async onloadVideoFilterId(id) {
       try {
-        const response = await axios.get(`/api/posts/${id}`);
+        const response = await axios.get(`/api/videos/${id}`);
         this.videoArr = response.data.data || [];
       } catch (error) {
         this.videoArr = [];

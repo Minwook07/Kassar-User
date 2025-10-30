@@ -66,12 +66,12 @@
 
                 <div class="info-item">
                     <label>លេខទូរស័ព្ទ</label>
-                    <div class="info-value">{{ infoProfileStore.frm.phone }}</div>
+                    <div class="info-value">{{ infoProfileStore.frm.phone || 'មិនបញ្ជាក់' }}</div>
                 </div>
 
                 <div class="info-item full-width">
                     <label>ជីវប្រវត្តិ</label>
-                    <p class="info-value">{{ infoProfileStore.frm.history }}</p>
+                    <p class="info-value">{{ infoProfileStore.frm.history || 'មិនបញ្ជាក់' }}</p>
                 </div>
             </div>
 

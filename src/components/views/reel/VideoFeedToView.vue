@@ -47,7 +47,9 @@
                         <div class="owner-detail ps-2">
                             <RouterLink :to="video?.user?.id ? `/viewshop?id=${video.user.id}` : '#'"
                                 class="name text-decoration-none">
-                                <h5 class="m-0 fw-bold" v-if="video?.shop?.name">{{ video.shop.name }}</h5>
+                                <h5 class="m-0 fw-bold" v-if="video?.shop?.name" @click="getToShop(video.shop.id)">
+                                    {{ video.shop.name }}
+                                </h5>
                             </RouterLink>
                             <div class="rating d-flex align-items-center mt-1">
                                 <h6 class="m-0 fw-bold pe-1 text-black-50" v-if="video?.created_since">{{
@@ -68,14 +70,14 @@
                     <h5 class="fw-bold text-semidark" @click="goToProductDetail(video.product.id)">
                         {{ video.product.name }}
                     </h5>
-                    <p class="m-0">1 <span>{{ video.product.product_units?.name }}</span></p>
+                    <p class="m-0">1 <span>{{ t('product_units.' + (video.product.product_units?.name)) }}</span></p>
                     <p class="fw-bold fs-3 text-secondary m-0">{{ video.product.price?.discounted_price }} ៛</p>
                     <div @click="addToCart(video.product.id)" class="btn btn-outline-primary rounded-2 ms-auto">
                         <i class="bi bi-bag-fill me-1"></i>កន្រ្តក
                     </div>
                 </div>
                 <div class="d-flex flex-column align-content-between">
-                    <span class="category-pill ms-auto">{{ video.product.category?.name }}</span>
+                    <span class="category-pill ms-auto">{{ t('categories.' + (video.product.category?.name)) }}</span>
                     <div class="d-flex mt-2">
                         <h6 class="m-0 fw-bold pe-1 text-black-50">{{ video.product.rating?.average }}</h6>
                         <i class="fa fa-star text-warning fs-6"></i>
@@ -96,21 +98,31 @@
     <ToastView />
 </template>
 <script setup>
+import { useI18n } from 'vue-i18n';
 import { useAllVideos } from '@/stores/views/videoFeed_store.js';
-import axios from 'axios';
 import { ref, onMounted, watch, watchEffect } from 'vue';
 import router from '@/router';
 import CommentToView from '@/components/views/reel/CommentToView.vue';
 import { useRoute } from 'vue-router';
-import { useToastStore } from '@/stores/toast_store';
 import ToastView from '../toast/ToastView.vue';
-const toastStore = useToastStore();
+import { useAllShopStore } from '@/stores/views/allShop_store';
 
+const { t } = useI18n()
 const video = ref(null);
 const allVideos = useAllVideos();
 const videoPlayer = ref(null);
 let lastIndex = ref(0);
+const shopStore = useAllShopStore()
 const route = useRoute();
+
+const getToShop = (shopId) => {
+    shopStore.getShopDetail(shopId)
+
+    router.push({
+        name: "viewshop",
+        query: { id: shopId }
+    });
+}
 
 onMounted(async () => {
     await allVideos.onloadVideo();
@@ -127,6 +139,7 @@ onMounted(async () => {
             video.value = allVideos.videoArr[0];
         }
     }
+    shopStore.getShopLoad()
 });
 
 
