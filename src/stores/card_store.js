@@ -81,18 +81,18 @@ export const useCardStore = defineStore("card_store", {
             if (!this.token) return;
 
             try {
-                const response = await axios.get('/api/addresses', {
+                const response = await axios.get('/api/address', {
                     headers: { Authorization: `Bearer ${this.token}` },
                 });
 
                 console.log('API Response:', response.data);
 
                 // FIX: Access response.data.data instead of response.data
-                const addresses = response.data.data; // Changed this line!
+                const address = response.data.data; // Changed this line!
 
-                if (Array.isArray(addresses) && addresses.length > 0) {
+                if (Array.isArray(address) && address.length > 0) {
                     // Format phones
-                    this.cartAddresses = addresses.map(addr => ({
+                    this.cartAddresses = address.map(addr => ({
                         ...addr,
                         phone: this.formatPhone(addr.phone),
                     }));

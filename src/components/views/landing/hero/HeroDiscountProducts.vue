@@ -32,8 +32,7 @@ const allProduct = useAllProducts();
 const router = useRouter()
 
 onMounted(() => {
-    allProduct.onloadDiscountProduct(2, 1, 'asc');
-
+    allProduct.onloadDiscountProduct(10, 1, 'asc');
 })
 
 const goToDetail = (id) => {

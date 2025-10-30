@@ -90,8 +90,18 @@ const relatedProductStore = useRelatedProduct();
 const toastStore = useToastStore();
 const cartStore = useCardStore();
 
+// const goToDetail = (id) => {
+//     router.push({ name: "detailproduct", query: { id } }).then(() => {
+//         setTimeout(() => {
+//             window.scrollTo({ top: 0, behavior: "smooth" });
+//         }, 200);
+//     });
+// };
 const goToDetail = (id) => {
-    router.push({ name: "detailproduct", query: { id } }).then(() => {
+    router.push({ 
+        name: "detailproduct", 
+        query: { id } 
+    }).then(() => {
         setTimeout(() => {
             window.scrollTo({ top: 0, behavior: "smooth" });
         }, 200);

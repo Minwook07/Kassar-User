@@ -1,6 +1,6 @@
 <template>
-  <DetailProductsView/>
+  <DetailProductsToView/>
 </template>
 <script setup>
-import DetailProductsView from '../components/views/product/DetailProductsToView.vue';
+import DetailProductsToView from '../components/views/product/DetailProductsToView.vue';
 </script>

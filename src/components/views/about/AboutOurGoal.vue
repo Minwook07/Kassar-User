@@ -1,5 +1,5 @@
 <template>
-    <section class="py-5">
+	<section class="py-5">
 		<div class="container-fluid">
 			<h1 class="text-center text-primary fw-bold mb-4" data-aos="fade-up">គោលដៅរបស់យើង</h1>
 			<div class="row">
@@ -28,17 +28,21 @@
 						ជាមួយKassarទីផ្សារកសិកម្មនៅកម្ពុជានឹងប្រសើរឡើង
 					</p>
 				</div>
-				<div class="col-12 col-lg-6 d-flex justify-content-center gap-4 flex-wrap">
-					<div class="col-12 col-md-6 d-flex flex-column align-items-center">
-						<div class="farm mb-4" data-aos="fade-down">
+				<div class="col-12 col-lg-6">
+					<div class="row">
+						<div class="col-12 col-md-6">
+							<div class="d-flex flex-column align-items-center">
+								<div class="farm mb-4" data-aos="fade-down">
+									<img src="@/assets/images/about-us/farm/farm3.avif" class="rounded" alt="" />
+								</div>
+								<div class="farm" data-aos="fade-up">
+									<img src="@/assets/images/about-us/farm/farm2.avif" class="rounded" alt="" />
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 farm" data-aos="fade-left" style="height: 425px;">
 							<img src="@/assets/images/about-us/farm/farm3.avif" class="rounded" alt="" />
 						</div>
-						<div class="farm" data-aos="fade-up">
-							<img src="@/assets/images/about-us/farm/farm2.avif" class="rounded" alt="" />
-						</div>
-					</div>
-					<div class="col-12 col-md-6 farm" data-aos="fade-left" style="height: 425px;">
-						<img src="@/assets/images/about-us/farm/farm3.avif" class="rounded" alt="" />
 					</div>
 				</div>
 			</div>

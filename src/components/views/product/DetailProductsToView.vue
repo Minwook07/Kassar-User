@@ -1,5 +1,5 @@
 <template>
-	<section class="product-detail bg-light min-vh-100">
+	<section class="product-detail bg-light min-vh-100" :key="id">
 		<div class="container py-5">
 			<div v-if="detailProducts" class="row g-4">
 				<!-- Product Images Section -->
@@ -200,7 +200,8 @@
 									<div class="d-flex align-items-center gap-3 mb-3">
 										<div class="shop-avatar bg-primary/10 rounded-circle d-flex align-items-center justify-content-center"
 											style="width: 50px; height: 50px;">
-											<i class="bi bi-shop text-primary fs-4"></i>
+											<!-- <i class="bi bi-shop text-primary fs-4"></i> -->
+											 <img :src="shops_store.shops?.avatar" :alt="shops_store.shops?.shop_name">
 										</div>
 										<div>
 											<h6 class="fw-bold mb-1 text-foreground">{{ shops_store.shops?.shop_name }}
@@ -307,7 +308,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { useI18n } from 'vue-i18n'
 import { useRouter } from "vue-router";
@@ -334,7 +335,8 @@ const activeTab = ref('description');
 const shops_store = useShopStore()
 const relatedProductStore = useRelatedProduct()
 
-const id = ref(null);
+// const id = ref(null);
+const id = computed(() => router.currentRoute.value.query.id);
 
 const getDetail = () => {
 	if (!id.value) return;
@@ -420,9 +422,7 @@ const toggleFav = (FavProduct) => {
 };
 
 onMounted(() => {
-	const shopId = router.currentRoute.value.query.id;
-
-	id.value = shopId;
+	const shopId = id.value;
 
 	if (shopId) {
 		shops_store.onloadShop(shopId);
@@ -461,13 +461,19 @@ const goToshop = () => {
 	});
 };
 
-const goToDetail = (id) => {
-	router.push({ name: "detailproduct", query: { id } }).then(() => {
+const goToDetail = (productId) => {
+	id.value = productId; // Update id first
+	
+	router.push({ 
+		name: "detailproduct", 
+		query: { id: productId } 
+	}).then(() => {
+		// Reload data after route change
+		shops_store.onloadShop(productId);
+		getDetail();
+		
 		setTimeout(() => {
-			window.scrollTo({
-				top: 0,
-				behavior: "smooth"
-			});
+			window.scrollTo({ top: 0, behavior: "smooth" });
 		}, 200);
 	});
 };
