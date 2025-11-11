@@ -70,7 +70,7 @@
 									</div>
 									<div class="name ms-2">
 										<h6 class="text-secondary m-0 fw-bold">
-											<span>{{ profileStore.displayName }}</span>
+											<span>{{ profileStore.frm.name }}</span>
 										</h6>
 										<p class="text-muted m-0" style="font-size: 12px;">{{ profileStore.frm.email }}
 										</p>
@@ -179,7 +179,7 @@
 						</div>
 						<div class="name ms-2">
 							<h5 class="text-primary m-0 fw-bold">
-								<span>{{ profileStore.displayName }}</span>
+								<span>{{ profileStore.frm.name }}</span>
 							</h5>
 							<p class="text-muted m-0" style="font-size: 12px;">{{ profileStore.frm.email }}</p>
 						</div>
@@ -261,14 +261,6 @@ const offcanvasInstance = ref(null);
 let collapseInstance = null;
 
 const toggleClass = "is-sticky";
-
-const displayName = computed(() => {
-	if (profileStore.frm?.roles?.length &&
-		profileStore.frm.roles[0].name === 'role_seller_user') {
-		return profileStore.frm.shop_name;
-	}
-	return profileStore.frm?.name || '';
-});
 
 const goToSearch = () => {
 	if (searchQuery.value.trim()) {

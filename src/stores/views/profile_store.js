@@ -88,11 +88,11 @@ export const useInfoProfile = defineStore('views/profile_store', {
                         Authorization: `Bearer ${this.token}`
                     }
                 });
-                this.frm = { ...res.data.data.user };
+                this.frm = { ...res.data.data };
                 if (this.frm.gender) {
                     this.frm.gender = this.normalizeGender(this.frm.gender);
                 }
-                return res.data.data.user;
+                return res.data.data;
             } catch (err) {
                 this.error = err.response?.data?.message || 'បរាជ័យក្នុងការទាញយកប្រវត្តិរូប';
                 throw err;
